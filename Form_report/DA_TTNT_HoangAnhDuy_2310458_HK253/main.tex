@@ -1,0 +1,280 @@
+\documentclass[pt = 12,a4paper]{article}
+\usepackage{tocloft}
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+\cftsetindents{section}{0em}{4em}
+\cftsetindents{subsection}{1em}{4em}
+\usepackage{xcolor}
+\usepackage{verbatim}
+\usepackage{listings}
+\usepackage{vntex}
+\usepackage{a4wide,amssymb,epsfig,latexsym,array,hhline,fancyhdr}
+\usepackage{enumitem}
+\usepackage{MnSymbol,wasysym}
+\usepackage{tikzsymbols}
+\usepackage{textcomp}
+\usepackage{parskip}
+\usepackage[normalem]{ulem}
+\usepackage{graphicx}
+\usepackage[makeroom]{cancel}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{multicol,longtable,amscd}
+\usepackage{diagbox}
+\usepackage{booktabs}
+\usepackage{alltt}
+\usepackage[framemethod=tikz]{mdframed}
+\usepackage{caption,subcaption}
+\usepackage{hyperref}
+\usepackage{minted}
+\usepackage{lastpage}
+\usepackage[lined,boxed,commentsnumbered]{algorithm2e}
+\usepackage{enumerate}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{tabularx, caption}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{rotating}
+\usepackage{graphics}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{epsfig}
+\usepackage{tcolorbox}
+\usepackage{changepage}
+\renewcommand\thepart{\Alph{part}}
+\renewcommand\thesection{\Roman{section}}
+\renewcommand\thesubsection{\arabic{subsection}}
+\usepackage{titlesec}
+\titleformat*{\section}{\fontsize{20pt}{0pt}\selectfont \bfseries }
+\usepackage{tikz}
+\usetikzlibrary{arrows,snakes,backgrounds}
+\hypersetup{colorlinks=true,linkcolor=black}
+\usepackage{hyperref}
+\setlength{\parindent}{0.4cm}
+\makeatletter
+\renewcommand\tableofcontents{%
+  \section*{\centering\contentsname
+    \@mkboth{%
+      \MakeUppercase\contentsname}{\MakeUppercase\contentsname}}%
+  \@starttoc{toc}%
+}
+\makeatother
+
+\setlength{\headheight}{40pt}
+\pagestyle{fancy}
+\fancyhead{} % clear all header fields
+\fancyhead[L]{
+ \begin{tabular}{rl}
+    \begin{picture}(25,15)(0,0)
+    \put(0,-8){\includegraphics[width=8mm, height=8mm]{hcmut.png}}
+   \end{picture}&
+	\begin{tabular}{l}
+		\textbf{\bf \ttfamily Trường đại học Bách Khoa thành phố Hồ Chí Minh}\\
+		\textbf{\bf \ttfamily Khoa Khoa học và kĩ thuật máy tính}
+	\end{tabular} 	
+ \end{tabular}
+}
+\fancyhead[R]{
+	\begin{tabular}{l}
+		\tiny \bf \\
+		\tiny \bf 
+	\end{tabular}  }
+\fancyfoot{} % clear all footer fields
+\renewcommand{\headrulewidth}{0.3pt}
+\renewcommand{\footrulewidth}{0.3pt}
+\fancyfoot[R]{\scriptsize \ttfamily \textbf{\textcolor{red}{Trang}} {\textbf{\textcolor{red}{\thepage}}}/\pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.3pt}
+\renewcommand{\footrulewidth}{0.3pt}
+%%%
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{3}
+\makeatletter
+\newcounter {subsubsubsection}[subsubsection]
+\renewcommand\thesubsubsubsection{\thesubsubsection .\@alph\c@subsubsubsection}
+\newcommand\subsubsubsection{\@startsection{subsubsubsection}{4}{\z@}%
+                                     {-3.25ex\@plus -1ex \@minus -.2ex}%
+                                     {1.5ex \@plus .2ex}%
+                                     {\normalfont\normalsize\bfseries}}
+\newcommand*\l@subsubsubsection{\@dottedtocline{3}{10.0em}{4.1em}}
+\newcommand*{\subsubsubsectionmark}[1]{}
+\makeatother
+
+
+
+\setlength{\parindent}{0pt}
+\usepackage{graphicx} 
+\usepackage{xcolor}
+\usepackage{tikz} 
+\usepackage{scrextend}
+\changefontsizes{14pt}
+\usetikzlibrary{calc}
+
+\newmdenv[linecolor=black,skipabove=\topsep,skipbelow=\topsep,
+leftmargin=-5pt,rightmargin=-5pt,
+innerleftmargin=5pt,innerrightmargin=5pt]{mybox}
+\def\thesislayout{	% A4: 210 × 297
+	\geometry{
+		a4paper,
+		total={160mm,240mm},  % fix over page
+		left=30mm,
+		top=30mm,
+	}
+}
+\lstset{
+    language=R,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{black}\ttfamily,
+    stringstyle=\color{black}\ttfamily,
+    commentstyle=\color{green}\ttfamily,
+    morecomment=[l][\color{magenta}]{\#},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=1,
+    numbersep=10pt,
+    backgroundcolor=\color{white},
+    tabsize=4,
+    showspaces=false,
+    showstringspaces=false,
+    breaklines=true
+}
+\thesislayout
+\begin{document}
+
+\begin{titlepage}
+\begin{tikzpicture}[remember picture,overlay,inner sep=0,outer sep=0]
+     \draw[blue!70!black,line width=4pt] ([xshift=-1.5cm,yshift=-2cm]current page.north east) coordinate (A)--([xshift=1.5cm,yshift=-2cm]current page.north west) coordinate(B)--([xshift=1.5cm,yshift=2cm]current page.south west) coordinate (C)--([xshift=-1.5cm,yshift=2cm]current page.south east) coordinate(D)--cycle;
+
+     \draw ([yshift=0.5cm,xshift=-0.5cm]A)-- ([yshift=0.5cm,xshift=0.5cm]B)--
+     ([yshift=-0.5cm,xshift=0.5cm]B) --([yshift=-0.5cm,xshift=-0.5cm]B)--([yshift=0.5cm,xshift=-0.5cm]C)--([yshift=0.5cm,xshift=0.5cm]C)--([yshift=-0.5cm,xshift=0.5cm]C)-- ([yshift=-0.5cm,xshift=-0.5cm]D)--([yshift=0.5cm,xshift=-0.5cm]D)--([yshift=0.5cm,xshift=0.5cm]D)--([yshift=-0.5cm,xshift=0.5cm]A)--([yshift=-0.5cm,xshift=-0.5cm]A)--([yshift=0.5cm,xshift=-0.5cm]A);
+
+
+     \draw ([yshift=-0.3cm,xshift=0.3cm]A)-- ([yshift=-0.3cm,xshift=-0.3cm]B)--
+     ([yshift=0.3cm,xshift=-0.3cm]B) --([yshift=0.3cm,xshift=0.3cm]B)--([yshift=-0.3cm,xshift=0.3cm]C)--([yshift=-0.3cm,xshift=-0.3cm]C)--([yshift=0.3cm,xshift=-0.3cm]C)-- ([yshift=0.3cm,xshift=0.3cm]D)--([yshift=-0.3cm,xshift=0.3cm]D)--([yshift=-0.3cm,xshift=-0.3cm]D)--([yshift=0.3cm,xshift=-0.3cm]A)--([yshift=0.3cm,xshift=0.3cm]A)--([yshift=-0.3cm,xshift=0.3cm]A);
+
+   \end{tikzpicture}
+\begin{center}
+    \vspace{-2cm}
+    \fontsize{16pt}{17pt}\selectfont 
+    \textbf{\\ĐẠI HỌC QUỐC GIA TP. HỒ CHÍ MINH}
+    \textbf{\\TRƯỜNG ĐẠI HỌC BÁCH KHOA}
+    
+
+\end{center}
+ \vspace{10pt}
+ \begin{center}
+     \includegraphics[scale=1]{hcmut.png}
+ \end{center}
+
+\begin{center}
+    \fontsize{14pt}{0pt}\selectfont \textbf{BÁO CÁO}\\
+    \textbf{ĐỒ ÁN THỰC TẬP NGOÀI TRƯỜNG }\\
+    \textbf{HỌC KỲ 3 NĂM HỌC 2025-2026}\\
+    \textbf{NGÀNH: KỸ THUẬT MÁY TÍNH}\\
+    \textbf{CHƯƠNG TRÌNH ĐÀO TẠO: CHÍNH QUY}
+\vspace{0.5cm}
+
+\fontsize{14pt}{18pt} \selectfont \textbf{ĐỀ TÀI: PHÁT TRIỂN HỆ THỐNG IOT HỖ TRỢ GIÁM SÁT, QUẢN LÍ VÀ BẢO TRÌ MÁY LỌC NƯỚC THEO THỜI GIAN THỰC} \\
+\textbf{ĐƠN VỊ/DOANH NGHIỆP THỰC TẬP: TRUNG TÂM DỊCH VỤ KHÁCH HÀNG (HSC) - CÔNG TY CỔ PHẦN DỊCH VỤ CÔNG NGHỆ THÔNG TIN HPT}
+
+\end{center}
+\vspace{2pt}
+\centering
+ \textbf{GIẢNG VIÊN HƯỚNG DẪN:
+ \\
+   }
+
+\fontsize{12pt}{25pt}\selectfont
+{\textbf{SINH VIÊN THỰC HIỆN: HOÀNG ANH DUY}\\
+\textbf{MÃ SỐ SINH VIÊN: 2310458 }}
+\end{titlepage}
+
+
+\newpage
+\footnotesize
+\tableofcontents
+\thispagestyle{empty}
+\addtocontents{toc}{\protect\thispagestyle{empty}}
+\clearpage
+\large
+\newpage
+\footnotesize
+\phantomsection
+    \vspace{-2cm}
+\newpage
+\pagenumbering{arabic}
+\section{GIỚI THIỆU}
+
+\subsection{Giới thiệu về Công ty Cổ phần Dịch vụ Công nghệ Tin học HPT}
+
+Công ty Cổ phần Dịch vụ Công nghệ Tin học HPT là doanh nghiệp CNTT hàng đầu Việt Nam với
+hơn 30 năm xây dựng và phát triển. HPT hoạt động trong lĩnh vực tư vấn, cung cấp và triển khai các
+sản phẩm, dịch vụ CNTT và chuyển đổi số, tích hợp hệ thống, phát triển phần mềm, đảm bảo an toàn
+thông tin, chuyển giao công nghệ và đào tạo, cung ứng nhân lực CNTT ...
+
+Đội ngũ chuyên gia, kỹ sư HPT có nhiều năm kinh nghiệm, luôn học hỏi nâng cao tri thức công
+nghệ mới như điện toán đám mây, trí tuệ nhân tạo (AI), dữ liệu lớn ... nhằm đáp ứng đòi hỏi ngày càng
+cao của khách hàng và thị trường. HPT được khách hàng và đối tác tin cậy. Khách hàng của HPT đa
+dạng, nhiều khách hàng giữ trọng trách của nền kinh tế đất nước. Quan hệ đối tác ngày một phát triển,
+đi vào chiều sâu cùng có lợi. HPT là doanh nghiệp có bản sắc văn hóa “Nhân bản - Hài hòa” và có nền
+tài chính an toàn bền vững đáp ứng cho nhu cầu phát triển của doanh nghiệp.iám sát, quản lý và bảo trì máy lọc nước theo thời gian thực. Đây là cơ hội để tìm hiểu quy trình phát triển phần mềm, kiến trúc hệ thống IoT cũng như các công nghệ hiện đại được sử dụng trong doanh nghiệp.
+
+\section{NỘI DUNG THỰC TẬP}
+
+\subsection{Thông tin đề tài thực tập}
+
+\textbf{Tên đề tài:} Phát triển hệ thống IoT hỗ trợ giám sát, quản lý và bảo trì máy lọc nước theo thời gian thực.
+
+\textbf{Ngôn ngữ lập trình sử dụng:}
+\begin{itemize}
+    \item C/C++
+    \item C\#
+    \item JavaScript
+    \item SQL
+\end{itemize}
+
+\textbf{Framework và công nghệ sử dụng:}
+\begin{itemize}
+    \item Arduino Framework
+    \item MQTTnet
+    \item ASP.NET Core MVC
+    \item MQTT Broker
+    \item Hệ quản trị cơ sở dữ liệu SQL
+\end{itemize}
+
+\subsection{Mục tiêu thực tập}
+
+Mục tiêu của đợt thực tập là tìm hiểu quy trình phát triển hệ thống IoT trong môi trường doanh nghiệp, nghiên cứu kiến trúc hệ thống máy lọc nước thông minh và tham gia xây dựng các thành phần của hệ thống từ thiết bị phần cứng đến nền tảng quản lý tập trung. Bên cạnh đó, sinh viên được tiếp cận với các công nghệ Web Backend, giao thức truyền thông MQTT và quy trình phát triển phần mềm thực tế.
+
+\subsection{Nội dung công việc thực hiện}
+
+Trong suốt thời gian thực tập, các công việc được thực hiện theo từng giai đoạn như sau:
+
+\begin{enumerate}
+    \item Tìm hiểu về công ty, môi trường làm việc, quy trình phát triển sản phẩm và định hướng thực tập.
+    
+    \item Nghiên cứu hệ thống hiện tại của dự án, tìm hiểu kiến trúc giải pháp, quy trình nghiệp vụ và mô hình IoT đang được áp dụng.
+    
+    \item Làm quen với hệ thống Web Backend, khảo sát kiến trúc dữ liệu và luồng xử lý dữ liệu trong hệ thống.
+    
+    \item Khảo sát phần cứng máy lọc nước, nghiên cứu sơ đồ điều khiển, các cảm biến được sử dụng và đánh giá khả năng tích hợp IoT vào thiết bị.
+    
+    \item Tìm hiểu giao thức MQTT, thực hiện kết nối thiết bị với MQTT Broker và xây dựng cơ chế truyền dữ liệu từ thiết bị lên hệ thống quản lý.
+    
+    \item Tham gia phát triển các chức năng thu thập, xử lý và lưu trữ dữ liệu từ máy lọc nước; xây dựng giao diện Dashboard hỗ trợ giám sát thiết bị theo thời gian thực.
+    
+    \item Kiểm thử hệ thống, đánh giá kết quả hoạt động, tối ưu và hoàn thiện các chức năng được giao.
+    
+    \item Tổng hợp kết quả thực hiện, hoàn thiện tài liệu kỹ thuật và báo cáo thực tập.
+\end{enumerate}
+
+\subsection{Kết quả đạt được}
+
+Thông qua quá trình thực tập, sinh viên đã có cơ hội tiếp cận mô hình phát triển hệ thống IoT thực tế, hiểu được cách thức giao tiếp giữa thiết bị nhúng và hệ thống máy chủ thông qua giao thức MQTT, đồng thời nâng cao kiến thức về phát triển Web Backend bằng ASP.NET Core MVC, thiết kế cơ sở dữ liệu và xây dựng hệ thống giám sát thời gian thực.
+\section{QUÁ TRÌNH THỰC TẬP}
+
+
+\include{include/content/week1.tex}
+\include{include/content/week2.tex}
+
+\end{document}
