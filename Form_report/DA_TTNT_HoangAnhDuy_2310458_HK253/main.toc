@@ -1,7 +1,54 @@
 \thispagestyle {empty}
 \contentsline {section}{\numberline {I}GIỚI THIỆU}{1}{section.1}%
+\contentsline {subsection}{\numberline {1}Giới thiệu về Công ty Cổ phần Dịch vụ Công nghệ Tin học HPT}{1}{subsection.1.1}%
+\contentsline {subsection}{\numberline {2}Giới thiệu nội dung thực tập}{1}{subsection.1.2}%
 \contentsline {section}{\numberline {II}NỘI DUNG THỰC TẬP}{2}{section.2}%
 \contentsline {subsection}{\numberline {1}Thông tin đề tài thực tập}{2}{subsection.2.1}%
 \contentsline {subsection}{\numberline {2}Mục tiêu thực tập}{2}{subsection.2.2}%
 \contentsline {subsection}{\numberline {3}Nội dung công việc thực hiện}{2}{subsection.2.3}%
-\contentsline {section}{\numberline {III}QUÁ TRÌNH THỰC TẬP}{2}{section.3}%
+\contentsline {section}{\numberline {III}BÁO CÁO TIẾN ĐỘ THỰC TẬP THEO TUẦN}{4}{section.3}%
+\contentsline {subsection}{\numberline {1}Nội dung công việc tuần 1}{4}{subsection.3.1}%
+\contentsline {subsubsection}{\numberline {1.1}Nội dung tìm hiểu và kiến thức thu nhận}{5}{subsubsection.3.1.1}%
+\contentsline {subsubsubsection}{\numberline {1.1.a}Tổng quan về quản lý dự án}{5}{subsubsubsection.3.1.1.1}%
+\contentsline {subsubsubsection}{\numberline {1.1.b}Quy trình quản lý dự án theo chuẩn CMMI}{5}{subsubsubsection.3.1.1.2}%
+\contentsline {subsubsubsection}{\numberline {1.1.c}Hoạch định dự án}{7}{subsubsubsection.3.1.1.3}%
+\contentsline {subsubsubsection}{\numberline {1.1.d}Mô hình Scrum}{7}{subsubsubsection.3.1.1.4}%
+\contentsline {subsubsubsection}{\numberline {1.1.e}Quy trình phối hợp với khách hàng}{11}{subsubsubsection.3.1.1.5}%
+\contentsline {subsubsubsection}{\numberline {1.1.f}Quản lý thay đổi}{11}{subsubsubsection.3.1.1.6}%
+\contentsline {subsubsubsection}{\numberline {1.1.g}Quản lý rủi ro}{12}{subsubsubsection.3.1.1.7}%
+\contentsline {subsubsubsection}{\numberline {1.1.h}Đảm bảo chất lượng}{12}{subsubsubsection.3.1.1.8}%
+\contentsline {subsubsubsection}{\numberline {1.1.i}Hỗ trợ, triển khai và bàn giao}{13}{subsubsubsection.3.1.1.9}%
+\contentsline {subsection}{\numberline {2}Nội dung công việc tuần 2}{14}{subsection.3.2}%
+\contentsline {subsubsection}{\numberline {2.1}GIỚI THIỆU DỰ ÁN}{14}{subsubsection.3.2.1}%
+\contentsline {subsubsubsection}{\numberline {2.1.a}Bối cảnh}{14}{subsubsubsection.3.2.1.1}%
+\contentsline {subsubsubsection}{\numberline {2.1.b}Mục tiêu}{15}{subsubsubsection.3.2.1.2}%
+\contentsline {subsubsubsection}{\numberline {2.1.c}Phạm vi nghiên cứu}{15}{subsubsubsection.3.2.1.3}%
+\contentsline {subsubsection}{\numberline {2.2}KIẾN TRÚC TỔNG THỂ HỆ THỐNG}{15}{subsubsection.3.2.2}%
+\contentsline {subsubsubsection}{\numberline {2.2.a}Tổng quan giải pháp}{15}{subsubsubsection.3.2.2.1}%
+\contentsline {subsubsubsection}{\numberline {2.2.b}Các thành phần chính}{16}{subsubsubsection.3.2.2.2}%
+\contentsline {paragraph}{\numberline {2.2.1}Core System}{16}{paragraph.3.2.2.1}%
+\contentsline {paragraph}{\numberline {2.2.2}Omnichannel}{16}{paragraph.3.2.2.2}%
+\contentsline {paragraph}{\numberline {2.2.3}Field Service \& IoT}{16}{paragraph.3.2.2.3}%
+\contentsline {subsubsection}{\numberline {2.3}CORE SYSTEM (BACKOFFICE)}{17}{subsubsection.3.2.3}%
+\contentsline {subsubsubsection}{\numberline {2.3.a}Tổng quan}{17}{subsubsubsection.3.2.3.1}%
+\contentsline {subsubsubsection}{\numberline {2.3.b}Kiến trúc Core System}{17}{subsubsubsection.3.2.3.2}%
+\contentsline {subsubsubsection}{\numberline {2.3.c}Các phân hệ chức năng}{18}{subsubsubsection.3.2.3.3}%
+\contentsline {paragraph}{\numberline {2.3.1}Customer Relationship Management (CRM)}{18}{paragraph.3.2.3.1}%
+\contentsline {paragraph}{\numberline {2.3.2}Asset Management}{18}{paragraph.3.2.3.2}%
+\contentsline {paragraph}{\numberline {2.3.3}Contract Management}{19}{paragraph.3.2.3.3}%
+\contentsline {paragraph}{\numberline {2.3.4}Billing System}{19}{paragraph.3.2.3.4}%
+\contentsline {paragraph}{\numberline {2.3.5}Maintenance Management}{19}{paragraph.3.2.3.5}%
+\contentsline {subsubsubsection}{\numberline {2.3.d}Mối liên kết giữa các phân hệ}{20}{subsubsubsection.3.2.3.4}%
+\contentsline {subsubsection}{\numberline {2.4}OMNICHANNEL}{20}{subsubsection.3.2.4}%
+\contentsline {subsubsubsection}{\numberline {2.4.a}Vai trò}{20}{subsubsubsection.3.2.4.1}%
+\contentsline {subsubsubsection}{\numberline {2.4.b}Các kênh tích hợp}{21}{subsubsubsection.3.2.4.2}%
+\contentsline {subsubsection}{\numberline {2.5}FIELD SERVICE \& IOT}{21}{subsubsection.3.2.5}%
+\contentsline {subsubsubsection}{\numberline {2.5.a}Vai trò của IoT trong hệ thống}{21}{subsubsubsection.3.2.5.1}%
+\contentsline {subsubsubsection}{\numberline {2.5.b}Kiến trúc IoT 4 lớp}{22}{subsubsubsection.3.2.5.2}%
+\contentsline {subsubsubsection}{\numberline {2.5.c}Kiến trúc triển khai}{22}{subsubsubsection.3.2.5.3}%
+\contentsline {subsubsubsection}{\numberline {2.5.d}Luồng xử lý dữ liệu}{23}{subsubsubsection.3.2.5.4}%
+\contentsline {subsubsection}{\numberline {2.6}QUY TRÌNH NGHIỆP VỤ}{24}{subsubsection.3.2.6}%
+\contentsline {subsubsubsection}{\numberline {2.6.a}Quy trình triển khai dịch vụ}{24}{subsubsubsection.3.2.6.1}%
+\contentsline {subsubsubsection}{\numberline {2.6.b}Quy trình vận hành}{24}{subsubsubsection.3.2.6.2}%
+\contentsline {subsubsubsection}{\numberline {2.6.c}Quy trình bảo trì}{25}{subsubsubsection.3.2.6.3}%
+\contentsline {section}{\numberline {A}PHỤ LỤC}{27}{appendix.A}%

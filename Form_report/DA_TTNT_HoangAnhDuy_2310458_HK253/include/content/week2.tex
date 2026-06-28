@@ -1,0 +1,218 @@
+\subsection{Tuần 2: Nghiên cứu hồ sơ đề xuất kỹ thuật và mô hình tổng thể}
+\subsubsection{NỘI DUNG CÔNG VIỆC}
+
+Trong tuần thứ hai, em tập trung nghiên cứu hồ sơ đề xuất kỹ thuật để nắm được bài toán của dự án, cách tổ chức hệ thống ở mức tổng quan và phạm vi kiến thức cần chuẩn bị cho các tuần tiếp theo.
+
+\begin{table}[H]
+    \centering
+    \caption{Nội dung công việc tuần 2}
+    \begin{tabularx}{\textwidth}{|>{\centering\arraybackslash}p{1.2cm}|X|}
+        \hline
+        \textbf{STT} & \textbf{Nội dung thực hiện} \\ \hline
+        1 & Nghiên cứu hồ sơ đề xuất kỹ thuật của dự án. \\ \hline
+        2 & Tìm hiểu mô hình tổng thể của dự án. \\ \hline
+        3 & Tìm hiểu kiến trúc giải pháp ở mức tổng quan. \\ \hline
+        4 & Tìm hiểu quy trình nghiệp vụ chính của hệ thống. \\ \hline
+        5 & Tìm hiểu các thành phần chính của hệ thống. \\ \hline
+        6 & Hiểu mối liên kết giữa các thành phần trong hệ thống. \\ \hline
+    \end{tabularx}
+\end{table}
+
+\subsubsection{NGHIÊN CỨU HỒ SƠ ĐỀ XUẤT KỸ THUẬT}
+
+\subsubsubsection{Bối cảnh}
+
+Qua nghiên cứu hồ sơ đề xuất kỹ thuật, em nhận thấy dự án được xây dựng để giải quyết bài toán quản lý tập trung cho dịch vụ máy lọc nước, trong đó cần kết hợp giữa hệ thống quản lý nghiệp vụ, kênh tương tác khách hàng và phần giám sát thiết bị ngoài hiện trường.
+
+Điểm đáng chú ý của tài liệu là dự án không chỉ dừng ở việc lưu trữ thông tin vận hành, mà còn hướng đến việc theo dõi trạng thái thiết bị và hỗ trợ bảo trì chủ động. Vì vậy, ngay từ tuần 2, em cần nắm được cách hệ thống được chia thành các thành phần và cách các thành phần này phối hợp với nhau.
+
+\subsubsubsection{Mục tiêu nghiên cứu}
+
+Mục tiêu của tuần này không phải là xây dựng hệ thống, mà là hiểu đúng bài toán và phạm vi của dự án. Từ tài liệu đề xuất kỹ thuật, em tập trung xác định:
+
+\begin{itemize}
+    \item Bài toán mà dự án cần giải quyết.
+    \item Cách hệ thống được tổ chức ở mức tổng thể.
+    \item Vai trò của từng thành phần chính.
+    \item Quy trình nghiệp vụ mà hệ thống cần hỗ trợ.
+    \item Kiến thức nền tảng cần chuẩn bị cho các tuần sau.
+\end{itemize}
+
+\subsubsubsection{Phạm vi nghiên cứu}
+
+Trong tuần này, em chỉ dừng ở mức tìm hiểu tổng quan. Các nội dung như phân tích yêu cầu chi tiết, thiết kế cơ sở dữ liệu, thiết kế backend, thiết kế API, lập trình và kiểm thử chưa được triển khai ở giai đoạn này.
+
+Nhờ việc giới hạn phạm vi như vậy, nội dung tuần 2 giữ đúng vai trò của một tuần nghiên cứu nền tảng, tránh đi quá sâu sang các công việc thuộc các tuần sau.
+
+\subsubsubsection{Nhận xét}
+
+Từ hồ sơ đề xuất kỹ thuật, em hiểu rằng dự án được tổ chức theo hướng tích hợp nhiều thành phần nhưng vẫn giữ một luồng thông tin thống nhất. Đây là cơ sở để em tiếp tục tìm hiểu từng phần trong các mục tiếp theo.
+
+\subsubsection{MÔ HÌNH TỔNG THỂ HỆ THỐNG}
+
+\subsubsubsection{Tổng quan giải pháp}
+
+Giải pháp của dự án được tổ chức theo mô hình tổng thể gồm ba lớp chức năng lớn: quản lý nghiệp vụ trung tâm, tiếp nhận tương tác từ nhiều kênh và giám sát thiết bị ngoài hiện trường. Cách tổ chức này giúp em hình dung được hệ thống như một chỉnh thể thay vì các module rời rạc.
+
+Hình~\ref{fig:overall_architecture} thể hiện mức nhìn tổng quan mà em đã nghiên cứu trong tuần này.
+
+\begin{figure}[H]
+    \centering
+    \safeincludegraphics[width=\textwidth]{images/overall_architecture.png}
+    \caption{Kiến trúc tổng thể của hệ thống}
+    \label{fig:overall_architecture}
+\end{figure}
+
+Từ mô hình này, em nhận thấy dữ liệu đi xuyên suốt từ khâu tiếp nhận thông tin khách hàng đến khâu theo dõi tình trạng thiết bị. Đây là điểm quan trọng để hiểu vì sao dự án cần phân tách thành nhiều thành phần nhưng vẫn phải duy trì sự liên kết chặt chẽ.
+
+\subsubsubsection{Các thành phần chính}
+
+Hồ sơ đề xuất kỹ thuật cho thấy hệ thống được chia thành ba thành phần chính:
+
+\paragraph{Core System}
+Core System là phần quản lý nghiệp vụ trung tâm. Thành phần này giúp em hiểu nơi dữ liệu cốt lõi của hệ thống được tập trung và xử lý.
+
+\paragraph{Omnichannel}
+Omnichannel là lớp tiếp nhận tương tác từ nhiều kênh khác nhau. Thành phần này giúp hệ thống không bị phân mảnh khi khách hàng liên hệ qua nhiều phương thức.
+
+\paragraph{Field Service \& IoT}
+Field Service \& IoT là phần kết nối với thiết bị ngoài hiện trường. Từ thành phần này, em hiểu được cách dự án mở rộng từ quản lý nghiệp vụ sang giám sát thực tế.
+
+\subsubsubsection{Kiến thức thu được}
+
+Sau khi nghiên cứu mô hình tổng thể, em hiểu rõ hơn vai trò của từng thành phần và lý do hệ thống cần được chia thành nhiều lớp chức năng. Kiến thức này là nền tảng để em tiếp tục tìm hiểu sâu hơn ở các tuần sau mà không bị nhìn dự án như một tập hợp chức năng rời rạc.
+
+\subsubsection{CORE SYSTEM}
+
+\subsubsubsection{Vai trò}
+
+Trong quá trình nghiên cứu, em nhận thấy Core System là phần lõi của toàn bộ hệ thống. Đây là nơi tập trung các thông tin nghiệp vụ quan trọng và là điểm quy chiếu để các thành phần khác đồng bộ dữ liệu.
+
+Việc tìm hiểu Core System giúp em hiểu được vì sao dự án cần một nền tảng quản lý tập trung thay vì xử lý thông tin riêng lẻ ở từng kênh.
+
+\subsubsubsection{Các phân hệ chính}
+
+Theo hồ sơ đề xuất kỹ thuật, Core System được chia thành một số phân hệ chính như CRM, Asset Management, Contract Management, Billing System và Maintenance Management. Ở tuần 2, em chỉ dừng ở mức nhận diện vai trò tổng quát của từng phân hệ:
+
+\begin{itemize}
+    \item CRM hỗ trợ quản lý thông tin khách hàng.
+    \item Asset Management hỗ trợ quản lý thiết bị.
+    \item Contract Management hỗ trợ quản lý hợp đồng dịch vụ.
+    \item Billing System hỗ trợ quản lý thanh toán.
+    \item Maintenance Management hỗ trợ quản lý bảo trì.
+\end{itemize}
+
+Việc nghiên cứu các phân hệ này giúp em nhìn thấy luồng nghiệp vụ từ khách hàng đến thiết bị và dịch vụ, thay vì chỉ xem từng chức năng riêng lẻ.
+
+\subsubsubsection{Mối liên kết nội bộ}
+
+Các phân hệ trong Core System không hoạt động tách biệt mà có liên hệ với nhau trong quá trình xử lý nghiệp vụ. Thông tin khách hàng, hợp đồng, thiết bị và bảo trì được liên kết theo cùng một luồng logic, giúp dữ liệu nhất quán hơn trong toàn hệ thống.
+
+\begin{figure}[H]
+    \centering
+    \safeincludegraphics[width=\textwidth]{images/core_system.png}
+    \caption{Kiến trúc Core System}
+    \label{fig:core_system}
+\end{figure}
+
+\subsubsubsection{Nhận xét}
+
+Qua phần Core System, em hiểu rằng đây là nền tảng để các phần còn lại của hệ thống có thể vận hành thống nhất. Nội dung tuần 2 vì vậy chỉ nên dừng ở mức nhận diện và phân tích vai trò, chưa đi vào thiết kế chi tiết.
+
+\subsubsection{OMNICHANNEL}
+
+\subsubsubsection{Vai trò}
+
+Omnichannel giúp hệ thống tiếp nhận và đồng bộ thông tin từ nhiều kênh tương tác khác nhau. Khi nghiên cứu phần này, em nhận thấy mục tiêu chính là giữ cho dữ liệu khách hàng không bị tản mạn giữa các kênh liên hệ.
+
+\begin{figure}[H]
+    \centering
+    \safeincludegraphics[width=\textwidth]{images/omnichannel.png}
+    \caption{Kiến trúc Omnichannel}
+    \label{fig:omnichannel}
+\end{figure}
+
+\subsubsubsection{Các kênh tương tác}
+
+Hồ sơ đề xuất kỹ thuật cho thấy hệ thống cần hỗ trợ nhiều kênh tương tác khác nhau như website, mạng xã hội, email hoặc tổng đài. Ở tuần này, em chỉ ghi nhận được vai trò tổng quát của các kênh này là tiếp nhận thông tin và chuyển về hệ thống trung tâm để xử lý thống nhất.
+
+\subsubsubsection{Nhận xét}
+
+Qua phần Omnichannel, em hiểu rõ hơn lý do hệ thống cần đa kênh nhưng vẫn phải đồng bộ về một đầu mối. Đây là điểm quan trọng để tránh phát sinh dữ liệu rời rạc trong quá trình sử dụng thực tế.
+
+\subsubsection{FIELD SERVICE \& IOT}
+
+\subsubsubsection{Vai trò của IoT}
+
+Field Service \& IoT là phần giúp hệ thống mở rộng từ quản lý nghiệp vụ sang giám sát thiết bị ngoài hiện trường. Ở mức nghiên cứu tuần 2, em chỉ tập trung hiểu vai trò của nó trong việc cung cấp dữ liệu vận hành và hỗ trợ theo dõi tình trạng thiết bị.
+
+\subsubsubsection{Kiến trúc bốn lớp}
+
+Tài liệu đề xuất kỹ thuật mô tả mô hình IoT theo bốn lớp. Qua nghiên cứu, em hiểu được cách phân tách này giúp hệ thống rõ ràng hơn về mặt chức năng:
+
+\begin{itemize}
+    \item Perception Layer thu thập dữ liệu từ thiết bị.
+    \item Network Layer truyền dữ liệu.
+    \item Processing Layer tiếp nhận và xử lý dữ liệu.
+    \item Application Layer hiển thị và khai thác dữ liệu.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \safeincludegraphics[width=\textwidth]{images/iot_4layer.png}
+    \caption{Kiến trúc IoT bốn lớp}
+    \label{fig:iot4layer}
+\end{figure}
+
+\subsubsubsection{Luồng dữ liệu tổng quát}
+
+Em hiểu rằng dữ liệu từ thiết bị ngoài hiện trường sẽ được truyền về hệ thống quản lý theo một luồng thống nhất. Dù chưa đi vào phần triển khai chi tiết, việc nắm được luồng dữ liệu tổng quát giúp em chuẩn bị tốt hơn cho các tuần sau.
+
+\subsubsubsection{Nhận xét}
+
+Phần Field Service \& IoT cho em thấy dự án không chỉ là một hệ thống quản lý thông tin mà còn gắn với trạng thái thực tế của thiết bị. Đây là lý do phần này cần được nghiên cứu sớm để hiểu đúng phạm vi của bài toán.
+
+\subsubsection{QUY TRÌNH NGHIỆP VỤ}
+
+\subsubsubsection{Quy trình triển khai dịch vụ}
+
+Qua nghiên cứu hồ sơ đề xuất kỹ thuật, em nhận thấy quy trình triển khai dịch vụ bắt đầu từ lúc tiếp nhận nhu cầu khách hàng và kết thúc khi thiết bị được đưa vào trạng thái sử dụng. Ở tuần 2, em chỉ ghi nhận quy trình này ở mức tổng quan để hiểu luồng nghiệp vụ chính của dự án.
+
+\begin{figure}[H]
+    \centering
+    \safeincludegraphics[width=\textwidth]{images/service_process.png}
+    \caption{Quy trình triển khai dịch vụ}
+    \label{fig:service_process}
+\end{figure}
+
+\subsubsubsection{Quy trình vận hành}
+
+Sau khi thiết bị đi vào sử dụng, hệ thống cần theo dõi trạng thái vận hành và phản hồi khi có thay đổi. Em hiểu đây là phần nối tiếp sau giai đoạn triển khai, giúp hệ thống giữ được tính liên tục trong quản lý.
+
+\begin{figure}[H]
+    \centering
+    \safeincludegraphics[width=\textwidth]{images/operation_process.png}
+    \caption{Quy trình vận hành hệ thống}
+    \label{fig:operation_process}
+\end{figure}
+
+\subsubsubsection{Quy trình bảo trì}
+
+Bảo trì là bước quan trọng để hệ thống duy trì hoạt động ổn định trong thời gian dài. Ở mức nghiên cứu tuần 2, em mới chỉ xác định được rằng quy trình bảo trì cần được kết nối với dữ liệu vận hành và thông tin thiết bị trong hệ thống trung tâm.
+
+\begin{figure}[H]
+    \centering
+    \safeincludegraphics[width=\textwidth]{images/maintenance_process.png}
+    \caption{Quy trình bảo trì}
+    \label{fig:maintenance_process}
+\end{figure}
+
+\subsubsubsection{Nhận xét}
+
+Nhìn tổng thể, các quy trình nghiệp vụ trong hồ sơ đề xuất kỹ thuật cho em thấy luồng công việc của dự án đi theo vòng đời dịch vụ khá rõ ràng. Đây là cơ sở để các tuần sau em tiếp tục nghiên cứu sâu hơn mà vẫn giữ được mạch nghiệp vụ của toàn hệ thống.
+
+\subsubsection{KẾT QUẢ NGHIÊN CỨU VÀ KIẾN THỨC THU ĐƯỢC}
+
+Sau tuần 2, em nắm được bức tranh tổng thể của dự án, hiểu vai trò của hồ sơ đề xuất kỹ thuật và nhận diện được các thành phần chính của hệ thống. Quan trọng hơn, em hiểu được mối liên hệ giữa quản lý nghiệp vụ, tương tác khách hàng và giám sát thiết bị trong cùng một mô hình.
+
+Những kiến thức này là nền tảng để em bước sang các tuần tiếp theo với phạm vi rõ ràng hơn. Em chưa đi vào thiết kế, lập trình hay kiểm thử trong tuần 2, mà chỉ tập trung nghiên cứu và chuẩn bị kiến thức cho các công việc đó.
