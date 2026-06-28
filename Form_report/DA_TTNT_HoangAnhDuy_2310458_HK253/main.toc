@@ -27,29 +27,29 @@
 \contentsline {subsubsubsection}{\numberline {2.2.d}Nhận xét}{15}{subsubsubsection.3.2.2.4}%
 \contentsline {subsubsection}{\numberline {2.3}MÔ HÌNH TỔNG THỂ HỆ THỐNG}{15}{subsubsection.3.2.3}%
 \contentsline {subsubsubsection}{\numberline {2.3.a}Tổng quan giải pháp}{15}{subsubsubsection.3.2.3.1}%
-\contentsline {subsubsubsection}{\numberline {2.3.b}Các thành phần chính}{15}{subsubsubsection.3.2.3.2}%
-\contentsline {paragraph}{\numberline {2.3.1}Core System}{15}{paragraph.3.2.3.1}%
+\contentsline {subsubsubsection}{\numberline {2.3.b}Các thành phần chính}{16}{subsubsubsection.3.2.3.2}%
+\contentsline {paragraph}{\numberline {2.3.1}Core System}{16}{paragraph.3.2.3.1}%
 \contentsline {paragraph}{\numberline {2.3.2}Omnichannel}{16}{paragraph.3.2.3.2}%
-\contentsline {paragraph}{\numberline {2.3.3}Field Service \& IoT}{16}{paragraph.3.2.3.3}%
-\contentsline {subsubsubsection}{\numberline {2.3.c}Kiến thức thu được}{16}{subsubsubsection.3.2.3.3}%
-\contentsline {subsubsection}{\numberline {2.4}CORE SYSTEM}{16}{subsubsection.3.2.4}%
-\contentsline {subsubsubsection}{\numberline {2.4.a}Vai trò}{16}{subsubsubsection.3.2.4.1}%
-\contentsline {subsubsubsection}{\numberline {2.4.b}Các phân hệ chính}{16}{subsubsubsection.3.2.4.2}%
-\contentsline {subsubsubsection}{\numberline {2.4.c}Mối liên kết nội bộ}{17}{subsubsubsection.3.2.4.3}%
-\contentsline {subsubsubsection}{\numberline {2.4.d}Nhận xét}{17}{subsubsubsection.3.2.4.4}%
-\contentsline {subsubsection}{\numberline {2.5}OMNICHANNEL}{17}{subsubsection.3.2.5}%
-\contentsline {subsubsubsection}{\numberline {2.5.a}Vai trò}{17}{subsubsubsection.3.2.5.1}%
-\contentsline {subsubsubsection}{\numberline {2.5.b}Các kênh tương tác}{17}{subsubsubsection.3.2.5.2}%
-\contentsline {subsubsubsection}{\numberline {2.5.c}Nhận xét}{17}{subsubsubsection.3.2.5.3}%
-\contentsline {subsubsection}{\numberline {2.6}FIELD SERVICE \& IOT}{18}{subsubsection.3.2.6}%
-\contentsline {subsubsubsection}{\numberline {2.6.a}Vai trò của IoT}{18}{subsubsubsection.3.2.6.1}%
-\contentsline {subsubsubsection}{\numberline {2.6.b}Kiến trúc bốn lớp}{18}{subsubsubsection.3.2.6.2}%
-\contentsline {subsubsubsection}{\numberline {2.6.c}Luồng dữ liệu tổng quát}{18}{subsubsubsection.3.2.6.3}%
-\contentsline {subsubsubsection}{\numberline {2.6.d}Nhận xét}{18}{subsubsubsection.3.2.6.4}%
-\contentsline {subsubsection}{\numberline {2.7}QUY TRÌNH NGHIỆP VỤ}{18}{subsubsection.3.2.7}%
-\contentsline {subsubsubsection}{\numberline {2.7.a}Quy trình triển khai dịch vụ}{18}{subsubsubsection.3.2.7.1}%
-\contentsline {subsubsubsection}{\numberline {2.7.b}Quy trình vận hành}{19}{subsubsubsection.3.2.7.2}%
-\contentsline {subsubsubsection}{\numberline {2.7.c}Quy trình bảo trì}{19}{subsubsubsection.3.2.7.3}%
-\contentsline {subsubsubsection}{\numberline {2.7.d}Nhận xét}{19}{subsubsubsection.3.2.7.4}%
-\contentsline {subsubsection}{\numberline {2.8}KẾT QUẢ NGHIÊN CỨU VÀ KIẾN THỨC THU ĐƯỢC}{19}{subsubsection.3.2.8}%
-\contentsline {section}{\numberline {A}PHỤ LỤC}{21}{appendix.A}%
+\contentsline {paragraph}{\numberline {2.3.3}Field Service \& IoT}{17}{paragraph.3.2.3.3}%
+\contentsline {subsubsubsection}{\numberline {2.3.c}Kiến thức thu được}{17}{subsubsubsection.3.2.3.3}%
+\contentsline {subsubsection}{\numberline {2.4}CORE SYSTEM}{17}{subsubsection.3.2.4}%
+\contentsline {subsubsubsection}{\numberline {2.4.a}Vai trò}{17}{subsubsubsection.3.2.4.1}%
+\contentsline {subsubsubsection}{\numberline {2.4.b}Các phân hệ chính}{17}{subsubsubsection.3.2.4.2}%
+\contentsline {subsubsubsection}{\numberline {2.4.c}Mối liên kết nội bộ}{18}{subsubsubsection.3.2.4.3}%
+\contentsline {subsubsubsection}{\numberline {2.4.d}Nhận xét}{18}{subsubsubsection.3.2.4.4}%
+\contentsline {subsubsection}{\numberline {2.5}OMNICHANNEL}{18}{subsubsection.3.2.5}%
+\contentsline {subsubsubsection}{\numberline {2.5.a}Vai trò}{18}{subsubsubsection.3.2.5.1}%
+\contentsline {subsubsubsection}{\numberline {2.5.b}Các kênh tương tác}{18}{subsubsubsection.3.2.5.2}%
+\contentsline {subsubsubsection}{\numberline {2.5.c}Nhận xét}{18}{subsubsubsection.3.2.5.3}%
+\contentsline {subsubsection}{\numberline {2.6}FIELD SERVICE \& IOT}{19}{subsubsection.3.2.6}%
+\contentsline {subsubsubsection}{\numberline {2.6.a}Vai trò của IoT}{19}{subsubsubsection.3.2.6.1}%
+\contentsline {subsubsubsection}{\numberline {2.6.b}Kiến trúc bốn lớp}{19}{subsubsubsection.3.2.6.2}%
+\contentsline {subsubsubsection}{\numberline {2.6.c}Luồng dữ liệu tổng quát}{20}{subsubsubsection.3.2.6.3}%
+\contentsline {subsubsubsection}{\numberline {2.6.d}Nhận xét}{20}{subsubsubsection.3.2.6.4}%
+\contentsline {subsubsection}{\numberline {2.7}QUY TRÌNH NGHIỆP VỤ}{21}{subsubsection.3.2.7}%
+\contentsline {subsubsubsection}{\numberline {2.7.a}Quy trình triển khai dịch vụ}{21}{subsubsubsection.3.2.7.1}%
+\contentsline {subsubsubsection}{\numberline {2.7.b}Quy trình vận hành}{21}{subsubsubsection.3.2.7.2}%
+\contentsline {subsubsubsection}{\numberline {2.7.c}Quy trình bảo trì}{21}{subsubsubsection.3.2.7.3}%
+\contentsline {subsubsubsection}{\numberline {2.7.d}Nhận xét}{21}{subsubsubsection.3.2.7.4}%
+\contentsline {subsubsection}{\numberline {2.8}KẾT QUẢ NGHIÊN CỨU VÀ KIẾN THỨC THU ĐƯỢC}{22}{subsubsection.3.2.8}%
+\contentsline {section}{\numberline {A}PHỤ LỤC}{23}{appendix.A}%
