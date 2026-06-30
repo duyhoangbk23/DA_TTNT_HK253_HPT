@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SmartWater.Admin")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+df5005c8877905d06b1ef5197b7d2a189de93477")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5a23230b6cba15fe1233aa4d371bcd38345216e6")]
 [assembly: System.Reflection.AssemblyProductAttribute("SmartWater.Admin")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SmartWater.Admin")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
