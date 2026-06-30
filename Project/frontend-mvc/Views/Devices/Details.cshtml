@@ -1,0 +1,51 @@
+@model DeviceDetailViewModel
+@{
+    ViewData["Title"] = Model.Device.Id;
+}
+<partial name="_PageHeader" model='(Model.Device.Id, "Realtime Data, CPU, RAM, Signal, OTA History, Logs và Connection History.", "Push OTA")' />
+<section class="kpi-grid">
+    @foreach (var item in Model.Metrics)
+    {
+        <partial name="_KpiCard" model="item" />
+    }
+</section>
+<div class="row g-3 mt-1">
+    <div class="col-xl-8">
+        <div class="card admin-card">
+            <div class="card-header bg-white"><strong>Realtime Data</strong></div>
+            <div class="card-body table-responsive">
+                <table class="table align-middle">
+                    <thead><tr><th>Time</th><th>Flow</th><th>Pressure</th><th>TDS</th><th>pH</th><th>Pump</th><th>Tank</th></tr></thead>
+                    <tbody>
+                    @foreach (var item in Model.RealtimeData)
+                    {
+                        <tr>
+                            <td>@item.Time.ToString("HH:mm:ss")</td>
+                            <td>@item.Flow L/min</td>
+                            <td>@item.Pressure bar</td>
+                            <td>@item.Tds ppm</td>
+                            <td>@item.Ph</td>
+                            <td>@item.PumpStatus</td>
+                            <td>@item.TankLevel%</td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-4">
+        <div class="card admin-card">
+            <div class="card-header bg-white"><strong>Logs</strong></div>
+            <div class="list-group list-group-flush">
+                @foreach (var item in Model.Logs)
+                {
+                    <div class="list-group-item">
+                        <div class="fw-semibold"><i class="bi @item.Icon me-2"></i>@item.Title</div>
+                        <small class="text-muted">@item.Detail - @item.Time</small>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

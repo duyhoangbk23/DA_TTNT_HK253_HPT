@@ -1,0 +1,49 @@
+@model (string Title, string Subtitle)
+@{
+    ViewData["Title"] = Model.Title;
+}
+<partial name="_PageHeader" model='(Model.Title, Model.Subtitle, "Tạo mới")' />
+<div class="row g-3">
+    <div class="col-xl-8">
+        <div class="card admin-card">
+            <div class="card-header bg-white"><strong>Workspace</strong></div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table align-middle">
+                        <thead>
+                            <tr>
+                                <th>Mã</th>
+                                <th>Nội dung</th>
+                                <th>Phụ trách</th>
+                                <th>Trạng thái</th>
+                                <th class="text-end">Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @for (var i = 1; i <= 8; i++)
+                        {
+                            <tr>
+                                <td>@($"{ViewContext.RouteData.Values["controller"]}-{i:000}")</td>
+                                <td>@Model.Title nghiệp vụ @i</td>
+                                <td>Admin Team</td>
+                                <td><span class="badge text-bg-primary">Active</span></td>
+                                <td class="text-end"><button class="btn btn-sm btn-outline-secondary">View</button></td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-4">
+        <div class="card admin-card">
+            <div class="card-header bg-white"><strong>Quick actions</strong></div>
+            <div class="list-group list-group-flush">
+                <a class="list-group-item list-group-item-action" href="#">Export dữ liệu</a>
+                <a class="list-group-item list-group-item-action" href="#">Cấu hình rule</a>
+                <a class="list-group-item list-group-item-action" href="#">Xem lịch sử</a>
+            </div>
+        </div>
+    </div>
+</div>

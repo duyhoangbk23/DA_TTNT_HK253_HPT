@@ -1,0 +1,32 @@
+@model TablePageViewModel<MaintenanceRowViewModel>
+@{
+    ViewData["Title"] = Model.Title;
+}
+<partial name="_PageHeader" model='(Model.Title, Model.Subtitle, Model.ActionLabel)' />
+<div class="card admin-card">
+    <div class="card-body table-responsive">
+        <table class="table data-table align-middle">
+            <thead><tr><th>Work Order</th><th>Khách hàng</th><th>Máy</th><th>Kỹ thuật viên</th><th>Lịch</th><th>Trạng thái</th><th>Tiến độ</th><th>Chi phí</th><th class="text-end">Checklist</th></tr></thead>
+            <tbody>
+            @foreach (var item in Model.Rows)
+            {
+                <tr>
+                    <td class="fw-semibold">@item.Id</td>
+                    <td>@item.Customer</td>
+                    <td>@item.Purifier</td>
+                    <td>@item.Technician</td>
+                    <td>@item.Schedule.ToString("dd/MM HH:mm")</td>
+                    <td><span class="badge @UiHelper.WorkOrderBadge(item.Status)">@item.Status</span></td>
+                    <td>
+                        <div class="progress" role="progressbar" aria-valuenow="@item.Progress" aria-valuemin="0" aria-valuemax="100">
+                            <div class="progress-bar" style="width:@item.Progress%">@item.Progress%</div>
+                        </div>
+                    </td>
+                    <td>@item.Cost.ToString("N0")</td>
+                    <td class="text-end"><button class="btn btn-sm btn-outline-secondary">Open</button></td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

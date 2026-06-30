@@ -1,0 +1,44 @@
+@model TablePageViewModel<DeviceRowViewModel>
+@{
+    ViewData["Title"] = Model.Title;
+}
+<partial name="_PageHeader" model='(Model.Title, Model.Subtitle, Model.ActionLabel)' />
+<div class="card admin-card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table data-table align-middle">
+                <thead>
+                    <tr>
+                        <th>Device ID</th>
+                        <th>Firmware</th>
+                        <th>WiFi RSSI</th>
+                        <th>IP</th>
+                        <th>MAC</th>
+                        <th>MQTT</th>
+                        <th>Last Seen</th>
+                        <th>Online</th>
+                        <th>Battery</th>
+                        <th class="text-end">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model.Rows)
+                {
+                    <tr>
+                        <td class="fw-semibold">@item.Id</td>
+                        <td>@item.Firmware</td>
+                        <td>@item.WifiRssi dBm</td>
+                        <td>@item.Ip</td>
+                        <td>@item.Mac</td>
+                        <td>@item.Mqtt</td>
+                        <td>@item.LastSeen.ToString("dd/MM HH:mm")</td>
+                        <td><span class="badge @(item.Online ? "text-bg-success" : "text-bg-danger")">@(item.Online ? "Online" : "Offline")</span></td>
+                        <td>@item.Battery%</td>
+                        <td class="text-end"><a class="btn btn-sm btn-outline-primary" asp-action="Details" asp-route-id="@item.Id">View</a></td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

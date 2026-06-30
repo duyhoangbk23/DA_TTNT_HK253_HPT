@@ -1,0 +1,26 @@
+@{
+    var current = ViewContext.RouteData.Values["controller"]?.ToString() ?? "Dashboard";
+}
+<aside class="sidebar">
+    <a class="brand" asp-controller="Dashboard" asp-action="Index">
+        <span class="brand-mark">SW</span>
+        <span>
+            <strong>SmartWater</strong>
+            <small>Enterprise Admin</small>
+        </span>
+    </a>
+    <nav class="sidebar-nav">
+        @foreach (var group in Navigation.Items.GroupBy(item => item.Section))
+        {
+            <div class="nav-section">@group.Key</div>
+            foreach (var item in group)
+            {
+                var active = item.Controller == current ? "active" : string.Empty;
+                <a class="@active" asp-controller="@item.Controller" asp-action="Index">
+                    <i class="bi @item.Icon"></i>
+                    <span>@item.Label</span>
+                </a>
+            }
+        }
+    </nav>
+</aside>

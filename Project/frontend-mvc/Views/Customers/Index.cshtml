@@ -1,0 +1,46 @@
+@model TablePageViewModel<CustomerRowViewModel>
+@{
+    ViewData["Title"] = Model.Title;
+}
+<partial name="_PageHeader" model='(Model.Title, Model.Subtitle, Model.ActionLabel)' />
+<div class="card admin-card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table data-table align-middle">
+                <thead>
+                    <tr>
+                        <th>Avatar</th>
+                        <th>Họ tên</th>
+                        <th>Điện thoại</th>
+                        <th>Email</th>
+                        <th>Địa chỉ</th>
+                        <th>Số máy</th>
+                        <th>Ngày tạo</th>
+                        <th>Trạng thái</th>
+                        <th class="text-end">Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model.Rows)
+                {
+                    <tr>
+                        <td><img class="avatar" src="@item.Avatar" alt="@item.FullName" /></td>
+                        <td class="fw-semibold">@item.FullName</td>
+                        <td>@item.Phone</td>
+                        <td>@item.Email</td>
+                        <td>@item.Address</td>
+                        <td>@item.DeviceCount</td>
+                        <td>@item.CreatedAt.ToString("dd/MM/yyyy")</td>
+                        <td><span class="badge @UiHelper.StatusBadge(item.Status)">@item.Status</span></td>
+                        <td class="text-end">
+                            <button class="btn btn-sm btn-outline-secondary">View</button>
+                            <button class="btn btn-sm btn-outline-primary">Edit</button>
+                            <button class="btn btn-sm btn-outline-danger">Delete</button>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,42 @@
+@model TablePageViewModel<PurifierRowViewModel>
+@{
+    ViewData["Title"] = Model.Title;
+}
+<partial name="_PageHeader" model='(Model.Title, Model.Subtitle, Model.ActionLabel)' />
+<div class="card admin-card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table data-table align-middle">
+                <thead>
+                    <tr>
+                        <th>Model</th>
+                        <th>Serial Number</th>
+                        <th>Firmware</th>
+                        <th>ESP32</th>
+                        <th>Khách hàng</th>
+                        <th>Địa điểm</th>
+                        <th>Ngày lắp</th>
+                        <th>Bảo hành</th>
+                        <th>Trạng thái</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model.Rows)
+                {
+                    <tr>
+                        <td class="fw-semibold">@item.Model</td>
+                        <td>@item.SerialNumber</td>
+                        <td>@item.Firmware</td>
+                        <td>@item.Esp32</td>
+                        <td>@item.Customer</td>
+                        <td>@item.Location</td>
+                        <td>@item.InstalledAt.ToString("dd/MM/yyyy")</td>
+                        <td>@item.WarrantyUntil.ToString("dd/MM/yyyy")</td>
+                        <td><span class="badge @UiHelper.StatusBadge(item.Status)">@item.Status</span></td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

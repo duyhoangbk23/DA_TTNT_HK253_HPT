@@ -1,0 +1,28 @@
+@model TablePageViewModel<InventoryRowViewModel>
+@{
+    ViewData["Title"] = Model.Title;
+}
+<partial name="_PageHeader" model='(Model.Title, Model.Subtitle, Model.ActionLabel)' />
+<div class="card admin-card">
+    <div class="card-body table-responsive">
+        <table class="table data-table align-middle">
+            <thead><tr><th>Mã</th><th>Tên</th><th>Loại</th><th>Số lượng</th><th>Đơn vị</th><th>Giá</th><th>Nhập</th><th>Xuất</th><th>Tồn</th></tr></thead>
+            <tbody>
+            @foreach (var item in Model.Rows)
+            {
+                <tr>
+                    <td class="fw-semibold">@item.Code</td>
+                    <td>@item.Name</td>
+                    <td>@item.Category</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Unit</td>
+                    <td>@item.Price.ToString("N0")</td>
+                    <td>@item.Import</td>
+                    <td>@item.Export</td>
+                    <td>@item.Stock</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

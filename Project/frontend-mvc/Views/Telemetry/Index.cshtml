@@ -1,0 +1,31 @@
+@model TablePageViewModel<TelemetryRowViewModel>
+@{
+    ViewData["Title"] = Model.Title;
+}
+<partial name="_PageHeader" model='(Model.Title, Model.Subtitle, Model.ActionLabel)' />
+<div class="card admin-card">
+    <div class="card-body table-responsive">
+        <table class="table data-table align-middle">
+            <thead><tr><th>Device</th><th>Flow</th><th>Pressure</th><th>Temperature</th><th>TDS</th><th>pH</th><th>Voltage</th><th>Current</th><th>Pump</th><th>Valve</th><th>Tank</th><th>Time</th></tr></thead>
+            <tbody>
+            @foreach (var item in Model.Rows)
+            {
+                <tr>
+                    <td class="fw-semibold">@item.DeviceId</td>
+                    <td>@item.Flow L/min</td>
+                    <td>@item.Pressure bar</td>
+                    <td>@item.Temperature °C</td>
+                    <td>@item.Tds ppm</td>
+                    <td>@item.Ph</td>
+                    <td>@item.Voltage V</td>
+                    <td>@item.Current A</td>
+                    <td>@item.PumpStatus</td>
+                    <td>@item.ValveStatus</td>
+                    <td>@item.TankLevel%</td>
+                    <td>@item.Time.ToString("HH:mm:ss")</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

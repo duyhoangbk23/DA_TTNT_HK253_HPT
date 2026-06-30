@@ -1,0 +1,11 @@
+@model KpiCardViewModel
+<div class="card admin-card kpi-card">
+    <div class="d-flex align-items-center justify-content-between">
+        <span class="kpi-icon text-bg-@Model.Tone"><i class="bi @Model.Icon"></i></span>
+        <span class="small text-muted">@Model.Delta</span>
+    </div>
+    <div>
+        <p>@Model.Title</p>
+        <strong>@Model.Value</strong>
+    </div>
+</div>

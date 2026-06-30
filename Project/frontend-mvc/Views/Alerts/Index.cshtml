@@ -1,0 +1,27 @@
+@model TablePageViewModel<AlertRowViewModel>
+@{
+    ViewData["Title"] = Model.Title;
+}
+<partial name="_PageHeader" model='(Model.Title, Model.Subtitle, Model.ActionLabel)' />
+<div class="card admin-card">
+    <div class="card-body table-responsive">
+        <table class="table data-table align-middle">
+            <thead><tr><th>Alert ID</th><th>Device</th><th>Message</th><th>Severity</th><th>Time</th><th>Owner</th><th>Status</th><th class="text-end">Action</th></tr></thead>
+            <tbody>
+            @foreach (var item in Model.Rows)
+            {
+                <tr>
+                    <td class="fw-semibold">@item.Id</td>
+                    <td>@item.DeviceId</td>
+                    <td>@item.Message</td>
+                    <td><span class="badge @UiHelper.SeverityBadge(item.Severity)">@item.Severity</span></td>
+                    <td>@item.Time.ToString("dd/MM HH:mm")</td>
+                    <td>@item.Owner</td>
+                    <td>@item.Status</td>
+                    <td class="text-end"><button class="btn btn-sm btn-outline-primary">Acknowledge</button></td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
