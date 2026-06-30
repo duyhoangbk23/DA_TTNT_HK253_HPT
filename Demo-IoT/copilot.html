@@ -1,0 +1,263 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Giới Thiệu & Hướng Dẫn GitHub Copilot</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .slide {
+            display: none;
+            min-height: 350px;
+        }
+
+            .slide.active {
+                display: block;
+                animation: fadeIn 0.5s;
+            }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-5">
+        <div class="mx-auto" style="max-width: 700px;">
+            <div class="card shadow">
+                <div class="card-body">
+                    <div id="slides">
+                        <!-- Slides will be injected here -->
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                        <button class="btn btn-secondary" id="prevBtn">Trước</button>
+                        <span id="slideIndicator"></span>
+                        <button class="btn btn-secondary" id="nextBtn">Tiếp</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap JS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>const slides = [
+    {
+        title: "Giới Thiệu GitHub Copilot",
+        content: `
+            <p><strong>GitHub Copilot</strong> là trợ lý lập trình AI do GitHub phát triển, giúp bạn viết mã nhanh hơn và thông minh hơn ngay trong Visual Studio.</p>
+            <ul>
+                <li>Đề xuất mã tự động theo ngữ cảnh.</li>
+                <li>Hỗ trợ nhiều ngôn ngữ lập trình.</li>
+                <li>Tích hợp sâu với Visual Studio.</li>
+            </ul>
+        `
+    },
+    {
+        title: "Cài Đặt GitHub Copilot",
+        content: `
+            <ol>
+                <li>Mở Visual Studio.</li>
+                <li>Vào <strong>Extensions &gt; Manage Extensions</strong>.</li>
+                <li>Tìm kiếm <strong>GitHub Copilot</strong> và nhấn <strong>Download</strong>.</li>
+                <li>Khởi động lại Visual Studio để hoàn tất cài đặt.</li>
+            </ol>
+        `
+    },
+    {
+        title: "Đăng Nhập GitHub Copilot",
+        content: `
+            <ol>
+                <li>Sau khi cài đặt, vào <strong>View &gt; Other Windows &gt; GitHub Copilot</strong>.</li>
+                <li>Nhấn <strong>Sign in</strong> và đăng nhập bằng tài khoản GitHub có đăng ký Copilot.</li>
+            </ol>
+        `
+    },
+    {
+        title: "Kích Hoạt Copilot Trong Visual Studio",
+        content: `
+            <ul>
+                <li>Vào <strong>Tools &gt; Options &gt; GitHub Copilot</strong>.</li>
+                <li>Bật <strong>Enable GitHub Copilot</strong>.</li>
+                <li>Có thể bật/tắt Copilot cho từng ngôn ngữ.</li>
+            </ul>
+        `
+    },
+    {
+        title: "Tự Động Đề Xuất Mã",
+        content: `
+            <p>Khi bạn bắt đầu gõ code, Copilot sẽ tự động đề xuất đoạn mã phù hợp.</p>
+            <ul>
+                <li>Nhấn <kbd>Tab</kbd> để chấp nhận đề xuất.</li>
+                <li>Nhấn <kbd>Esc</kbd> để bỏ qua.</li>
+            </ul>
+        `
+    },
+    {
+        title: "Đề Xuất Nhiều Phương Án",
+        content: `
+            <p>Nhấn <kbd>Alt</kbd> + <kbd>[</kbd> hoặc <kbd>Alt</kbd> + <kbd>]</kbd> để xem các đề xuất khác nhau.</p>
+            <ul>
+                <li>Chọn phương án phù hợp nhất với nhu cầu của bạn.</li>
+            </ul>
+        `
+    },
+    {
+        title: "Viết Hàm Theo Mô Tả",
+        content: `
+            <p>Chỉ cần viết mô tả hàm bằng tiếng Anh, Copilot sẽ tự động sinh mã.</p>
+            <pre>// Calculate factorial of n
+int Factorial(int n) { }</pre>
+        `
+    },
+    {
+        title: "Sinh Code Từ Comment",
+        content: `
+            <p>Viết comment mô tả chức năng, Copilot sẽ đề xuất code tương ứng.</p>
+            <pre>// Sort an array in ascending order</pre>
+        `
+    },
+    {
+        title: "Tích Hợp Với Nhiều Ngôn Ngữ",
+        content: `
+            <ul>
+                <li>Hỗ trợ C#, C++, Python, JavaScript, TypeScript, Java, Go, v.v.</li>
+                <li>Đề xuất code theo ngữ cảnh từng ngôn ngữ.</li>
+            </ul>
+        `
+    },
+    {
+        title: "Tạo Unit Test Nhanh Chóng",
+        content: `
+            <p>Viết comment mô tả test case, Copilot sẽ sinh mã kiểm thử tự động.</p>
+            <pre>// Unit test for Add function</pre>
+        `
+    },
+    {
+        title: "Tối Ưu Hóa Code",
+        content: `
+            <p>Copilot có thể đề xuất cách tối ưu hóa hoặc refactor đoạn mã hiện tại.</p>
+            <ul>
+                <li>Đề xuất code ngắn gọn, hiệu quả hơn.</li>
+            </ul>
+        `
+    },
+    {
+        title: "Hỗ Trợ Viết Tài Liệu",
+        content: `
+            <p>Copilot có thể sinh comment, tài liệu XML cho hàm, class, method.</p>
+            <pre>/// &lt;summary&gt;Tính tổng hai số&lt;/summary&gt;</pre>
+        `
+    },
+    {
+        title: "Tích Hợp Với GitHub",
+        content: `
+            <ul>
+                <li>Đề xuất code dựa trên hàng triệu dự án mã nguồn mở.</li>
+                <li>Luôn cập nhật các best practice mới nhất.</li>
+            </ul>
+        `
+    },
+    {
+        title: "Tùy Chỉnh Đề Xuất",
+        content: `
+            <ul>
+                <li>Có thể bật/tắt Copilot cho từng file hoặc từng ngôn ngữ.</li>
+                <li>Vào <strong>Tools &gt; Options &gt; GitHub Copilot</strong> để cấu hình chi tiết.</li>
+            </ul>
+        `
+    },
+    {
+        title: "Tắt Copilot Nhanh",
+        content: `
+            <p>Nhấn <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> và chọn <strong>GitHub Copilot: Disable</strong> để tắt nhanh.</p>
+        `
+    },
+    {
+        title: "Hạn Chế & Lưu Ý",
+        content: `
+            <ul>
+                <li>Copilot không thay thế hoàn toàn lập trình viên.</li>
+                <li>Luôn kiểm tra lại code do Copilot sinh ra.</li>
+                <li>Chú ý vấn đề bản quyền khi sử dụng code đề xuất.</li>
+            </ul>
+        `
+    },
+    {
+        title: "Hỗ Trợ Trực Tuyến",
+        content: `
+            <ul>
+                <li>Truy cập <a href="https://docs.github.com/en/copilot" target="_blank">tài liệu chính thức</a> để biết thêm chi tiết.</li>
+                <li>Tham gia cộng đồng GitHub Copilot để trao đổi kinh nghiệm.</li>
+            </ul>
+        `
+    },
+    {
+        title: "Phím Tắt Hữu Ích",
+        content: `
+            <ul>
+                <li><kbd>Tab</kbd>: Chấp nhận đề xuất</li>
+                <li><kbd>Esc</kbd>: Bỏ qua đề xuất</li>
+                <li><kbd>Alt</kbd> + <kbd>[</kbd>/<kbd>]</kbd>: Xem đề xuất khác</li>
+            </ul>
+        `
+    },
+    {
+        title: "Câu Hỏi Thường Gặp",
+        content: `
+            <ul>
+                <li>Làm sao để đăng ký Copilot? <br><strong>Trả lời:</strong> Đăng ký tại <a href="https://github.com/features/copilot" target="_blank">github.com/features/copilot</a></li>
+                <li>Copilot có miễn phí không? <br><strong>Trả lời:</strong> Có bản dùng thử, sau đó tính phí hàng tháng.</li>
+            </ul>
+        `
+    },
+    {
+        title: "Tổng Kết",
+        content: `
+            <p><strong>GitHub Copilot</strong> giúp tăng tốc quá trình phát triển phần mềm, giảm thời gian viết code và nâng cao hiệu suất làm việc trong Visual Studio.</p>
+            <p>Hãy trải nghiệm và tận dụng tối đa sức mạnh của AI trong lập trình!</p>
+        `
+    }
+];
+
+let current = 0;
+
+function renderSlide(idx) {
+   const slidesDiv = document.getElementById('slides');
+   slidesDiv.innerHTML = slides.map((s, i) => `
+       <div class="slide${i === idx ? ' active' : ''}">
+           <h4 class="mb-3">${s.title}</h4>
+           ${s.content}
+       </div>
+   `).join('');
+   document.getElementById('slideIndicator').textContent = `Slide ${idx + 1} / ${slides.length}`;
+   document.getElementById('prevBtn').disabled = idx === 0;
+   document.getElementById('nextBtn').disabled = idx === slides.length - 1;
+
+   // Change background color based on the slide index
+   const colors = ['#f8f9fa', '#e9ecef', '#dee2e6', '#ced4da', '#adb5bd'];
+   document.body.style.backgroundColor = colors[idx % colors.length];
+}
+
+document.getElementById('prevBtn').onclick = function() {
+    if (current > 0) {
+        current--;
+        renderSlide(current);
+    }
+};
+document.getElementById('nextBtn').onclick = function() {
+    if (current < slides.length - 1) {
+        current++;
+        renderSlide(current);
+    }
+};
+
+renderSlide(current);</script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+﻿Yêu cầu dự án quản lý thiết bị:  
+1. Quản lý thông tin thiết bị:  
+  - Thêm, sửa, xóa thiết bị.  
+  - Lưu trữ các thông tin cơ bản: mã thiết bị, tên thiết bị, loại thiết bị, ngày mua, trạng thái sử dụng.  
+
+2. Quản lý danh mục thiết bị:  
+  - Phân loại thiết bị theo danh mục.  
+  - Thêm, sửa, xóa danh mục.  
+
+3. Quản lý người sử dụng:  
+  - Lưu trữ thông tin người sử dụng: mã nhân viên, tên, phòng ban, chức vụ.  
+  - Gán thiết bị cho người sử dụng.  
+
+4. Theo dõi lịch sử sử dụng:  
+  - Ghi nhận lịch sử sử dụng thiết bị: người sử dụng, thời gian bắt đầu, thời gian kết thúc.  
+  - Báo cáo thiết bị đang được sử dụng và thiết bị chưa được sử dụng.  
+
+5. Báo cáo và thống kê:  
+  - Thống kê số lượng thiết bị theo trạng thái (đang sử dụng, hỏng, chưa sử dụng).  
+  - Báo cáo chi tiết thiết bị theo từng danh mục.  
+
+6. Yêu cầu giao diện:  
+  - Giao diện thân thiện, dễ sử dụng.  
+  - Hỗ trợ tìm kiếm thiết bị theo tên, mã thiết bị.  
+
+7. Yêu cầu kỹ thuật:  
+  - Sử dụng ngôn ngữ lập trình C#.  
+  - Cơ sở dữ liệu SQL Server để lưu trữ thông tin.  
+  - Hỗ trợ đa người dùng.  
+
+8. Bảo mật:  
+  - Phân quyền người dùng (quản trị viên, nhân viên).  
+  - Đảm bảo an toàn dữ liệu khi truy cập và chỉnh sửa.
