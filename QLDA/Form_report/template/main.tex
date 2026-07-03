@@ -1,8 +1,9 @@
 \documentclass[a4paper]{article}
 \usepackage{vntex}
 %\usepackage[english,vietnam]{babel}
-\usepackage[utf8]{inputenc}
+%\usepackage[utf8]{inputenc}
 \usepackage{mathptmx}[ptm]
+%\usepackage[utf8]{inputenc}
 %\usepackage[francais]{babel}
 \usepackage{a4wide,amssymb,epsfig,latexsym,array,hhline,fancyhdr}
 \usepackage[normalem]{ulem}
@@ -148,13 +149,13 @@ morekeywords={}
 \begin{document}
 
 \begin{titlepage}
-% \begin{tikzpicture}[remember picture, overlay]
-%   \draw[line width = 4pt] ($(current page.north west) + (0.4in,-0.5in)$) rectangle ($(current page.south east) + (-0.4in,0.5in)$);
-%   \draw[line width=1.5pt]
-%     ($ (current page.north west) + (0.45in,-0.55in) $)
-%     rectangle
-%     ($ (current page.south east) + (-0.45in,0.55in) $);
-% \end{tikzpicture}
+\begin{tikzpicture}[remember picture, overlay]
+  \draw[line width = 4pt] ($(current page.north west) + (0.4in,-0.5in)$) rectangle ($(current page.south east) + (-0.4in,0.5in)$);
+  \draw[line width=1.5pt]
+    ($ (current page.north west) + (0.45in,-0.55in) $)
+    rectangle
+    ($ (current page.south east) + (-0.45in,0.55in) $);
+\end{tikzpicture}
 
 \begin{center}
 \Large \textbf{ĐẠI HỌC QUỐC GIA THÀNH PHỐ HỒ CHÍ MINH} \\
@@ -177,24 +178,27 @@ morekeywords={}
 \multicolumn{1}{c}{\textbf{{\LARGE BÁO CÁO}}}\\
 \\{\textbf{{\LARGE THỰC TẬP NGOÀI TRƯỜNG}}}
 \\
-\textbf{\Large HỌC KỲ 253 NĂM HỌC 2025-2026} \\
+\\
+\textbf{\Large HỌC KỲ ...... NĂM HỌC .......................} \\
 \end{tabular}
 \end{center}
 \vspace{0.5cm}
 \begin{itemize}
 \renewcommand\labelitemi{--}
-    \item \Large \textbf{NGÀNH: KĨ THUẬT MÁY TÍNH}
-    \item \Large \textbf{CHƯƠNG TRÌNH ĐÀO TẠO: CHÍNH QUY}
+    \item \Large \textbf{NGÀNH: ..................................................}
+    \item \Large \textbf{CHƯƠNG TRÌNH ĐÀO TẠO: .............................................}
 \end{itemize}
 \vspace{0.7cm}
 \begin{itemize}
 \renewcommand\labelitemi{--}
-    \item \Large \textbf{ĐƠN VỊ/ DOANH NGHIỆP NHẬN THỰC TẬP:}
-    \\ \Large \textbf{CÔNG TY CỔ PHẦN TIN HỌC HPT}
-    \item \Large \textbf{CÁN BỘ HƯỚNG DẪN CHUYÊN MÔN TRỰC TIẾP CỦA ĐƠN VỊ/ DOANH NGHIỆP: THÁI LÂM THUẬN}
-    \item \Large \textbf{CÁN BỘ HƯỚNG DẪN/ GIÁM SÁT/ CHẤM ĐIỂM BÁO CÁO CỦA KHOA (CBHD/CBGS/CĐBC):NGUYỄN THÀNH LỘC} 
+    \item \Large \textbf{ĐƠN VỊ/ DOANH NGHIỆP NHẬN THỰC TẬP:} 
+    \\ \Large \textbf{...............................................................................}
+    \item \Large \textbf{CÁN BỘ HƯỚNG DẪN CHUYÊN MÔN TRỰC TIẾP CỦA ĐƠN VỊ/ DOANH NGHIỆP:}
+    \\ \Large \textbf{...............................................................................}
+    \item \Large \textbf{CÁN BỘ HƯỚNG DẪN/ GIÁM SÁT/ CHẤM ĐIỂM BÁO CÁO CỦA KHOA (CBHD/CBGS/CĐBC):} 
+    \\ \Large \textbf{...............................................................................}
     \item \Large \textbf{SINH VIÊN THỰC HIỆN (SVTH):}
-    \\ \Large \textbf{HỌ VÀ TÊN: HOÀNG ANH DUY.} \textbf{MSSV:2310458}
+    \\ \Large \textbf{HỌ VÀ TÊN: ..............................} \textbf{MSSV:..................}
 \end{itemize}
 \vspace{0.5cm}
 \begin{center}
@@ -203,28 +207,23 @@ morekeywords={}
 \end{titlepage}
 
 
+%\thispagestyle{empty}
+
 \newpage
-\footnotesize
 \tableofcontents
-\thispagestyle{empty}
-\addtocontents{toc}{\protect\thispagestyle{empty}}
-
-\large
 \newpage
-\footnotesize
-\phantomsection
-    \vspace{-2cm}
-\newpage
-\pagenumbering{arabic}
+\input{ChuongTrinhThucTap}
+\input{KetQuaXetTuyen}
+\section{Báo cáo thực tập}
+\input{Week1}
+\section{Tổng kết}
+\begin{itemize}
+    \item Kết thúc kỳ thực tập, SV thu nhận được những kỹ năng/ kiến thức gì?
+\item Cảm nhận cá nhân: về DN, về chương trình thực tập?
+\item SV ký và ghi rõ họ tên (chữ ký sống/ trực tiếp bằng bút màu xanh).
 
-
-\appendix
-\section{PHỤ LỤC}
-
-Phần phụ lục được sử dụng để tổng hợp các hình ảnh, sơ đồ hoặc tài liệu kỹ thuật bổ trợ cho báo cáo khi cần thiết.
-
-\include{include/content/Intro.tex}
-\include{include/content/week1.tex}
-\include{include/content/week2.tex}
-
+\end{itemize}
+\input{TongKet}
 \end{document}
+
+

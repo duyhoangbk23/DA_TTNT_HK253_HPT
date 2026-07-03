@@ -1,0 +1,112 @@
+\chapter{Use Case}
+
+Chương này giới thiệu các Use Case chính của hệ thống nhằm mô tả các chức năng mà người dùng có thể thực hiện. Mỗi Use Case đại diện cho một nghiệp vụ chính của hệ thống và được thực hiện bởi một hoặc nhiều nhóm người dùng.
+
+Đặc tả chi tiết của từng Use Case được trình bày trong tài liệu \textit{Use Case Specification}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Các tác nhân (Actors)}
+
+Hệ thống bao gồm ba nhóm người dùng chính:
+
+\begin{itemize}
+    \item \textbf{Administrator}: Quản trị toàn bộ hệ thống.
+    \item \textbf{Employee}: Thực hiện các nghiệp vụ quản lý khách hàng, hợp đồng và thiết bị.
+    \item \textbf{Technician}: Theo dõi thiết bị và thực hiện bảo trì.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Danh sách Use Case}
+
+Bảng \ref{tab:usecase_summary} liệt kê các Use Case chính của hệ thống.
+
+\begin{table}[H]
+\centering
+\caption{Danh sách Use Case}
+\label{tab:usecase_summary}
+
+\begin{tabularx}{\textwidth}{|c|X|l|}
+\hline
+\textbf{ID} &
+\textbf{Tên Use Case} &
+\textbf{Actor} \\
+\hline
+
+UC-01 &
+Đăng nhập hệ thống &
+Administrator, Employee, Technician \\
+\hline
+
+UC-02 &
+Xem Dashboard &
+Administrator, Employee, Technician \\
+\hline
+
+UC-03 &
+Quản lý sản phẩm &
+Administrator \\
+\hline
+
+UC-04 &
+Quản lý tồn kho &
+Administrator, Employee \\
+\hline
+
+UC-05 &
+Quản lý lô hàng &
+Administrator \\
+\hline
+
+UC-06 &
+Quản lý khách hàng &
+Administrator, Employee \\
+\hline
+
+UC-07 &
+Quản lý hợp đồng &
+Administrator, Employee \\
+\hline
+
+UC-08 &
+Quản lý thiết bị &
+Administrator, Employee, Technician \\
+\hline
+
+UC-09 &
+Theo dõi Dashboard thiết bị &
+Administrator, Employee, Technician \\
+\hline
+
+UC-10 &
+Quản lý nhân viên &
+Administrator \\
+\hline
+
+UC-11 &
+Xem Activity Log &
+Administrator \\
+\hline
+
+UC-12 &
+Quản lý hồ sơ cá nhân &
+Administrator, Employee, Technician \\
+\hline
+
+\end{tabularx}
+
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Sơ đồ Use Case tổng thể}
+
+Hình \ref{fig:usecase_overview} mô tả mối quan hệ giữa các tác nhân và các Use Case của hệ thống.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figures/usecase/usecase_overview.png}
+    \caption{Sơ đồ Use Case tổng thể}
+    \label{fig:usecase_overview}
+\end{figure}
+
+Các Use Case trên mô tả toàn bộ các chức năng nghiệp vụ của hệ thống. Nội dung đặc tả chi tiết về luồng xử lý, điều kiện trước, điều kiện sau và các trường hợp ngoại lệ của từng Use Case được trình bày trong tài liệu \textit{Use Case Specification}.
+

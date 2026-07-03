@@ -1,0 +1,213 @@
+\chapter{Functional Requirements}
+
+This chapter describes the functional requirements of the Water Purifier Maintenance Management System. Each functional module specifies the expected behavior and capabilities that the software shall provide.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{FR-01 Dashboard}
+
+\subsection*{Description}
+
+The Dashboard provides an overview of the system by presenting business statistics and recent activities.
+
+\subsection*{Functional Requirements}
+
+\begin{itemize}
+    \item FR-01.1 The system shall display the total number of customers.
+    \item FR-01.2 The system shall display the total number of products.
+    \item FR-01.3 The system shall display the total number of installed devices.
+    \item FR-01.4 The system shall display the number of active contracts.
+    \item FR-01.5 The system shall display maintenance statistics.
+    \item FR-01.6 The system shall display recent activities.
+    \item FR-01.7 The system shall display recent maintenance operations.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{FR-02 Product Management}
+
+\subsection*{Description}
+
+The Product Management module allows administrators to manage water purifier products.
+
+\subsection*{Functional Requirements}
+
+\begin{itemize}
+    \item FR-02.1 The system shall allow users to add products.
+    \item FR-02.2 The system shall allow users to edit product information.
+    \item FR-02.3 The system shall allow users to delete products.
+    \item FR-02.4 The system shall display product details.
+    \item FR-02.5 The system shall support product searching.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{FR-03 Inventory Management}
+
+\subsection*{Description}
+
+The Inventory module manages devices stored in the warehouse.
+
+\subsection*{Functional Requirements}
+
+\begin{itemize}
+    \item FR-03.1 Add inventory devices.
+    \item FR-03.2 Update inventory information.
+    \item FR-03.3 Remove inventory records.
+    \item FR-03.4 Search inventory.
+    \item FR-03.5 Filter devices by status.
+    \item FR-03.6 Display warehouse information.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{FR-04 Batch Management}
+
+\subsection*{Description}
+
+The Batch module manages shipment batches received from suppliers.
+
+\subsection*{Functional Requirements}
+
+\begin{itemize}
+    \item FR-04.1 Create new batches.
+    \item FR-04.2 View batch information.
+    \item FR-04.3 Update batch information.
+    \item FR-04.4 Display devices belonging to each batch.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{FR-05 Customer Management}
+
+\subsection*{Description}
+
+The Customer module manages customer information and installed devices.
+
+\subsection*{Functional Requirements}
+
+\begin{itemize}
+    \item FR-05.1 Create customer records.
+    \item FR-05.2 Update customer information.
+    \item FR-05.3 Delete customer records.
+    \item FR-05.4 Search customers.
+    \item FR-05.5 View customer details.
+    \item FR-05.6 Display customer devices.
+    \item FR-05.7 Display maintenance history.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{FR-06 Contract Management}
+
+\subsection*{Description}
+
+The Contract module manages installation and maintenance contracts.
+
+\subsection*{Functional Requirements}
+
+\begin{itemize}
+    \item FR-06.1 Create contracts.
+    \item FR-06.2 Update contract information.
+    \item FR-06.3 Delete contracts.
+    \item FR-06.4 Search contracts.
+    \item FR-06.5 Display contract status.
+    \item FR-06.6 Record installation date.
+    \item FR-06.7 Record maintenance schedules.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{FR-07 Device Management}
+
+\subsection*{Description}
+
+The Device module manages installed water purifier devices.
+
+\subsection*{Functional Requirements}
+
+\begin{itemize}
+    \item FR-07.1 Register devices.
+    \item FR-07.2 Assign devices to customers.
+    \item FR-07.3 Update device information.
+    \item FR-07.4 Display device status.
+    \item FR-07.5 Display firmware version.
+    \item FR-07.6 Display installation information.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{FR-08 Device Dashboard}
+
+\subsection*{Description}
+
+The Device Dashboard visualizes operational data collected from individual devices.
+
+\subsection*{Functional Requirements}
+
+\begin{itemize}
+    \item FR-08.1 Display TDS data.
+    \item FR-08.2 Display water temperature.
+    \item FR-08.3 Display water flow.
+    \item FR-08.4 Display pH values.
+    \item FR-08.5 Support multiple time ranges.
+    \item FR-08.6 Export monitoring data.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{FR-09 Employee Management}
+
+\subsection*{Description}
+
+The Employee module manages administrators, employees, and technicians.
+
+\subsection*{Functional Requirements}
+
+\begin{itemize}
+    \item FR-09.1 Add employees.
+    \item FR-09.2 Update employee information.
+    \item FR-09.3 Delete employees.
+    \item FR-09.4 Assign user roles.
+    \item FR-09.5 Search employees.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{FR-10 Activity Log}
+
+\subsection*{Description}
+
+The Activity Log records important operations performed by users.
+
+\subsection*{Functional Requirements}
+
+\begin{itemize}
+    \item FR-10.1 Record user activities.
+    \item FR-10.2 Display activity history.
+    \item FR-10.3 Filter activity logs.
+    \item FR-10.4 Search activity records.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{FR-11 User Profile}
+
+\subsection*{Description}
+
+The Profile module allows users to manage their personal information.
+
+\subsection*{Functional Requirements}
+
+\begin{itemize}
+    \item FR-11.1 View profile information.
+    \item FR-11.2 Update profile information.
+    \item FR-11.3 Change password.
+    \item FR-11.4 Upload avatar.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{FR-12 Authentication}
+
+\subsection*{Description}
+
+The Authentication module controls user access to the system.
+
+\subsection*{Functional Requirements}
+
+\begin{itemize}
+    \item FR-12.1 Login using username and password.
+    \item FR-12.2 Logout securely.
+    \item FR-12.3 Validate user credentials.
+    \item FR-12.4 Authorize access based on user roles.
+    \item FR-12.5 Redirect users after successful authentication.
+\end{itemize}

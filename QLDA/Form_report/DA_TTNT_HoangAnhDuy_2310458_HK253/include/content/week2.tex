@@ -1,6 +1,6 @@
-\subsection{Tuần 2: Nghiên cứu hồ sơ đề xuất kỹ thuật và mô hình tổng thể}
-
-\subsubsection{Nội dung công việc tuần 2}
+\subsection{Tuần 2}
+\subsubsection{Mô tả công việc}
+\subsubsubsection{Nội dung công việc tuần 2}
 Sinh viên tập trung nghiên cứu hồ sơ đề xuất kỹ thuật của hệ thống giám sát và bảo trì máy lọc nước có sẵn để nắm được bài toán và mô hình tổng thể của hệ thống IoT cần triển khai của dự án.
 
 \begin{enumerate}
@@ -16,12 +16,13 @@ Sinh viên tập trung nghiên cứu hồ sơ đề xuất kỹ thuật của h�
 
 \subsubsubsection{Bối cảnh}
 
-Qua nghiên cứu hồ sơ đề xuất kỹ thuật, sinh viên nhận thấy dự án được xây dựng để giải quyết bài toán quản lý tập trung cho dịch vụ máy lọc nước, trong đó cần kết hợp giữa hệ thống quản lý nghiệp vụ, kênh tương tác khách hàng và phần giám sát thiết bị ngoài hiện trường.
+Qua nghiên cứu hồ sơ đề xuất kỹ thuật của một dự án giám sát và bảo trì máy lọc nước thực tế có sẵn, sinh viên nhận thấy dự án được xây dựng để giải quyết bài toán quản lý tập trung cho dịch vụ máy lọc nước, trong đó cần kết hợp giữa hệ thống quản lý nghiệp vụ, kênh tương tác khách hàng và phần giám sát thiết bị ngoài hiện trường.
 
-Tài liệu cho thấy Truliva đang chuyển đổi từ mô hình bán sản phẩm đơn lẻ sang mô hình dịch vụ cho thuê máy lọc nước kết hợp bảo trì định kỳ. Mô hình này hướng tới nguồn doanh thu định kỳ, nâng cao trải nghiệm khách hàng và xây dựng nền tảng vận hành có khả năng mở rộng cho số lượng lớn khách hàng trong tương lai.
+Tài liệu cho thấy khách hàng T***** đang chuyển đổi từ mô hình bán sản phẩm đơn lẻ sang mô hình dịch vụ cho thuê máy lọc nước kết hợp bảo trì định kỳ. Mô hình này hướng tới nguồn doanh thu định kỳ, nâng cao trải nghiệm khách hàng và xây dựng nền tảng vận hành có khả năng mở rộng cho số lượng lớn khách hàng trong tương lai.
 
-Điểm đáng chú ý của tài liệu là dự án không chỉ dừng ở việc lưu trữ thông tin vận hành, mà còn hướng đến việc theo dõi trạng thái thiết bị và hỗ trợ bảo trì chủ động. Vì vậy, ngay từ tuần 2, em cần nắm được cách hệ thống được chia thành các thành phần và cách các thành phần này phối hợp với nhau.
+Điểm đáng chú ý của tài liệu là dự án không chỉ dừng ở việc lưu trữ thông tin vận hành, mà còn hướng đến việc theo dõi trạng thái thiết bị theo thời gian thực và hỗ trợ bảo trì chủ động. Vì vậy, Trong tuần 2, sinh viên cần nắm được cách hệ thống được chia thành các thành phần và cách các thành phần này phối hợp với nhau.
 
+Công việc của sinh viên sẽ xoay quanh việc thiết kế phần cứng sử dụng ESP32 để gửi dữ liệu từ sensor lên MQTT rồi gửi đến server, ngoài ra sinh viên còn phải thiết kế website admin và database phục vụ cho việc theo dõi và quản lý thiết bị và khách hàng.
 \subsubsubsection{Mục tiêu nghiên cứu}
 
 Mục tiêu của tuần này là tìm hiểu bài toán và phạm vi của dự án. Từ tài liệu đề xuất kỹ thuật, em tập trung xác định:
@@ -46,8 +47,6 @@ Trong tuần này, sinh viên chỉ dừng ở mức tìm hiểu tổng quan. C�
 Giải pháp của dự án được tổ chức theo mô hình tổng thể gồm ba lớp chức năng lớn: quản lý nghiệp vụ trung tâm, tiếp nhận tương tác từ nhiều kênh và giám sát thiết bị ngoài hiện trường. Cách tổ chức này giúp em hình dung được hệ thống như một chỉnh thể thay vì các module rời rạc.
 
 Ba lớp chức năng chính trong hồ sơ gồm Core System, Omnichannel Integration và Field Service \& IoT. Core System đóng vai trò xương sống vận hành, Omnichannel Integration gom dữ liệu từ các kênh khách hàng về một đầu mối, còn Field Service \& IoT hỗ trợ hoạt động kỹ thuật tại hiện trường và định hướng giám sát thông minh.
-
-Hình~\ref{fig:overall_architecture} thể hiện mức nhìn tổng quan mà em đã nghiên cứu trong tuần này.
 
 \begin{figure}[H]
     \centering

@@ -41,13 +41,13 @@ lọc nước, phục vụ mục đích thực tập. Dự án **chỉ xây dự
 > và bật tối thiểu các extension sau trước khi chạy:
 >
 > ```ini
-> extension=openssl
-> extension=curl
-> extension=zip
-> extension=mbstring
-> extension=fileinfo
-> extension=pdo_sqlite
-> extension=sqlite3
+ extension=openssl
+ extension=curl
+ extension=zip
+ extension=mbstring
+ extension=fileinfo
+ extension=pdo_sqlite
+ extension=sqlite3
 > ```
 
 ## Các bước chạy demo

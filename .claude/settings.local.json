@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Skill(run)",
+      "Skill(run:*)",
+      "Bash(ls /c/php-8.5.5/ext/ | grep -i opcache)",
+      "Read(//c/php-8.5.5/ext//**)"
+    ]
+  }
+}
