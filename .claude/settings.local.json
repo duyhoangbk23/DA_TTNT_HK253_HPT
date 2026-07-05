@@ -10,7 +10,9 @@
       "Bash(php artisan *)",
       "Bash(rm -f \"d:/ADUY/TTNT/HPT/Git_repo/DA_TTNT_HK253_HPT/Project/smartwater-admin/database/database.sqlite\")",
       "Bash(touch \"d:/ADUY/TTNT/HPT/Git_repo/DA_TTNT_HK253_HPT/Project/smartwater-admin/database/database.sqlite\")",
-      "Bash(php -r ' *)"
+      "Bash(php -r ' *)",
+      "Bash(git add *)",
+      "Bash(git commit -m 'Add comprehensive SRS documentation *)"
     ]
   }
 }
