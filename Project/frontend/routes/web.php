@@ -3,6 +3,7 @@
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BatchController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
@@ -25,7 +26,20 @@ Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('/dashboard', [DashboardController::class, 'index']);
 
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+Route::post('/products', [ProductController::class, 'store'])->name('products.store');
+Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
+Route::put('/products/{id}', [ProductController::class, 'update'])->name('products.update');
+Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
+
 Route::get('/inventory', [InventoryController::class, 'index'])->name('inventory.index');
+Route::get('/inventory/{id}', [InventoryController::class, 'show'])->name('inventory.show');
+Route::patch('/inventory/{id}', [InventoryController::class, 'adjust'])->name('inventory.adjust');
+
+Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
+Route::get('/categories/{id}', [CategoryController::class, 'show'])->name('categories.show');
+Route::put('/categories/{id}', [CategoryController::class, 'update'])->name('categories.update');
+Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
 
 Route::get('/batches', [BatchController::class, 'index'])->name('batches.index');
 Route::get('/batches/{id}', [BatchController::class, 'show'])->name('batches.show');

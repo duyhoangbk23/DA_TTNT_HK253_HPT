@@ -4,7 +4,13 @@
       "Skill(run)",
       "Skill(run:*)",
       "Bash(ls /c/php-8.5.5/ext/ | grep -i opcache)",
-      "Read(//c/php-8.5.5/ext//**)"
+      "Read(//c/php-8.5.5/ext//**)",
+      "Bash(Get-ChildItem -Path \"d:\\\\ADUY\\\\TTNT\\\\HPT\\\\Git_repo\\\\DA_TTNT_HK253_HPT\\\\Project\" -Directory)",
+      "Bash(Select-Object Name)",
+      "Bash(php artisan *)",
+      "Bash(rm -f \"d:/ADUY/TTNT/HPT/Git_repo/DA_TTNT_HK253_HPT/Project/frontend/database/database.sqlite\")",
+      "Bash(touch \"d:/ADUY/TTNT/HPT/Git_repo/DA_TTNT_HK253_HPT/Project/frontend/database/database.sqlite\")",
+      "Bash(php -r ' *)"
     ]
   }
 }
