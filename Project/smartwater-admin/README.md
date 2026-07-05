@@ -53,7 +53,7 @@ lọc nước, phục vụ mục đích thực tập. Dự án **chỉ xây dự
 ## Các bước chạy demo
 
 ```bash
-cd Project/frontend
+cd Project/smartwater-admin
 
 # 1. Cài dependency PHP (bỏ qua nếu đã có thư mục vendor/)
 composer install

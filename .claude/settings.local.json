@@ -8,8 +8,8 @@
       "Bash(Get-ChildItem -Path \"d:\\\\ADUY\\\\TTNT\\\\HPT\\\\Git_repo\\\\DA_TTNT_HK253_HPT\\\\Project\" -Directory)",
       "Bash(Select-Object Name)",
       "Bash(php artisan *)",
-      "Bash(rm -f \"d:/ADUY/TTNT/HPT/Git_repo/DA_TTNT_HK253_HPT/Project/frontend/database/database.sqlite\")",
-      "Bash(touch \"d:/ADUY/TTNT/HPT/Git_repo/DA_TTNT_HK253_HPT/Project/frontend/database/database.sqlite\")",
+      "Bash(rm -f \"d:/ADUY/TTNT/HPT/Git_repo/DA_TTNT_HK253_HPT/Project/smartwater-admin/database/database.sqlite\")",
+      "Bash(touch \"d:/ADUY/TTNT/HPT/Git_repo/DA_TTNT_HK253_HPT/Project/smartwater-admin/database/database.sqlite\")",
       "Bash(php -r ' *)"
     ]
   }
