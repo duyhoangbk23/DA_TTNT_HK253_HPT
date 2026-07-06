@@ -47,27 +47,37 @@
             <h1 class="h4 fw-bold mb-1">Chào mừng trở lại 👋</h1>
             <p class="text-muted-2 mb-4">Đăng nhập để tiếp tục vào bảng điều khiển.</p>
 
-            <form action="{{ route('dashboard') }}" method="get">
+            @if ($errors->any())
+                <div class="alert alert-danger mb-4" role="alert">
+                    @foreach ($errors->all() as $error)
+                        <div>{{ $error }}</div>
+                    @endforeach
+                </div>
+            @endif
+
+            <form action="{{ route('auth.login') }}" method="POST">
+                @csrf
                 <div class="mb-3">
                     <label class="form-label fw-semibold">Email</label>
                     <div class="input-group">
                         <span class="input-group-text bg-white"><i class="bi bi-envelope text-muted-2"></i></span>
-                        <input type="email" class="form-control form-control-lg" placeholder="admin@smartwater.vn" value="admin@smartwater.vn">
+                        <input type="email" name="email" class="form-control form-control-lg @error('email') is-invalid @enderror"
+                               placeholder="admin@smartwater.vn" value="{{ old('email', 'admin@smartwater.vn') }}" required>
                     </div>
                 </div>
                 <div class="mb-3">
                     <label class="form-label fw-semibold">Mật khẩu</label>
                     <div class="input-group">
                         <span class="input-group-text bg-white"><i class="bi bi-lock text-muted-2"></i></span>
-                        <input type="password" class="form-control form-control-lg" placeholder="••••••••" value="password">
+                        <input type="password" name="password" class="form-control form-control-lg @error('password') is-invalid @enderror"
+                               placeholder="••••••••" required>
                     </div>
                 </div>
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="remember" checked>
+                        <input class="form-check-input" type="checkbox" name="remember" id="remember">
                         <label class="form-check-label" for="remember">Ghi nhớ đăng nhập</label>
                     </div>
-                    <a href="#" class="small link-primary">Quên mật khẩu?</a>
                 </div>
                 <button type="submit" class="btn btn-primary btn-lg w-100">
                     <i class="bi bi-box-arrow-in-right me-1"></i> Đăng nhập
@@ -75,7 +85,7 @@
             </form>
 
             <p class="text-center text-muted-2 mt-4 mb-0 small">
-                Đây là giao diện demo — bấm <strong>Đăng nhập</strong> để vào hệ thống.
+                Test accounts: <strong>admin@smartwater.vn</strong> | Password: <strong>password123</strong>
             </p>
         </div>
     </div>
