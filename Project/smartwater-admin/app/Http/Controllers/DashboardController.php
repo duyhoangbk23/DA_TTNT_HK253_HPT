@@ -2,20 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Support\MockData;
+use App\Services\DashboardService;
 
 class DashboardController extends Controller
 {
+    protected $dashboardService;
+
+    public function __construct(DashboardService $dashboardService)
+    {
+        $this->dashboardService = $dashboardService;
+    }
+
     public function index()
     {
         return view('dashboard.index', [
-            'kpis'            => MockData::dashboardKpis(),
-            'deviceStatus'    => MockData::deviceStatusBreakdown(),
-            'customersMonth'  => MockData::customersByMonth(),
-            'maintenanceMonth'=> MockData::maintenanceByMonth(),
-            'recentActivity'  => MockData::activities()->take(6),
-            'recentMaint'     => MockData::maintenance()->take(5),
-            'expiringContracts' => MockData::contracts()->where('expiring_soon', true)->take(5),
+            'kpis'              => $this->dashboardService->getKpis(),
+            'deviceStatus'      => $this->dashboardService->getDeviceStatusBreakdown(),
+            'customersMonth'    => $this->dashboardService->getCustomersByMonth(),
+            'maintenanceMonth'  => $this->dashboardService->getMaintenanceByMonth(),
+            'recentActivity'    => $this->dashboardService->getRecentActivity(),
+            'recentMaint'       => $this->dashboardService->getRecentMaintenance(),
+            'expiringContracts' => $this->dashboardService->getExpiringContracts(),
         ]);
     }
 }

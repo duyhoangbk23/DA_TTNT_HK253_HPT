@@ -19,8 +19,22 @@ class InventoryController extends Controller
     public function index()
     {
         $inventories = $this->inventoryService->getAllInventories();
+
+        $formatted = $inventories->map(fn ($inv) => [
+            'id' => $inv->id,
+            'product' => $inv->product?->product_name ?? '-',
+            'code' => $inv->product?->product_code ?? '-',
+            'model' => $inv->product?->model ?? '-',
+            'quantity' => $inv->quantity,
+            'reserved' => $inv->reserved_quantity,
+            'available' => max($inv->quantity - $inv->reserved_quantity, 0),
+            'unit_cost' => $inv->unit_cost,
+            'last_updated' => $inv->updated_at->format('d/m/Y H:i'),
+            'stock_status' => $inv->quantity == 0 ? 'out' : ($inv->quantity <= 10 ? 'low' : 'ok'),
+        ])->toArray();
+
         return view('inventory.index', [
-            'inventories' => $inventories,
+            'inventories' => $formatted,
         ]);
     }
 

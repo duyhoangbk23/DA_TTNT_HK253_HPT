@@ -21,7 +21,7 @@
                         data-dt-filter="#tblProducts" data-dt-column="2">
                     <option value="">Tất cả danh mục</option>
                     @foreach ($categories as $cat)
-                        <option value="{{ $cat['name'] }}">{{ $cat['name'] }}</option>
+                        <option value="{{ $cat->name }}">{{ $cat->name }}</option>
                     @endforeach
                 </select>
                 <select class="form-select form-select-sm" style="width: 160px;"
@@ -51,14 +51,14 @@
                         <tr>
                             <td><span class="table-thumb"><i class="bi bi-droplet-half"></i></span></td>
                             <td>
-                                <div class="cell-title">{{ $p['name'] }}</div>
-                                <div class="cell-sub">{{ $p['code'] }}</div>
+                                <div class="cell-title">{{ $p->product_name }}</div>
+                                <div class="cell-sub">{{ $p->product_code }}</div>
                             </td>
-                            <td>{{ $p['category'] }}</td>
-                            <td>{{ $p['model'] }}</td>
-                            <td>{{ $p['capacity'] }}</td>
+                            <td>{{ $p->category->name ?? '-' }}</td>
+                            <td>{{ $p->model }}</td>
+                            <td>{{ $p->capacity }}</td>
                             <td>
-                                <x-status-badge :status="$p['status'] === 'active' ? 'active' : ($p['status'] === 'maintenance' ? 'maintenance' : 'inactive')" />
+                                <x-status-badge :status="$p->status" />
                             </td>
                         </tr>
                     @endforeach

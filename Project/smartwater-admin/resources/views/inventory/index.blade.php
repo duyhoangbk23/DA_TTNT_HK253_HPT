@@ -14,16 +14,16 @@
 @section('content')
     <div class="row g-3 mb-4">
         <div class="col-6 col-xl-3">
-            <x-kpi-card label="Tổng mặt hàng" :value="$inventories->count()" icon="bi-boxes" color="primary" />
+            <x-kpi-card label="Tổng mặt hàng" :value="count($inventories)" icon="bi-boxes" color="primary" />
         </div>
         <div class="col-6 col-xl-3">
-            <x-kpi-card label="Còn hàng" :value="$inventories->where('stock_status', 'ok')->count()" icon="bi-check-circle" color="success" />
+            <x-kpi-card label="Còn hàng" :value="collect($inventories)->filter(fn($i) => $i['stock_status'] === 'ok')->count()" icon="bi-check-circle" color="success" />
         </div>
         <div class="col-6 col-xl-3">
-            <x-kpi-card label="Sắp hết hàng" :value="$inventories->where('stock_status', 'low')->count()" icon="bi-exclamation-triangle" color="warning" />
+            <x-kpi-card label="Sắp hết hàng" :value="collect($inventories)->filter(fn($i) => $i['stock_status'] === 'low')->count()" icon="bi-exclamation-triangle" color="warning" />
         </div>
         <div class="col-6 col-xl-3">
-            <x-kpi-card label="Hết hàng" :value="$inventories->where('stock_status', 'out')->count()" icon="bi-x-circle" color="danger" />
+            <x-kpi-card label="Hết hàng" :value="collect($inventories)->filter(fn($i) => $i['stock_status'] === 'out')->count()" icon="bi-x-circle" color="danger" />
         </div>
     </div>
 
