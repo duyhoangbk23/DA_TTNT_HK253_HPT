@@ -8,6 +8,17 @@ Hệ thống được thiết kế theo mô hình quản lý tập trung, cho ph
 
 Phiên bản hiện tại được phát triển với mục đích xây dựng một hệ thống Demo phục vụ quá trình thực tập, đồng thời làm nền tảng cho việc mở rộng sang hệ thống quản lý thực tế trong tương lai.
 
+\subsection*{Phiên bản 2.0 - Backend Integration}
+
+Phiên bản hiện tại (v2.0) đã hoàn thành xây dựng backend hoàn chỉnh, thay thế Mock Data bằng Database thực tế:
+\begin{itemize}
+    \item 17 Eloquent Models được xây dựng với các mối quan hệ phức tạp.
+    \item 17 Database Migrations tạo 17 bảng dữ liệu với Foreign Key constraints.
+    \item 16 Seeders tự động populate dữ liệu test (100+ records).
+    \item REST API hoàn chỉnh với 30+ endpoints.
+    \item MySQL database được cấu hình và tích hợp với Laravel.
+\end{itemize}
+
 Các module chính của hệ thống bao gồm:
 
 \begin{itemize}
@@ -38,13 +49,33 @@ Hình \ref{fig:system_overview} minh họa kiến trúc tổng quan của hệ t
 
 \section{Góc nhìn sản phẩm (Product Perspective)}
 
-Hệ thống được phát triển như một ứng dụng Web độc lập theo mô hình Client -- Server.
+Hệ thống được phát triển như một ứng dụng Web tích hợp (Integrated Monolith) theo mô hình Client -- Server, nơi Frontend (giao diện Blade) và Backend (REST API) được triển khai trong cùng một ứng dụng Laravel.
 
-Người dùng truy cập hệ thống thông qua trình duyệt Web. Mọi yêu cầu từ giao diện người dùng sẽ được gửi đến Web Server, nơi ứng dụng PHP xử lý nghiệp vụ và thực hiện các thao tác với cơ sở dữ liệu MySQL trước khi trả kết quả về giao diện.
+\subsection*{Kiến trúc Integrated Monolith}
 
-Để xây dựng giao diện quản trị hiện đại và đồng nhất, hệ thống sử dụng FlexAdmin Dashboard Template kết hợp với Bootstrap 5 nhằm tăng khả năng Responsive và cải thiện trải nghiệm người dùng.
+\begin{itemize}
+    \item \textbf{Frontend}: Blade Templates + Bootstrap 5 + JavaScript
+    \item \textbf{Backend}: Laravel Controllers + Services + Eloquent ORM
+    \item \textbf{API Layer}: REST API với 30+ endpoints JSON
+    \item \textbf{Database}: MySQL với 17 tables và relationships
+\end{itemize}
 
-Trong định hướng phát triển tương lai, hệ thống có thể tích hợp với nền tảng IoT để tiếp nhận dữ liệu từ các thiết bị máy lọc nước thông qua giao thức MQTT. Các dữ liệu này sẽ được lưu trữ trong cơ sở dữ liệu và hiển thị dưới dạng Dashboard theo từng thiết bị.
+Người dùng truy cập hệ thống thông qua trình duyệt Web. Mọi yêu cầu từ giao diện người dùng sẽ được gửi đến Web Server, nơi ứng dụng Laravel xử lý nghiệp vụ thông qua Controllers và Services, thực hiện các thao tác với cơ sở dữ liệu MySQL thông qua Eloquent ORM, sau đó trả kết quả về giao diện. Bên cạnh đó, hệ thống còn cung cấp REST API cho phép các ứng dụng bên ngoài truy vấn và cập nhật dữ liệu.
+
+Để xây dựng giao diện quản trị hiện đại và đồng nhất, hệ thống sử dụng Bootstrap 5 kết hợp với Blade Template Engine nhằm tăng khả năng Responsive và cải thiện trải nghiệm người dùng.
+
+\subsection*{Backend Stack}
+
+\begin{itemize}
+    \item \textbf{Framework}: Laravel 13
+    \item \textbf{ORM}: Eloquent (17 Models)
+    \item \textbf{Database}: MySQL 5.7+ / MariaDB
+    \item \textbf{API}: REST endpoints (JSON responses)
+    \item \textbf{Validation}: Form Requests
+    \item \textbf{Business Logic}: Service Layer
+\end{itemize}
+
+Trong định hướng phát triển tương lai, hệ thống có thể tích hợp với nền tảng IoT để tiếp nhận dữ liệu từ các thiết bị máy lọc nước thông qua giao thức MQTT. Các dữ liệu này sẽ được lưu trữ trong cơ sở dữ liệu và hiển thị dưới dạng Dashboard theo từng thiết bị. Ngoài ra, hệ thống cũng hỗ trợ mở rộng thêm các tính năng như Authentication (Sanctum), Authorization (RBAC), và caching (Redis).
 
 Kiến trúc tổng thể của hệ thống được minh họa trong Hình \ref{fig:product_perspective}.
 
@@ -184,19 +215,27 @@ Bảng \ref{tab:development_environment} mô tả các công nghệ sử dụng 
 \hline
 \textbf{Thành phần} & \textbf{Công nghệ sử dụng} \\
 \hline
-Ngôn ngữ lập trình & PHP, HTML5, CSS3, JavaScript \\
+Backend Framework & Laravel 13 \\
 \hline
-Framework giao diện & Bootstrap 5 \\
+Ngôn ngữ lập trình & PHP 8.5+, HTML5, CSS3, JavaScript \\
 \hline
-Admin Template & FlexAdmin Dashboard Template \\
+Template Engine & Blade (Laravel) \\
 \hline
-Hệ quản trị cơ sở dữ liệu & MySQL \\
+Framework CSS & Bootstrap 5 \\
 \hline
-Web Server & Apache (XAMPP) \\
+ORM & Eloquent (Laravel) \\
+\hline
+Hệ quản trị cơ sở dữ liệu & MySQL 5.7+ / MariaDB \\
+\hline
+Web Server & Apache / Laravel Artisan Server \\
+\hline
+Development Server & XAMPP / Laravel Artisan \\
 \hline
 IDE & Visual Studio Code \\
 \hline
-Thiết kế cơ sở dữ liệu & MySQL Workbench \\
+API Testing & cURL / Postman \\
+\hline
+Quản lý dependencies & Composer \\
 \hline
 Quản lý mã nguồn & Git, GitHub \\
 \hline
