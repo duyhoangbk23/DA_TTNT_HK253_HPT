@@ -64,4 +64,22 @@ class ProductController extends Controller
         $product = $this->productService->getProductById($id);
         return response()->json(new ProductResource($product));
     }
+
+    public function apiStore(StoreProductRequest $request)
+    {
+        $product = $this->productService->createProduct($request->validated());
+        return response()->json(new ProductResource($product), 201);
+    }
+
+    public function apiUpdate(UpdateProductRequest $request, $id)
+    {
+        $product = $this->productService->updateProduct($id, $request->validated());
+        return response()->json(new ProductResource($product));
+    }
+
+    public function apiDestroy($id)
+    {
+        $this->productService->deleteProduct($id);
+        return response()->json(['message' => 'Product deleted'], 200);
+    }
 }

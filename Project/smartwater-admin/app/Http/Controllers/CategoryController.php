@@ -57,4 +57,22 @@ class CategoryController extends Controller
         $category = $this->categoryService->getCategoryById($id);
         return response()->json(new CategoryResource($category));
     }
+
+    public function apiStore(StoreCategoryRequest $request)
+    {
+        $category = $this->categoryService->createCategory($request->validated());
+        return response()->json(new CategoryResource($category), 201);
+    }
+
+    public function apiUpdate(UpdateCategoryRequest $request, $id)
+    {
+        $category = $this->categoryService->updateCategory($id, $request->validated());
+        return response()->json(new CategoryResource($category));
+    }
+
+    public function apiDestroy($id)
+    {
+        $this->categoryService->deleteCategory($id);
+        return response()->json(['message' => 'Category deleted'], 200);
+    }
 }

@@ -47,4 +47,10 @@ class InventoryController extends Controller
         $inventory = $this->inventoryService->getInventoryById($id);
         return response()->json(new InventoryResource($inventory));
     }
+
+    public function apiAdjust(AdjustInventoryRequest $request, $id)
+    {
+        $inventory = $this->inventoryService->adjustInventory($id, $request->validated());
+        return response()->json(new InventoryResource($inventory));
+    }
 }

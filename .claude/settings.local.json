@@ -12,7 +12,10 @@
       "Bash(touch \"d:/ADUY/TTNT/HPT/Git_repo/DA_TTNT_HK253_HPT/Project/smartwater-admin/database/database.sqlite\")",
       "Bash(php -r ' *)",
       "Bash(git add *)",
-      "Bash(git commit -m 'Add comprehensive SRS documentation *)"
+      "Bash(git commit -m 'Add comprehensive SRS documentation *)",
+      "Bash(git commit -m 'Update SRS documentation with backend implementation details *)",
+      "PowerShell(Get-Process mysqld -ErrorAction SilentlyContinue)",
+      "Bash(curl -s http://localhost:8000/api/products)"
     ]
   }
 }
