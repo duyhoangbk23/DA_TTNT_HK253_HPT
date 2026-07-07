@@ -52,17 +52,33 @@ Route::middleware('auth')->group(function () {
     Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
 
     Route::get('/batches', [BatchController::class, 'index'])->name('batches.index');
+    Route::post('/batches', [BatchController::class, 'store'])->name('batches.store');
     Route::get('/batches/{id}', [BatchController::class, 'show'])->name('batches.show');
+    Route::put('/batches/{id}', [BatchController::class, 'update'])->name('batches.update');
+    Route::delete('/batches/{id}', [BatchController::class, 'destroy'])->name('batches.destroy');
 
     Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');
+    Route::post('/customers', [CustomerController::class, 'store'])->name('customers.store');
     Route::get('/customers/{id}', [CustomerController::class, 'show'])->name('customers.show');
+    Route::put('/customers/{id}', [CustomerController::class, 'update'])->name('customers.update');
+    Route::delete('/customers/{id}', [CustomerController::class, 'destroy'])->name('customers.destroy');
 
     Route::get('/contracts', [ContractController::class, 'index'])->name('contracts.index');
+    Route::post('/contracts', [ContractController::class, 'store'])->name('contracts.store');
+    Route::get('/contracts/{id}', [ContractController::class, 'show'])->name('contracts.show');
+    Route::put('/contracts/{id}', [ContractController::class, 'update'])->name('contracts.update');
+    Route::delete('/contracts/{id}', [ContractController::class, 'destroy'])->name('contracts.destroy');
 
     Route::get('/devices', [DeviceController::class, 'index'])->name('devices.index');
+    Route::post('/devices', [DeviceController::class, 'store'])->name('devices.store');
     Route::get('/devices/{id}', [DeviceController::class, 'show'])->name('devices.show');
+    Route::put('/devices/{id}', [DeviceController::class, 'update'])->name('devices.update');
+    Route::delete('/devices/{id}', [DeviceController::class, 'destroy'])->name('devices.destroy');
 
     Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
+    Route::post('/employees', [EmployeeController::class, 'store'])->name('employees.store');
+    Route::put('/employees/{id}', [EmployeeController::class, 'update'])->name('employees.update');
+    Route::delete('/employees/{id}', [EmployeeController::class, 'destroy'])->name('employees.destroy');
     Route::get('/activities', [ActivityController::class, 'index'])->name('activities.index');
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
 });

@@ -8,7 +8,7 @@
 @endsection
 
 @section('page-actions')
-    <button class="btn btn-primary"><i class="bi bi-box-arrow-in-down me-1"></i> Nhập kho</button>
+    <!-- Nhập kho button (tương lai có thể tạo form nhập số lần) -->
 @endsection
 
 @section('content')
@@ -53,6 +53,7 @@
                         <th>Có thể xuất</th>
                         <th>Cập nhật</th>
                         <th>Trạng thái</th>
+                        <th>Thao tác</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -68,10 +69,95 @@
                             <td class="fw-semibold">{{ number_format($inv['available']) }}</td>
                             <td>{{ $inv['last_updated'] }}</td>
                             <td><x-status-badge :status="$inv['stock_status']" /></td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-primary"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#modalAdjustInventory"
+                                        data-id="{{ $inv['id'] }}"
+                                        data-product="{{ $inv['product'] }}"
+                                        data-quantity="{{ $inv['quantity'] }}"
+                                        data-reserved="{{ $inv['reserved'] }}">
+                                    <i class="bi bi-arrow-repeat"></i>
+                                </button>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
     </x-panel>
+
+    <!-- Modal Điều chỉnh tồn kho -->
+    <div class="modal fade" id="modalAdjustInventory" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Điều chỉnh tồn kho</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form method="POST" id="formAdjustInventory">
+                    @csrf
+                    @method('PATCH')
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Sản phẩm</label>
+                            <input type="text" class="form-control" id="adjustProductName" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Số lượng hiện tại</label>
+                            <input type="text" class="form-control" id="adjustCurrentQty" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Số lượng giữ chỗ</label>
+                            <input type="text" class="form-control" id="adjustReservedQty" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Điều chỉnh số lượng <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control @error('quantity_change') is-invalid @enderror"
+                                   name="quantity_change" id="adjustQuantityChange" required
+                                   placeholder="Nhập số dương để tăng, âm để giảm">
+                            <small class="form-text text-muted">Ví dụ: +10 để tăng 10 cái, -5 để giảm 5 cái</small>
+                            @error('quantity_change')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Ghi chú</label>
+                            <textarea class="form-control @error('note') is-invalid @enderror"
+                                      name="note" id="adjustNote" rows="2"></textarea>
+                            @error('note')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        <button type="submit" class="btn btn-primary">Cập nhật</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const modalAdjust = document.getElementById('modalAdjustInventory');
+            modalAdjust.addEventListener('show.bs.modal', function(event) {
+                const button = event.relatedTarget;
+                const id = button.getAttribute('data-id');
+                const product = button.getAttribute('data-product');
+                const quantity = button.getAttribute('data-quantity');
+                const reserved = button.getAttribute('data-reserved');
+
+                document.getElementById('adjustProductName').value = product;
+                document.getElementById('adjustCurrentQty').value = quantity;
+                document.getElementById('adjustReservedQty').value = reserved;
+                document.getElementById('adjustQuantityChange').value = '';
+                document.getElementById('adjustNote').value = '';
+
+                const form = document.getElementById('formAdjustInventory');
+                form.action = `/inventory/${id}`;
+            });
+        });
+    </script>
 @endsection
