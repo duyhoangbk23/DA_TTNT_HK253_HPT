@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\UpdateProfileRequest;
 
 class ProfileController extends Controller
@@ -31,6 +32,18 @@ class ProfileController extends Controller
         // Nếu có mật khẩu mới, cập nhật
         if (!empty($data['password'])) {
             $user->password = Hash::make($data['password']);
+        }
+
+        // Xử lý upload avatar
+        if ($request->hasFile('avatar')) {
+            // Xoá ảnh cũ nếu có
+            if ($user->avatar_path && Storage::disk('public')->exists($user->avatar_path)) {
+                Storage::disk('public')->delete($user->avatar_path);
+            }
+
+            // Lưu ảnh mới
+            $path = $request->file('avatar')->store('avatars', 'public');
+            $user->avatar_path = $path;
         }
 
         $user->save();
