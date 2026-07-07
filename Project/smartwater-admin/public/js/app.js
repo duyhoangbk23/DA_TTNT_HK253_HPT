@@ -55,7 +55,7 @@
             });
 
             // Ô tìm kiếm tuỳ biến ngoài bảng: [data-dt-search="#tableId"]
-            jQuery('[data-dt-search="#' + $t.attr('id') + '"]').on('keyup', function () {
+            jQuery('[data-dt-search="#' + $t.attr('id') + '"]').on('keyup change input', function () {
                 dt.search(this.value).draw();
             });
 
