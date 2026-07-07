@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\TelemetryController;
+
+Route::post('/telemetry', [TelemetryController::class, 'ingest']);
 
 Route::middleware('api')->group(function () {
     // Products API

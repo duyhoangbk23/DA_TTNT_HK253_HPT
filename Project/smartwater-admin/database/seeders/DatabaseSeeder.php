@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             CustomerSeeder::class,
             ContractSeeder::class,
             ContractServiceSeeder::class,
+            McuSeeder::class,
             DeviceSeeder::class,
             DeviceDashboardDataSeeder::class,
             MaintenanceRecordSeeder::class,

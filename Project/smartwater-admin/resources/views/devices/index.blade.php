@@ -46,11 +46,12 @@
         </x-slot:actions>
 
         <div class="table-responsive">
-            <table class="table align-middle" id="tblDevices" data-datatable data-no-sort="5,6">
+            <table class="table align-middle" id="tblDevices" data-datatable data-no-sort="6,7">
                 <thead>
                     <tr>
                         <th>Mã thiết bị</th>
                         <th>Sản phẩm</th>
+                        <th>MCU</th>
                         <th>Serial</th>
                         <th>Khách hàng</th>
                         <th>Ngày nhập</th>
@@ -63,9 +64,9 @@
                         <tr>
                             <td>
                                 <div class="cell-title">{{ $d->device_code }}</div>
-                                <div class="cell-sub">v{{ $d->firmware_version ?? '-' }}</div>
                             </td>
                             <td>{{ $d->product?->product_name ?? '-' }}</td>
+                            <td><span class="badge bg-secondary">{{ $d->mcu?->mcu_code ?? 'N/A' }}</span></td>
                             <td>{{ $d->serial_number }}</td>
                             <td>{{ $d->customer?->customer_name ?? '-' }}</td>
                             <td>{{ $d->import_date->format('d/m/Y') }}</td>
@@ -81,6 +82,7 @@
                                         data-code="{{ $d->device_code }}"
                                         data-serial="{{ $d->serial_number }}"
                                         data-product="{{ $d->product_id }}"
+                                        data-mcu="{{ $d->mcu_id }}"
                                         data-customer="{{ $d->customer_id }}"
                                         data-contract="{{ $d->contract_id }}"
                                         data-batch="{{ $d->batch_id }}"
@@ -141,6 +143,20 @@
                                 </select>
                                 @error('product_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
                             </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">MCU</label>
+                                <select class="form-select @error('mcu_id') is-invalid @enderror" name="mcu_id">
+                                    <option value="">-- Chọn MCU --</option>
+                                    @foreach ($mcus as $m)
+                                        @if(!$m->devices()->whereNull('replaced_at')->exists())
+                                            <option value="{{ $m->id }}">{{ $m->mcu_code }} ({{ $m->serial_number }})</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                                @error('mcu_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Khách hàng</label>
                                 <select class="form-select @error('customer_id') is-invalid @enderror" name="customer_id">
@@ -251,6 +267,17 @@
                                 </select>
                             </div>
                             <div class="col-md-6 mb-3">
+                                <label class="form-label">MCU</label>
+                                <select class="form-select" name="mcu_id" id="editDeviceMcu">
+                                    <option value="">-- Chọn MCU --</option>
+                                    @foreach ($mcus as $m)
+                                        <option value="{{ $m->id }}">{{ $m->mcu_code }} ({{ $m->serial_number }})</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
                                 <label class="form-label">Khách hàng</label>
                                 <select class="form-select" name="customer_id" id="editDeviceCustomer">
                                     <option value="">-- Chọn khách hàng --</option>
@@ -328,6 +355,7 @@
                 document.getElementById('editDeviceCode').value = button.getAttribute('data-code');
                 document.getElementById('editDeviceSerial').value = button.getAttribute('data-serial');
                 document.getElementById('editDeviceProduct').value = button.getAttribute('data-product') || '';
+                document.getElementById('editDeviceMcu').value = button.getAttribute('data-mcu') || '';
                 document.getElementById('editDeviceCustomer').value = button.getAttribute('data-customer') || '';
                 document.getElementById('editDeviceContract').value = button.getAttribute('data-contract') || '';
                 document.getElementById('editDeviceBatch').value = button.getAttribute('data-batch') || '';

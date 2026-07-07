@@ -17,16 +17,20 @@ class Device extends Model
         'customer_id',
         'contract_id',
         'batch_id',
+        'mcu_id',
         'import_date',
         'install_date',
         'firmware_version',
         'location',
         'status',
+        'replaced_at',
+        'replaced_by_device_id',
     ];
 
     protected $casts = [
         'import_date' => 'date',
         'install_date' => 'date',
+        'replaced_at' => 'datetime',
     ];
 
     public function product(): BelongsTo
@@ -47,6 +51,21 @@ class Device extends Model
     public function batch(): BelongsTo
     {
         return $this->belongsTo(Batch::class)->withDefault();
+    }
+
+    public function mcu(): BelongsTo
+    {
+        return $this->belongsTo(Mcu::class)->withDefault();
+    }
+
+    public function replacedBy(): BelongsTo
+    {
+        return $this->belongsTo(Device::class, 'replaced_by_device_id');
+    }
+
+    public function replaces(): HasMany
+    {
+        return $this->hasMany(Device::class, 'replaced_by_device_id');
     }
 
     public function dashboardData(): HasMany

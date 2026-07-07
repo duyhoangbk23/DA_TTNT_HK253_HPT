@@ -45,6 +45,13 @@ class Contract extends Model
         return $this->hasMany(Device::class);
     }
 
+    public function currentDevice()
+    {
+        return $this->devices()
+            ->whereNull('replaced_at')
+            ->latestOfMany();
+    }
+
     public function getExpiringAttribute()
     {
         return $this->end_date && $this->end_date->diffInDays(now()) <= 30 && $this->status === 'active';

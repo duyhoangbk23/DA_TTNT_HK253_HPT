@@ -10,6 +10,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\McuController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -69,11 +70,17 @@ Route::middleware('auth')->group(function () {
     Route::put('/contracts/{id}', [ContractController::class, 'update'])->name('contracts.update');
     Route::delete('/contracts/{id}', [ContractController::class, 'destroy'])->name('contracts.destroy');
 
+    Route::get('/mcus', [McuController::class, 'index'])->name('mcus.index');
+    Route::post('/mcus', [McuController::class, 'store'])->name('mcus.store');
+    Route::put('/mcus/{mcu}', [McuController::class, 'update'])->name('mcus.update');
+    Route::delete('/mcus/{mcu}', [McuController::class, 'destroy'])->name('mcus.destroy');
+
     Route::get('/devices', [DeviceController::class, 'index'])->name('devices.index');
     Route::post('/devices', [DeviceController::class, 'store'])->name('devices.store');
     Route::get('/devices/{id}', [DeviceController::class, 'show'])->name('devices.show');
     Route::put('/devices/{id}', [DeviceController::class, 'update'])->name('devices.update');
     Route::delete('/devices/{id}', [DeviceController::class, 'destroy'])->name('devices.destroy');
+    Route::post('/devices/{id}/replace', [DeviceController::class, 'replace'])->name('devices.replace');
 
     Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
     Route::post('/employees', [EmployeeController::class, 'store'])->name('employees.store');

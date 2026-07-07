@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('title', 'Chi tiết thiết bị')
-@section('page-title', $device['code'])
-@section('page-subtitle', 'Thông tin thiết bị, dữ liệu cảm biến (mô phỏng) và nhật ký.')
+@section('page-title', $device->device_code)
+@section('page-subtitle', 'Thông tin thiết bị, dữ liệu cảm biến và nhật ký bảo trì.')
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route('devices.index') }}">Thiết bị</a></li>
-    <li class="breadcrumb-item active">{{ $device['code'] }}</li>
+    <li class="breadcrumb-item active">{{ $device->device_code }}</li>
 @endsection
 
 @section('page-actions')
@@ -17,81 +17,93 @@
         {{-- Thông tin thiết bị --}}
         <div class="col-12 col-xl-4">
             <x-panel title="Thông tin thiết bị" icon="bi-cpu" class="mb-3">
-                <div class="mb-2"><x-status-badge :status="$device['status']" /></div>
+                <div class="mb-2"><x-status-badge :status="$device->status" /></div>
                 <div class="list-item">
                     <span class="list-icon tint-primary"><i class="bi bi-box-seam"></i></span>
-                    <div><div class="cell-sub">Model</div><div class="cell-title">{{ $device['model'] }}</div></div>
+                    <div><div class="cell-sub">Sản phẩm</div><div class="cell-title">{{ $device->product->product_name ?? 'N/A' }}</div></div>
                 </div>
                 <div class="list-item">
                     <span class="list-icon tint-info"><i class="bi bi-hash"></i></span>
-                    <div><div class="cell-sub">Serial</div><div class="cell-title">{{ $device['serial'] }}</div></div>
+                    <div><div class="cell-sub">Serial</div><div class="cell-title">{{ $device->serial_number }}</div></div>
                 </div>
                 <div class="list-item">
                     <span class="list-icon tint-secondary"><i class="bi bi-cpu-fill"></i></span>
-                    <div><div class="cell-sub">Firmware</div><div class="cell-title">{{ $device['firmware'] }}</div></div>
+                    <div><div class="cell-sub">MCU</div><div class="cell-title">{{ $device->mcu->mcu_code ?? 'Chưa gắn MCU' }}</div></div>
                 </div>
                 <div class="list-item">
                     <span class="list-icon tint-success"><i class="bi bi-person"></i></span>
                     <div>
                         <div class="cell-sub">Khách hàng</div>
-                        <div class="cell-title">{{ $device['customer'] }}</div>
+                        <div class="cell-title">{{ $device->customer->customer_name ?? 'N/A' }}</div>
                     </div>
                 </div>
                 <div class="list-item">
                     <span class="list-icon tint-warning"><i class="bi bi-geo-alt"></i></span>
-                    <div><div class="cell-sub">Vị trí lắp đặt</div><div class="cell-title">{{ $device['location'] }}</div></div>
+                    <div><div class="cell-sub">Vị trí lắp đặt</div><div class="cell-title">{{ $device->location ?? 'N/A' }}</div></div>
                 </div>
                 <div class="list-item">
                     <span class="list-icon tint-primary"><i class="bi bi-calendar-check"></i></span>
-                    <div><div class="cell-sub">Ngày lắp đặt</div><div class="cell-title">{{ $device['install_date'] }}</div></div>
+                    <div><div class="cell-sub">Ngày lắp đặt</div><div class="cell-title">{{ $device->install_date?->format('d/m/Y') ?? 'N/A' }}</div></div>
                 </div>
             </x-panel>
 
-            {{-- Nhật ký hoạt động --}}
-            <x-panel title="Nhật ký hoạt động" icon="bi-activity">
-                <div class="timeline">
-                    @foreach ($activities as $a)
-                        <div class="timeline-item">
-                            <div class="timeline-time">{{ $a['time'] }}</div>
-                            <div class="timeline-title">{{ $a['action'] }}</div>
-                            <div class="cell-sub">{{ $a['module'] }}</div>
-                        </div>
-                    @endforeach
+            {{-- Lịch sử thiết bị --}}
+            @if($device->replaces->count() > 0 || $device->replacedBy)
+                <x-panel title="Lịch sử thiết bị" icon="bi-clock-history" class="mb-3">
+                    <div class="mb-2" style="font-size: 0.9rem;">
+                        @if($device->replacedBy)
+                            <div><strong>Thay thế bởi:</strong> <a href="{{ route('devices.show', $device->replacedBy->id) }}">{{ $device->replacedBy->device_code }}</a></div>
+                            <div class="text-muted-2">Ngày: {{ $device->replaced_at?->format('d/m/Y H:i') }}</div>
+                        @endif
+                        @foreach($device->replaces as $replaced)
+                            <div><strong>Thay thế:</strong> <a href="{{ route('devices.show', $replaced->id) }}">{{ $replaced->device_code }}</a></div>
+                        @endforeach
+                    </div>
+                </x-panel>
+            @endif
+
+            {{-- Nút thay thiết bị --}}
+            @if(!$device->replaced_at)
+                <div class="mb-3">
+                    <button class="btn btn-warning w-100" data-bs-toggle="modal" data-bs-target="#modalReplaceDevice">
+                        <i class="bi bi-arrow-repeat me-1"></i>Thay thiết bị (bảo trì)
+                    </button>
                 </div>
-            </x-panel>
+            @endif
         </div>
 
         <div class="col-12 col-xl-8">
             {{-- Dashboard dữ liệu cảm biến --}}
-            <x-panel class="mb-3">
-                <x-slot:title>Dữ liệu cảm biến (Mock Data)</x-slot:title>
-                <x-slot:actions>
-                    <div class="btn-group" role="group" data-range-switch>
-                        <button type="button" class="btn btn-sm btn-white border range-btn active" data-range="24h">24 giờ</button>
-                        <button type="button" class="btn btn-sm btn-white border range-btn" data-range="7d">7 ngày</button>
-                        <button type="button" class="btn btn-sm btn-white border range-btn" data-range="30d">30 ngày</button>
+            @if(count($telemetry['labels']) > 0)
+                <x-panel class="mb-3">
+                    <x-slot:title>Dữ liệu cảm biến</x-slot:title>
+                    <div class="row g-3">
+                        <div class="col-12 col-md-6">
+                            <div class="cell-sub mb-1"><i class="bi bi-droplet me-1"></i>TDS (ppm)</div>
+                            <div id="chart-tds" data-height="220"></div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="cell-sub mb-1"><i class="bi bi-thermometer-half me-1"></i>Nhiệt độ (°C)</div>
+                            <div id="chart-temperature" data-height="220"></div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="cell-sub mb-1"><i class="bi bi-water me-1"></i>Lưu lượng nước (L)</div>
+                            <div id="chart-flow" data-height="220"></div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="cell-sub mb-1"><i class="bi bi-moisture me-1"></i>pH</div>
+                            <div id="chart-ph" data-height="220"></div>
+                        </div>
                     </div>
-                </x-slot:actions>
-
-                <div class="row g-3">
-                    <div class="col-12 col-md-6">
-                        <div class="cell-sub mb-1"><i class="bi bi-droplet me-1"></i>TDS (ppm)</div>
-                        <div id="chart-tds" data-height="220"></div>
+                </x-panel>
+            @else
+                <x-panel class="mb-3">
+                    <div class="text-center text-muted-2 py-4">
+                        <i class="bi bi-inbox" style="font-size: 2rem; opacity: 0.3;"></i>
+                        <p class="mt-2">Chưa có dữ liệu cảm biến</p>
                     </div>
-                    <div class="col-12 col-md-6">
-                        <div class="cell-sub mb-1"><i class="bi bi-thermometer-half me-1"></i>Nhiệt độ (°C)</div>
-                        <div id="chart-temperature" data-height="220"></div>
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <div class="cell-sub mb-1"><i class="bi bi-water me-1"></i>Lưu lượng nước (L)</div>
-                        <div id="chart-flow" data-height="220"></div>
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <div class="cell-sub mb-1"><i class="bi bi-moisture me-1"></i>pH</div>
-                        <div id="chart-ph" data-height="220"></div>
-                    </div>
-                </div>
-            </x-panel>
+                </x-panel>
+            @endif
 
             {{-- Nhật ký bảo trì --}}
             <x-panel title="Nhật ký bảo trì" icon="bi-tools" flush>
@@ -103,11 +115,11 @@
                         <tbody>
                             @forelse ($maintenance as $m)
                                 <tr>
-                                    <td class="cell-title">{{ $m['code'] }}</td>
-                                    <td>{{ $m['date'] }}</td>
-                                    <td>{{ $m['type_label'] }}</td>
-                                    <td>{{ $m['employee'] }}</td>
-                                    <td><x-status-badge :status="$m['status']" /></td>
+                                    <td class="cell-title">{{ $m->maintenance_code }}</td>
+                                    <td>{{ $m->maintenance_date->format('d/m/Y') }}</td>
+                                    <td>{{ ucfirst($m->maintenance_type) }}</td>
+                                    <td>{{ $m->employee->full_name ?? 'N/A' }}</td>
+                                    <td><x-status-badge :status="$m->status" /></td>
                                 </tr>
                             @empty
                                 <tr><td colspan="5" class="text-center text-muted-2 py-4">Chưa có lịch sử bảo trì.</td></tr>
@@ -120,30 +132,73 @@
     </div>
 @endsection
 
+{{-- Modal Thay thiết bị --}}
+@if(!$device->replaced_at)
+    <div class="modal fade" id="modalReplaceDevice" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="POST" action="{{ route('devices.replace', $device->id) }}">
+                    @csrf
+                    <div class="modal-header">
+                        <h5 class="modal-title">Thay thiết bị (bảo trì)</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Sản phẩm mới <span class="text-danger">*</span></label>
+                            <select name="product_id" class="form-select" required>
+                                <option value="">-- Chọn sản phẩm --</option>
+                                @foreach(\App\Models\Product::all() as $p)
+                                    <option value="{{ $p->id }}">{{ $p->product_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">MCU mới <span class="text-danger">*</span></label>
+                            <select name="mcu_id" class="form-select" required>
+                                <option value="">-- Chọn MCU --</option>
+                                @php
+                                    $mcuService = app(\App\Services\McuService::class);
+                                    $availableMcus = $mcuService->getAvailableMcus();
+                                @endphp
+                                @foreach($availableMcus as $m)
+                                    <option value="{{ $m->id }}">{{ $m->mcu_code }} ({{ $m->serial_number }})</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Ngày lắp đặt</label>
+                            <input type="date" name="install_date" class="form-control">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-white border" data-bs-dismiss="modal">Hủy</button>
+                        <button type="submit" class="btn btn-danger">Thay thiết bị</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+@endif
+
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const telemetry = @json($telemetry);
 
-        const els = {
-            tds: document.querySelector('#chart-tds'),
-            temperature: document.querySelector('#chart-temperature'),
-            flow: document.querySelector('#chart-flow'),
-            ph: document.querySelector('#chart-ph'),
-        };
+        if (telemetry.labels && telemetry.labels.length > 0) {
+            const els = {
+                tds: document.querySelector('#chart-tds'),
+                temperature: document.querySelector('#chart-temperature'),
+                flow: document.querySelector('#chart-flow'),
+                ph: document.querySelector('#chart-ph'),
+            };
 
-        SW.areaChart(els.tds, 'TDS', telemetry.labels, telemetry.tds, '#1668e3');
-        SW.lineChart(els.temperature, 'Nhiệt độ', telemetry.labels, telemetry.temperature, '#e0304a');
-        SW.areaChart(els.flow, 'Lưu lượng', telemetry.labels, telemetry.water_flow, '#17b6d6');
-        SW.lineChart(els.ph, 'pH', telemetry.labels, telemetry.ph.map(v => (v / 10).toFixed(1)), '#16a34a');
-
-        // Chỉ mô phỏng đổi bộ lọc thời gian trên giao diện (mock data tĩnh)
-        document.querySelectorAll('[data-range-switch] .range-btn').forEach((btn) => {
-            btn.addEventListener('click', function () {
-                document.querySelectorAll('.range-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
+            SW.areaChart(els.tds, 'TDS', telemetry.labels, telemetry.tds, '#1668e3');
+            SW.lineChart(els.temperature, 'Nhiệt độ', telemetry.labels, telemetry.temperature, '#e0304a');
+            SW.areaChart(els.flow, 'Lưu lượng', telemetry.labels, telemetry.water_flow, '#17b6d6');
+            SW.lineChart(els.ph, 'pH', telemetry.labels, telemetry.ph, '#16a34a');
+        }
     });
 </script>
 @endpush
