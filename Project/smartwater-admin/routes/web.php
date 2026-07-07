@@ -81,4 +81,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/employees/{id}', [EmployeeController::class, 'destroy'])->name('employees.destroy');
     Route::get('/activities', [ActivityController::class, 'index'])->name('activities.index');
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::post('/profile', [ProfileController::class, 'updateProfile'])->name('profile.update');
+    Route::post('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.updatePassword');
 });
