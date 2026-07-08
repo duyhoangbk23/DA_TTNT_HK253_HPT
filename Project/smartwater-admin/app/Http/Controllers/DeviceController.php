@@ -7,6 +7,7 @@ use App\Models\Customer;
 use App\Models\Contract;
 use App\Models\Batch;
 use App\Models\Mcu;
+use App\Models\Device;
 use App\Models\DeviceDashboardData;
 use App\Services\DeviceService;
 use App\Http\Requests\StoreDeviceRequest;
@@ -24,7 +25,18 @@ class DeviceController extends Controller
 
     public function index()
     {
-        $devices = $this->deviceService->getAllDevices();
+        $usedDevices = Device::whereNull('replaced_at')
+            ->whereNotNull('contract_id')
+            ->whereNotNull('mcu_id')
+            ->with(['product', 'customer', 'contract', 'batch', 'mcu'])
+            ->get();
+
+        $unusedDevices = Device::whereNull('replaced_at')
+            ->whereNull('contract_id')
+            ->whereNull('mcu_id')
+            ->with(['product', 'customer', 'contract', 'batch', 'mcu'])
+            ->get();
+
         $products = Product::all();
         $customers = Customer::all();
         $contracts = Contract::all();
@@ -32,17 +44,18 @@ class DeviceController extends Controller
         $mcus = Mcu::all();
 
         return view('devices.index', [
-            'devices'  => $devices,
+            'usedDevices' => $usedDevices,
+            'unusedDevices' => $unusedDevices,
             'products' => $products,
             'customers' => $customers,
             'contracts' => $contracts,
             'batches' => $batches,
             'mcus' => $mcus,
             'counts'   => [
-                'active'      => $devices->where('status', 'active')->count(),
-                'maintenance' => $devices->where('status', 'maintenance')->count(),
-                'error'       => $devices->where('status', 'error')->count(),
-                'pending'     => $devices->where('status', 'pending')->count(),
+                'active'      => $usedDevices->where('status', 'active')->count() + $unusedDevices->where('status', 'active')->count(),
+                'maintenance' => $usedDevices->where('status', 'maintenance')->count() + $unusedDevices->where('status', 'maintenance')->count(),
+                'error'       => $usedDevices->where('status', 'error')->count() + $unusedDevices->where('status', 'error')->count(),
+                'pending'     => $usedDevices->where('status', 'pending')->count() + $unusedDevices->where('status', 'pending')->count(),
             ],
         ]);
     }
@@ -68,10 +81,15 @@ class DeviceController extends Controller
         // Lấy maintenance records
         $maintenance = $device->maintenanceRecords()->with('employee')->latest('maintenance_date')->get();
 
+        $availableMcus = app(
+            \App\Services\McuService::class
+        )->getAvailableMcus();
+
         return view('devices.show', [
             'device' => $device,
             'telemetry' => $telemetry,
             'maintenance' => $maintenance,
+            'availableMcus' => $availableMcus,
         ]);
     }
 

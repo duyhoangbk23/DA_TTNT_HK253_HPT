@@ -155,14 +155,27 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label fw-semibold">MCU mới <span class="text-danger">*</span></label>
-                            <select name="mcu_id" class="form-select" required>
+                            <div class="input-group mb-2">
+                                <span class="input-group-text"><i class="bi bi-search"></i></span>
+                                <input type="text" id="mcuSearch" class="form-control" placeholder="Gõ mã hoặc serial MCU...">
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">Lọc</span>
+                                <select id="mcuStatusFilter" class="form-select">
+                                    <option value="all">Tất cả</option>
+                                    <option value="online">Online</option>
+                                    <option value="offline">Offline</option>
+                                    <option value="unused">Chưa lắp đặt</option>
+                                </select>
+                            </div>
+                            <select name="mcu_id" class="form-select" id="mcuSelect" required>
                                 <option value="">-- Chọn MCU --</option>
-                                @php
-                                    $mcuService = app(\App\Services\McuService::class);
-                                    $availableMcus = $mcuService->getAvailableMcus();
-                                @endphp
                                 @foreach($availableMcus as $m)
-                                    <option value="{{ $m->id }}">{{ $m->mcu_code }} ({{ $m->serial_number }})</option>
+                                    <option value="{{ $m->id }}"
+                                        data-status="{{ $m->status }}"
+                                        data-installed="{{ $m->current_device_count > 0 ? '1' : '0' }}">
+                                        {{ $m->mcu_code }} ({{ $m->serial_number }}) - {{ $m->status ? ucfirst($m->status) : 'N/A' }}{{ $m->current_device_count === 0 ? ' - Chưa lắp đặt' : '' }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
@@ -198,6 +211,45 @@
             SW.lineChart(els.temperature, 'Nhiệt độ', telemetry.labels, telemetry.temperature, '#e0304a');
             SW.areaChart(els.flow, 'Lưu lượng', telemetry.labels, telemetry.water_flow, '#17b6d6');
             SW.lineChart(els.ph, 'pH', telemetry.labels, telemetry.ph, '#16a34a');
+        }
+
+        const mcuSearch = document.getElementById('mcuSearch');
+        const mcuStatusFilter = document.getElementById('mcuStatusFilter');
+        const mcuSelect = document.getElementById('mcuSelect');
+
+        if (mcuSearch && mcuStatusFilter && mcuSelect) {
+            const filterMcuOptions = () => {
+                const searchValue = mcuSearch.value.toLowerCase();
+                const statusValue = mcuStatusFilter.value;
+
+                Array.from(mcuSelect.options).forEach(option => {
+                    if (!option.value) {
+                        return;
+                    }
+
+                    const text = option.text.toLowerCase();
+                    const status = option.dataset.status;
+                    const installed = option.dataset.installed === '1';
+                    const isUnused = !installed;
+
+                    const matchesSearch = text.includes(searchValue);
+                    let matchesStatus = true;
+
+                    if (statusValue === 'online') {
+                        matchesStatus = status === 'online';
+                    } else if (statusValue === 'offline') {
+                        matchesStatus = status === 'offline';
+                    } else if (statusValue === 'unused') {
+                        matchesStatus = isUnused;
+                    }
+
+                    option.hidden = !(matchesSearch && matchesStatus);
+                });
+            };
+
+            mcuSearch.addEventListener('input', filterMcuOptions);
+            mcuStatusFilter.addEventListener('change', filterMcuOptions);
+            filterMcuOptions();
         }
     });
 </script>

@@ -26,6 +26,8 @@ class MaintenanceRecord extends Model
         'cost' => 'integer',
     ];
 
+    protected $appends = ['code'];
+
     public function device(): BelongsTo
     {
         return $this->belongsTo(Device::class);
@@ -34,5 +36,10 @@ class MaintenanceRecord extends Model
     public function employee(): BelongsTo
     {
         return $this->belongsTo(Employee::class);
+    }
+
+    public function getCodeAttribute()
+    {
+        return $this->maintenance_code;
     }
 }

@@ -16,7 +16,8 @@
       "Bash(git commit -m 'Update SRS documentation with backend implementation details *)",
       "PowerShell(Get-Process mysqld -ErrorAction SilentlyContinue)",
       "Bash(curl -s http://localhost:8000/api/products)",
-      "Bash(curl -s \"http://localhost:8000/login\")"
+      "Bash(curl -s \"http://localhost:8000/login\")",
+      "Bash(curl -s http://localhost:8000/login)"
     ]
   }
 }

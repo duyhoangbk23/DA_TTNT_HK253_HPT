@@ -10,6 +10,21 @@ class Mcu extends Model
 {
     use HasFactory;
 
+    public static function isValidSerialNumber(?string $serialNumber): bool
+    {
+        return is_string($serialNumber) && preg_match('/^SN-\d{6}$/', $serialNumber) === 1;
+    }
+
+    public static function getDisplayStatus(?string $status): string
+    {
+        return match ($status) {
+            'online' => 'Online',
+            'offline' => 'Offline',
+            'error' => 'Error',
+            default => 'N/A',
+        };
+    }
+
     protected $fillable = [
         'mcu_code',
         'serial_number',

@@ -29,13 +29,13 @@
         </div>
     </div>
 
-    <x-panel flush>
+    <x-panel class="mb-3" title="Thiết bị đang sử dụng" icon="bi-hdd-network" flush>
         <x-slot:actions>
             <div class="d-flex flex-wrap gap-2">
                 <input type="search" class="form-control form-control-sm" style="width: 220px;"
-                       placeholder="Tìm thiết bị..." data-dt-search="#tblDevices">
+                       placeholder="Tìm thiết bị đang sử dụng..." data-dt-search="#tblUsedDevices">
                 <select class="form-select form-select-sm" style="width: 170px;"
-                        data-dt-filter="#tblDevices" data-dt-column="5">
+                        data-dt-filter="#tblUsedDevices" data-dt-column="6">
                     <option value="">Tất cả trạng thái</option>
                     <option value="active">Hoạt động</option>
                     <option value="maintenance">Bảo trì</option>
@@ -46,7 +46,7 @@
         </x-slot:actions>
 
         <div class="table-responsive">
-            <table class="table align-middle" id="tblDevices" data-datatable data-no-sort="6,7">
+            <table class="table align-middle" id="tblUsedDevices" data-datatable data-no-sort="6,7">
                 <thead>
                     <tr>
                         <th>Mã thiết bị</th>
@@ -60,16 +60,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($devices as $d)
+                    @foreach ($usedDevices as $d)
                         <tr>
-                            <td>
-                                <div class="cell-title">{{ $d->device_code }}</div>
-                            </td>
+                            <td><div class="cell-title">{{ $d->device_code }}</div></td>
                             <td>{{ $d->product?->product_name ?? '-' }}</td>
                             <td><span class="badge bg-secondary">{{ $d->mcu?->mcu_code ?? 'N/A' }}</span></td>
                             <td>{{ $d->serial_number }}</td>
                             <td>{{ $d->customer?->customer_name ?? '-' }}</td>
-                            <td>{{ $d->import_date->format('d/m/Y') }}</td>
+                            <td>{{ $d->import_date?->format('d/m/Y') ?? '-' }}</td>
                             <td><x-status-badge :status="$d->status" /></td>
                             <td>
                                 <a href="{{ route('devices.show', $d->id) }}" class="btn btn-sm btn-outline-info">
@@ -86,7 +84,77 @@
                                         data-customer="{{ $d->customer_id }}"
                                         data-contract="{{ $d->contract_id }}"
                                         data-batch="{{ $d->batch_id }}"
-                                        data-import="{{ $d->import_date->format('Y-m-d') }}"
+                                        data-import="{{ $d->import_date?->format('Y-m-d') ?? '' }}"
+                                        data-install="{{ $d->install_date?->format('Y-m-d') }}"
+                                        data-firmware="{{ $d->firmware_version }}"
+                                        data-location="{{ $d->location }}"
+                                        data-status="{{ $d->status }}">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <form method="POST" action="{{ route('devices.destroy', $d->id) }}"
+                                      style="display: inline;" onsubmit="return confirm('Bạn có chắc chắn muốn xóa?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </x-panel>
+
+    <x-panel class="mb-3" title="Thiết bị chưa lắp đặt" icon="bi-box-seam" flush>
+        <x-slot:actions>
+            <div class="d-flex flex-wrap gap-2">
+                <input type="search" class="form-control form-control-sm" style="width: 220px;"
+                       placeholder="Tìm thiết bị chưa lắp đặt..." data-dt-search="#tblUnusedDevices">
+            </div>
+        </x-slot:actions>
+
+        <div class="table-responsive">
+            <table class="table align-middle" id="tblUnusedDevices" data-datatable data-no-sort="6,7">
+                <thead>
+                    <tr>
+                        <th>Mã thiết bị</th>
+                        <th>Sản phẩm</th>
+                        <th>MCU</th>
+                        <th>Serial</th>
+                        <th>Khách hàng</th>
+                        <th>Ngày nhập</th>
+                        <th>Trạng thái</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($unusedDevices as $d)
+                        <tr>
+                            <td><div class="cell-title">{{ $d->device_code }}</div></td>
+                            <td>{{ $d->product?->product_name ?? '-' }}</td>
+                            <td><span class="badge bg-secondary">{{ $d->mcu?->mcu_code ?? 'N/A' }}</span></td>
+                            <td>{{ $d->serial_number }}</td>
+                            <td>{{ $d->customer?->customer_name ?? '-' }}</td>
+                            <td>{{ $d->import_date?->format('d/m/Y') ?? '-' }}</td>
+                            <td><x-status-badge :status="$d->status" /></td>
+                            <td>
+                                <a href="{{ route('devices.show', $d->id) }}" class="btn btn-sm btn-outline-info">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <button class="btn btn-sm btn-outline-primary"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#modalEditDevice"
+                                        data-id="{{ $d->id }}"
+                                        data-code="{{ $d->device_code }}"
+                                        data-serial="{{ $d->serial_number }}"
+                                        data-product="{{ $d->product_id }}"
+                                        data-mcu="{{ $d->mcu_id }}"
+                                        data-customer="{{ $d->customer_id }}"
+                                        data-contract="{{ $d->contract_id }}"
+                                        data-batch="{{ $d->batch_id }}"
+                                        data-import="{{ $d->import_date?->format('Y-m-d') ?? '' }}"
                                         data-install="{{ $d->install_date?->format('Y-m-d') }}"
                                         data-firmware="{{ $d->firmware_version }}"
                                         data-location="{{ $d->location }}"

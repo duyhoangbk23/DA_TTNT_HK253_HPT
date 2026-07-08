@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\Device;
+use App\Models\Mcu;
 use App\Services\ContractService;
 use App\Http\Requests\StoreContractRequest;
 use App\Http\Requests\UpdateContractRequest;
@@ -20,9 +22,19 @@ class ContractController extends Controller
     {
         $contracts = $this->contractService->getAllContracts();
         $customers = Customer::all();
+        $unusedDevices = Device::whereNull('contract_id')
+            ->whereNull('mcu_id')
+            ->whereNull('replaced_at')
+            ->get();
+        $unusedMcus = Mcu::whereDoesntHave('devices', function ($query) {
+            $query->whereNull('replaced_at');
+        })->get();
+
         return view('contracts.index', [
             'contracts' => $contracts,
             'customers' => $customers,
+            'unusedDevices' => $unusedDevices,
+            'unusedMcus' => $unusedMcus,
         ]);
     }
 

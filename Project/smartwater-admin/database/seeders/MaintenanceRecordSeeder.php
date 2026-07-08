@@ -16,20 +16,37 @@ class MaintenanceRecordSeeder extends Seeder
         $devices = Device::all();
         $technicians = Employee::where('role_id', 3)->get();
 
-        for ($i = 0; $i < 20; $i++) {
+        // Generate 60+ maintenance records with distribution across months for better dashboard charts
+        for ($i = 0; $i < 60; $i++) {
             $device = $devices[$i % $devices->count()];
             $technician = $technicians[$i % $technicians->count()];
             $typeKey = $types[$i % 3];
-
+            
+            // Distribute records across months and days for better visualization
+            $month = ($i % 12) + 1; // Months 1-12
+            $dayOfMonth = (($i / 12) % 28) + 1; // Days 1-28
+            
             MaintenanceRecord::create([
                 'maintenance_code' => sprintf('BT-%04d', $i + 1),
                 'device_id' => $device->id,
                 'employee_id' => $technician->id,
-                'maintenance_date' => now()->subDays($i * 3)->format('Y-m-d'),
+                'maintenance_date' => now()->year(now()->year)->month($month)->day($dayOfMonth)->format('Y-m-d'),
                 'maintenance_type' => $typeKey,
-                'description' => 'Vệ sinh thiết bị, kiểm tra & thay lõi lọc theo lịch.',
-                'parts_used' => $i % 2 === 0 ? 'Lõi PP, Lõi Carbon' : 'Màng RO 75GPD',
-                'cost' => (2 + $i % 5) * 250_000,
+                'description' => match($typeKey) {
+                    'routine' => 'Vệ sinh thiết bị, kiểm tra & thay lõi lọc theo lịch.',
+                    'repair' => 'Sửa chữa lỗi: ' . ($i % 2 === 0 ? 'Rò nước' : 'Máy không khởi động'),
+                    'replace' => 'Thay thế linh kiện hỏng: ' . ($i % 3 === 0 ? 'Bơm' : ($i % 3 === 1 ? 'Van điều' : 'Cảm biến')),
+                },
+                'parts_used' => match($typeKey) {
+                    'routine' => 'Lõi PP, Lõi Carbon',
+                    'repair' => 'Sealant, Keo dán',
+                    'replace' => $i % 2 === 0 ? 'Máy bơm 3000l/h' : 'Màng RO 75GPD',
+                },
+                'cost' => match($typeKey) {
+                    'routine' => (2 + $i % 3) * 200_000,
+                    'repair' => (3 + $i % 4) * 300_000,
+                    'replace' => (5 + $i % 5) * 400_000,
+                },
                 'status' => $statuses[$i % count($statuses)],
             ]);
         }

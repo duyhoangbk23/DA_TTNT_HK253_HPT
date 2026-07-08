@@ -18,8 +18,28 @@ class McuController extends Controller
 
     public function index()
     {
-        $mcus = $this->mcuService->getAllMcus();
-        return view('mcus.index', ['mcus' => $mcus]);
+        $usedMcus = Mcu::withCount(['devices as current_device_count' => function ($query) {
+            $query->whereNull('replaced_at');
+        }])
+        ->whereHas('devices', function ($query) {
+            $query->whereNull('replaced_at');
+        })
+        ->orderBy('mcu_code')
+        ->get();
+
+        $unusedMcus = Mcu::withCount(['devices as current_device_count' => function ($query) {
+            $query->whereNull('replaced_at');
+        }])
+        ->whereDoesntHave('devices', function ($query) {
+            $query->whereNull('replaced_at');
+        })
+        ->orderBy('mcu_code')
+        ->get();
+
+        return view('mcus.index', [
+            'usedMcus' => $usedMcus,
+            'unusedMcus' => $unusedMcus,
+        ]);
     }
 
     public function store(StoreMcuRequest $request)

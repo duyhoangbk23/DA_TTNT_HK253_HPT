@@ -8,10 +8,7 @@
 @endsection
 
 @section('page-actions')
-    <div class="d-flex gap-2">
-        <button class="btn btn-white border"><i class="bi bi-download me-1"></i> Xuất báo cáo</button>
-        <button class="btn btn-primary"><i class="bi bi-plus-lg me-1"></i> Tạo hợp đồng</button>
-    </div>
+    {{-- Buttons removed for demo --}}
 @endsection
 
 @section('content')

@@ -46,7 +46,7 @@
                 <tbody>
                     @foreach ($contracts as $c)
                         <tr>
-                            <td><div class="cell-title">{{ $c->contract_code }}</div></td>
+                            <td><div class="cell-title"><a href="{{ route('contracts.show', $c->id) }}" class="link-primary">{{ $c->contract_code }}</a></div></td>
                             <td>{{ $c->customer?->customer_name ?? '-' }}</td>
                             <td>{{ $c->contract_type }}</td>
                             <td>{{ $c->start_date->format('d/m/Y') }}</td>
@@ -54,6 +54,9 @@
                             <td>{{ number_format($c->amount) }} ₫</td>
                             <td><x-status-badge :status="$c->status" /></td>
                             <td>
+                                <a href="{{ route('contracts.show', $c->id) }}" class="btn btn-sm btn-outline-info me-1">
+                                    <i class="bi bi-eye"></i>
+                                </a>
                                 <button class="btn btn-sm btn-outline-primary"
                                         data-bs-toggle="modal"
                                         data-bs-target="#modalEditContract"
@@ -104,14 +107,47 @@
                                 @error('contract_code')<div class="invalid-feedback">{{ $message }}</div>@enderror
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Khách hàng <span class="text-danger">*</span></label>
-                                <select class="form-select @error('customer_id') is-invalid @enderror" name="customer_id" required>
-                                    <option value="">-- Chọn khách hàng --</option>
-                                    @foreach ($customers as $cust)
-                                        <option value="{{ $cust->id }}">{{ $cust->customer_name }}</option>
-                                    @endforeach
-                                </select>
-                                @error('customer_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                <label class="form-label">Tên khách hàng <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control @error('customer_name') is-invalid @enderror"
+                                       name="customer_name" value="{{ old('customer_name') }}" placeholder="Nhập tên khách hàng" required>
+                                @error('customer_name')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <label class="form-label">Đăng ký thiết bị + MCU</label>
+                                <div id="contractPairsContainer">
+                                    <div class="row g-2 align-items-end mb-2 contract-pair-row">
+                                        <div class="col-md-5">
+                                            <label class="form-label">Thiết bị</label>
+                                            <select name="device_ids[]" class="form-select">
+                                                <option value="">-- Chọn thiết bị chưa dùng --</option>
+                                                @foreach($unusedDevices as $device)
+                                                    <option value="{{ $device->id }}">{{ $device->device_code }} - {{ $device->serial_number }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <label class="form-label">MCU</label>
+                                            <select name="mcu_ids[]" class="form-select">
+                                                <option value="">-- Chọn MCU chưa dùng --</option>
+                                                @foreach($unusedMcus as $mcu)
+                                                    <option value="{{ $mcu->id }}">{{ $mcu->mcu_code }} - {{ $mcu->serial_number }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2 d-grid">
+                                            <button type="button" class="btn btn-outline-danger btn-sm btn-remove-pair" disabled>
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-sm btn-outline-primary" id="addContractPair">
+                                    <i class="bi bi-plus-lg me-1"></i> Thêm cặp
+                                </button>
+                                @error('device_ids')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
+                                @error('mcu_ids')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
                             </div>
                         </div>
                         <div class="row">
@@ -267,6 +303,31 @@
                 document.getElementById('editContractStatus').value = button.getAttribute('data-status');
                 document.getElementById('formEditContract').action = `/contracts/${id}`;
             });
+
+            const contractPairsContainer = document.getElementById('contractPairsContainer');
+            const addContractPair = document.getElementById('addContractPair');
+
+            if (addContractPair && contractPairsContainer) {
+                addContractPair.addEventListener('click', function () {
+                    const template = contractPairsContainer.querySelector('.contract-pair-row');
+                    const clone = template.cloneNode(true);
+                    const selects = clone.querySelectorAll('select');
+                    selects.forEach(select => {
+                        select.value = '';
+                    });
+                    clone.querySelector('.btn-remove-pair').disabled = false;
+                    contractPairsContainer.appendChild(clone);
+                });
+
+                contractPairsContainer.addEventListener('click', function (event) {
+                    if (event.target.closest('.btn-remove-pair')) {
+                        const row = event.target.closest('.contract-pair-row');
+                        if (row && contractPairsContainer.children.length > 1) {
+                            row.remove();
+                        }
+                    }
+                });
+            }
         });
     </script>
 @endsection

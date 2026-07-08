@@ -12,9 +12,16 @@
 @endsection
 
 @section('content')
-    <x-panel class="mb-3">
+    <x-panel class="mb-3" title="MCU đang sử dụng" icon="bi-hdd-network" flush>
+        <x-slot:actions>
+            <div class="d-flex flex-wrap gap-2">
+                <input type="search" class="form-control form-control-sm" style="width: 220px;"
+                       placeholder="Tìm MCU đang sử dụng..." data-dt-search="#tblUsedMcus">
+            </div>
+        </x-slot:actions>
+
         <div class="table-responsive">
-            <table class="table align-middle mb-0" id="mcuTable">
+            <table class="table align-middle mb-0" id="tblUsedMcus" data-datatable data-no-sort="6">
                 <thead>
                     <tr>
                         <th>Mã MCU</th>
@@ -27,18 +34,21 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($mcus as $mcu)
+                    @forelse($usedMcus as $mcu)
                         <tr>
                             <td class="cell-title">{{ $mcu->mcu_code }}</td>
                             <td>{{ $mcu->serial_number }}</td>
                             <td><small class="text-muted">{{ $mcu->firmware_version ?? 'N/A' }}</small></td>
                             <td>
-                                @if($mcu->status === 'online')
+                                @php($displayStatus = \App\Models\Mcu::getDisplayStatus($mcu->status))
+                                @if($displayStatus === 'Online')
                                     <span class="badge bg-success">Online</span>
-                                @elseif($mcu->status === 'offline')
+                                @elseif($displayStatus === 'Offline')
                                     <span class="badge bg-secondary">Offline</span>
-                                @else
+                                @elseif($displayStatus === 'Error')
                                     <span class="badge bg-danger">Error</span>
+                                @else
+                                    <span class="badge bg-light text-dark">N/A</span>
                                 @endif
                             </td>
                             <td><small>{{ $mcu->last_connected_at?->format('d/m/Y H:i') ?? 'Chưa kết nối' }}</small></td>
@@ -73,7 +83,69 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="text-center text-muted-2 py-4">Chưa có MCU nào.</td>
+                            <td colspan="7" class="text-center text-muted-2 py-4">Chưa có MCU đang sử dụng.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </x-panel>
+
+    <x-panel class="mb-3" title="MCU chưa lắp đặt" icon="bi-box-seam" flush>
+        <x-slot:actions>
+            <div class="d-flex flex-wrap gap-2">
+                <input type="search" class="form-control form-control-sm" style="width: 220px;"
+                       placeholder="Tìm MCU chưa lắp đặt..." data-dt-search="#tblUnusedMcus">
+            </div>
+        </x-slot:actions>
+
+        <div class="table-responsive">
+            <table class="table align-middle mb-0" id="tblUnusedMcus" data-datatable data-no-sort="6">
+                <thead>
+                    <tr>
+                        <th>Mã MCU</th>
+                        <th>Serial Number</th>
+                        <th>Firmware</th>
+                        <th>Trạng thái</th>
+                        <th>Kết nối cuối</th>
+                        <th>Thiết bị hiện gắn</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($unusedMcus as $mcu)
+                        <tr>
+                            <td class="cell-title">{{ $mcu->mcu_code }}</td>
+                            <td>{{ $mcu->serial_number }}</td>
+                            <td><small class="text-muted">{{ $mcu->firmware_version ?? 'N/A' }}</small></td>
+                            <td>
+                                <span class="badge bg-light text-dark">N/A</span>
+                            </td>
+                            <td><small>{{ $mcu->last_connected_at?->format('d/m/Y H:i') ?? 'Chưa kết nối' }}</small></td>
+                            <td><span class="text-muted-2">Chưa gắn</span></td>
+                            <td>
+                                <button class="btn btn-sm btn-white border"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalEditMcu"
+                                    data-id="{{ $mcu->id }}"
+                                    data-mcu-code="{{ $mcu->mcu_code }}"
+                                    data-serial-number="{{ $mcu->serial_number }}"
+                                    data-firmware-version="{{ $mcu->firmware_version }}"
+                                    data-status="{{ $mcu->status }}">
+                                    <i class="bi bi-pencil me-1"></i>Sửa
+                                </button>
+                                <form method="POST" action="{{ route('mcus.destroy', $mcu->id) }}" style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-white border text-danger" onclick="return confirm('Xác nhận xoá MCU này?')">
+                                        <i class="bi bi-trash me-1"></i>Xoá
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="7" class="text-center text-muted-2 py-4">Chưa có MCU chưa lắp đặt.</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -99,7 +171,7 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label fw-semibold">Serial Number <span class="text-danger">*</span></label>
-                            <input type="text" name="serial_number" class="form-control @error('serial_number') is-invalid @enderror" required>
+                            <input type="text" name="serial_number" class="form-control @error('serial_number') is-invalid @enderror" placeholder="SN-123456" pattern="SN-\\d{6}" required>
                             @error('serial_number')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
                         </div>
                         <div class="mb-3">
@@ -108,8 +180,9 @@
                             @error('firmware_version')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
                         </div>
                         <div class="mb-3">
-                            <label class="form-label fw-semibold">Trạng thái <span class="text-danger">*</span></label>
-                            <select name="status" class="form-select @error('status') is-invalid @enderror" required>
+                            <label class="form-label fw-semibold">Trạng thái</label>
+                            <select name="status" class="form-select @error('status') is-invalid @enderror">
+                                <option value="">N/A</option>
                                 <option value="offline">Offline</option>
                                 <option value="online">Online</option>
                                 <option value="error">Error</option>
@@ -145,7 +218,7 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label fw-semibold">Serial Number <span class="text-danger">*</span></label>
-                            <input type="text" name="serial_number" class="form-control @error('serial_number') is-invalid @enderror" required>
+                            <input type="text" name="serial_number" class="form-control @error('serial_number') is-invalid @enderror" placeholder="SN-123456" pattern="SN-\\d{6}" required>
                             @error('serial_number')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
                         </div>
                         <div class="mb-3">
@@ -154,8 +227,9 @@
                             @error('firmware_version')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
                         </div>
                         <div class="mb-3">
-                            <label class="form-label fw-semibold">Trạng thái <span class="text-danger">*</span></label>
-                            <select name="status" class="form-select @error('status') is-invalid @enderror" required>
+                            <label class="form-label fw-semibold">Trạng thái</label>
+                            <select name="status" class="form-select @error('status') is-invalid @enderror">
+                                <option value="">N/A</option>
                                 <option value="offline">Offline</option>
                                 <option value="online">Online</option>
                                 <option value="error">Error</option>
@@ -185,16 +259,9 @@ document.addEventListener('DOMContentLoaded', function() {
         form.querySelector('input[name="mcu_code"]').value = button.getAttribute('data-mcu-code');
         form.querySelector('input[name="serial_number"]').value = button.getAttribute('data-serial-number');
         form.querySelector('input[name="firmware_version"]').value = button.getAttribute('data-firmware-version');
-        form.querySelector('select[name="status"]').value = button.getAttribute('data-status');
+        form.querySelector('select[name="status"]').value = button.getAttribute('data-status') || '';
     });
 
-    // DataTable
-    new DataTable('#mcuTable', {
-        responsive: true,
-        language: {
-            url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/vi.json'
-        }
-    });
 });
 </script>
 @endpush
