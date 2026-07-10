@@ -1,0 +1,5 @@
+(sym_lib_table
+	(version 7)
+	(lib (name "Lipo Rider Plus") (type "Altium") (uri "D:/IoT_Embedded/ESP32/Cadlab/Senior-Design/Lipo Rider Plus_SCH&PCB/Imported Lipo Rider Plus.PrjPcb/Lipo Rider Plus.SCHLIB") (options "") (descr ""))
+	(lib (name "ESP32-DevKitC-V4_20180607A_Library") (type "Altium") (uri "${KIPRJMOD}/ESP32-DevKitC-V4_20180607A_Library.SchLib") (options "") (descr ""))
+)
