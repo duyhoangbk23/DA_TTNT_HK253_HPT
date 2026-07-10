@@ -43,8 +43,8 @@ Module flow:
 | `Project/smartwater-admin/routes/api.php` | JSON APIs for products/categories/inventories |
 | `Project/smartwater-admin/public/css/app.css` | Main custom admin theme |
 | `Project/smartwater-admin/public/js/app.js` | Sidebar, DataTables, ApexCharts helpers |
-| `Project/smartwater-admin/database/migrations` | Database schema |
-| `Project/smartwater-admin/database/seeders` | Seed data matching MockData/demo screens |
+| `Project/smartwater-database/database/migrations` | Database schema |
+| `Project/smartwater-database/database/seeders` | Seed data matching MockData/demo screens |
 | `Project/docs` | SRS and ERD image |
 | `Project/firmware` | Firmware notes only; no implemented MQTT integration in Laravel yet |
 

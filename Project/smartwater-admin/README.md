@@ -107,7 +107,7 @@ Dự án mặc định sử dụng **MySQL** làm cơ sở dữ liệu chuẩn (
 * **Sử dụng SQLite (Giải pháp thay thế tạm thời):**
   Nếu muốn chạy thử nghiệm nhanh ứng dụng mà không cần cài đặt hoặc khởi chạy MySQL server:
   1. Mở file `.env` và thay đổi: `DB_CONNECTION=sqlite`.
-  2. Bỏ qua cấu hình host/port/database (Hệ thống sẽ tự nhận diện cơ sở dữ liệu SQLite demo tại `database/database.sqlite`).
+  2. Bỏ qua cấu hình host/port/database (Hệ thống sẽ tự nhận diện cơ sở dữ liệu SQLite demo tại `../smartwater-database/database/database.sqlite`).
   
 * **Làm sạch và nạp lại dữ liệu mẫu:**
   ```bash
@@ -123,7 +123,7 @@ smartwater-admin/
   ├── app/                  # Logic xử lý chính (Controllers, Models, Services)
   ├── bootstrap/            # Khởi động ứng dụng Laravel
   ├── config/               # File cấu hình của Laravel
-  ├── database/             # File SQLite, migrations & seeders dữ liệu mẫu
+  ├── smartwater-database/  # Module DB dùng chung: SQLite, migrations & seeders
   ├── public/               # File tài nguyên tĩnh và assets đã build (CSS, JS)
   ├── resources/            # Giao diện hiển thị (Blade views, CSS gốc)
   ├── routes/               # Định nghĩa các routes web và API

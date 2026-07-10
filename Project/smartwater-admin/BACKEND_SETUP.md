@@ -5,7 +5,7 @@
 ### SQLite (Development)
 Default configuration uses SQLite. No additional setup required.
 
-**Database file**: `database/database.sqlite`
+**Database file**: `../smartwater-database/database/database.sqlite`
 
 ### MySQL (Production)
 To switch to MySQL:
@@ -147,7 +147,7 @@ app/
     Resources/        # API Resources (JSON responses)
   Services/           # ProductService, CategoryService, InventoryService
 
-database/
+smartwater-database/database/
   migrations/         # 17 migrations (tables)
   seeders/           # 16 seeders (populate test data)
 
@@ -177,7 +177,7 @@ php artisan make:controller ControllerName -r  # -r creates CRUD methods
 
 ## Troubleshooting
 
-**Migration errors**: Delete `database.sqlite` file and run `php artisan migrate:fresh --seed`
+**Migration errors**: Delete `../smartwater-database/database/database.sqlite` file and run `php artisan migrate:fresh --seed`
 
 **Seeder issues**: Ensure migrations ran successfully first. Check `php artisan migrate:status`
 

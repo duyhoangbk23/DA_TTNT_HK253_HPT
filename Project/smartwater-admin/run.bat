@@ -57,13 +57,22 @@ if errorlevel 1 (
 
 :: Run database migrations
 echo [4/4] Running database migrations...
+findstr /C:"DB_CONNECTION=sqlite" .env >nul
+if not errorlevel 1 (
+    if not exist ..\smartwater-database\database (
+        mkdir ..\smartwater-database\database
+    )
+    if not exist ..\smartwater-database\database\database.sqlite (
+        type nul > ..\smartwater-database\database\database.sqlite
+    )
+)
 call php artisan migrate --force
 if errorlevel 1 (
     echo.
     echo [CANH BAO] Chay migration that bai.
     echo Mac dinh ung dung su dung MySQL (xem thiet lap trong file .env).
     echo - Neu ban dung MySQL: Vui long mo MySQL (XAMPP/Docker) va tao DB 'smartwater_admin'.
-    echo - Neu ban muon dung SQLite (Tam thoi/Thay the): Hay doi 'DB_CONNECTION=mysql' thanh 'DB_CONNECTION=sqlite' trong file .env.
+    echo - Neu ban muon dung SQLite (Tam thoi/Thay the): Hay doi 'DB_CONNECTION=mysql' thanh 'DB_CONNECTION=sqlite' trong file .env va dung file database o ..\smartwater-database\database\database.sqlite.
     echo.
     pause
     exit /b 1
