@@ -1,5 +1,7 @@
 # SmartWater Admin - Hướng dẫn chạy website
 
+`smartwater-admin` là hệ thống quản trị dành cho dịch vụ bảo trì máy lọc nước. Dự án hỗ trợ theo dõi sản phẩm, kho linh kiện, khách hàng, hợp đồng, thiết bị IoT, nhân viên và lịch sử hoạt động trên một giao diện web tập trung.
+
 ## Giới thiệu
 
 Đây là giao diện quản lý hệ thống dịch vụ bảo trì máy lọc nước. Dự án được phát triển trên nền tảng **Laravel 11** & **SQLite** hỗ trợ kiểm thử và phát triển nhanh chóng.

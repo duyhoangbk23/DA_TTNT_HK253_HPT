@@ -6,7 +6,7 @@
 - Kết nối board ESP32 qua cáp USB
 
 ## Cấu hình hiện tại
-- Board: `ESP32-DevKitC-v4 / ESP32-NodeMCU-32S`
+- Board: `ESP32-DevKitC-v4 / ESP32-NodeMCU-32S 38Pins`
 - MCU  : ` ESP32-WROOM-32`
 - Framework: `Arduino`
 - Baud monitor: `115200`
