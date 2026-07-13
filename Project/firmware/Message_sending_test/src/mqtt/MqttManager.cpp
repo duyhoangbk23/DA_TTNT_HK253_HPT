@@ -33,7 +33,7 @@ void MqttManager::loop() {
     connect();
 }
 
-bool MqttManager::isConnected() const {
+bool MqttManager::isConnected() {
     return client_.connected();
 }
 
@@ -44,7 +44,7 @@ bool MqttManager::publishTelemetry(const JsonDocument& document) {
 
     char payload[256];
     const size_t length = serializeJson(document, payload, sizeof(payload));
-    const String topic = String(SimulatorConfig::TOPIC_PREFIX) + "/" + deviceId_ + "/telemetry";
+    const String topic = String(SimulatorConfig::TOPIC_PREFIX)+ "/telemetry";
     return client_.publish(topic.c_str(), reinterpret_cast<const uint8_t*>(payload), length);
 }
 

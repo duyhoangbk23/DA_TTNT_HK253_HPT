@@ -5,10 +5,7 @@
 struct TelemetryData {
     float temperature;
     int tds;
-    float flowRate;
-    int filterLife;
-    int waterLevel;
-    float pressure;
+    bool alert;
 };
 
 class ITelemetryGenerator {

@@ -9,7 +9,7 @@ class MqttManager {
    public:
     void begin(const char* deviceId, const char* host, uint16_t port, const char* username, const char* password);
     void loop();
-    bool isConnected() const;
+    bool isConnected();
     bool publishTelemetry(const JsonDocument& document);
 
    private:

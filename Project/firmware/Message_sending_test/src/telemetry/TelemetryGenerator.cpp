@@ -8,12 +8,8 @@ RandomTelemetryGenerator::RandomTelemetryGenerator() {
 
 TelemetryData RandomTelemetryGenerator::next() {
     TelemetryData data{};
-    data.temperature = randomFloat(24.0f, 34.0f);
     data.tds = randomInt(40, 300);
-    data.flowRate = randomFloat(0.0f, 3.0f);
-    data.filterLife = randomInt(0, 100);
-    data.waterLevel = randomInt(0, 100);
-    data.pressure = randomFloat(1.0f, 3.0f);
+    data.alert=randomInt(0, 1); 
     return data;
 }
 
