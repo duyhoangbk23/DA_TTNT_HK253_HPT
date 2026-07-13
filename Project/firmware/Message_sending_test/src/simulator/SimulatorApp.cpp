@@ -35,7 +35,7 @@ void SimulatorApp::publishTelemetry() {
 
     StaticJsonDocument<256> doc;
     doc["deviceId"] = SimulatorConfig::DEVICE_ID;
-    doc["uptime"] = millis() / 1000UL;
+    doc["time"] = millis() / 1000UL;
     doc["tds"] = random(40, 301);
     doc["alert"] = random(0, 1); // Randomly generate alert as 0 or 1
     mqttManager_.publishTelemetry(doc);

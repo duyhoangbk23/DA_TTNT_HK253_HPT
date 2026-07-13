@@ -282,13 +282,23 @@ class MockData
 
         $wave = fn (int $base, int $amp, int $shift) => collect(range(0, $points - 1))
             ->map(fn ($x) => round($base + $amp * sin(($x + $shift) / 2), 1))->all();
+        $tds = $wave(52, 8, 1);
+        $alerts = collect($tds)->map(function ($value) {
+            if ($value >= 60) {
+                return 'warning';
+            }
+
+            if ($value <= 45) {
+                return 'low';
+            }
+
+            return 'normal';
+        })->all();
 
         return [
-            'labels'      => $labels,
-            'tds'         => $wave(52, 8, 1),        // ppm
-            'temperature' => $wave(28, 3, 2),        // °C
-            'water_flow'  => $wave(170, 25, 0),      // L
-            'ph'          => $wave(72, 4, 3),        // -> chia 10 khi hiển thị (7.2)
+            'labels' => $labels,
+            'tds' => $tds,
+            'alerts' => $alerts,
         ];
     }
 

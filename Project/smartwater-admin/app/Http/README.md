@@ -1,15 +1,15 @@
-# app/Http/ — HTTP Request/Response handlers
+# app/Http/ - HTTP Request/Response handlers
 
-Xử lý tất cả HTTP requests từ browser, bao gồm Controllers, Middleware, Requests, Resources.
+Xử lý toàn bộ HTTP requests từ browser, bao gồm Controllers, Middleware, Requests, Resources.
 
-## 📁 Cấu trúc
+## Cấu trúc
 
 | Folder/File | Tác dụng |
 |-------------|---------|
 | **Controllers/** | Xử lý logic từng trang (fetch dữ liệu từ MockData, truyền vào View) |
 | **Middleware/** | Xử lý trước/sau request (nếu có) |
 
-## 📌 Controllers (12 file)
+## Controllers
 
 | Controller | Tác dụng | Route |
 |------------|---------|-------|
@@ -20,16 +20,21 @@ Xử lý tất cả HTTP requests từ browser, bao gồm Controllers, Middlewar
 | `BatchController` | Danh sách & chi tiết lô hàng | `/batches`, `/batches/{id}` |
 | `CustomerController` | Danh sách & chi tiết khách hàng | `/customers`, `/customers/{id}` |
 | `ContractController` | Quản lý hợp đồng | `/contracts` |
-| `DeviceController` | Danh sách & chi tiết thiết bị + chart sensor | `/devices`, `/devices/{id}` |
+| `DeviceController` | Danh sách & chi tiết thiết bị + TDS/alert telemetry | `/devices`, `/devices/{id}` |
 | `EmployeeController` | Danh sách nhân viên | `/employees` |
 | `ActivityController` | Lịch sử hoạt động | `/activities` |
 | `ProfileController` | Hồ sơ cá nhân người dùng | `/profile` |
+| `TelemetryController` | Nhận telemetry TDS + alert từ MCU | `/telemetry` |
 
-## 🎯 Pattern chung
+## Pattern chung
 
-Tất cả Controllers **chỉ làm 3 việc**:
+Tất cả Controllers chỉ làm 3 việc:
 1. Gọi `MockData::{method}()` để lấy dữ liệu giả lập
 2. Xử lý filter/search nếu cần
-3. Truyền dữ liệu vào View via `return view(...)`
+3. Truyền dữ liệu vào View qua `return view(...)`
 
-**Không có**: Database queries, API calls, Business Logic, Authentication thực
+Không có:
+- Database queries
+- API calls
+- Business Logic
+- Authentication thực

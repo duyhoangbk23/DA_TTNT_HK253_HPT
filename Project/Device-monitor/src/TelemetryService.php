@@ -11,16 +11,16 @@ final class TelemetryService
         $decoded = $this->decodePayload($payload);
         $flat = $this->flatten($decoded);
 
-        $receivedAt = $this->normalizeTimestamp($receivedAt);
+        $receivedAt = $this->normalizeTimestamp($receivedAt, $flat);
 
         return [
             'topic' => $topic,
             'source' => $source !== '' ? $source : 'hivemq',
             'payload_raw' => $this->toRawPayload($payload),
             'payload_json' => json_encode($decoded, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
-            'device_id' => $this->firstString($flat, ['device_id', 'deviceId', 'deviceCode', 'id', 'code']),
+            'device_id' => $this->firstString($flat, ['deviceId', 'device_id', 'deviceCode', 'device_code', 'id', 'code']),
             'timestamp' => $receivedAt,
-            'tds_value' => $this->firstFloat($flat, ['tds', 'TDS', 'tds_value', 'tdsValue']),
+            'tds' => $this->firstFloat($flat, ['tds', 'TDS', 'tds_value', 'tdsValue']),
             'alert' => $this->firstScalar($flat, ['alert', 'Alert']),
         ];
     }
@@ -110,8 +110,17 @@ final class TelemetryService
         return null;
     }
 
-    private function normalizeTimestamp(string $receivedAt): string
+    private function normalizeTimestamp(string $receivedAt, array $payload = []): string
     {
+        foreach (['timestamp', 'time', 'received_at'] as $key) {
+            if (isset($payload[$key]) && is_string($payload[$key]) && trim($payload[$key]) !== '') {
+                $timestamp = strtotime(trim($payload[$key]));
+                if ($timestamp !== false) {
+                    return gmdate('Y-m-d H:i:s', $timestamp);
+                }
+            }
+        }
+
         if ($receivedAt !== '') {
             $timestamp = strtotime($receivedAt);
             if ($timestamp !== false) {

@@ -12,6 +12,16 @@ class DeviceService
         return Device::with(['product', 'customer', 'contract', 'batch', 'mcu'])->get();
     }
 
+    public function getUsedDevices()
+    {
+        return Device::used()->with(['product', 'customer', 'contract', 'batch', 'mcu'])->get();
+    }
+
+    public function getUnusedDevices()
+    {
+        return Device::unused()->with(['product', 'customer', 'contract', 'batch', 'mcu'])->get();
+    }
+
     public function getDeviceById($id)
     {
         return Device::with(['product', 'customer', 'contract', 'batch', 'mcu'])->findOrFail($id);

@@ -23,11 +23,15 @@ final class Database
                 $charset = $_ENV['DB_CHARSET'] ?? 'utf8mb4';
                 $dsn = sprintf('mysql:host=%s;port=%s;dbname=%s;charset=%s', $host, $port, $name, $charset);
             } else {
-                $storageDir = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'storage';
-                if (!is_dir($storageDir)) {
-                    mkdir($storageDir, 0777, true);
+                $defaultPath = dirname(__DIR__, 2)
+                    . DIRECTORY_SEPARATOR . 'smartwater-database'
+                    . DIRECTORY_SEPARATOR . 'database'
+                    . DIRECTORY_SEPARATOR . 'database.sqlite';
+                $dbPath = $_ENV['DB_PATH'] ?? $defaultPath;
+                $dbDir = dirname($dbPath);
+                if (!is_dir($dbDir)) {
+                    mkdir($dbDir, 0777, true);
                 }
-                $dbPath = $_ENV['DB_PATH'] ?? $storageDir . DIRECTORY_SEPARATOR . 'telemetry.sqlite';
                 $dsn = 'sqlite:' . $dbPath;
                 $user = '';
                 $pass = '';
@@ -52,36 +56,14 @@ final class Database
             $pdo->exec(
                 'CREATE TABLE IF NOT EXISTS telemetry (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    topic TEXT NOT NULL,
-                    source TEXT NOT NULL DEFAULT "hivemq",
-                    payload_raw TEXT NOT NULL,
-                    payload_json TEXT NOT NULL,
-                    device_id TEXT NULL,
+                    device_id INTEGER NOT NULL,
                     timestamp TEXT NOT NULL,
-                    tds_value REAL NULL,
+                    tds REAL NULL,
                     alert TEXT NULL,
-                    created_at TEXT NOT NULL DEFAULT (datetime(\'now\'))
+                    created_at TEXT NULL,
+                    updated_at TEXT NULL
                 )'
             );
-            $columns = array_column($pdo->query('PRAGMA table_info(telemetry)')->fetchAll(), 'name');
-            $required = ['id', 'topic', 'source', 'payload_raw', 'payload_json', 'device_id', 'timestamp', 'tds_value', 'alert', 'created_at'];
-            if ($columns && array_diff($columns, $required)) {
-                $pdo->exec('DROP TABLE telemetry');
-                $pdo->exec(
-                    'CREATE TABLE telemetry (
-                        id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        topic TEXT NOT NULL,
-                        source TEXT NOT NULL DEFAULT "hivemq",
-                        payload_raw TEXT NOT NULL,
-                        payload_json TEXT NOT NULL,
-                        device_id TEXT NULL,
-                        timestamp TEXT NOT NULL,
-                        tds_value REAL NULL,
-                        alert TEXT NULL,
-                        created_at TEXT NOT NULL DEFAULT (datetime(\'now\'))
-                    )'
-                );
-            }
             $pdo->exec('CREATE INDEX IF NOT EXISTS idx_telemetry_device_timestamp ON telemetry(device_id, timestamp DESC)');
             return;
         }
@@ -89,15 +71,12 @@ final class Database
         $pdo->exec(
             'CREATE TABLE IF NOT EXISTS telemetry (
                 id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                topic VARCHAR(255) NOT NULL,
-                source VARCHAR(64) NOT NULL DEFAULT "hivemq",
-                payload_raw LONGTEXT NOT NULL,
-                payload_json LONGTEXT NOT NULL,
-                device_id VARCHAR(128) NULL,
+                device_id BIGINT UNSIGNED NOT NULL,
                 timestamp DATETIME NOT NULL,
-                tds_value DOUBLE NULL,
+                tds DOUBLE NULL,
                 alert VARCHAR(255) NULL,
-                created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+                created_at TIMESTAMP NULL,
+                updated_at TIMESTAMP NULL
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4'
         );
         $exists = (bool) $pdo->query("SHOW INDEX FROM telemetry WHERE Key_name = 'idx_telemetry_device_timestamp'")->fetchColumn();

@@ -15,9 +15,7 @@ class TelemetryController extends Controller
             'api_key' => 'required|string',
             'timestamp' => 'nullable|date_format:Y-m-d H:i:s',
             'tds' => 'nullable|numeric',
-            'temperature' => 'nullable|numeric',
-            'water_flow' => 'nullable|numeric',
-            'ph' => 'nullable|numeric',
+            'alert' => 'nullable|string|max:255',
         ]);
 
         // Tìm MCU theo mcu_code
@@ -42,9 +40,7 @@ class TelemetryController extends Controller
             'device_id' => $device->id,
             'recorded_at' => $validated['timestamp'] ?? now(),
             'tds' => $validated['tds'] ?? null,
-            'temperature' => $validated['temperature'] ?? null,
-            'water_flow' => $validated['water_flow'] ?? null,
-            'ph' => $validated['ph'] ?? null,
+            'alert' => $validated['alert'] ?? null,
         ]);
 
         // Cập nhật MCU status

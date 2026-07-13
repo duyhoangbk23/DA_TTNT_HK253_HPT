@@ -14,7 +14,7 @@ TelemetryData RandomTelemetryGenerator::next() {
 }
 
 int RandomTelemetryGenerator::randomInt(int minInclusive, int maxInclusive) {
-    return random(minInclusive, maxInclusive + 1);
+    return random(minInclusive, maxInclusive );
 }
 
 float RandomTelemetryGenerator::randomFloat(float minInclusive, float maxInclusive) {

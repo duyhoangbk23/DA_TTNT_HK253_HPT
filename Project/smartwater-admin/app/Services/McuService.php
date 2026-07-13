@@ -12,6 +12,30 @@ class McuService
         return Mcu::all();
     }
 
+    public function getUsedMcus()
+    {
+        return Mcu::used()
+            ->withCount(['devices as current_device_count' => function ($query) {
+                $query->whereNull('replaced_at')
+                    ->whereNotNull('contract_id')
+                    ->whereNotNull('mcu_id');
+            }])
+            ->orderBy('mcu_code')
+            ->get();
+    }
+
+    public function getUnusedMcus()
+    {
+        return Mcu::unused()
+            ->withCount(['devices as current_device_count' => function ($query) {
+                $query->whereNull('replaced_at')
+                    ->whereNotNull('contract_id')
+                    ->whereNotNull('mcu_id');
+            }])
+            ->orderBy('mcu_code')
+            ->get();
+    }
+
     public function getMcuById(int $id)
     {
         return Mcu::findOrFail($id);
@@ -19,17 +43,7 @@ class McuService
 
     public function getAvailableMcus()
     {
-        return Mcu::withCount(['devices as current_device_count' => function ($query) {
-            $query->whereNull('replaced_at');
-        }])
-        ->where(function ($query) {
-            $query->where('status', 'online')
-                  ->orWhereDoesntHave('devices', function ($query) {
-                      $query->whereNull('replaced_at');
-                  });
-        })
-        ->orderBy('mcu_code')
-        ->get();
+        return $this->getUnusedMcus()->where('status', 'online')->values();
     }
 
     public function createMcu(array $data): Mcu
@@ -57,7 +71,11 @@ class McuService
     {
         $mcu = $this->getMcuById($id);
 
-        if ($mcu->devices()->whereNull('replaced_at')->exists()) {
+        if ($mcu->devices()
+            ->whereNull('replaced_at')
+            ->whereNotNull('contract_id')
+            ->whereNotNull('mcu_id')
+            ->exists()) {
             throw new \Exception('MCU này đang gắn với thiết bị hoạt động, không thể xoá.');
         }
 

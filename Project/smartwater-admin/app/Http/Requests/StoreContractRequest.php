@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Device;
+use App\Models\Mcu;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreContractRequest extends FormRequest
@@ -42,6 +44,20 @@ class StoreContractRequest extends FormRequest
 
                 if ($deviceCount !== $mcuCount) {
                     $validator->errors()->add('mcu_ids', 'Số lượng MCU phải bằng số lượng thiết bị.');
+                }
+            }
+
+            foreach ((array) $deviceIds as $deviceId) {
+                if (!Device::unused()->whereKey($deviceId)->exists()) {
+                    $validator->errors()->add('device_ids', 'Có thiết bị đã được sử dụng hoặc không còn khả dụng.');
+                    break;
+                }
+            }
+
+            foreach ((array) $mcuIds as $mcuId) {
+                if (!Mcu::unused()->whereKey($mcuId)->exists()) {
+                    $validator->errors()->add('mcu_ids', 'Có MCU đã được sử dụng hoặc không còn khả dụng.');
+                    break;
                 }
             }
         });

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -32,6 +33,22 @@ class Device extends Model
         'install_date' => 'date',
         'replaced_at' => 'datetime',
     ];
+
+    public function scopeUsed(Builder $query): Builder
+    {
+        return $query
+            ->whereNull('replaced_at')
+            ->whereNotNull('contract_id')
+            ->whereNotNull('mcu_id');
+    }
+
+    public function scopeUnused(Builder $query): Builder
+    {
+        return $query
+            ->whereNull('replaced_at')
+            ->whereNull('contract_id')
+            ->whereNull('mcu_id');
+    }
 
     public function product(): BelongsTo
     {

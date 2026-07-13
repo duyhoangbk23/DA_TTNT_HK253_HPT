@@ -14,18 +14,12 @@ class DeviceDashboardData extends Model
         'device_id',
         'recorded_at',
         'tds',
-        'temperature',
-        'water_flow',
-        'ph',
-        'status',
+        'alert',
     ];
 
     protected $casts = [
         'recorded_at' => 'datetime',
         'tds' => 'float',
-        'temperature' => 'float',
-        'water_flow' => 'float',
-        'ph' => 'float',
     ];
 
     public function device(): BelongsTo

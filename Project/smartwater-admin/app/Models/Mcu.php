@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -50,10 +51,30 @@ class Mcu extends Model
         return $this->hasMany(Device::class);
     }
 
+    public function scopeUsed(Builder $query): Builder
+    {
+        return $query->whereHas('devices', function (Builder $query) {
+            $query->whereNull('replaced_at')
+                ->whereNotNull('contract_id')
+                ->whereNotNull('mcu_id');
+        });
+    }
+
+    public function scopeUnused(Builder $query): Builder
+    {
+        return $query->whereDoesntHave('devices', function (Builder $query) {
+            $query->whereNull('replaced_at')
+                ->whereNotNull('contract_id')
+                ->whereNotNull('mcu_id');
+        });
+    }
+
     public function currentDevice()
     {
         return $this->devices()
             ->whereNull('replaced_at')
+            ->whereNotNull('contract_id')
+            ->whereNotNull('mcu_id')
             ->latest()
             ->first();
     }

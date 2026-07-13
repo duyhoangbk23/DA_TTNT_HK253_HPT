@@ -16,7 +16,7 @@ Chứa tất cả view Blade để render HTML. Sử dụng Laravel Blade templa
 | **batch/** | Danh sách & chi tiết lô hàng |
 | **customers/** | Danh sách & chi tiết khách hàng |
 | **contracts/** | Hợp đồng |
-| **devices/** | Danh sách & chi tiết thiết bị (+ sensor charts) |
+| **devices/** | Danh sách & chi tiết thiết bị (+ TDS/alert telemetry) |
 | **employees/** | Danh sách nhân viên |
 | **activities/** | Lịch sử hoạt động |
 | **profile/** | Hồ sơ cá nhân |

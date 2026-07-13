@@ -7,7 +7,6 @@ use App\Models\Customer;
 use App\Models\Contract;
 use App\Models\Batch;
 use App\Models\Mcu;
-use App\Models\Device;
 use App\Models\DeviceDashboardData;
 use App\Services\DeviceService;
 use App\Http\Requests\StoreDeviceRequest;
@@ -25,17 +24,8 @@ class DeviceController extends Controller
 
     public function index()
     {
-        $usedDevices = Device::whereNull('replaced_at')
-            ->whereNotNull('contract_id')
-            ->whereNotNull('mcu_id')
-            ->with(['product', 'customer', 'contract', 'batch', 'mcu'])
-            ->get();
-
-        $unusedDevices = Device::whereNull('replaced_at')
-            ->whereNull('contract_id')
-            ->whereNull('mcu_id')
-            ->with(['product', 'customer', 'contract', 'batch', 'mcu'])
-            ->get();
+        $usedDevices = $this->deviceService->getUsedDevices();
+        $unusedDevices = $this->deviceService->getUnusedDevices();
 
         $products = Product::all();
         $customers = Customer::all();
@@ -73,9 +63,11 @@ class DeviceController extends Controller
         $telemetry = [
             'labels' => $labels,
             'tds' => $telemetryData->pluck('tds')->toArray(),
-            'temperature' => $telemetryData->pluck('temperature')->toArray(),
-            'water_flow' => $telemetryData->pluck('water_flow')->toArray(),
-            'ph' => $telemetryData->pluck('ph')->toArray(),
+            'alerts' => $telemetryData->map(fn ($row) => [
+                'time' => $row->recorded_at->format('H:i'),
+                'alert' => $row->alert ?? 'normal',
+                'tds' => $row->tds,
+            ])->toArray(),
         ];
 
         // Lấy maintenance records

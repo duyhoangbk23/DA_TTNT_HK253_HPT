@@ -78,21 +78,32 @@
                 <x-panel class="mb-3">
                     <x-slot:title>Dữ liệu cảm biến</x-slot:title>
                     <div class="row g-3">
-                        <div class="col-12 col-md-6">
+                        <div class="col-12 col-lg-7">
                             <div class="cell-sub mb-1"><i class="bi bi-droplet me-1"></i>TDS (ppm)</div>
                             <div id="chart-tds" data-height="220"></div>
                         </div>
-                        <div class="col-12 col-md-6">
-                            <div class="cell-sub mb-1"><i class="bi bi-thermometer-half me-1"></i>Nhiệt độ (°C)</div>
-                            <div id="chart-temperature" data-height="220"></div>
-                        </div>
-                        <div class="col-12 col-md-6">
-                            <div class="cell-sub mb-1"><i class="bi bi-water me-1"></i>Lưu lượng nước (L)</div>
-                            <div id="chart-flow" data-height="220"></div>
-                        </div>
-                        <div class="col-12 col-md-6">
-                            <div class="cell-sub mb-1"><i class="bi bi-moisture me-1"></i>pH</div>
-                            <div id="chart-ph" data-height="220"></div>
+                        <div class="col-12 col-lg-5">
+                            <div class="cell-sub mb-2"><i class="bi bi-exclamation-triangle me-1"></i>Cảnh báo gần đây</div>
+                            <div class="table-responsive">
+                                <table class="table table-sm align-middle">
+                                    <thead>
+                                        <tr>
+                                            <th>Thời gian</th>
+                                            <th>TDS</th>
+                                            <th>Alert</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($telemetry['alerts'] as $row)
+                                            <tr>
+                                                <td>{{ $row['time'] }}</td>
+                                                <td>{{ $row['tds'] }}</td>
+                                                <td><x-status-badge :status="$row['alert']" /></td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </x-panel>
@@ -202,15 +213,9 @@
         if (telemetry.labels && telemetry.labels.length > 0) {
             const els = {
                 tds: document.querySelector('#chart-tds'),
-                temperature: document.querySelector('#chart-temperature'),
-                flow: document.querySelector('#chart-flow'),
-                ph: document.querySelector('#chart-ph'),
             };
 
             SW.areaChart(els.tds, 'TDS', telemetry.labels, telemetry.tds, '#1668e3');
-            SW.lineChart(els.temperature, 'Nhiệt độ', telemetry.labels, telemetry.temperature, '#e0304a');
-            SW.areaChart(els.flow, 'Lưu lượng', telemetry.labels, telemetry.water_flow, '#17b6d6');
-            SW.lineChart(els.ph, 'pH', telemetry.labels, telemetry.ph, '#16a34a');
         }
 
         const mcuSearch = document.getElementById('mcuSearch');
