@@ -1,6 +1,6 @@
-\subsection{Tuần 3}
+﻿\subsection*{Tuần 3}
 
-\subsubsection{Mô tả công việc}
+\subsubsection*{Mô tả công việc}
 Trong tuần 3, tôi tập trung làm quen với hệ thống Web Backend, khảo sát kiến trúc dữ liệu và luồng xử lý dữ liệu trong dự án \texttt{smartwater-admin}. Đây là giai đoạn quan trọng để hiểu yêu cầu thực tế của khách hàng, từ đó định hình cách tổ chức dữ liệu, luồng xử lý và giao diện quản trị phù hợp cho hệ thống.
 
 Các công việc đã thực hiện gồm:
@@ -13,9 +13,9 @@ Các công việc đã thực hiện gồm:
     \item Chạy thử hệ thống để kiểm tra luồng hoạt động cơ bản.
 \end{itemize}
 
-\subsubsection{Nội dung thực hiện}
+\subsubsection*{Nội dung thực hiện}
 
-\paragraph{1. Phân tích yêu cầu và định hướng xây dựng hệ thống}
+\paragraph*{1. Phân tích yêu cầu và định hướng xây dựng hệ thống}
 Sau khi đọc tài liệu đề xuất của công ty, tôi xác định hệ thống cần phục vụ bài toán quản lý dịch vụ bảo trì máy lọc nước. Từ yêu cầu đó, tôi định hướng xây dựng \texttt{smartwater-admin} như một dashboard quản trị tập trung để hỗ trợ theo dõi các nghiệp vụ chính của hệ thống.
 
 Các phân hệ chính được xác định gồm:
@@ -32,7 +32,7 @@ Các phân hệ chính được xác định gồm:
 
 Việc tách hệ thống thành nhiều module là cần thiết vì mỗi nhóm chức năng có dữ liệu, quy trình xử lý và đối tượng sử dụng khác nhau. Cách tổ chức này giúp giảm độ phụ thuộc giữa các phần của hệ thống, thuận lợi hơn cho việc bảo trì từng chức năng riêng lẻ và cho phép mở rộng dần mà không làm ảnh hưởng đến toàn bộ ứng dụng. Với một hệ thống quản trị, việc phân module còn hỗ trợ phân quyền rõ ràng hơn, vì người dùng chỉ cần truy cập đúng phần công việc của mình thay vì tương tác với toàn bộ chức năng.
 
-\paragraph{2. Phân tích luồng nghiệp vụ của hệ thống}
+\paragraph*{2. Phân tích luồng nghiệp vụ của hệ thống}
 SmartWater Admin đóng vai trò là trung tâm điều phối nghiệp vụ cho toàn bộ hoạt động quản lý dịch vụ bảo trì máy lọc nước. Hệ thống không chỉ lưu trữ thông tin mà còn liên kết các bước nghiệp vụ từ lúc khách hàng phát sinh nhu cầu đến khi thiết bị được lắp đặt, theo dõi và bảo trì trong suốt vòng đời sử dụng. Ở góc độ vận hành, đây là nơi tập trung các thông tin quan trọng để bộ phận quản lý có thể theo dõi trạng thái khách hàng, hợp đồng, thiết bị và tình hình hoạt động thực tế của hệ thống.
 
 Luồng nghiệp vụ thường bắt đầu từ khách hàng. Khi khách hàng đăng ký sử dụng dịch vụ, thông tin cá nhân hoặc thông tin doanh nghiệp sẽ được đưa vào hệ thống để hình thành hồ sơ quản lý ban đầu. Từ dữ liệu này, bộ phận kinh doanh hoặc quản lý có thể lập hợp đồng phù hợp với loại dịch vụ mà khách hàng lựa chọn. Hợp đồng là mắt xích quan trọng vì nó xác định phạm vi cung cấp dịch vụ, thời hạn hiệu lực và các điều khoản liên quan đến lắp đặt hoặc bảo trì.
@@ -47,12 +47,12 @@ Hình \ref{fig:week3-business-flow} mô tả luồng nghiệp vụ tổng thể 
 
 \begin{figure}[hbtp]
     \centering
-    \includegraphics[width=0.92\linewidth]{include/image/business_flow.png}
+    \includegraphics[width=0.6\linewidth]{include/image/business_flow.png}
     \caption{Luồng nghiệp vụ tổng thể của hệ thống SmartWater}
     \label{fig:week3-business-flow}
 \end{figure}
 
-\paragraph{2. Khảo sát kiến trúc backend và cơ sở dữ liệu}
+\paragraph*{2. Khảo sát kiến trúc backend và cơ sở dữ liệu}
 Khi đọc source code, tôi nhận thấy hệ thống được xây dựng bằng Laravel và tổ chức theo mô hình MVC kết hợp Service để tách riêng phần xử lý nghiệp vụ và phần hiển thị. Kiến trúc của dự án được chia thành các lớp chính gồm:
 \begin{itemize}
     \item \texttt{routes/}: khai báo route cho web và API.
@@ -69,11 +69,11 @@ Về dữ liệu, hệ thống được thiết kế xoay quanh các thực th�
 
 Việc tổ chức dữ liệu theo từng thực thể giúp hệ thống tránh lặp thông tin và đảm bảo dữ liệu được chuẩn hóa ở mức phù hợp. Chẳng hạn, khách hàng, hợp đồng, thiết bị và telemetry được tách thành các bảng riêng để mỗi bảng chỉ lưu đúng phạm vi thông tin của mình, từ đó giảm dư thừa và dễ kiểm soát tính nhất quán. Đặc biệt, telemetry được tách khỏi dữ liệu nghiệp vụ vì đây là loại dữ liệu phát sinh liên tục theo thời gian, có tần suất ghi nhận cao và phục vụ mục tiêu giám sát thay vì quản lý danh mục. Cách tách này giúp truy vấn nghiệp vụ không bị lẫn với dữ liệu quan trắc, đồng thời giữ cho hệ thống dễ mở rộng khi số lượng thiết bị và bản ghi tăng lên.
 
-Hình \ref{fig:week3-system-structure} mô tả kiến trúc tổng thể của hệ thống SmartWater. Trong mô hình này, dữ liệu từ thiết bị IoT được gửi về lớp dịch vụ trung gian trước khi lưu vào cơ sở dữ liệu, còn khối SmartWater Admin đóng vai trò giao diện quản trị để người dùng thao tác, tra cứu và theo dõi toàn bộ hoạt động. Từ sơ đồ có thể thấy hệ thống được tổ chức theo luồng xử lý rõ ràng giữa thiết bị, dịch vụ dữ liệu và khối quản trị.
+% Hình \ref{fig:week3-system-structure} mô tả kiến trúc tổng thể của hệ thống SmartWater. Trong mô hình này, dữ liệu từ thiết bị IoT được gửi về lớp dịch vụ trung gian trước khi lưu vào cơ sở dữ liệu, còn khối SmartWater Admin đóng vai trò giao diện quản trị để người dùng thao tác, tra cứu và theo dõi toàn bộ hoạt động. Từ sơ đồ có thể thấy hệ thống được tổ chức theo luồng xử lý rõ ràng giữa thiết bị, dịch vụ dữ liệu và khối quản trị.
 
-\begin{figure}[hbtp]
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.92\linewidth]{include/image/smartwater_system_structure.png}
+    \includegraphics[width=0.6\linewidth]{include/image/smartwater_system_structure.png}
     \caption{Kiến trúc tổng thể của hệ thống SmartWater}
     \label{fig:week3-system-structure}
 \end{figure}
@@ -82,19 +82,19 @@ Sau khi phân tích kiến trúc tổng thể, tôi tiếp tục đối chiếu 
 
 Việc lựa chọn mô hình MVC kết hợp Service Layer phù hợp với bài toán của SmartWater Admin vì đây là hệ thống quản trị có nhiều luồng thao tác và nhiều màn hình chia sẻ cùng một nguồn dữ liệu. Trong mô hình này, Controller giữ vai trò tiếp nhận request và điều phối, Model chịu trách nhiệm ánh xạ và làm việc với dữ liệu, còn Service được dùng để gom các nghiệp vụ xử lý có thể tái sử dụng ở nhiều nơi. Việc tách Service khỏi Controller giúp controller không bị phình to khi số lượng màn hình và quy tắc xử lý tăng lên, đồng thời làm cho logic nghiệp vụ dễ kiểm thử, dễ bảo trì và thuận lợi hơn khi cần mở rộng thêm chức năng mới.
 
-\begin{figure}[hbtp]
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.92\linewidth]{include/image/backend_struct.png}
+    \includegraphics[width=0.6\linewidth]{include/image/backend_struct.png}
     \caption{Kiến trúc backend của SmartWater Admin}
     \label{fig:week3-backend-structure}
 \end{figure}
 
-\paragraph{3. Luồng xử lý dữ liệu}
+\paragraph*{3. Luồng xử lý dữ liệu}
 Tôi đặc biệt chú ý đến luồng dữ liệu trên dashboard và luồng nhận telemetry từ thiết bị. Đối với trang tổng quan, \texttt{DashboardController} lấy dữ liệu từ \texttt{DashboardService} để dựng giao diện. Các dữ liệu được tổng hợp gồm KPI số lượng khách hàng, sản phẩm, thiết bị và hợp đồng; thống kê trạng thái thiết bị; biểu đồ khách hàng mới theo tháng; biểu đồ lượt bảo trì theo tháng; danh sách hoạt động gần đây; danh sách lịch bảo trì gần đây; và danh sách hợp đồng sắp hết hạn.
 
 Từ đó có thể thấy dashboard được thiết kế theo hướng tổng hợp dữ liệu từ nhiều bảng khác nhau để phục vụ việc theo dõi vận hành nhanh. Bên cạnh đó, tôi cũng khảo sát luồng nhận telemetry qua \texttt{TelemetryController}. Quy trình xử lý gồm nhận request chứa \texttt{mcu\_id}, \texttt{api\_key}, thời gian và các chỉ số đo; tìm MCU theo mã thiết bị; kiểm tra API key; lấy thiết bị đang gắn với MCU; ghi dữ liệu vào bảng \texttt{device\_dashboard\_data}; và cập nhật trạng thái MCU sang \texttt{online}. Luồng này cho thấy hệ thống có phần backend phục vụ thiết bị gửi dữ liệu thật hoặc dữ liệu mô phỏng, từ đó hỗ trợ giám sát các chỉ số như TDS, nhiệt độ, lưu lượng nước và pH.
 
-\paragraph{4. Lựa chọn công nghệ}
+\paragraph*{4. Lựa chọn công nghệ}
 Từ source code, tôi xác định các công nghệ chính đang được sử dụng trong dự án gồm:
 \begin{itemize}
     \item Backend: PHP với Laravel 11.
@@ -111,12 +111,12 @@ Lựa chọn công nghệ trong dự án cũng phản ánh đúng đặc trưng 
 
 \begin{figure}[hbtp]
     \centering
-    \includegraphics[width=0.92\linewidth]{include/image/smartwater-module.png}
+    \includegraphics[width=0.6\linewidth]{include/image/smartwater-module.png}
     \caption{Các module chức năng chính của hệ thống}
     \label{fig:week3-modules}
 \end{figure}
 
-\paragraph{5. Thiết kế giao diện}
+\paragraph*{5. Thiết kế giao diện}
 Phần frontend của dự án được xây dựng theo hướng dashboard quản trị, tập trung vào việc đọc nhanh số liệu và trạng thái hệ thống. Các thành phần giao diện chính gồm khối KPI tổng quan ở đầu trang dashboard, biểu đồ trạng thái thiết bị, biểu đồ khách hàng mới và lượt bảo trì theo tháng, danh sách hợp đồng sắp hết hạn, cùng bảng hoạt động gần đây và lịch bảo trì gần đây.
 
 Giao diện sử dụng các component Blade như \texttt{kpi-card}, \texttt{panel}, \texttt{status-badge} để tái sử dụng bố cục và đồng nhất style giữa các màn hình. Phần này cần được minh họa bằng ảnh giao diện thực tế, do đó tôi để sẵn vị trí chèn ảnh để bổ sung sau.
@@ -149,7 +149,7 @@ Các nguyên tắc thiết kế được ưu tiên trong quá trình khảo sát
     \label{fig:week3-management}
 \end{figure}
 
-\paragraph{6. Triển khai và chạy thử}
+\paragraph*{6. Triển khai và chạy thử}
 Sau khi hoàn thiện khảo sát ban đầu, tôi thực hiện chạy thử hệ thống để kiểm tra tính đúng đắn của các màn hình và xác nhận rằng dữ liệu mẫu, dashboard và luồng xử lý cơ bản đều hoạt động ổn định. Việc chạy thử giúp tôi đối chiếu lại các phần đã phân tích với cách hệ thống vận hành thực tế, đồng thời củng cố hiểu biết về cấu trúc backend và cách hiển thị dữ liệu trên website.
 
 Hình \ref{fig:week3-deployment-model} mô tả mô hình triển khai trong môi trường phát triển. Người quản trị truy cập hệ thống thông qua trình duyệt web, request được gửi đến web server Apache trong môi trường XAMPP, sau đó Apache chuyển tiếp đến ứng dụng Laravel SmartWater Admin. Ứng dụng sẽ xử lý logic nghiệp vụ, truy xuất hoặc ghi dữ liệu vào MySQL Database và trả kết quả hiển thị trở lại trình duyệt. Sơ đồ này giúp tôi hình dung rõ hơn cách các thành phần trong môi trường phát triển phối hợp với nhau khi chạy thử hệ thống.
@@ -158,12 +158,12 @@ Mô hình này vẫn tuân theo kiến trúc Client-Server quen thuộc: trình 
 
 \begin{figure}[hbtp]
     \centering
-    \includegraphics[width=0.92\linewidth]{include/image/Mo-hinh-trien-khai.png}
+    \includegraphics[width=0.6\linewidth]{include/image/Mo-hinh-trien-khai.png}
     \caption{Mô hình triển khai hệ thống SmartWater}
     \label{fig:week3-deployment-model}
 \end{figure}
 
-\subsubsection{Kết quả đạt được}
+\subsubsection*{Kết quả đạt được}
 Trong quá trình khảo sát source code, tôi gặp khó khăn chủ yếu ở việc phải ghép nối nhiều lớp xử lý để hiểu được một luồng nghiệp vụ hoàn chỉnh. Cách tiếp cận phù hợp là đọc từ route, đi qua controller, lần theo service và model, sau đó đối chiếu lại với giao diện và cấu trúc dữ liệu để xác nhận luồng hoạt động thực tế. Qua đó, tôi rút ra rằng việc phân tích một hệ thống backend không nên nhìn từng file riêng lẻ mà cần đặt chúng trong mối quan hệ giữa yêu cầu, kiến trúc và dữ liệu. Bài học quan trọng nhất của tuần này là phải luôn kiểm tra tính nhất quán giữa thiết kế chức năng, mô hình dữ liệu và cách hiển thị trên giao diện.
 
 Sau tuần 3, tôi đã:

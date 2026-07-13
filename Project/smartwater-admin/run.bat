@@ -25,25 +25,38 @@ if errorlevel 1 (
 )
 
 :: Create .env if not exists
-if not exist .env (
-    echo [1/4] Creating .env file from .env.example...
-    copy .env.example .env >nul
-) else (
-    echo [1/4] .env file already exists.
+if exist .env goto env_exists
+
+echo [1/4] Creating .env file from .env.example...
+copy /Y .env.example .env >nul
+if errorlevel 1 (
+    echo Error: Failed to create .env file.
+    pause
+    exit /b 1
 )
+goto env_done
+
+:env_exists
+echo [1/4] .env file already exists.
+
+:env_done
 
 :: Install composer dependencies if vendor is missing
-if not exist vendor (
-    echo [2/4] Installing Composer dependencies (this may take a few minutes)...
-    call composer install
-    if errorlevel 1 (
-        echo Error: Composer install failed.
-        pause
-        exit /b 1
-    )
-) else (
-    echo [2/4] Composer dependencies already installed (vendor folder exists).
+if exist vendor goto vendor_exists
+
+echo [2/4] Installing Composer dependencies (this may take a few minutes)...
+call composer install
+if errorlevel 1 (
+    echo Error: Composer install failed.
+    pause
+    exit /b 1
 )
+goto vendor_done
+
+:vendor_exists
+echo [2/4] Composer dependencies already installed (vendor folder exists).
+
+:vendor_done
 
 :: Generate APP_KEY if empty or not set
 echo [3/4] Checking APP_KEY...
@@ -51,9 +64,8 @@ findstr /C:"APP_KEY=base64:" .env >nul
 if errorlevel 1 (
     echo Generating APP_KEY...
     call php artisan key:generate
-) else (
-    echo APP_KEY already exists.
 )
+if not errorlevel 1 echo APP_KEY already exists.
 
 :: Run database migrations
 echo [4/4] Running database migrations...
@@ -67,17 +79,9 @@ if not errorlevel 1 (
     )
 )
 call php artisan migrate --force
-if errorlevel 1 (
-    echo.
-    echo [CANH BAO] Chay migration that bai.
-    echo Mac dinh ung dung su dung MySQL (xem thiet lap trong file .env).
-    echo - Neu ban dung MySQL: Vui long mo MySQL (XAMPP/Docker) va tao DB 'smartwater_admin'.
-    echo - Neu ban muon dung SQLite (Tam thoi/Thay the): Hay doi 'DB_CONNECTION=mysql' thanh 'DB_CONNECTION=sqlite' trong file .env va dung file database o ..\smartwater-database\database\database.sqlite.
-    echo.
-    pause
-    exit /b 1
-)
+if errorlevel 1 goto migrate_failed
 
+:migrate_ok
 echo.
 echo ======================================
 echo SmartWater Admin is ready!
@@ -92,3 +96,13 @@ echo ======================================
 echo.
 
 call php artisan serve --host=127.0.0.1 --port=8000
+
+:migrate_failed
+echo.
+echo [CANH BAO] Chay migration that bai.
+echo Mac dinh ung dung su dung MySQL (xem thiet lap trong file .env).
+echo - Neu ban dung MySQL: Vui long mo MySQL (XAMPP/Docker) va tao DB 'smartwater_admin'.
+echo - Neu ban muon dung SQLite (Tam thoi/Thay the): Hay doi 'DB_CONNECTION=mysql' thanh 'DB_CONNECTION=sqlite' trong file .env va dung file database o ..\smartwater-database\database\database.sqlite.
+echo.
+pause
+exit /b 1

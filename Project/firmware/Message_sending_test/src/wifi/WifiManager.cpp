@@ -1,7 +1,6 @@
 #include "WifiManager.h"
 
 #include "../config/SimulatorConfig.h"
-#include "../logger/Logger.h"
 
 void WifiManager::begin(const char* ssid, const char* password) {
     ssid_ = ssid;
@@ -28,17 +27,12 @@ bool WifiManager::isConnected() const {
     return WiFi.status() == WL_CONNECTED;
 }
 
-int32_t WifiManager::signalStrength() const {
-    return isConnected() ? WiFi.RSSI() : -127;
-}
-
 String WifiManager::localIp() const {
     return isConnected() ? WiFi.localIP().toString() : String("0.0.0.0");
 }
 
 void WifiManager::connect() {
     lastAttemptMs_ = millis();
-    Logger::info("Connecting WiFi...");
     WiFi.disconnect(true);
     WiFi.begin(ssid_, password_);
 }

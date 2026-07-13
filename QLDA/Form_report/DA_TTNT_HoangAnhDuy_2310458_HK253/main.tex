@@ -7,7 +7,7 @@
 \usepackage{a4wide,amssymb,epsfig,latexsym,array,hhline,fancyhdr}
 \usepackage[normalem]{ulem}
 %\usepackage{soul}
-
+\usepackage{float}
 \usepackage[makeroom]{cancel}
 \usepackage{amsmath}
 \usepackage{amsthm}
@@ -43,13 +43,13 @@
 
 \usepackage[normalem]{ulem}
 
-\newtheorem{theorem}{{\bf Định lý}}
-\newtheorem{property}{{\bf Tính chất}}
-\newtheorem{proposition}{{\bf Mệnh đề}}
-\newtheorem{corollary}[proposition]{{\bf Hệ quả}}
-\newtheorem{lemma}[proposition]{{\bf Bổ đề}}
-\theoremstyle{definition}
-\newtheorem{exer}{Bài toán}
+% \newtheorem{theorem}{{\bf Định lý}}
+% \newtheorem{property}{{\bf Tính chất}}
+% \newtheorem{proposition}{{\bf Mệnh đề}}
+% \newtheorem{corollary}[proposition]{{\bf Hệ quả}}
+% \newtheorem{lemma}[proposition]{{\bf Bổ đề}}
+% \theoremstyle{definition}
+% \newtheorem{exer}{Bài toán}
 
 \def\thesislayout{	% A4: 210 × 297
 	\geometry{
@@ -135,13 +135,13 @@ morekeywords={}
 
 \everymath{\color{black}}%make in-line maths symbols blue to read/check easily
 
-\sloppy
-\captionsetup[figure]{labelfont={small,bf},textfont={small,it},belowskip=-1pt,aboveskip=-9pt}
-%space remove between caption, figure, and text
-\captionsetup[table]{labelfont={small,bf},textfont={small,it},belowskip=-1pt,aboveskip=7pt}
-\setlength{\floatsep}{5pt plus 2pt minus 2pt}
-\setlength{\textfloatsep}{5pt plus 2pt minus 2pt}
-\setlength{\intextsep}{10pt plus 2pt minus 2pt}
+% \sloppy
+% \captionsetup[figure]{labelfont={small,bf},textfont={small,it},belowskip=-1pt,aboveskip=-9pt}
+% %space remove between caption, figure, and text
+% \captionsetup[table]{labelfont={small,bf},textfont={small,it},belowskip=-1pt,aboveskip=7pt}
+% \setlength{\floatsep}{5pt plus 2pt minus 2pt}
+% \setlength{\textfloatsep}{5pt plus 2pt minus 2pt}
+% \setlength{\intextsep}{10pt plus 2pt minus 2pt}
 
 \thesislayout
 
@@ -194,7 +194,7 @@ morekeywords={}
     \item \Large \textbf{CÁN BỘ HƯỚNG DẪN CHUYÊN MÔN TRỰC TIẾP CỦA ĐƠN VỊ/ DOANH NGHIỆP: THÁI LÂM THUẬN}
     \item \Large \textbf{CÁN BỘ HƯỚNG DẪN/ GIÁM SÁT/ CHẤM ĐIỂM BÁO CÁO CỦA KHOA (CBHD/CBGS/CĐBC):NGUYỄN THÀNH LỘC} 
     \item \Large \textbf{SINH VIÊN THỰC HIỆN (SVTH):}
-    \\ \Large \textbf{HỌ VÀ TÊN: HOÀNG ANH DUY.} \textbf{MSSV:2310458}
+    \\ \Large \textbf{HỌ VÀ TÊN: HOÀNG ANH DUY} \\ \textbf{MSSV:2310458}
 \end{itemize}
 \vspace{0.5cm}
 \begin{center}
@@ -218,13 +218,13 @@ morekeywords={}
 \pagenumbering{arabic}
 
 
-\appendix
-\section{PHỤ LỤC}
+% \appendix
+% \section*{PHỤ LỤC}
 
 Phần phụ lục được sử dụng để tổng hợp các hình ảnh, sơ đồ hoặc tài liệu kỹ thuật bổ trợ cho báo cáo khi cần thiết.
 
 \include{include/content/Intro.tex}
 \include{include/content/week1.tex}
 \include{include/content/week2.tex}
-
+\include{include/content/week3.tex}
 \end{document}

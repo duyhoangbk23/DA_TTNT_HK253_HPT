@@ -8,7 +8,6 @@ class WifiManager {
     void begin(const char* ssid, const char* password);
     void loop();
     bool isConnected() const;
-    int32_t signalStrength() const;
     String localIp() const;
 
    private:
