@@ -250,6 +250,7 @@ a {
 .telemetry-table td,
 .telemetry-table th {
     border-color: rgba(255, 255, 255, 0.08);
+    color:#0ea5e9;
 }
 
 .payload-preview {

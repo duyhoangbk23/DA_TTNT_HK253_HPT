@@ -38,18 +38,19 @@ echo [1/3] Composer dependencies already installed.
 
 :vendor_done
 
-set "DB_PATH=%~dp0..\smartwater-database\database\database.sqlite"
-if not exist "%DB_PATH%" (
-    echo Error: Shared database not found at "%DB_PATH%".
-    pause
-    exit /b 1
-)
+set "DB_CONNECTION=mysql"
+set "DB_HOST=127.0.0.1"
+set "DB_PORT=3306"
+set "DB_DATABASE=smartwater-database"
+set "DB_USERNAME=root"
+set "DB_PASSWORD="
 
-echo [2/3] Using shared database:
-echo %DB_PATH%
+echo [2/3] Using MySQL database:
+echo Host: %DB_HOST%
+echo Port: %DB_PORT%
+echo Database: %DB_DATABASE%
 
 set "APP_DEBUG=true"
-set "DB_PATH=%DB_PATH%"
 
 echo [3/3] Starting Device Monitor on http://127.0.0.1:8001
 echo Open /config to set HiveMQ broker and /telemetry to connect live.

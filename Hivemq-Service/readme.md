@@ -216,7 +216,6 @@ Lưu dữ liệu nhận từ MQTT.
 | device_id   | varchar(50)   |
 | data_time   | datetime      |
 | tds         | decimal(10,2) |
-| temperature | decimal(10,2) |
 | alert       | tinyint       |
 | created_at  | datetime      |
 
@@ -318,8 +317,9 @@ dotnet publish -c Release
 Tạo Service
 
 ```cmd
-sc create SmartWaterMQTT binPath= "D:\Services\SmartWater.MqttService\SmartWater.MqttService.exe" start= auto
+sc create SmartWaterMQTT binPath= "D:\ADUY\TTNT\HPT\Git_repo\DA_TTNT_HK253_HPT\Hivemq-Service\SmartWater.MqttService\bin\Release" start= auto
 ```
+sc.exe create SmartWaterMQTT binPath= "D:\ADUY\TTNT\HPT\Git_repo\DA_TTNT_HK253_HPT\Hivemq-Service\SmartWater.MqttService\bin\Release\SmartWater.MqttService.exe" start= auto
 
 Khởi động
 

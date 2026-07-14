@@ -15,7 +15,7 @@ To switch to MySQL:
 DB_CONNECTION=mysql
 DB_HOST=localhost
 DB_PORT=3306
-DB_DATABASE=smartwater
+DB_DATABASE=smartwater-database
 DB_USERNAME=root
 DB_PASSWORD=
 ```
@@ -23,7 +23,7 @@ DB_PASSWORD=
 2. Create database:
 ```bash
 mysql -u root -p
-CREATE DATABASE smartwater CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE smartwater-database CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ```
 
 ## Installation

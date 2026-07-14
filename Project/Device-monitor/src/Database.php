@@ -10,32 +10,16 @@ final class Database
 {
     public function pdo(): PDO
     {
-        $dsn = $_ENV['DB_DSN'] ?? '';
-        $user = $_ENV['DB_USER'] ?? '';
-        $pass = $_ENV['DB_PASS'] ?? '';
+        $dsn = $this->env('DB_DSN');
+        $user = $this->env('DB_USERNAME', $this->env('DB_USER', 'root'));
+        $pass = $this->env('DB_PASSWORD', $this->env('DB_PASS', ''));
 
         if ($dsn === '') {
-            $driver = strtolower($_ENV['DB_DRIVER'] ?? 'sqlite');
-            if ($driver === 'mysql') {
-                $host = $_ENV['DB_HOST'] ?? '127.0.0.1';
-                $port = $_ENV['DB_PORT'] ?? '3306';
-                $name = $_ENV['DB_NAME'] ?? 'device_monitor';
-                $charset = $_ENV['DB_CHARSET'] ?? 'utf8mb4';
-                $dsn = sprintf('mysql:host=%s;port=%s;dbname=%s;charset=%s', $host, $port, $name, $charset);
-            } else {
-                $defaultPath = dirname(__DIR__, 2)
-                    . DIRECTORY_SEPARATOR . 'smartwater-database'
-                    . DIRECTORY_SEPARATOR . 'database'
-                    . DIRECTORY_SEPARATOR . 'database.sqlite';
-                $dbPath = $_ENV['DB_PATH'] ?? $defaultPath;
-                $dbDir = dirname($dbPath);
-                if (!is_dir($dbDir)) {
-                    mkdir($dbDir, 0777, true);
-                }
-                $dsn = 'sqlite:' . $dbPath;
-                $user = '';
-                $pass = '';
-            }
+            $host = $this->env('DB_HOST', '127.0.0.1');
+            $port = $this->env('DB_PORT', '3306');
+            $name = $this->env('DB_DATABASE', $this->env('DB_NAME', 'smartwater-database'));
+            $charset = $this->env('DB_CHARSET', 'utf8mb4');
+            $dsn = sprintf('mysql:host=%s;port=%s;dbname=%s;charset=%s', $host, $port, $name, $charset);
         }
 
         $pdo = new PDO($dsn, $user, $pass, [
@@ -48,40 +32,30 @@ final class Database
         return $pdo;
     }
 
+    private function env(string $key, string $default = ''): string
+    {
+        $val = $_ENV[$key] ?? getenv($key);
+        return ($val !== false && $val !== null) ? (string) $val : $default;
+    }
+
     private function migrate(PDO $pdo): void
     {
-        $driver = $pdo->getAttribute(PDO::ATTR_DRIVER_NAME);
-
-        if ($driver === 'sqlite') {
-            $pdo->exec(
-                'CREATE TABLE IF NOT EXISTS telemetry (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    device_id INTEGER NOT NULL,
-                    timestamp TEXT NOT NULL,
-                    tds REAL NULL,
-                    alert TEXT NULL,
-                    created_at TEXT NULL,
-                    updated_at TEXT NULL
-                )'
-            );
-            $pdo->exec('CREATE INDEX IF NOT EXISTS idx_telemetry_device_timestamp ON telemetry(device_id, timestamp DESC)');
-            return;
-        }
-
         $pdo->exec(
             'CREATE TABLE IF NOT EXISTS telemetry (
                 id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                device_id BIGINT UNSIGNED NOT NULL,
                 timestamp DATETIME NOT NULL,
+                topic VARCHAR(255) NOT NULL,
+                device_id VARCHAR(100) NOT NULL,
                 tds DOUBLE NULL,
-                alert VARCHAR(255) NULL,
-                created_at TIMESTAMP NULL,
-                updated_at TIMESTAMP NULL
+                alert VARCHAR(255) NULL
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4'
         );
-        $exists = (bool) $pdo->query("SHOW INDEX FROM telemetry WHERE Key_name = 'idx_telemetry_device_timestamp'")->fetchColumn();
-        if (!$exists) {
-            $pdo->exec('CREATE INDEX idx_telemetry_device_timestamp ON telemetry(device_id, timestamp)');
+
+        $topicExists = (bool) $pdo->query("SHOW COLUMNS FROM telemetry LIKE 'topic'")->fetchColumn();
+        if (!$topicExists) {
+            $pdo->exec('ALTER TABLE telemetry ADD COLUMN topic VARCHAR(255) NOT NULL DEFAULT "devices/telemetry" AFTER timestamp');
         }
+
+        $pdo->exec('ALTER TABLE telemetry MODIFY device_id VARCHAR(100) NOT NULL');
     }
 }

@@ -22,7 +22,6 @@
                 <th>Device ID</th>
                 <th>TDS</th>
                 <th>Alert</th>
-                <th>Payload JSON</th>
             </tr>
             </thead>
             <tbody></tbody>

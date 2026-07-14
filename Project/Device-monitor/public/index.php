@@ -106,8 +106,18 @@ $app->post('/api/telemetry', function (ServerRequestInterface $request, Response
         ], 422);
     }
 
-    $normalized = $service->normalize($topic, $rawPayload, $timestamp, $source);
-    $record = $repository->insert($normalized);
+    try {
+        $normalized = $service->normalize($topic, $rawPayload, $timestamp, $source);
+        $record = $repository->insert($normalized);
+    } catch (InvalidArgumentException $e) {
+        return Responder::json($response, [
+            'message' => $e->getMessage(),
+        ], 422);
+    } catch (Throwable $e) {
+        return Responder::json($response, [
+            'message' => 'Failed to save telemetry',
+        ], 500);
+    }
 
     return Responder::json($response, [
         'message' => 'Telemetry saved',

@@ -48,7 +48,6 @@ Device-monitor/
 │  ├─ config.php
 │  └─ telemetry.php
 ├─ storage/
-│  └─ telemetry.sqlite
 ├─ composer.json
 ├─ composer.lock
 └─ README.md
@@ -119,20 +118,19 @@ Index phục vụ truy xuất theo thiết bị:
 
 ## Database
 
-### SQLite mặc định
-
-- File: `storage/telemetry.sqlite`
-
 ### MySQL
 
 Biến môi trường:
 
+- `DB_CONNECTION=mysql`
 - `DB_DRIVER=mysql`
 - `DB_HOST`
 - `DB_PORT`
-- `DB_NAME`
-- `DB_USER`
-- `DB_PASS`
+- `DB_DATABASE`
+- `DB_USERNAME`
+- `DB_PASSWORD`
+
+Mặc định dự án sẽ dùng MySQL. Nếu muốn đổi sang driver khác, cấu hình lại trong môi trường chạy.
 
 ## Chạy dự án
 

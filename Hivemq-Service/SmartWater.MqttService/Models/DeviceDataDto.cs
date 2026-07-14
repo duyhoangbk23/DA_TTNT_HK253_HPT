@@ -13,9 +13,6 @@ public class DeviceDataDto
     [JsonPropertyName("tds")]
     public decimal Tds { get; set; }
 
-    [JsonPropertyName("temperature")]
-    public decimal Temperature { get; set; }
-
     [JsonPropertyName("alert")]
     public bool Alert { get; set; }
 }

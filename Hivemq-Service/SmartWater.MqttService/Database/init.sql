@@ -19,7 +19,6 @@ CREATE TABLE IF NOT EXISTS device_data (
     device_id   VARCHAR(50)   NOT NULL,
     data_time   DATETIME      NOT NULL,
     tds         DECIMAL(10,2) NOT NULL DEFAULT 0.00,
-    temperature DECIMAL(10,2) NOT NULL DEFAULT 0.00,
     alert       TINYINT       NOT NULL DEFAULT 0,
     created_at  DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
 

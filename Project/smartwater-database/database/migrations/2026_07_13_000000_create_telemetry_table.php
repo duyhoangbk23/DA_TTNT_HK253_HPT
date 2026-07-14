@@ -10,8 +10,9 @@ return new class extends Migration
     {
         Schema::create('telemetry', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('device_id')->constrained('devices')->cascadeOnDelete();
             $table->timestamp('timestamp')->index();
+            $table->string('topic', 255)->default('devices/telemetry');
+            $table->string('device_id', 100)->index();
             $table->decimal('tds', 8, 2)->nullable();
             $table->string('alert', 255)->nullable();
             $table->timestamps();

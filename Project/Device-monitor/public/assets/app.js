@@ -35,9 +35,8 @@
                 <td>${escapeHtml(row.timestamp || '')}</td>
                 <td>${escapeHtml(row.topic || '')}</td>
                 <td>${escapeHtml(row.device_id || '-')}</td>
-                <td>${formatNumber(row.tds_value)}</td>
+                <td>${formatNumber(row.tds)}</td>
                 <td>${escapeHtml(row.alert || '-')}</td>
-                <td><div class="payload-preview">${escapeHtml(row.payload_json || row.payload_raw || '')}</div></td>
             `;
             tbody.appendChild(tr);
         });
@@ -61,9 +60,22 @@
             .replaceAll("'", '&#39;');
     }
 
+    async function readJsonResponse(response) {
+        const text = await response.text();
+        if (!text) {
+            return {};
+        }
+
+        try {
+            return JSON.parse(text);
+        } catch {
+            return { message: text };
+        }
+    }
+
     async function loadTelemetry() {
         const response = await fetch('/api/telemetry?limit=100');
-        const json = await response.json();
+        const json = await readJsonResponse(response);
         renderTelemetryRows(json.data || []);
     }
 
@@ -74,7 +86,7 @@
         }
 
         const response = await fetch('/api/telemetry/summary');
-        const json = await response.json();
+        const json = await readJsonResponse(response);
         const data = json.data || {};
 
         total.textContent = data.total ?? 0;
@@ -128,8 +140,12 @@
                     source: 'hivemq-web'
                 })
         });
+        const json = await readJsonResponse(response);
+        if (!response.ok) {
+            throw new Error(json.message || `HTTP ${response.status}`);
+        }
 
-        return response.json();
+        return json;
     }
 
     function connectToHiveMQ() {
@@ -174,7 +190,7 @@
                     const table = document.querySelector('#telemetryTable tbody');
                     if (table) {
                         const current = await fetch('/api/telemetry?limit=100');
-                        const json = await current.json();
+                        const json = await readJsonResponse(current);
                         renderTelemetryRows(json.data || []);
                     }
                 }

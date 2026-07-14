@@ -34,7 +34,6 @@ public class DeviceService : IDeviceService
             DeviceId = dto.DeviceId,
             DataTime = dto.Timestamp,
             Tds = dto.Tds,
-            Temperature = dto.Temperature,
             Alert = (sbyte)(dto.Alert ? 1 : 0),
             CreatedAt = DateTime.UtcNow
         };

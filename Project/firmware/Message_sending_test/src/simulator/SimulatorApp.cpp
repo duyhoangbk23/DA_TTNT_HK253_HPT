@@ -34,9 +34,9 @@ void SimulatorApp::publishTelemetry() {
     }
 
     StaticJsonDocument<256> doc;
-    doc["deviceId"] = SimulatorConfig::DEVICE_ID;
-    doc["time"] = millis() / 1000UL;
-    doc["tds"] = random(40, 301);
-    doc["alert"] = random(0, 1); // Randomly generate alert as 0 or 1
+    const int tds = random(40, 301);
+    doc["device_id"] = SimulatorConfig::DEVICE_ID;
+    doc["tds"] = tds;
+    doc["alert"] = tds >= 250 ? "warning" : "normal";
     mqttManager_.publishTelemetry(doc);
 }

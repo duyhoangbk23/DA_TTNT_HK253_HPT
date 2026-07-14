@@ -20,8 +20,8 @@ public class DeviceRepository : IDeviceRepository
     {
         using var connection = CreateConnection();
         const string sql = @"
-            INSERT INTO device_data (device_id, data_time, tds, temperature, alert, created_at)
-            VALUES (@DeviceId, @DataTime, @Tds, @Temperature, @Alert, @CreatedAt);";
+            INSERT INTO device_data (device_id, data_time, tds, alert, created_at)
+            VALUES (@DeviceId, @DataTime, @Tds, @Alert, @CreatedAt);";
 
         await connection.ExecuteAsync(
             new CommandDefinition(sql, data, cancellationToken: cancellationToken));

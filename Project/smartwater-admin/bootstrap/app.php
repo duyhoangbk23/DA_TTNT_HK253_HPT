@@ -19,5 +19,4 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->shouldRenderJsonWhen(
             fn (Request $request) => $request->is('api/*'),
         );
-    })->create()
-    ->useDatabasePath(__DIR__.'/../../smartwater-database/database');
+    })->create();
