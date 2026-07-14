@@ -1,29 +1,32 @@
-\subsection{Tuần 2}
-\subsubsection{Mô tả công việc}
-\subsubsubsection{Nội dung công việc tuần 2}
-Sinh viên tập trung nghiên cứu hồ sơ đề xuất kỹ thuật của hệ thống giám sát và bảo trì máy lọc nước có sẵn để nắm được bài toán và mô hình tổng thể của hệ thống IoT cần triển khai của dự án.
+\subsection*{Tuần 2}
+\subsubsection*{Mô tả công việc}
+\paragraph{Sinh viên được hướng dẫn nghiên cứu hồ sơ đề xuất kỹ thuật, tìm hiểu mô hình tổng thể của dự án, kiến trúc giải pháp, quy trình nghiệp vụ và các thành phần chính của hệ thống. Sinh viên cần nắm được mối liên kết giữa các thành phần trong hệ thống và cách dữ liệu được truyền từ thiết bị IoT đến hệ thống quản lý trung tâm.
 
-\begin{enumerate}
+
+Sinh viễn thực hiện các công việc chính trong tuần 2 như sau:
+
+}
+\begin{itemize}
     \item Nghiên cứu hồ sơ đề xuất kỹ thuật của dự án.
     \item Tìm hiểu mô hình tổng thể của dự án.
     \item Tìm hiểu kiến trúc giải pháp ở mức tổng quan.
     \item Tìm hiểu quy trình nghiệp vụ chính của hệ thống.
     \item Tìm hiểu các thành phần chính của hệ thống.
     \item Hiểu mối liên kết giữa các thành phần trong hệ thống.
-\end{enumerate}
+\end{itemize}
 
-\subsubsection{NGHIÊN CỨU HỒ SƠ ĐỀ XUẤT KỸ THUẬT}
+\subsubsection*{NGHIÊN CỨU HỒ SƠ ĐỀ XUẤT KỸ THUẬT}
 
-\subsubsubsection{Bối cảnh}
+\paragraph*{Bối cảnh}
 
-Qua nghiên cứu hồ sơ đề xuất kỹ thuật của một dự án giám sát và bảo trì máy lọc nước thực tế có sẵn, sinh viên nhận thấy dự án được xây dựng để giải quyết bài toán quản lý tập trung cho dịch vụ máy lọc nước, trong đó cần kết hợp giữa hệ thống quản lý nghiệp vụ, kênh tương tác khách hàng và phần giám sát thiết bị ngoài hiện trường.
+Sinh viên được nghiên cứu hồ sơ đề xuất kỹ thuật của một dự án giám sát và bảo trì máy lọc nước cho khách hàng có sẵn. sinh viên nhận thấy dự án được xây dựng để giải quyết bài toán quản lý tập trung cho dịch vụ máy lọc nước, trong đó cần kết hợp giữa hệ thống quản lý nghiệp vụ, kênh tương tác khách hàng và phần giám sát thiết bị ngoài hiện trường.
 
-Tài liệu cho thấy khách hàng T***** đang chuyển đổi từ mô hình bán sản phẩm đơn lẻ sang mô hình dịch vụ cho thuê máy lọc nước kết hợp bảo trì định kỳ. Mô hình này hướng tới nguồn doanh thu định kỳ, nâng cao trải nghiệm khách hàng và xây dựng nền tảng vận hành có khả năng mở rộng cho số lượng lớn khách hàng trong tương lai.
+Tài liệu cho thấy khách hàng đang chuyển đổi từ mô hình bán sản phẩm đơn lẻ sang mô hình dịch vụ cho thuê máy lọc nước kết hợp bảo trì định kỳ. Mô hình này hướng tới nguồn doanh thu định kỳ, nâng cao trải nghiệm khách hàng và xây dựng nền tảng vận hành có khả năng mở rộng cho số lượng lớn khách hàng trong tương lai.
 
 Điểm đáng chú ý của tài liệu là dự án không chỉ dừng ở việc lưu trữ thông tin vận hành, mà còn hướng đến việc theo dõi trạng thái thiết bị theo thời gian thực và hỗ trợ bảo trì chủ động. Vì vậy, Trong tuần 2, sinh viên cần nắm được cách hệ thống được chia thành các thành phần và cách các thành phần này phối hợp với nhau.
 
-Công việc của sinh viên sẽ xoay quanh việc thiết kế phần cứng sử dụng ESP32 để gửi dữ liệu từ sensor lên MQTT rồi gửi đến server, ngoài ra sinh viên còn phải thiết kế website admin và database phục vụ cho việc theo dõi và quản lý thiết bị và khách hàng.
-\subsubsubsection{Mục tiêu nghiên cứu}
+Công việc của sinh viên sẽ xoay quanh việc thiết kế phần cứng sử dụng ESP32 để gửi dữ liệu từ sensor lên MQTT rồi gửi đến server và sinh viên còn phải thiết kế website quản lí và database cho hệ thống.
+\paragraph*{Mục tiêu nghiên cứu}
 
 Mục tiêu của tuần này là tìm hiểu bài toán và phạm vi của dự án. Từ tài liệu đề xuất kỹ thuật, em tập trung xác định:
 
@@ -36,36 +39,36 @@ Mục tiêu của tuần này là tìm hiểu bài toán và phạm vi của d�
     \item Kiến thức nền tảng cần chuẩn bị cho các tuần sau.
 \end{itemize}
 
-\subsubsubsection{Phạm vi nghiên cứu}
+\paragraph*{Phạm vi nghiên cứu}
 
 Trong tuần này, sinh viên chỉ dừng ở mức tìm hiểu tổng quan. Các nội dung như phân tích yêu cầu chi tiết, thiết kế cơ sở dữ liệu, thiết kế backend, thiết kế API, lập trình và kiểm thử chưa được triển khai ở giai đoạn này.
 
-\subsubsection{MÔ HÌNH TỔNG THỂ HỆ THỐNG}
+\subsubsection*{MÔ HÌNH TỔNG THỂ HỆ THỐNG}
 
-\subsubsubsection{Tổng quan giải pháp đề xuất}
+\paragraph*{Tổng quan giải pháp đề xuất}
 
 Giải pháp của dự án được tổ chức theo mô hình tổng thể gồm ba lớp chức năng lớn: quản lý nghiệp vụ trung tâm, tiếp nhận tương tác từ nhiều kênh và giám sát thiết bị ngoài hiện trường. Cách tổ chức này giúp em hình dung được hệ thống như một chỉnh thể thay vì các module rời rạc.
 
 Ba lớp chức năng chính trong hồ sơ gồm Core System, Omnichannel Integration và Field Service \& IoT. Core System đóng vai trò xương sống vận hành, Omnichannel Integration gom dữ liệu từ các kênh khách hàng về một đầu mối, còn Field Service \& IoT hỗ trợ hoạt động kỹ thuật tại hiện trường và định hướng giám sát thông minh.
 
-\begin{figure}[H]
+\begin{figure}[H!]
     \centering
-    \includegraphics[width=0.8\textwidth]{include/image/kien_truc_tong_the.png}
+    \includegraphics[width=0.5\textwidth]{include/image/kien_truc_tong_the.png}
     \caption{Kiến trúc tổng thể của hệ thống}
     \label{fig:overall_architecture}
 \end{figure}
 
 Trong mô hình dữ liệu đi xuyên suốt từ khâu tiếp nhận thông tin khách hàng đến khâu theo dõi tình trạng thiết bị. Đây là điểm quan trọng để hiểu vì sao dự án cần phân tách thành nhiều thành phần nhưng vẫn phải duy trì sự liên kết chặt chẽ.
 
-\subsubsection{CORE SYSTEM}
+\subsubsection*{CORE SYSTEM}
 
-\subsubsubsection{Vai trò}
+\paragraph*{Vai trò}
 
 Core System là phần lõi của toàn bộ hệ thống. Đây là nơi tập trung các thông tin nghiệp vụ quan trọng và là điểm quy chiếu để các thành phần khác đồng bộ dữ liệu.
 
 Việc tìm hiểu Core System giúp em hiểu được vì sao dự án cần một nền tảng quản lý tập trung thay vì xử lý thông tin riêng lẻ ở từng kênh.
 
-\subsubsubsection{Các phân hệ chính}
+\paragraph*{Các phân hệ chính}
 
 Theo hồ sơ đề xuất kỹ thuật, Core System được chia thành một số phân hệ chính như CRM, Asset Management, Contract Management, Billing System và Maintenance Management. Ở tuần 2, em chỉ dừng ở mức nhận diện vai trò tổng quát của từng phân hệ:
 
@@ -79,47 +82,47 @@ Theo hồ sơ đề xuất kỹ thuật, Core System được chia thành một 
 
 Việc nghiên cứu các phân hệ này giúp em nhìn thấy luồng nghiệp vụ từ khách hàng đến thiết bị và dịch vụ, thay vì chỉ xem từng chức năng riêng lẻ.
 
-\subsubsubsection{Mối liên kết nội bộ}
+\paragraph*{Mối liên kết nội bộ}
 
 Các phân hệ trong Core System không hoạt động tách biệt mà có liên hệ với nhau trong quá trình xử lý nghiệp vụ. Thông tin khách hàng, hợp đồng, thiết bị và bảo trì được liên kết theo cùng một luồng logic, giúp dữ liệu nhất quán hơn trong toàn hệ thống.
 
 Ví dụ, khi một khách hàng mới được tiếp nhận từ kênh bán hàng, dữ liệu sẽ được chuyển thành hồ sơ khách hàng trong CRM, sau đó liên kết với hợp đồng thuê, thiết bị được lắp đặt, hóa đơn định kỳ và lịch bảo trì. Cách liên kết này tạo ra một góc nhìn đầy đủ về vòng đời dịch vụ của khách hàng.
 
-\begin{figure}[H]
-    \centering
-    \safeincludegraphics[width=0.8\textwidth]{images/core_system.png}
-    \caption{Kiến trúc Core System}
-    \label{fig:core_system}
-\end{figure}
+% \begin{figure}[hbtp]
+%     \centering
+%     \safeincludegraphics[width=0.5\textwidth]{images/core_system.png}
+%     \caption{Kiến trúc Core System}
+%     \label{fig:core_system}
+% \end{figure}
+% make this image fix in place
+\subsubsection*{OMNICHANNEL}
 
-\subsubsection{OMNICHANNEL}
-
-\subsubsubsection{Vai trò}
+\paragraph*{Vai trò}
 
 Omnichannel giúp hệ thống tiếp nhận và đồng bộ thông tin từ nhiều kênh tương tác khác nhau. Khi nghiên cứu phần này, em nhận thấy mục tiêu chính là giữ cho dữ liệu khách hàng không bị tản mạn giữa các kênh liên hệ.
 
 Theo hồ sơ đề xuất, lớp Omnichannel có nhiệm vụ đồng bộ lead thành customer, đồng bộ đơn hàng thành hợp đồng dịch vụ và lưu trữ lịch sử tương tác khách hàng. Nhờ đó, hệ thống Core vẫn là nơi quản lý dữ liệu trung tâm, còn các kênh bên ngoài đóng vai trò là điểm tiếp nhận thông tin.
 
-\begin{figure}[H]
-    \centering
-    \safeincludegraphics[width=0.8\textwidth]{images/omnichannel.png}
-    \caption{Kiến trúc Omnichannel}
-    \label{fig:omnichannel}
-\end{figure}
+% \begin{figure}[hbtp]
+%     \centering
+%     \safeincludegraphics[width=0.5\textwidth]{images/omnichannel.png}
+%     \caption{Kiến trúc Omnichannel}
+%     \label{fig:omnichannel}
+% \end{figure}
 
-\subsubsubsection{Các kênh tương tác}
+\paragraph*{Các kênh tương tác}
 
 Hồ sơ đề xuất kỹ thuật cho thấy hệ thống cần hỗ trợ nhiều kênh tương tác khác nhau như Website, Facebook, Zalo và Pancake. Ở tuần này, em ghi nhận vai trò tổng quát của các kênh này là tiếp nhận thông tin, đơn hàng, tin nhắn hoặc yêu cầu hỗ trợ rồi chuyển về hệ thống trung tâm để xử lý thống nhất.
 
-\subsubsection{FIELD SERVICE \& IOT}
+\subsubsection*{FIELD SERVICE \& IOT}
 
-\subsubsubsection{Vai trò của IoT}
+\paragraph*{Vai trò của IoT}
 
-Field Service \& IoT là phần giúp hệ thống mở rộng từ quản lý nghiệp vụ sang giám sát thiết bị ngoài hiện trường. Ở mức nghiên cứu tuần 2, em chỉ tập trung hiểu vai trò của nó trong việc cung cấp dữ liệu vận hành và hỗ trợ theo dõi tình trạng thiết bị.
+% Field Service \& IoT là phần giúp hệ thống mở rộng từ quản lý nghiệp vụ sang giám sát thiết bị ngoài hiện trường. Ở mức nghiên cứu tuần 2, sinh viên chỉ tập trung hiểu vai trò của nó trong việc cung cấp dữ liệu vận hành và hỗ trợ theo dõi tình trạng thiết bị.
 
 Trong hồ sơ, Field Service hỗ trợ kỹ thuật viên nhận lịch bảo trì trên thiết bị di động, check-in tại địa điểm lắp đặt, cập nhật trạng thái công việc theo thời gian thực, chụp ảnh và xác nhận hoàn thành công việc. Phần IoT là định hướng mở rộng để theo dõi dữ liệu thiết bị, phát hiện bất thường và hỗ trợ lập kế hoạch bảo trì dựa trên dữ liệu thực tế.
 
-\subsubsubsection{Kiến trúc bốn lớp}
+\paragraph*{Kiến trúc bốn lớp}
 
 Tài liệu đề xuất kỹ thuật mô tả mô hình IoT theo bốn lớp. Qua nghiên cứu, em hiểu được cách phân tách này giúp hệ thống rõ ràng hơn về mặt chức năng:
 
@@ -130,14 +133,14 @@ Tài liệu đề xuất kỹ thuật mô tả mô hình IoT theo bốn lớp. Q
     \item Application Layer hiển thị dữ liệu, cảnh báo và hỗ trợ khai thác thông tin qua dashboard, web app hoặc mobile app.
 \end{itemize}
 
-\begin{figure}[H]
+\begin{figure}[hbtp]
     \centering
-    \includegraphics[width=0.8\textwidth]{include/image/Kien_truc_4lop.png}
+    \includegraphics[width=0.5\textwidth]{include/image/Kien_truc_4lop.png}
     \caption{Kiến trúc IoT bốn lớp}
     \label{fig:iot4layer}
 \end{figure}
 
-\subsubsubsection{Quy trình IoT}
+\paragraph*{Quy trình IoT}
 
 Quy trình IoT trong hệ thống được hiểu là luồng xử lý dữ liệu từ thiết bị ngoài hiện trường đến hệ thống quản lý trung tâm. Ở mức nghiên cứu tuần 2, em tập trung nhận diện các bước chính của quy trình thay vì đi sâu vào cấu hình kỹ thuật hay giao thức truyền thông cụ thể.
 
@@ -151,20 +154,20 @@ Theo mô hình triển khai trong hồ sơ, hệ thống sử dụng MQTT để 
     \item Dashboard hiển thị dữ liệu thời gian thực, trạng thái online hoặc offline và cảnh báo khi phát hiện áp suất thấp, TDS vượt ngưỡng hoặc lõi lọc cần thay thế.
 \end{enumerate}
 
-\begin{figure}[H]
+\begin{figure}[hbtp]
     \centering
     \includegraphics[width=0.9\textwidth]{include/image/quy_trinh_iot.png}
     \caption{Quy trình IoT trong hệ thống}
     \label{fig:iot_process}
 \end{figure}
 
-\subsubsubsection{Luồng dữ liệu tổng quát}
+\paragraph*{Luồng dữ liệu tổng quát}
 
 Dữ liệu từ thiết bị ngoài hiện trường sẽ được truyền về hệ thống quản lý theo một luồng thống nhất. Dù chưa đi vào phần triển khai chi tiết, việc nắm được luồng dữ liệu tổng quát giúp em chuẩn bị tốt hơn cho các tuần sau.
 
-\subsubsection{QUY TRÌNH NGHIỆP VỤ}
+\subsubsection*{QUY TRÌNH NGHIỆP VỤ}
 
-\subsubsubsection{Quy trình triển khai dịch vụ}
+\paragraph*{Quy trình triển khai dịch vụ}
 
 \begin{enumerate}
     \item Tiếp nhận khách hàng thông qua các kênh như Website, Facebook hoặc Zalo.
@@ -173,36 +176,35 @@ Dữ liệu từ thiết bị ngoài hiện trường sẽ được truyền v�
     \item Giao máy, lắp đặt và kích hoạt dịch vụ cho khách hàng.
 \end{enumerate}
 
-\begin{figure}[H]
-    \centering
-    \safeincludegraphics[width=\textwidth]{images/service_process.png}
-    \caption{Quy trình triển khai dịch vụ}
-    \label{fig:service_process}
-\end{figure}
+% \begin{figure}[hbtp]
+%     \centering
+%     \safeincludegraphics[width=\textwidth]{images/service_process.png}
+%     \caption{Quy trình triển khai dịch vụ}
+%     \label{fig:service_process}
+% \end{figure}
 
-\subsubsubsection{Quy trình vận hành}
+\paragraph*{Quy trình vận hành}
 
 Sau khi thiết bị đi vào sử dụng, hệ thống cần theo dõi trạng thái vận hành, tình trạng hợp đồng và các khoản thanh toán định kỳ. Em hiểu đây là phần nối tiếp sau giai đoạn triển khai, giúp hệ thống giữ được tính liên tục trong quản lý.
 
 Các hoạt động chính của quy trình vận hành gồm tự động tạo hóa đơn hàng tháng, gửi nhắc thanh toán, theo dõi trạng thái thiết bị đang sử dụng và cập nhật tình trạng hợp đồng. Nhờ đó, doanh nghiệp giảm thao tác thủ công và kiểm soát dòng dịch vụ ổn định hơn.
 
-\begin{figure}[H]
-    \centering
-    \safeincludegraphics[width=\textwidth]{images/operation_process.png}
-    \caption{Quy trình vận hành hệ thống}
-    \label{fig:operation_process}
-\end{figure}
+% \begin{figure}[hbtp]
+%     \centering
+%     \safeincludegraphics[width=\textwidth]{images/operation_process.png}
+%     \caption{Quy trình vận hành hệ thống}
+%     \label{fig:operation_process}
+% \end{figure}
 
-\subsubsubsection{Quy trình bảo trì}
+\paragraph*{Quy trình bảo trì}
 
 Bảo trì là bước quan trọng để hệ thống duy trì hoạt động ổn định trong thời gian dài. Ở mức nghiên cứu tuần 2, em xác định được rằng quy trình bảo trì cần được kết nối với dữ liệu vận hành và thông tin thiết bị trong hệ thống trung tâm.
 
 Theo hồ sơ, hệ thống có thể tự động lập lịch thay lõi hoặc bảo trì định kỳ theo cấu hình hợp đồng, giao nhiệm vụ cho kỹ thuật viên phù hợp, cập nhật trạng thái công việc và lưu lịch sử bảo trì. Đây là cơ sở để chuyển từ bảo trì bị động sang bảo trì có kế hoạch.
 
-\begin{figure}[H]
-    \centering
-    \safeincludegraphics[width=\textwidth]{images/maintenance_process.png}
-    \caption{Quy trình bảo trì}
-    \label{fig:maintenance_process}
-\end{figure}
-
+% \begin{figure}[hbtp]
+%     \centering
+%     \safeincludegraphics[width=\textwidth]{images/maintenance_process.png}
+%     \caption{Quy trình bảo trì}
+%     \label{fig:maintenance_process}
+% \end{figure}

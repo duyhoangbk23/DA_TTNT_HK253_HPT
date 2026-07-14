@@ -1,0 +1,178 @@
+﻿\subsection*{Tuần 3}
+
+\subsubsection*{Mô tả công việc}
+Trong tuần 3, tôi tập trung làm quen với hệ thống Web Backend, khảo sát kiến trúc dữ liệu và luồng xử lý dữ liệu trong dự án \texttt{smartwater-admin}. Đây là giai đoạn quan trọng để hiểu yêu cầu thực tế của khách hàng, từ đó định hình cách tổ chức dữ liệu, luồng xử lý và giao diện quản trị phù hợp cho hệ thống.
+
+Các công việc đã thực hiện gồm:
+\begin{itemize}
+    \item Đọc tài liệu đề xuất của công ty để hiểu yêu cầu từ phía khách hàng.
+    \item Lên ý tưởng xây dựng hệ thống \texttt{smartwater-admin} dưới dạng dashboard quản lý tập trung.
+    \item Khảo sát ngôn ngữ, framework và cấu trúc source code của hệ thống.
+    \item Phân tích quá trình xây dựng backend, database và cách triển khai ứng dụng.
+    \item Thiết kế giao diện frontend cho các màn hình quản trị chính.
+    \item Chạy thử hệ thống để kiểm tra luồng hoạt động cơ bản.
+\end{itemize}
+
+\subsubsection*{Nội dung thực hiện}
+
+\paragraph*{1. Phân tích yêu cầu và định hướng xây dựng hệ thống}
+Sau khi đọc tài liệu đề xuất của công ty, tôi xác định hệ thống cần phục vụ bài toán quản lý dịch vụ bảo trì máy lọc nước. Từ yêu cầu đó, tôi định hướng xây dựng \texttt{smartwater-admin} như một dashboard quản trị tập trung để hỗ trợ theo dõi các nghiệp vụ chính của hệ thống.
+
+Các phân hệ chính được xác định gồm:
+\begin{itemize}
+    \item Quản lý khách hàng.
+    \item Quản lý hợp đồng.
+    \item Quản lý sản phẩm.
+    \item Quản lý kho linh kiện và vật tư.
+    \item Quản lý lô hàng nhập kho.
+    \item Quản lý thiết bị IoT đã lắp đặt.
+    \item Theo dõi telemetry từ thiết bị.
+    \item Quản lý nhân viên, hoạt động hệ thống và hồ sơ cá nhân.
+\end{itemize}
+
+Việc tách hệ thống thành nhiều module là cần thiết vì mỗi nhóm chức năng có dữ liệu, quy trình xử lý và đối tượng sử dụng khác nhau. Cách tổ chức này giúp giảm độ phụ thuộc giữa các phần của hệ thống, thuận lợi hơn cho việc bảo trì từng chức năng riêng lẻ và cho phép mở rộng dần mà không làm ảnh hưởng đến toàn bộ ứng dụng. Với một hệ thống quản trị, việc phân module còn hỗ trợ phân quyền rõ ràng hơn, vì người dùng chỉ cần truy cập đúng phần công việc của mình thay vì tương tác với toàn bộ chức năng.
+
+\paragraph*{2. Phân tích luồng nghiệp vụ của hệ thống}
+SmartWater Admin đóng vai trò là trung tâm điều phối nghiệp vụ cho toàn bộ hoạt động quản lý dịch vụ bảo trì máy lọc nước. Hệ thống không chỉ lưu trữ thông tin mà còn liên kết các bước nghiệp vụ từ lúc khách hàng phát sinh nhu cầu đến khi thiết bị được lắp đặt, theo dõi và bảo trì trong suốt vòng đời sử dụng. Ở góc độ vận hành, đây là nơi tập trung các thông tin quan trọng để bộ phận quản lý có thể theo dõi trạng thái khách hàng, hợp đồng, thiết bị và tình hình hoạt động thực tế của hệ thống.
+
+Luồng nghiệp vụ thường bắt đầu từ khách hàng. Khi khách hàng đăng ký sử dụng dịch vụ, thông tin cá nhân hoặc thông tin doanh nghiệp sẽ được đưa vào hệ thống để hình thành hồ sơ quản lý ban đầu. Từ dữ liệu này, bộ phận kinh doanh hoặc quản lý có thể lập hợp đồng phù hợp với loại dịch vụ mà khách hàng lựa chọn. Hợp đồng là mắt xích quan trọng vì nó xác định phạm vi cung cấp dịch vụ, thời hạn hiệu lực và các điều khoản liên quan đến lắp đặt hoặc bảo trì.
+
+Sau khi hợp đồng được xác nhận, hệ thống tiếp tục gắn với sản phẩm và kho. Module sản phẩm dùng để quản lý danh mục máy lọc nước và linh kiện, trong khi module kho phản ánh số lượng tồn, số lượng đã giữ và tình trạng sẵn sàng của từng vật tư. Hai module này hỗ trợ kiểm soát khả năng đáp ứng trước khi thiết bị được triển khai cho khách hàng, đồng thời giúp người quản lý chủ động theo dõi nguồn lực vật tư cho các đợt lắp đặt và bảo trì tiếp theo.
+
+Khi thiết bị được lắp đặt tại địa điểm của khách hàng, module thiết bị sẽ đóng vai trò liên kết toàn bộ thông tin liên quan đến sản phẩm, hợp đồng và khách hàng. Từ đây, hệ thống có thể biết chính xác thiết bị nào đang thuộc khách hàng nào, thuộc hợp đồng nào và đang ở trạng thái vận hành ra sao. Trong quá trình sử dụng, module telemetry tiếp tục thu nhận dữ liệu từ thiết bị để phản ánh tình trạng hoạt động thực tế. Những chỉ số này giúp hệ thống không chỉ quản lý theo hồ sơ mà còn giám sát được trạng thái vận hành của thiết bị theo thời gian.
+
+Dashboard là lớp nghiệp vụ tổng hợp ở phía trên cùng của hệ thống. Thay vì yêu cầu người quản trị phải xem từng module riêng lẻ, dashboard gom các thông tin quan trọng như số lượng khách hàng, tình trạng thiết bị, lịch bảo trì và các hợp đồng sắp hết hạn để hỗ trợ ra quyết định nhanh. Cách thiết kế luồng nghiệp vụ như vậy giúp các module liên kết chặt chẽ nhưng vẫn giữ được vai trò riêng: khách hàng tạo đầu vào, hợp đồng xác định dịch vụ, sản phẩm và kho đảm bảo khả năng cung ứng, thiết bị thể hiện đối tượng được quản lý, telemetry phản ánh tình trạng thực tế và dashboard cung cấp cái nhìn tổng quan cho người vận hành.
+
+Hình \ref{fig:week3-business-flow} mô tả luồng nghiệp vụ tổng thể của hệ thống SmartWater. Sơ đồ này cho thấy các bước xử lý không tách rời mà được liên kết thành một chuỗi xuyên suốt, từ tiếp nhận khách hàng cho đến quản lý thiết bị và theo dõi dữ liệu vận hành. Việc tổ chức nghiệp vụ theo chuỗi như vậy giúp hệ thống phù hợp với đặc thù của dịch vụ bảo trì, đồng thời tạo thuận lợi cho việc kiểm soát tiến độ công việc, phát hiện vấn đề sớm và duy trì chất lượng dịch vụ ổn định.
+
+\begin{figure}[hbtp]
+    \centering
+    \includegraphics[width=0.6\linewidth]{include/image/business_flow.png}
+    \caption{Luồng nghiệp vụ tổng thể của hệ thống SmartWater}
+    \label{fig:week3-business-flow}
+\end{figure}
+
+\paragraph*{2. Khảo sát kiến trúc backend và cơ sở dữ liệu}
+Khi đọc source code, tôi nhận thấy hệ thống được xây dựng bằng Laravel và tổ chức theo mô hình MVC kết hợp Service để tách riêng phần xử lý nghiệp vụ và phần hiển thị. Kiến trúc của dự án được chia thành các lớp chính gồm:
+\begin{itemize}
+    \item \texttt{routes/}: khai báo route cho web và API.
+    \item \texttt{app/Http/Controllers/}: tiếp nhận request và điều phối xử lý.
+    \item \texttt{app/Services/}: chứa logic tổng hợp dữ liệu và nghiệp vụ.
+    \item \texttt{app/Models/}: ánh xạ dữ liệu từ database bằng Eloquent.
+    \item \texttt{resources/views/}: giao diện Blade cho các màn hình quản trị.
+    \item \texttt{smartwater-database/}: nơi chứa migration và seed dữ liệu dùng chung cho hệ thống.
+\end{itemize}
+
+Từ file route \texttt{web.php}, tôi ghi nhận các màn hình được phân tách rõ theo từng nghiệp vụ như dashboard, products, inventory, categories, batches, customers, contracts, devices, employees, activities và profile. Điều này giúp hệ thống dễ mở rộng và dễ bảo trì hơn trong quá trình phát triển.
+
+Về dữ liệu, hệ thống được thiết kế xoay quanh các thực thể chính gồm \texttt{customers}, \texttt{contracts}, \texttt{products}, \texttt{inventories}, \texttt{batches}, \texttt{devices}, \texttt{device\_dashboard\_data}, \texttt{maintenance\_records} và \texttt{activity\_logs}. Mối quan hệ giữa các bảng cho thấy hệ thống không chỉ quản lý thông tin danh mục mà còn theo dõi được toàn bộ vòng đời vận hành của thiết bị, từ nhập kho, lắp đặt, bảo trì đến giám sát dữ liệu cảm biến.
+
+Việc tổ chức dữ liệu theo từng thực thể giúp hệ thống tránh lặp thông tin và đảm bảo dữ liệu được chuẩn hóa ở mức phù hợp. Chẳng hạn, khách hàng, hợp đồng, thiết bị và telemetry được tách thành các bảng riêng để mỗi bảng chỉ lưu đúng phạm vi thông tin của mình, từ đó giảm dư thừa và dễ kiểm soát tính nhất quán. Đặc biệt, telemetry được tách khỏi dữ liệu nghiệp vụ vì đây là loại dữ liệu phát sinh liên tục theo thời gian, có tần suất ghi nhận cao và phục vụ mục tiêu giám sát thay vì quản lý danh mục. Cách tách này giúp truy vấn nghiệp vụ không bị lẫn với dữ liệu quan trắc, đồng thời giữ cho hệ thống dễ mở rộng khi số lượng thiết bị và bản ghi tăng lên.
+
+% Hình \ref{fig:week3-system-structure} mô tả kiến trúc tổng thể của hệ thống SmartWater. Trong mô hình này, dữ liệu từ thiết bị IoT được gửi về lớp dịch vụ trung gian trước khi lưu vào cơ sở dữ liệu, còn khối SmartWater Admin đóng vai trò giao diện quản trị để người dùng thao tác, tra cứu và theo dõi toàn bộ hoạt động. Từ sơ đồ có thể thấy hệ thống được tổ chức theo luồng xử lý rõ ràng giữa thiết bị, dịch vụ dữ liệu và khối quản trị.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{include/image/smartwater_system_structure.png}
+    \caption{Kiến trúc tổng thể của hệ thống SmartWater}
+    \label{fig:week3-system-structure}
+\end{figure}
+
+Sau khi phân tích kiến trúc tổng thể, tôi tiếp tục đối chiếu vào phần backend để làm rõ vai trò của từng lớp trong ứng dụng. Hình \ref{fig:week3-backend-structure} cho thấy một request từ trình duyệt sẽ đi qua \texttt{routes} để định tuyến đến \texttt{controllers}, sau đó controller trao đổi với \texttt{models} để truy xuất dữ liệu từ MySQL Database. Bên cạnh đó, hệ thống còn có các thành phần bổ trợ như middleware, validation, service/helper và views để đảm bảo dữ liệu hợp lệ, nghiệp vụ được xử lý tập trung và giao diện được hiển thị thống nhất.
+
+Việc lựa chọn mô hình MVC kết hợp Service Layer phù hợp với bài toán của SmartWater Admin vì đây là hệ thống quản trị có nhiều luồng thao tác và nhiều màn hình chia sẻ cùng một nguồn dữ liệu. Trong mô hình này, Controller giữ vai trò tiếp nhận request và điều phối, Model chịu trách nhiệm ánh xạ và làm việc với dữ liệu, còn Service được dùng để gom các nghiệp vụ xử lý có thể tái sử dụng ở nhiều nơi. Việc tách Service khỏi Controller giúp controller không bị phình to khi số lượng màn hình và quy tắc xử lý tăng lên, đồng thời làm cho logic nghiệp vụ dễ kiểm thử, dễ bảo trì và thuận lợi hơn khi cần mở rộng thêm chức năng mới.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{include/image/backend_struct.png}
+    \caption{Kiến trúc backend của SmartWater Admin}
+    \label{fig:week3-backend-structure}
+\end{figure}
+
+\paragraph*{3. Luồng xử lý dữ liệu}
+Tôi đặc biệt chú ý đến luồng dữ liệu trên dashboard và luồng nhận telemetry từ thiết bị. Đối với trang tổng quan, \texttt{DashboardController} lấy dữ liệu từ \texttt{DashboardService} để dựng giao diện. Các dữ liệu được tổng hợp gồm KPI số lượng khách hàng, sản phẩm, thiết bị và hợp đồng; thống kê trạng thái thiết bị; biểu đồ khách hàng mới theo tháng; biểu đồ lượt bảo trì theo tháng; danh sách hoạt động gần đây; danh sách lịch bảo trì gần đây; và danh sách hợp đồng sắp hết hạn.
+
+Từ đó có thể thấy dashboard được thiết kế theo hướng tổng hợp dữ liệu từ nhiều bảng khác nhau để phục vụ việc theo dõi vận hành nhanh. Bên cạnh đó, tôi cũng khảo sát luồng nhận telemetry qua \texttt{TelemetryController}. Quy trình xử lý gồm nhận request chứa \texttt{mcu\_id}, \texttt{api\_key}, thời gian và các chỉ số đo; tìm MCU theo mã thiết bị; kiểm tra API key; lấy thiết bị đang gắn với MCU; ghi dữ liệu vào bảng \texttt{device\_dashboard\_data}; và cập nhật trạng thái MCU sang \texttt{online}. Luồng này cho thấy hệ thống có phần backend phục vụ thiết bị gửi dữ liệu thật hoặc dữ liệu mô phỏng, từ đó hỗ trợ giám sát các chỉ số như TDS, nhiệt độ, lưu lượng nước và pH.
+
+\paragraph*{4. Lựa chọn công nghệ}
+Từ source code, tôi xác định các công nghệ chính đang được sử dụng trong dự án gồm:
+\begin{itemize}
+    \item Backend: PHP với Laravel 11.
+    \item Database: SQLite cho môi trường phát triển và MySQL cho triển khai chính.
+    \item Frontend: Blade, Bootstrap và các file asset được build bằng Vite.
+    \item Kiến trúc: MVC kết hợp Service Layer.
+\end{itemize}
+
+Việc tách logic vào \texttt{Services} giúp controller gọn hơn, còn giao diện Blade giúp việc dựng màn hình nhanh và đồng bộ.
+
+Lựa chọn công nghệ trong dự án cũng phản ánh đúng đặc trưng của một hệ thống quản trị. Laravel phù hợp vì cung cấp sẵn cấu trúc MVC, Eloquent ORM và cơ chế routing rõ ràng, giúp triển khai nhanh nhưng vẫn giữ được tính tổ chức của mã nguồn. Blade phù hợp với các trang quản trị vì cho phép tái sử dụng layout và component, từ đó đồng bộ hóa giao diện giữa nhiều màn hình. Bootstrap hỗ trợ xây dựng bố cục responsive và nhất quán, đặc biệt hữu ích khi dashboard cần hiển thị nhiều khối thông tin theo dạng lưới. MySQL phù hợp với dữ liệu quan hệ của hệ thống, nơi các bảng khách hàng, hợp đồng, thiết bị và telemetry liên kết chặt chẽ với nhau. Vite hỗ trợ quy trình build tài nguyên frontend gọn nhẹ và hiệu quả hơn trong quá trình phát triển. Kết hợp với mô hình MVC và Service Layer, các công nghệ này tạo ra một nền tảng có tổ chức, dễ mở rộng và thuận tiện cho bảo trì lâu dài.
+
+Đối với các chức năng của hệ thống, Hình \ref{fig:week3-modules} thể hiện nhóm module chính của SmartWater Admin. Các module này được tổ chức theo hướng quản trị vận hành, trong đó dashboard dùng để tổng hợp số liệu, nhóm quản lý khách hàng - hợp đồng - sản phẩm - kho - thiết bị phục vụ nghiệp vụ cốt lõi, còn module giám sát telemetry và module tài khoản hỗ trợ theo dõi tình trạng hệ thống cũng như phân quyền người dùng. Cách phân nhóm này giúp giao diện và chức năng được tách bạch rõ ràng, thuận tiện cho việc phát triển tiếp theo.
+
+\begin{figure}[hbtp]
+    \centering
+    \includegraphics[width=0.6\linewidth]{include/image/smartwater-module.png}
+    \caption{Các module chức năng chính của hệ thống}
+    \label{fig:week3-modules}
+\end{figure}
+
+\paragraph*{5. Thiết kế giao diện}
+Phần frontend của dự án được xây dựng theo hướng dashboard quản trị, tập trung vào việc đọc nhanh số liệu và trạng thái hệ thống. Các thành phần giao diện chính gồm khối KPI tổng quan ở đầu trang dashboard, biểu đồ trạng thái thiết bị, biểu đồ khách hàng mới và lượt bảo trì theo tháng, danh sách hợp đồng sắp hết hạn, cùng bảng hoạt động gần đây và lịch bảo trì gần đây.
+
+Giao diện sử dụng các component Blade như \texttt{kpi-card}, \texttt{panel}, \texttt{status-badge} để tái sử dụng bố cục và đồng nhất style giữa các màn hình. Phần này cần được minh họa bằng ảnh giao diện thực tế, do đó tôi để sẵn vị trí chèn ảnh để bổ sung sau.
+
+Các nguyên tắc thiết kế được ưu tiên trong quá trình khảo sát là theo hướng \textit{dashboard-first}, tức đặt thông tin tổng quan và cảnh báo quan trọng lên đầu trang để người quản trị có thể nắm nhanh trạng thái hệ thống. KPI được bố trí ở vị trí đầu tiên vì đây là lớp thông tin ngắn gọn nhất, phù hợp cho việc kiểm tra nhanh tình hình vận hành. Các biểu đồ đóng vai trò hỗ trợ nhận biết xu hướng, trong khi các bảng và danh sách bên dưới cung cấp chi tiết khi cần tra cứu sâu hơn. Cách bố trí này giúp giao diện vừa thuận tiện cho quan sát tổng thể, vừa đủ rõ ràng cho thao tác quản trị hằng ngày.
+
+% TODO: Cập nhật đường dẫn ảnh dashboard thực tế sau khi chụp màn hình.
+\begin{figure}[hbtp]
+    \centering
+    % \includegraphics[width=0.95\linewidth]{include/image/<dashboard_image>.png}
+    \fbox{\parbox{0.95\linewidth}{\centering
+        \vspace{1.5cm}
+        \textit{[Chèn ảnh giao diện dashboard tại đây]}
+        \vspace{1.5cm}
+    }}
+    \caption{Giao diện dashboard tổng quan của hệ thống}
+    \label{fig:week3-dashboard}
+\end{figure}
+
+% TODO: Cập nhật đường dẫn ảnh màn hình quản lý thực tế sau khi chụp màn hình.
+\begin{figure}[hbtp]
+    \centering
+    % \includegraphics[width=0.95\linewidth]{include/image/<management_image>.png}
+    \fbox{\parbox{0.95\linewidth}{\centering
+        \vspace{1.5cm}
+        \textit{[Chèn ảnh giao diện các màn hình quản lý tại đây]}
+        \vspace{1.5cm}
+    }}
+    \caption{Giao diện các màn hình quản lý chính}
+    \label{fig:week3-management}
+\end{figure}
+
+\paragraph*{6. Triển khai và chạy thử}
+Sau khi hoàn thiện khảo sát ban đầu, tôi thực hiện chạy thử hệ thống để kiểm tra tính đúng đắn của các màn hình và xác nhận rằng dữ liệu mẫu, dashboard và luồng xử lý cơ bản đều hoạt động ổn định. Việc chạy thử giúp tôi đối chiếu lại các phần đã phân tích với cách hệ thống vận hành thực tế, đồng thời củng cố hiểu biết về cấu trúc backend và cách hiển thị dữ liệu trên website.
+
+Hình \ref{fig:week3-deployment-model} mô tả mô hình triển khai trong môi trường phát triển. Người quản trị truy cập hệ thống thông qua trình duyệt web, request được gửi đến web server Apache trong môi trường XAMPP, sau đó Apache chuyển tiếp đến ứng dụng Laravel SmartWater Admin. Ứng dụng sẽ xử lý logic nghiệp vụ, truy xuất hoặc ghi dữ liệu vào MySQL Database và trả kết quả hiển thị trở lại trình duyệt. Sơ đồ này giúp tôi hình dung rõ hơn cách các thành phần trong môi trường phát triển phối hợp với nhau khi chạy thử hệ thống.
+
+Mô hình này vẫn tuân theo kiến trúc Client-Server quen thuộc: trình duyệt đóng vai trò client, Apache và Laravel chịu trách nhiệm tiếp nhận và xử lý yêu cầu phía server, còn MySQL là lớp lưu trữ dữ liệu tập trung. Việc sử dụng XAMPP trong giai đoạn phát triển là phù hợp vì cho phép dựng nhanh môi trường web server, PHP và cơ sở dữ liệu trên máy cục bộ, thuận tiện cho kiểm thử và hiệu chỉnh source code trước khi đưa vào môi trường triển khai thực tế. Về lâu dài, cách tổ chức này vẫn có thể mở rộng sang môi trường chạy độc lập hơn khi hệ thống cần triển khai chính thức.
+
+\begin{figure}[hbtp]
+    \centering
+    \includegraphics[width=0.6\linewidth]{include/image/Mo-hinh-trien-khai.png}
+    \caption{Mô hình triển khai hệ thống SmartWater}
+    \label{fig:week3-deployment-model}
+\end{figure}
+
+\subsubsection*{Kết quả đạt được}
+Trong quá trình khảo sát source code, tôi gặp khó khăn chủ yếu ở việc phải ghép nối nhiều lớp xử lý để hiểu được một luồng nghiệp vụ hoàn chỉnh. Cách tiếp cận phù hợp là đọc từ route, đi qua controller, lần theo service và model, sau đó đối chiếu lại với giao diện và cấu trúc dữ liệu để xác nhận luồng hoạt động thực tế. Qua đó, tôi rút ra rằng việc phân tích một hệ thống backend không nên nhìn từng file riêng lẻ mà cần đặt chúng trong mối quan hệ giữa yêu cầu, kiến trúc và dữ liệu. Bài học quan trọng nhất của tuần này là phải luôn kiểm tra tính nhất quán giữa thiết kế chức năng, mô hình dữ liệu và cách hiển thị trên giao diện.
+
+Sau tuần 3, tôi đã:
+\begin{itemize}
+    \item Hiểu được mục tiêu và phạm vi của hệ thống \texttt{smartwater-admin}.
+    \item Xác định được kiến trúc backend, database và luồng dữ liệu chính của hệ thống.
+    \item Nắm được cách dashboard tổng hợp dữ liệu từ nhiều bảng để phục vụ quản trị.
+    \item Hiểu được luồng tiếp nhận và lưu trữ telemetry từ thiết bị.
+    \item Có được định hướng rõ hơn cho việc thiết kế giao diện và triển khai các màn hình quản trị.
+\end{itemize}
+
+Kết quả của tuần 3 là nền tảng quan trọng để tôi tiếp tục hoàn thiện thiết kế, mở rộng tính năng và chuẩn bị cho các tuần triển khai tiếp theo.

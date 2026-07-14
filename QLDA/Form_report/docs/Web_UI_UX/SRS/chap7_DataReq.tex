@@ -154,3 +154,102 @@ Các yêu cầu bao gồm:
     \item Hệ thống phải ghi nhận các thao tác quan trọng thông qua Activity Log để phục vụ việc kiểm tra và truy vết.
 \end{itemize}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Chi tiết 17 Database Tables}
+
+Hệ thống hiện tại được xây dựng với 17 bảng dữ liệu trong MySQL, được tạo thông qua Eloquent Migrations của Laravel. Mỗi bảng được thiết kế để lưu trữ một loại thực thể cụ thể với các khóa ngoại để đảm bảo tính toàn vẹn dữ liệu.
+
+\begin{table}[H]
+\centering
+\caption{17 Database Tables chi tiết}
+\label{tab:database_tables}
+\small
+\begin{tabularx}{\textwidth}{|l|l|c|X|}
+\hline
+\textbf{Bảng} & \textbf{Model} & \textbf{Records} & \textbf{Mô tả} \\
+\hline
+
+roles & Role & 3 & Administrator, Employee, Technician \\
+\hline
+
+users & User & 3 & Tài khoản người dùng (bcrypt password) \\
+\hline
+
+employees & Employee & 9 & Thông tin nhân viên với FK to roles \\
+\hline
+
+categories & Category & 4 & Danh mục sản phẩm (RO, Nano, Industrial) \\
+\hline
+
+products & Product & 10 & Sản phẩm máy lọc nước (AQ-RO-50 to AQ-CORE-RO) \\
+\hline
+
+suppliers & Supplier & 3 & Nhà cung cấp hàng \\
+\hline
+
+inventories & Inventory & 10 & Tồn kho (1:1 với products) \\
+\hline
+
+batches & Batch & 6 & Lô hàng nhập (LOT-2025-001 to LOT-2025-006) \\
+\hline
+
+batch\_details & BatchDetail & 30+ & Chi tiết lô hàng (many-to-many) \\
+\hline
+
+customers & Customer & 24 & Khách hàng (soft deletes enabled) \\
+\hline
+
+contracts & Contract & 18 & Hợp đồng bảo trì \\
+\hline
+
+contract\_services & ContractService & 3 & Dịch vụ tham chiếu (static) \\
+\hline
+
+devices & Device & 30 & Thiết bị (TB-01000 to TB-01029) \\
+\hline
+
+device\_dashboard\_data & DeviceDashboardData & 24+ & Dữ liệu cảm biến IoT (TDS, temp, flow, pH) \\
+\hline
+
+maintenance\_records & MaintenanceRecord & 20 & Phiếu bảo trì (BT-0001 to BT-0020) \\
+\hline
+
+activity\_logs & ActivityLog & 25+ & Nhật ký hoạt động người dùng \\
+\hline
+
+attachments & Attachment & 0 & Tệp đính kèm (polymorphic) \\
+\hline
+
+\end{tabularx}
+
+\end{table}
+
+\subsection*{Tổng cộng dữ liệu được seeded}
+
+Hệ thống hiện tại được populate với hơn 100 records dữ liệu test:
+
+\begin{itemize}
+    \item 3 Roles + 9 Employees + 3 Users
+    \item 4 Categories + 10 Products + 10 Inventories
+    \item 3 Suppliers + 6 Batches + 30 Batch Details
+    \item 24 Customers + 18 Contracts + 3 Contract Services
+    \item 30 Devices + 24 Device Telemetry Data
+    \item 20 Maintenance Records + 25 Activity Logs
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{REST API Endpoints}
+
+Bên cạnh giao diện Web, hệ thống cung cấp 30+ REST API endpoints cho phép các ứng dụng bên ngoài truy cập dữ liệu:
+
+\begin{itemize}
+    \item \textbf{Products API}: GET, POST, PUT, DELETE /api/products
+    \item \textbf{Categories API}: GET, POST, PUT, DELETE /api/categories
+    \item \textbf{Inventories API}: GET, PATCH /api/inventories
+    \item \textbf{Customers API}: GET, POST, PUT, DELETE /api/customers
+    \item \textbf{Devices API}: GET, POST /api/devices
+    \item \textbf{Contracts API}: GET, POST /api/contracts
+\end{itemize}
+
+Mỗi endpoint trả về JSON responses với proper HTTP status codes (200, 201, 422, 404, 500).
+

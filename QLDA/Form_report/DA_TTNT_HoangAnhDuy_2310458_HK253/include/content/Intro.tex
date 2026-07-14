@@ -1,28 +1,44 @@
-\section{LỜI MỞ ĐẦU}
+\section*{LỜI MỞ ĐẦU}
 
-\paragraph{}
+\paragraph{Thực tập doanh nghiệp là một học phần quan trọng trong chương trình đào tạo của Trường Đại học Bách Khoa – Đại học Quốc gia Thành phố Hồ Chí Minh, nhằm tạo điều kiện cho sinh viên tiếp cận môi trường làm việc thực tế, vận dụng kiến thức đã học vào các dự án cụ thể, đồng thời rèn luyện kỹ năng chuyên môn và kỹ năng làm việc trong doanh nghiệp.
+
+Trong thời gian thực tập tại Công ty Cổ phần Dịch vụ Công nghệ Tin học HPT, em được tham gia tìm hiểu và hỗ trợ phát triển hệ thống quản lý máy lọc nước thông minh (SmartWater). Nội dung thực tập tập trung vào việc nghiên cứu kiến trúc hệ thống, phân tích yêu cầu, thiết kế cơ sở dữ liệu, xây dựng các thành phần của hệ thống quản lý, đồng thời tìm hiểu việc tích hợp thiết bị IoT sử dụng vi điều khiển ESP32 và giao thức MQTT để thu thập dữ liệu từ các thiết bị ngoài thực tế.
+
+Thông qua quá trình thực tập, em không chỉ củng cố những kiến thức đã được học tại trường mà còn có cơ hội tiếp cận với quy trình phát triển phần mềm trong doanh nghiệp, từ khâu phân tích yêu cầu, thiết kế hệ thống, phát triển, kiểm thử cho đến triển khai. Bên cạnh đó, em cũng học hỏi được phương pháp làm việc nhóm, kỹ năng quản lý công việc và tinh thần trách nhiệm trong môi trường làm việc chuyên nghiệp.
+
+Báo cáo này trình bày những nội dung đã thực hiện trong suốt quá trình thực tập, bao gồm quá trình tìm hiểu doanh nghiệp, phân tích yêu cầu hệ thống, nghiên cứu các công nghệ sử dụng, thiết kế và xây dựng hệ thống, kết quả đạt được cũng như những kinh nghiệm và bài học rút ra sau thời gian thực tập.
+
+Em hy vọng nội dung của báo cáo sẽ phản ánh đầy đủ quá trình học tập, nghiên cứu và làm việc của bản thân trong thời gian thực tập. Đồng thời, em rất mong nhận được những ý kiến đóng góp từ quý thầy cô để có thể tiếp tục hoàn thiện kiến thức và kỹ năng của mình trong thời gian tới.
+}
 
 \newpage
-\section{GIỚI THIỆU}
+\section*{GIỚI THIỆU}
 
-\subsection{Giới thiệu về Công ty Cổ phần Dịch vụ Công nghệ Tin học HPT}
+\subsection*{Giới thiệu về Công ty Cổ phần Dịch vụ Công nghệ Tin học HPT}
 
-Công ty Cổ phần Dịch vụ Công nghệ Tin học HPT (HPT) là một trong những doanh nghiệp công nghệ thông tin hàng đầu tại Việt Nam với hơn 30 năm hình thành và phát triển. HPT hoạt động trong nhiều lĩnh vực như tư vấn và triển khai giải pháp công nghệ thông tin, tích hợp hệ thống, phát triển phần mềm, cung cấp dịch vụ chuyển đổi số, điện toán đám mây, an toàn thông tin, quản trị hạ tầng CNTT, đào tạo và cung ứng nguồn nhân lực công nghệ thông tin.
+\paragraph{Công ty Cổ phần Dịch vụ Công nghệ Tin học HPT (HPT) là một trong những doanh nghiệp công nghệ thông tin hàng đầu tại Việt Nam với hơn 30 năm hình thành và phát triển. HPT hoạt động trong nhiều lĩnh vực như tư vấn và triển khai giải pháp công nghệ thông tin, tích hợp hệ thống, phát triển phần mềm, cung cấp dịch vụ chuyển đổi số, điện toán đám mây, an toàn thông tin, quản trị hạ tầng CNTT, đào tạo và cung ứng nguồn nhân lực công nghệ thông tin.
 
 Trong suốt quá trình phát triển, HPT đã xây dựng được đội ngũ chuyên gia và kỹ sư giàu kinh nghiệm, không ngừng nghiên cứu và tiếp cận các công nghệ hiện đại như điện toán đám mây (Cloud Computing), trí tuệ nhân tạo (Artificial Intelligence), dữ liệu lớn (Big Data), Internet vạn vật (IoT) và các giải pháp chuyển đổi số cho doanh nghiệp. Với năng lực chuyên môn cao cùng kinh nghiệm triển khai nhiều dự án quy mô lớn, HPT đã trở thành đối tác tin cậy của nhiều tổ chức, doanh nghiệp và cơ quan trọng yếu tại Việt Nam.
 
-Bên cạnh năng lực công nghệ, HPT còn chú trọng xây dựng môi trường làm việc chuyên nghiệp, đề cao giá trị văn hóa doanh nghiệp với phương châm ``Nhân bản -- Hài hòa'', tạo điều kiện cho nhân viên phát triển chuyên môn và đóng góp vào sự phát triển bền vững của doanh nghiệp. Hệ thống quy trình quản lý dự án, quản lý chất lượng và phát triển sản phẩm được xây dựng theo các chuẩn quốc tế nhằm đảm bảo chất lượng dịch vụ và nâng cao hiệu quả triển khai dự án.
+Bên cạnh năng lực công nghệ, HPT còn chú trọng xây dựng môi trường làm việc chuyên nghiệp, đề cao giá trị văn hóa doanh nghiệp với phương châm ``Nhân bản -- Hài hòa'', tạo điều kiện cho nhân viên phát triển chuyên môn và đóng góp vào sự phát triển bền vững của doanh nghiệp. Hệ thống quy trình quản lý dự án, quản lý chất lượng và phát triển sản phẩm được xây dựng theo các chuẩn quốc tế nhằm đảm bảo chất lượng dịch vụ và nâng cao hiệu quả triển khai dự án.}
+%Công ty Cổ phần Dịch vụ Công nghệ Tin học HPT (HPT) là một trong những doanh nghiệp công nghệ thông tin hàng đầu tại Việt Nam với hơn 30 năm hình thành và phát triển. HPT hoạt động trong nhiều lĩnh vực như tư vấn và triển khai giải pháp công nghệ thông tin, tích hợp hệ thống, phát triển phần mềm, cung cấp dịch vụ chuyển đổi số, điện toán đám mây, an toàn thông tin, quản trị hạ tầng CNTT, đào tạo và cung ứng nguồn nhân lực công nghệ thông tin.
 
-\subsection{Giới thiệu nội dung thực tập}
+% Trong suốt quá trình phát triển, HPT đã xây dựng được đội ngũ chuyên gia và kỹ sư giàu kinh nghiệm, không ngừng nghiên cứu và tiếp cận các công nghệ hiện đại như điện toán đám mây (Cloud Computing), trí tuệ nhân tạo (Artificial Intelligence), dữ liệu lớn (Big Data), Internet vạn vật (IoT) và các giải pháp chuyển đổi số cho doanh nghiệp. Với năng lực chuyên môn cao cùng kinh nghiệm triển khai nhiều dự án quy mô lớn, HPT đã trở thành đối tác tin cậy của nhiều tổ chức, doanh nghiệp và cơ quan trọng yếu tại Việt Nam.
 
-Trong thời gian thực tập tại HPT, sinh viên được tìm hiểu môi trường làm việc thực tế của doanh nghiệp, nghiệp vụ của nhân việc, quy trình quản lý dự án, các hoạt động quản lý chất lượng, quản lý rủi ro và phối hợp với khách hàng trong quá trình triển khai dự án.
+% Bên cạnh năng lực công nghệ, HPT còn chú trọng xây dựng môi trường làm việc chuyên nghiệp, đề cao giá trị văn hóa doanh nghiệp với phương châm ``Nhân bản -- Hài hòa'', tạo điều kiện cho nhân viên phát triển chuyên môn và đóng góp vào sự phát triển bền vững của doanh nghiệp. Hệ thống quy trình quản lý dự án, quản lý chất lượng và phát triển sản phẩm được xây dựng theo các chuẩn quốc tế nhằm đảm bảo chất lượng dịch vụ và nâng cao hiệu quả triển khai dự án.
+
+\subsection*{Giới thiệu nội dung thực tập}
+
+\paragraph{Trong thời gian thực tập tại HPT, sinh viên được tìm hiểu môi trường làm việc thực tế của doanh nghiệp, nghiệp vụ của nhân việc, quy trình quản lý dự án, các hoạt động quản lý chất lượng, quản lý rủi ro và phối hợp với khách hàng trong quá trình triển khai dự án.
 
 Bên cạnh việc tìm hiểu các quy trình quản lý dự án, sinh viên còn được tiếp cận với dự án thực tế trong lĩnh vực Internet of Things (IoT). Dự án hướng đến xây dựng hệ thống giám sát, quản lý và bảo trì máy lọc nước từ xa theo thời gian thực. Thông qua dự án này, sinh viên có cơ hội tìm hiểu kiến trúc hệ thống IoT, quy trình thu thập và xử lý dữ liệu từ thiết bị nhúng, cơ chế truyền thông giữa thiết bị và máy chủ, cũng như các công nghệ được sử dụng trong quá trình phát triển sản phẩm tại doanh nghiệp.
 
 Đợt thực tập là cơ hội để vận dụng kiến thức đã học vào môi trường thực tế, đồng thời nâng cao kỹ năng chuyên môn, kỹ năng làm việc nhóm và hiểu rõ hơn về quy trình phát triển và triển khai các dự án trong doanh nghiệp.
-\section{NỘI DUNG THỰC TẬP}
+}
+\newpage
+\section*{NỘI DUNG THỰC TẬP}
 \include{ChuongTrinhThucTap}
-\subsection{Nội dung công việc thực hiện}
+\subsection*{Nội dung công việc thực hiện}
 
 Trong suốt thời gian thực tập, các công việc được thực hiện theo từng giai đoạn như sau:
 
