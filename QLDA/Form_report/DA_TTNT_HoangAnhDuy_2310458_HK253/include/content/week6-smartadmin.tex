@@ -1,27 +1,10 @@
-\subsubsubsection*{6.2.8 Thiết kế và xây dựng SmartWater Admin}
+\subsubsubsection*{6.2.6 Hoàn thiện ứng dụng quản trị SmartWater}
 
-Trong cùng tuần triển khai Device Monitor, sinh viên hoàn thiện giao diện quản trị SmartWater Admin nhằm khai thác dữ liệu nghiệp vụ và telemetry đã được chuẩn hóa. Ứng dụng được xây dựng bằng Laravel, bảo vệ các route quản trị bằng middleware xác thực và tổ chức theo chuỗi xử lý \textit{Route $\rightarrow$ Controller $\rightarrow$ Service $\rightarrow$ Eloquent Model $\rightarrow$ Blade View}.
+Song song với chức năng giám sát, sinh viên hoàn thiện ứng dụng SmartWater Admin nhằm hỗ trợ quản lý thông tin và vận hành nội bộ. Ứng dụng tập trung vào các nhóm chức năng chính gồm tổng quan hệ thống, quản lý danh mục và kho, quản lý khách hàng và hợp đồng, theo dõi thiết bị, cùng các chức năng hỗ trợ vận hành.
 
-Các công việc chính gồm:
+\subsubsubsection*{6.2.6.1 Xác thực và dashboard tổng quan}
 
-\begin{itemize}
-    \item Hoàn thiện trang đăng nhập và dashboard tổng quan.
-    \item Xây dựng các màn hình quản lý sản phẩm, kho và lô hàng.
-    \item Xây dựng các màn hình khách hàng, hợp đồng và hồ sơ khách hàng.
-    \item Xây dựng các màn hình quản lý thiết bị, MCU và telemetry.
-    \item Xây dựng các màn hình nhân viên, lịch sử hoạt động và hồ sơ người dùng.
-    \item Đối chiếu giao diện với route, controller, service và dữ liệu MySQL hiện có.
-\end{itemize}
-
-\subsubsubsection*{6.2.8.1 Kiến trúc dashboard}
-
-SmartWater Admin là ứng dụng Laravel nguyên khối phục vụ quản trị. Sau khi người dùng đăng nhập, route \path|/| hoặc \path|/dashboard| gọi \texttt{DashboardController::index}. Controller sử dụng \texttt{DashboardService} để lấy các chỉ số KPI, phân bố trạng thái thiết bị, dữ liệu khách hàng theo tháng, bảo trì theo tháng, hoạt động gần đây và hợp đồng sắp hết hạn; sau đó truyền dữ liệu tới Blade view dashboard.
-
-Dashboard tổng hợp số khách hàng, sản phẩm, thiết bị, thiết bị đang hoạt động, thiết bị bảo trì và hợp đồng còn hiệu lực từ database. Các biểu đồ sử dụng dữ liệu truy vấn theo tháng hoặc theo trạng thái thiết bị. Phần xu hướng phần trăm trên KPI hiện là giá trị trình bày cố định, vì vậy chỉ được dùng để minh họa giao diện và cần được thay bằng phép so sánh dữ liệu lịch sử khi triển khai hoàn chỉnh.
-
-\subsubsubsection*{6.2.8.2 Giao diện xác thực và dashboard tổng quan}
-
-Trang đăng nhập là điểm vào của hệ thống. Sau khi xác thực thành công, người dùng được chuyển đến dashboard để quan sát chỉ số tổng quan và truy cập các module quản trị từ sidebar.
+Người dùng truy cập hệ thống thông qua màn hình đăng nhập. Sau khi xác thực, dashboard cung cấp cái nhìn tổng quan về các thông tin cần thiết, giúp người quản trị nắm bắt tình hình vận hành và nhanh chóng truy cập đến các phân hệ nghiệp vụ.
 
 \begin{figure}[H]
     \centering
@@ -37,9 +20,9 @@ Trang đăng nhập là điểm vào của hệ thống. Sau khi xác thực th�
     \label{fig:week7-admin-dashboard}
 \end{figure}
 
-\subsubsubsection*{6.2.8.3 Quản lý danh mục, sản phẩm, kho và lô hàng}
+\subsubsubsection*{6.2.6.2 Quản lý danh mục, sản phẩm và kho}
 
-Module sản phẩm là dữ liệu nền cho thiết bị và kho. Mỗi sản phẩm thuộc một danh mục; tồn kho được quản lý theo sản phẩm, còn lô hàng và chi tiết lô hàng hỗ trợ truy vết nguồn nhập. Các màn hình danh sách cung cấp khả năng xem, tìm kiếm và thao tác quản trị theo route của từng module.
+Nhóm chức năng danh mục, sản phẩm, tồn kho và lô hàng hỗ trợ quản lý các thông tin nền tảng phục vụ hoạt động vận hành. Các màn hình được tổ chức thống nhất để người dùng có thể tra cứu, cập nhật và theo dõi dữ liệu một cách thuận tiện.
 
 \begin{figure}[H]
     \centering
@@ -62,9 +45,9 @@ Module sản phẩm là dữ liệu nền cho thiết bị và kho. Mỗi sản 
     \label{fig:week7-admin-batch}
 \end{figure}
 
-\subsubsubsection*{6.2.8.4 Quản lý khách hàng và hợp đồng}
+\subsubsubsection*{6.2.6.3 Quản lý khách hàng và hợp đồng}
 
-Nhóm chức năng khách hàng và hợp đồng thể hiện dữ liệu nghiệp vụ xuyên suốt quá trình lắp đặt và vận hành máy lọc nước. Một khách hàng có thể có nhiều hợp đồng; thiết bị được gắn với khách hàng và hợp đồng phù hợp để hỗ trợ truy vết khi xem thông tin vận hành hoặc lịch sử bảo trì.
+Thông tin khách hàng và hợp đồng được tổ chức thành một nhóm nghiệp vụ xuyên suốt quá trình cung cấp và vận hành thiết bị. Người quản trị có thể tra cứu hồ sơ khách hàng, theo dõi thông tin liên quan và quản lý hợp đồng một cách tập trung.
 
 \begin{figure}[H]
     \centering
@@ -87,9 +70,9 @@ Nhóm chức năng khách hàng và hợp đồng thể hiện dữ liệu nghi�
     \label{fig:week7-admin-contract}
 \end{figure}
 
-\subsubsubsection*{6.2.8.5 Quản lý thiết bị, MCU và telemetry}
+\subsubsubsection*{6.2.6.4 Quản lý thiết bị và giám sát vận hành}
 
-Module thiết bị liên kết Product, Customer, Contract và MCU. MCU được nhận diện bằng \texttt{mcu\_id} dạng chuỗi; Device lưu \texttt{mcu\_id} để gắn một MCU vào thiết bị. Khi xem chi tiết thiết bị, dữ liệu telemetry được đọc theo MCU để phục vụ theo dõi TDS và trạng thái cảnh báo.
+Nhóm chức năng thiết bị giúp liên kết thông tin quản trị với dữ liệu vận hành. Người dùng có thể theo dõi thiết bị, nhận biết tình trạng hoạt động và xem dữ liệu giám sát liên quan ngay trong bối cảnh nghiệp vụ phù hợp.
 
 \begin{figure}[H]
     \centering
@@ -108,13 +91,13 @@ Module thiết bị liên kết Product, Customer, Contract và MCU. MCU đượ
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.90\linewidth]{include/web-UI/smartwater-admin-device-telemetry.png}
-    \caption{Telemetry trong màn hình chi tiết thiết bị}
+    \caption{Dữ liệu giám sát trong màn hình chi tiết thiết bị}
     \label{fig:week7-admin-device-telemetry}
 \end{figure}
 
-\subsubsubsection*{6.2.8.6 Nhân viên, hoạt động và hồ sơ người dùng}
+\subsubsubsection*{6.2.6.5 Hỗ trợ vận hành và hồ sơ người dùng}
 
-Các module nhân viên, lịch sử hoạt động và hồ sơ giúp hỗ trợ vận hành hệ thống. Nhân viên được gắn với vai trò để phân quyền; hoạt động được lưu trong \texttt{activity\_logs}; màn hình hồ sơ cho phép người dùng xem và cập nhật thông tin cá nhân.
+Các chức năng quản lý nhân viên, lịch sử hoạt động và hồ sơ người dùng hỗ trợ điều hành hệ thống hằng ngày. Việc tập trung các thông tin này trong cùng một ứng dụng giúp tăng khả năng tra cứu, theo dõi trách nhiệm và duy trì tính liên tục trong vận hành.
 
 \begin{figure}[H]
     \centering
@@ -136,19 +119,3 @@ Các module nhân viên, lịch sử hoạt động và hồ sơ giúp hỗ tr�
     \caption{Giao diện hồ sơ người dùng}
     \label{fig:week7-admin-profile}
 \end{figure}
-
-\subsubsubsection*{6.3.1 Kết quả xây dựng SmartWater Admin}
-
-Sinh viên kiểm tra luồng điều hướng từ đăng nhập đến các module quản trị, đồng thời đối chiếu dữ liệu hiển thị với các route, controller, service và model của SmartWater Admin. Dashboard có source truy vấn KPI, phân bố thiết bị, khách hàng theo tháng, bảo trì, hoạt động gần đây và hợp đồng sắp hết hạn. Các module sản phẩm, kho, khách hàng, hợp đồng, thiết bị, MCU, nhân viên và hồ sơ đều có màn hình giao diện tương ứng.
-
-Kết quả đạt được:
-
-\begin{itemize}
-    \item Hoàn thiện giao diện đăng nhập và dashboard tổng quan cho SmartWater Admin.
-    \item Tổ chức các chức năng quản trị theo từng module nghiệp vụ rõ ràng.
-    \item Hiển thị được chuỗi dữ liệu Customer--Contract--Product--Device--MCU và telemetry liên quan.
-    \item Cung cấp giao diện theo dõi telemetry tại chi tiết thiết bị; dữ liệu TDS được khai thác từ bảng telemetry dùng chung.
-    \item Bổ sung các màn hình hỗ trợ vận hành gồm tồn kho, lô hàng, nhân viên, lịch sử và hồ sơ.
-\end{itemize}
-
-Phần giao diện quản trị được gộp vào Week 6 để hoàn thiện luồng từ thu nhận telemetry đến khai thác dữ liệu nghiệp vụ. Các phần cần tiếp tục hoàn thiện gồm kiểm thử runtime đầy đủ cho từng module và thay thế xu hướng KPI cố định bằng dữ liệu so sánh thực tế.
