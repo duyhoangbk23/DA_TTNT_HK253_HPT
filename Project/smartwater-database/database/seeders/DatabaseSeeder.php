@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             McuSeeder::class,
             UnusedMcuSeeder::class,
             DeviceSeeder::class,
+            ConnectedTelemetryDemoSeeder::class,
             UnusedDeviceSeeder::class,
             DeviceDashboardDataSeeder::class,
             MaintenanceRecordSeeder::class,

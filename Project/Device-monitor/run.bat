@@ -41,7 +41,7 @@ echo [1/3] Composer dependencies already installed.
 set "DB_CONNECTION=mysql"
 set "DB_HOST=127.0.0.1"
 set "DB_PORT=3306"
-set "DB_DATABASE=smartwater-database"
+set "DB_DATABASE=smartwater_database"
 set "DB_USERNAME=root"
 set "DB_PASSWORD="
 

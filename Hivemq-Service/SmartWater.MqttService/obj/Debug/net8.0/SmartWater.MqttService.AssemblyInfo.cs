@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SmartWater.MqttService")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+263259b3120b738ce27bc3d675354e73d0000e84")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7a0270ed2396f3023e5e8c38cb33f948128a036c")]
 [assembly: System.Reflection.AssemblyProductAttribute("SmartWater.MqttService")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SmartWater.MqttService")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

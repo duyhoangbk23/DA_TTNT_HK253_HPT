@@ -15,7 +15,7 @@ class ReplaceDeviceRequest extends FormRequest
     {
         return [
             'product_id' => 'required|exists:products,id',
-            'mcu_id' => 'required|exists:mcus,id',
+            'mcu_id' => 'required|string|max:50|exists:mcus,mcu_id',
             'install_date' => 'nullable|date',
         ];
     }

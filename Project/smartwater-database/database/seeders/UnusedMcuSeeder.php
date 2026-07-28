@@ -15,7 +15,7 @@ class UnusedMcuSeeder extends Seeder
 
         for ($i = 0; $i < 12; $i++) {
             Mcu::create([
-                'mcu_code' => sprintf('ESP32_%03d', 31 + $i),
+                'mcu_id' => sprintf('ESP32_%03d', 31 + $i),
                 'serial_number' => sprintf('SN-%06d', 31 + $i),
                 'firmware_version' => $firmwares[array_rand($firmwares)],
                 'api_key' => Str::random(40),

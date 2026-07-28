@@ -11,6 +11,8 @@
     </div>
 </section>
 
+<div id="dashboardDataError" class="alert alert-warning d-none" role="alert"></div>
+
 <section class="stats-grid mb-4">
     <div class="stat-card">
         <div class="stat-label">Tổng telemetry</div>

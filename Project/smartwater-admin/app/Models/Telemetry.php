@@ -11,7 +11,7 @@ class Telemetry extends Model
     protected $fillable = [
         'timestamp',
         'topic',
-        'device_id',
+        'mcu_id',
         'tds',
         'alert',
     ];

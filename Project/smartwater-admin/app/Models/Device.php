@@ -72,7 +72,7 @@ class Device extends Model
 
     public function mcu(): BelongsTo
     {
-        return $this->belongsTo(Mcu::class)->withDefault();
+        return $this->belongsTo(Mcu::class, 'mcu_id', 'mcu_id')->withDefault();
     }
 
     public function replacedBy(): BelongsTo

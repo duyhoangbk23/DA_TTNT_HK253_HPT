@@ -20,7 +20,7 @@ class McuService
                     ->whereNotNull('contract_id')
                     ->whereNotNull('mcu_id');
             }])
-            ->orderBy('mcu_code')
+            ->orderBy('mcu_id')
             ->get();
     }
 
@@ -32,7 +32,7 @@ class McuService
                     ->whereNotNull('contract_id')
                     ->whereNotNull('mcu_id');
             }])
-            ->orderBy('mcu_code')
+            ->orderBy('mcu_id')
             ->get();
     }
 

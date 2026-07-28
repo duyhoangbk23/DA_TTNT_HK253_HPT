@@ -1,0 +1,68 @@
+\chapter{Tổng quan giải pháp}
+\label{chap:solution-overview}
+
+\subsection{Luồng telemetry}
+
+Hệ thống SmartWater được triển khai theo nhiều ranh giới chức năng, giao tiếp thông qua
+MQTT, HTTP và MySQL. Luồng xử lý telemetry được tổ chức như sau:
+
+\begin{enumerate}
+    \item Simulator ESP32 tạo và gửi dữ liệu telemetry qua MQTT.
+    \item HiveMQ Cloud đóng vai trò MQTT Broker.
+    \item Device Monitor nhận dữ liệu qua kết nối MQTT over WebSocket (WSS).
+    \item Slim API xác thực và lưu dữ liệu vào bảng \texttt{telemetry}.
+    \item SmartWater Admin truy vấn dữ liệu để hiển thị giá trị TDS và trạng thái cảnh báo trên trang chi tiết thiết bị.
+\end{enumerate}
+
+Nguồn bằng chứng tương ứng gồm:
+
+\begin{itemize}
+    \item Firmware simulator: \texttt{SimulatorApp.cpp} (E-SIM-03)
+    \item Device Monitor MQTT client: \texttt{public/assets/app.js} (E-DM-02)
+    \item Slim API endpoint: \texttt{public/index.php} (E-DM-06)
+    \item Database schema: \texttt{create\_telemetry\_table.php} (E-DB-02)
+    \item SmartWater Admin: \texttt{DeviceController.php}
+\end{itemize}
+\input{include/diagrams/system-architecture}
+
+\section{Mục tiêu của giải pháp}
+
+Giải pháp hiện có hỗ trợ ba mục tiêu có bằng chứng source:
+
+\begin{itemize}
+  \item thu nhận TDS và trạng thái cảnh báo từ publisher MQTT; simulator tạo payload \texttt{mcu\_id}, \texttt{tds}, \texttt{alert} trong \texttt{SimulatorApp::publishTelemetry} (E-SIM-03);
+  \item giám sát gần thời gian thực và lưu lịch sử qua dashboard/API Device Monitor; các route đọc, tổng hợp và ghi telemetry được khai báo trong \path|Project/Device-monitor/public/index.php| (E-DM-02);
+  \item khai thác lịch sử telemetry theo thiết bị trong Admin; \texttt{DeviceController::show} truy vấn quan hệ \texttt{Device::telemetry} và view \path|resources/views/devices/show.blade.php| hiển thị đồ thị TDS/cảnh báo.
+\end{itemize}
+
+Hệ thống đã được live test thành công theo chuỗi telemetry MCU $\rightarrow$ HiveMQ $\rightarrow$ Device Monitor $\rightarrow$ MySQL. MCU publish dữ liệu lên HiveMQ, Device Monitor nhận message, chuẩn hóa payload và lưu bản ghi telemetry vào database; vì vậy sơ đồ thể hiện cả cấu trúc source và luồng tích hợp đã được xác nhận trong môi trường chạy thực tế.
+
+\section{Phạm vi và trạng thái}
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabular}{p{0.25\textwidth}p{0.19\textwidth}p{0.47\textwidth}}
+\hline
+\textbf{Khối} & \textbf{Trạng thái} & \textbf{Căn cứ} \\
+\hline
+Simulator telemetry & Implemented & Có publisher định kỳ và payload \texttt{mcu\_id} dạng chuỗi, TDS, alert theo contract canonical (E-SIM-01--E-SIM-04). \\
+HiveMQ broker & Configured & Có cấu hình và client kết nối nhưng không tìm thấy manifest server-side trong repository (E-MQ-06). \\
+Device Monitor & Implemented & mqtt.js subscribe qua WSS, Slim API chuẩn hóa và PDO repository ghi/đọc \texttt{telemetry} (E-DM-02--E-DM-06). \\
+SmartWater Admin & Partially Implemented & Các module lõi, API telemetry và quan hệ MCU có source; tổng thể còn view thiếu, mock data và mismatch validation/navigation (E-ADM-02--E-ADM-07). \\
+Database dùng chung & Implemented & Migration chuẩn định nghĩa \texttt{telemetry.mcu\_id} dạng chuỗi, có index riêng và index kết hợp với timestamp (E-DB-01--E-DB-03). \\
+Firmware chính & Partially Implemented & Có sensor/task/MQTT/command, nhưng telemetry vẫn dùng \texttt{device\_id} và nhiều trường ngoài contract chuẩn (E-FW-03, E-FW-04). \\
+.NET MQTT worker & Partially Implemented & Subscribe và lưu MySQL đã có, nhưng DTO/schema riêng dùng \texttt{device\_id}, \texttt{devices}, \texttt{device\_data} (E-MQ-01--E-MQ-05). \\
+\hline
+\end{tabular}
+\caption{Phạm vi và trạng thái giải pháp theo bằng chứng source}
+\label{tab:solution-scope-status}
+\end{table}
+
+\section{Quyết định kiến trúc chi phối}
+
+Migration dùng chung là nguồn chuẩn của cấu trúc dữ liệu. Theo \texttt{2026\_07\_13\_000000\_create\_telemetry\_table.php}, \texttt{mcu\_id} là chuỗi tối đa 50 ký tự, có index và không được migration telemetry ràng buộc khóa ngoại; Device Monitor yêu cầu giá trị chuỗi không rỗng cùng giới hạn độ dài (E-DB-02, E-DM-04).
+
+Live test đã sử dụng định danh MCU hợp lệ và xác nhận phép ghi telemetry thành công vào database. \texttt{SimulatorApp::publishTelemetry} gửi trực tiếp \texttt{SimulatorConfig::MCU\_ID} dạng chuỗi, phù hợp với repository hiện tại.
+
+SmartWater Admin cung cấp \path|POST /api/telemetry| như một cổng ingest độc lập, nhưng source Device Monitor đang POST vào chính route Slim \path|/api/telemetry|; không có lời gọi từ Device Monitor sang API Laravel. Hai cổng cùng hướng đến bảng chuẩn nhưng là hai đường HTTP khác nhau (E-DM-02, E-DM-06, E-ADM-05).

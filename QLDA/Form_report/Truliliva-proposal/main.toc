@@ -1,0 +1,111 @@
+\contentsline {chapter}{Document Control}{i}{chapter*.1}%
+\contentsline {chapter}{\numberline {1}Giới thiệu}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Mục đích}{1}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Phạm vi}{1}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Nguồn bằng chứng và nguyên tắc}{1}{section.1.3}%
+\contentsline {section}{\numberline {1.4}Đối tượng sử dụng tài liệu}{2}{section.1.4}%
+\contentsline {section}{\numberline {1.5}Thuật ngữ và chữ viết tắt}{2}{section.1.5}%
+\contentsline {section}{\numberline {1.6}Tài liệu tham chiếu}{2}{section.1.6}%
+\contentsline {section}{\numberline {1.7}Cấu trúc tài liệu}{2}{section.1.7}%
+\contentsline {chapter}{\numberline {2}Tổng quan giải pháp}{3}{chapter.2}%
+\contentsline {subsection}{\numberline {2.0.1}Luồng telemetry}{3}{subsection.2.0.1}%
+\contentsline {section}{\numberline {2.1}Mục tiêu của giải pháp}{5}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Phạm vi và trạng thái}{5}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Quyết định kiến trúc chi phối}{5}{section.2.3}%
+\contentsline {chapter}{\numberline {3}Kiến trúc hệ thống}{7}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Kiến trúc logic}{7}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Lớp publisher}{9}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}Lớp messaging}{9}{subsection.3.1.2}%
+\contentsline {subsection}{\numberline {3.1.3}Lớp thu nhận và persistence}{9}{subsection.3.1.3}%
+\contentsline {subsection}{\numberline {3.1.4}Lớp quản trị}{9}{subsection.3.1.4}%
+\contentsline {section}{\numberline {3.2}Kiến trúc triển khai}{9}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Giao diện giữa các thành phần}{11}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Ranh giới không đồng bộ}{11}{section.3.4}%
+\contentsline {chapter}{\numberline {4}Thiết kế thành phần}{12}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Nguyên tắc phân rã}{12}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Đánh giá Simulator}{13}{subsection.4.1.1}%
+\contentsline {section}{\numberline {4.2}Thiết kế nội bộ theo tiến trình}{13}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Firmware và simulator}{13}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Device Monitor}{13}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.3}SmartWater Admin}{14}{subsection.4.2.3}%
+\contentsline {subsection}{\numberline {4.2.4}Worker .NET}{14}{subsection.4.2.4}%
+\contentsline {section}{\numberline {4.3}Ranh giới nhất quán và giao dịch}{14}{section.4.3}%
+\contentsline {chapter}{\numberline {5}Thiết kế luồng dữ liệu}{15}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Luồng telemetry chuẩn}{15}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Hợp đồng dữ liệu}{17}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Luồng lỗi có bằng chứng}{17}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Các đường dữ liệu song song}{20}{section.5.4}%
+\contentsline {chapter}{\numberline {6}Thiết kế dữ liệu}{21}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Nguồn chuẩn và phạm vi}{21}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Chuỗi sở hữu nghiệp vụ}{21}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Telemetry canonical}{22}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Ràng buộc và index đáng chú ý}{22}{section.6.4}%
+\contentsline {section}{\numberline {6.5}Mô hình quan hệ}{22}{section.6.5}%
+\contentsline {section}{\numberline {6.6}Schema song song và giới hạn xác minh}{24}{section.6.6}%
+\contentsline {chapter}{\numberline {7}Thiết kế tích hợp}{25}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Luồng telemetry canonical}{25}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Catalogue điểm tích hợp}{25}{section.7.2}%
+\contentsline {section}{\numberline {7.3}HTTP và mapping dữ liệu}{27}{section.7.3}%
+\contentsline {section}{\numberline {7.4}Các nhánh không tương thích}{27}{section.7.4}%
+\contentsline {chapter}{\numberline {8}Thiết kế SmartWater Admin}{28}{chapter.8}%
+\contentsline {section}{\numberline {8.1}Phạm vi và cấu trúc xử lý}{28}{section.8.1}%
+\contentsline {section}{\numberline {8.2}Các module có source}{28}{section.8.2}%
+\contentsline {subsection}{\numberline {8.2.1}Authentication và hồ sơ}{28}{subsection.8.2.1}%
+\contentsline {subsection}{\numberline {8.2.2}Dashboard}{29}{subsection.8.2.2}%
+\contentsline {subsection}{\numberline {8.2.3}Sản phẩm và danh mục}{29}{subsection.8.2.3}%
+\contentsline {subsection}{\numberline {8.2.4}Kho và lô hàng}{29}{subsection.8.2.4}%
+\contentsline {subsection}{\numberline {8.2.5}Khách hàng}{29}{subsection.8.2.5}%
+\contentsline {subsection}{\numberline {8.2.6}Hợp đồng}{30}{subsection.8.2.6}%
+\contentsline {subsection}{\numberline {8.2.7}Thiết bị}{30}{subsection.8.2.7}%
+\contentsline {subsection}{\numberline {8.2.8}MCU và telemetry}{30}{subsection.8.2.8}%
+\contentsline {subsection}{\numberline {8.2.9}Nhân viên}{30}{subsection.8.2.9}%
+\contentsline {subsection}{\numberline {8.2.10}Hoạt động và bảo trì}{31}{subsection.8.2.10}%
+\contentsline {section}{\numberline {8.3}Validation, trạng thái và giới hạn giao diện}{31}{section.8.3}%
+\contentsline {chapter}{\numberline {9}Thiết kế bảo mật}{32}{chapter.9}%
+\contentsline {section}{\numberline {9.1}Phạm vi đánh giá}{32}{section.9.1}%
+\contentsline {section}{\numberline {9.2}Biên tin cậy}{35}{section.9.2}%
+\contentsline {section}{\numberline {9.3}Xử lý thông tin nhạy cảm trong tài liệu}{35}{section.9.3}%
+\contentsline {chapter}{\numberline {10}Vận hành và xử lý lỗi}{36}{chapter.10}%
+\contentsline {section}{\numberline {10.1}Hành vi lỗi theo thành phần}{36}{section.10.1}%
+\contentsline {section}{\numberline {10.2}Health, logging và quan sát}{39}{section.10.2}%
+\contentsline {section}{\numberline {10.3}Runbook kiểm tra tối thiểu}{39}{section.10.3}%
+\contentsline {chapter}{\numberline {11}Công nghệ và phiên bản}{40}{chapter.11}%
+\contentsline {section}{\numberline {11.1}Nguồn xác định phiên bản}{40}{section.11.1}%
+\contentsline {section}{\numberline {11.2}Vai trò của các công nghệ}{41}{section.11.2}%
+\contentsline {subsection}{\numberline {11.2.1}Firmware và ESP32 Simulator}{42}{subsection.11.2.1}%
+\contentsline {subsection}{\numberline {11.2.2}HiveMQ Broker}{42}{subsection.11.2.2}%
+\contentsline {subsection}{\numberline {11.2.3}Device Monitor}{42}{subsection.11.2.3}%
+\contentsline {subsection}{\numberline {11.2.4}SmartWater Admin}{43}{subsection.11.2.4}%
+\contentsline {subsection}{\numberline {11.2.5}Asset build và giao diện SmartWater Admin}{44}{subsection.11.2.5}%
+\contentsline {subsection}{\numberline {11.2.6}Worker .NET}{44}{subsection.11.2.6}%
+\contentsline {subsection}{\numberline {11.2.7}MySQL}{45}{subsection.11.2.7}%
+\contentsline {section}{\numberline {11.3}Tổng hợp vai trò trong luồng dữ liệu}{45}{section.11.3}%
+\contentsline {chapter}{\numberline {A}Cấu trúc repository}{47}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Ranh giới thực thi}{48}{section.A.1}%
+\contentsline {section}{\numberline {A.2}Nhận xét cấu trúc có bằng chứng}{48}{section.A.2}%
+\contentsline {chapter}{\numberline {B}Danh mục thành phần}{50}{appendix.B}%
+\contentsline {section}{\numberline {B.1}Điểm không đồng bộ ảnh hưởng inventory}{53}{section.B.1}%
+\contentsline {chapter}{\numberline {C}Danh mục route SmartWater Admin}{54}{appendix.C}%
+\contentsline {section}{\numberline {C.1}Bao phủ và điều hướng}{56}{section.C.1}%
+\contentsline {chapter}{\numberline {D}Danh mục cơ sở dữ liệu}{57}{appendix.D}%
+\contentsline {section}{\numberline {D.1}Nguồn migration và consumer}{61}{section.D.1}%
+\contentsline {chapter}{\numberline {E}Đặc tả MQTT}{62}{appendix.E}%
+\contentsline {section}{\numberline {E.1}Thông số client}{62}{section.E.1}%
+\contentsline {section}{\numberline {E.2}Topic và payload}{64}{section.E.2}%
+\contentsline {section}{\numberline {E.3}Các thuộc tính không tìm thấy}{66}{section.E.3}%
+\contentsline {chapter}{\numberline {F}Đặc tả JSON và mapping telemetry}{67}{appendix.F}%
+\contentsline {section}{\numberline {F.1}Payload canonical}{67}{section.F.1}%
+\contentsline {section}{\numberline {F.2}Envelope của Device Monitor}{67}{section.F.2}%
+\contentsline {section}{\numberline {F.3}API Admin}{68}{section.F.3}%
+\contentsline {section}{\numberline {F.4}Mapping end-to-end}{68}{section.F.4}%
+\contentsline {section}{\numberline {F.5}Tính tương thích hiện tại}{69}{section.F.5}%
+\contentsline {chapter}{\numberline {G}Biến cấu hình}{70}{appendix.G}%
+\contentsline {section}{\numberline {G.1}Phân biệt cấu hình và xác minh runtime}{73}{section.G.1}%
+\contentsline {chapter}{\numberline {H}Bằng chứng hình ảnh chọn lọc}{74}{appendix.H}%
+\contentsline {chapter}{\numberline {I}Các điểm không đồng nhất đã biết}{78}{appendix.I}%
+\contentsline {section}{\numberline {I.1}Ghi chú về thay thế thiết bị}{79}{section.I.1}%
+\contentsline {section}{\numberline {I.2}Giới hạn xác minh}{79}{section.I.2}%
+\contentsline {chapter}{\numberline {J}Chỉ mục bằng chứng source}{80}{appendix.J}%
+\contentsline {section}{\numberline {J.1}Giới hạn bằng chứng}{83}{section.J.1}%
+\contentsline {chapter}{\numberline {K}Ma trận chức năng SmartWater Admin}{84}{appendix.K}%
+\contentsline {section}{\numberline {K.1}Các quan hệ chi phối chức năng}{87}{section.K.1}%

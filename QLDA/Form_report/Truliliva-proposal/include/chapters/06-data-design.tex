@@ -1,0 +1,103 @@
+\chapter{Thiết kế dữ liệu}
+\label{chap:data-design}
+
+\section{Nguồn chuẩn và phạm vi}
+
+Thiết kế quan hệ lấy chuỗi migration trong
+\path|Project/smartwater-database/database/migrations| làm nguồn chuẩn.
+Model Eloquent, truy vấn Admin và lớp PDO của Device Monitor được dùng để
+xác định thành phần tiêu thụ và phát hiện sai khác; chúng không thay thế
+migration khi hai phía không đồng nhất (E-DB-01--E-DB-03).
+
+Schema sau toàn bộ migration có 21 bảng. Các nhóm dữ liệu gồm:
+
+\begin{itemize}
+  \item danh tính và phân quyền: \texttt{roles}, \texttt{employees},
+  \texttt{users}, \texttt{password\_reset\_tokens}, \texttt{sessions};
+  \item khách hàng và hợp đồng: \texttt{customers}, \texttt{contracts},
+  \texttt{contract\_services};
+  \item danh mục và kho: \texttt{categories}, \texttt{products},
+  \texttt{inventories}, \texttt{suppliers}, \texttt{batches}, \texttt{batch\_details};
+  \item thiết bị và vận hành: \texttt{devices}, \texttt{mcus},
+  \texttt{maintenance\_records}, \texttt{device\_dashboard\_data}, \texttt{telemetry};
+  \item kiểm toán và tệp: \texttt{activity\_logs}, \texttt{attachments}.
+\end{itemize}
+
+Danh mục đầy đủ từng bảng, khóa và module tiêu thụ nằm tại
+Phụ lục~\ref{app:database-catalogue}.
+
+\section{Chuỗi sở hữu nghiệp vụ}
+
+Quan hệ trung tâm của Admin là
+\texttt{customers.id} $\rightarrow$ \texttt{contracts.customer\_id}
+$\rightarrow$ \texttt{products.contract\_id}. Mỗi product có tối đa một
+device và một MCU do \texttt{devices.product\_id} và
+\texttt{mcus.product\_id} đều nullable và unique. Thiết kế này cho phép
+product, device và MCU tồn tại ở trạng thái chưa gán; khi lập hợp đồng,
+\texttt{ContractService} gán ba bản ghi trong một transaction. Truy vấn chi tiết
+thiết bị đi từ Device qua Product và MCU để lấy telemetry
+(\texttt{ContractService}, \texttt{Device::telemetry},
+\texttt{DeviceController::show}).
+
+Lịch sử thay thế thiết bị được biểu diễn bằng self-reference
+\texttt{devices.replaced\_by\_device\_id} cùng \texttt{replaced\_at} và giá trị
+trạng thái \texttt{replaced}. \texttt{DeviceService::replaceDevice} tách device/MCU cũ
+khỏi product và gán cặp mới trong transaction; schema không tạo thực thể
+lịch sử thay thế riêng.
+
+\section{Telemetry canonical}
+
+\texttt{telemetry.mcu\_id} là chuỗi bắt buộc tối đa 50 ký tự. Một MCU có
+nhiều mẫu telemetry; index đơn \texttt{mcu\_id} và index kép
+\texttt{(mcu\_id, timestamp)} hỗ trợ truy vấn chuỗi thời gian theo MCU.
+\texttt{tds} là \texttt{DECIMAL(8,2)} nullable, \texttt{alert} là chuỗi
+nullable và \texttt{topic} có giá trị mặc định. Model \texttt{Telemetry}
+ánh xạ năm trường nghiệp vụ; migration telemetry không khai báo quan hệ khóa
+ngoại đến MCU (E-DB-02, E-ADM-05).
+
+Device Monitor lưu \texttt{timestamp}, \texttt{topic}, \texttt{mcu\_id},
+\texttt{tds}, \texttt{alert} và truy vấn lại chính năm trường này.
+Admin \texttt{DeviceController::show} tiêu thụ \texttt{timestamp}, \texttt{tds}
+và \texttt{alert} để tạo nhãn thời gian, chuỗi TDS và danh sách cảnh báo.
+Mapping chi tiết từ publisher đến giao diện nằm tại
+Phụ lục~\ref{app:telemetry-json}.
+
+\section{Ràng buộc và index đáng chú ý}
+
+\begin{itemize}
+  \item Các mã nghiệp vụ chính như \texttt{customer\_code},
+  \texttt{contract\_code}, \texttt{product\_code}, \texttt{device\_code},
+  \texttt{mcu\_code} và các serial number được đặt unique.
+  \item \texttt{inventories.product\_id} unique tạo quan hệ một--một
+  Product--Inventory; hai khóa product trên Device và MCU cũng unique nhưng nullable.
+  \item \texttt{sessions.user\_id} chỉ được tạo bằng \texttt{foreignId}
+  và index, không gọi \texttt{constrained}; do đó migration không khai báo FK
+  tới \texttt{users} cho cột này.
+  \item \texttt{attachments} dùng cặp
+  \texttt{(related\_type, related\_id)} được index để tham chiếu đa hình
+  theo quy ước, không có FK cho thực thể đích.
+  \item \texttt{activity\_logs} chỉ có \texttt{created\_at};
+  \texttt{batch\_details} và \texttt{device\_dashboard\_data} không có
+  cặp timestamp Eloquent.
+\end{itemize}
+
+\section{Mô hình quan hệ}
+
+\input{include/diagrams/entity-relationship}
+
+Nét liền trong Hình~\ref{fig:entity-relationship} là FK bắt buộc; nét đứt
+là FK nullable. Ký hiệu \texttt{UQ} nhấn mạnh cột unique và
+\texttt{IDX} nhấn mạnh index không đồng thời là FK.
+
+\section{Schema song song và giới hạn xác minh}
+
+\path|Device-monitor/src/Database.php| có thể tự tạo bảng telemetry
+bằng DDL riêng. DDL này dùng \texttt{DOUBLE} cho TDS, không tạo FK,
+index hay \texttt{created\_at}/\texttt{updated\_at}; vì vậy chỉ khớp một phần
+với migration canonical. Worker .NET lại ghi schema legacy \texttt{smartwater}
+với \texttt{devices}/\texttt{device\_data} và khóa chuỗi
+\texttt{device\_id} (E-DM-05, E-MQ-04--E-MQ-05). Các khác biệt này được
+tổng hợp tại Phụ lục~\ref{app:known-inconsistencies}.
+
+Phân tích trên xác nhận cấu trúc source, không xác nhận migration hay
+ghi/đọc MySQL live trong môi trường triển khai.

@@ -20,4 +20,12 @@ class McuModelTest extends TestCase
         $this->assertSame('N/A', Mcu::getDisplayStatus(''));
         $this->assertSame('Online', Mcu::getDisplayStatus('online'));
     }
+
+    public function test_devices_relation_uses_string_mcu_id(): void
+    {
+        $relation = (new Mcu())->devices();
+
+        $this->assertSame('mcu_id', $relation->getForeignKeyName());
+        $this->assertSame('mcu_id', $relation->getLocalKeyName());
+    }
 }

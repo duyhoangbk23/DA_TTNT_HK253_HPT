@@ -132,7 +132,7 @@
                                             <select name="mcu_ids[]" class="form-select">
                                                 <option value="">-- Chọn MCU chưa dùng --</option>
                                                 @foreach($unusedMcus as $mcu)
-                                                    <option value="{{ $mcu->id }}">{{ $mcu->mcu_code }} - {{ $mcu->serial_number }}</option>
+<option value="{{ $mcu->mcu_id }}">{{ $mcu->mcu_id }} - {{ $mcu->serial_number }}</option>
                                                 @endforeach
                                             </select>
                                         </div>

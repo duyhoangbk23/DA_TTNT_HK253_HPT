@@ -4,4 +4,4 @@
 \contentsline {subsection}{\numberline {1.2}Văn hóa doanh nghiệp}{2}{subsection.1.2}%
 \contentsline {subsection}{\numberline {1.3}Cơ cấu tổ chức}{3}{subsection.1.3}%
 \contentsline {subsection}{\numberline {1.4}Giới thiệu về nội dung thực tập}{4}{subsection.1.4}%
-\contentsline {subsubsection}{\numberline {1.4.1}3.5.2 ASP.NET Core}{27}{subsubsection.1.4.1}%
+\contentsline {paragraph}{\numberline {1.4.0.1} Cơ sở dữ liệu dùng chung được thiết kế theo mô hình quan hệ để kết nối dữ liệu nghiệp vụ và dữ liệu giám sát IoT. Các migration trong dự án \texttt {smartwater-database} là nguồn chuẩn của schema; SmartWater Admin và Device Monitor cùng sử dụng database \texttt {smartwater\_database}. }{24}{paragraph.1.4.0.1}%

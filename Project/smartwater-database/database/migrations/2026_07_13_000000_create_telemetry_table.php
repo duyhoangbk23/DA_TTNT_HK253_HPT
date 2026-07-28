@@ -12,12 +12,12 @@ return new class extends Migration
             $table->id();
             $table->timestamp('timestamp')->index();
             $table->string('topic', 255)->default('devices/telemetry');
-            $table->string('device_id', 100)->index();
+            $table->string('mcu_id', 50)->index();
             $table->decimal('tds', 8, 2)->nullable();
             $table->string('alert', 255)->nullable();
             $table->timestamps();
 
-            $table->index(['device_id', 'timestamp']);
+            $table->index(['mcu_id', 'timestamp']);
         });
     }
 

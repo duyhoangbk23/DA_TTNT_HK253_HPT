@@ -9,7 +9,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('devices', function (Blueprint $table) {
-            $table->foreignId('mcu_id')->nullable()->after('product_id')->constrained('mcus');
+            $table->string('mcu_id', 50)->nullable()->after('product_id');
+            $table->foreign('mcu_id')->references('mcu_id')->on('mcus')->nullOnDelete();
             $table->timestamp('replaced_at')->nullable()->after('status');
             $table->foreignId('replaced_by_device_id')->nullable()->after('replaced_at')->constrained('devices');
         });

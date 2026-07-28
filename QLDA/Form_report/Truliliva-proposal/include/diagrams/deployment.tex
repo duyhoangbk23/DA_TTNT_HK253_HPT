@@ -1,0 +1,40 @@
+\begin{landscape}
+\begin{figure}[p]
+\centering
+\resizebox{0.92\linewidth}{!}{%
+\begin{tikzpicture}[
+  node distance=15mm and 22mm,
+  host/.style={draw=SmartWaterBlue,rounded corners=3pt,align=center,text width=4.0cm,minimum height=1.65cm,fill=SmartWaterBlue!7,font=\small},
+  external/.style={host,draw=StatusPartial,dashed,fill=StatusPartial!10},
+  legacy/.style={host,draw=StatusPlanned,dashed,fill=black!6},
+  flow/.style={-{Latex[length=2.5mm]},thick,draw=SmartWaterNavy},
+  branch/.style={flow,dashed,draw=StatusPartial}
+]
+\node[host] (esp) {Edge Host\\ESP32 firmware / simulator\\PlatformIO};
+\node[external,right=of esp] (hive) {External Service\\HiveMQ Broker\\Server manifest Not Found};
+\node[host,right=of hive] (browser) {Operator Browser\\mqtt.js qua WSS\\Kết nối thủ công};
+
+\node[legacy,below=of esp] (worker) {Windows / .NET Host\\MQTT Worker legacy\\Windows Service configured};
+\node[host,below=of hive] (admin) {Admin Application Host\\PHP 8.3 / Laravel 13\\Web + API};
+\node[host,below=of browser] (monitor) {Monitor Application Host\\PHP 8.1 / Slim 4\\HTTP API};
+
+\node[legacy,below=of worker] (legacydb) {MySQL Legacy Schema\\\texttt{devices, device\_data}\\Dapper};
+\node[host,below=of admin] (mysql) {MySQL Canonical Schema\\Shared migrations\\\texttt{mcus, telemetry}};
+
+\draw[flow] (esp) -- node[above]{TLS} (hive);
+\draw[flow] (hive) -- node[above]{WSS} (browser);
+\draw[flow] (browser) -- node[right]{HTTP/JSON} (monitor);
+\draw[flow] (monitor.south) |- node[pos=0.7,below]{PDO} (mysql.east);
+\draw[flow] (admin) -- node[right]{Eloquent} (mysql);
+\draw[branch] (hive.south) -- ++(0,-7mm) -| node[pos=0.65,above]{MQTT} (worker.north);
+\draw[branch] (worker) -- node[left]{Dapper} (legacydb);
+\end{tikzpicture}%
+}
+
+\vspace{3mm}
+\small\textbf{Chú giải:} mỗi hộp là một ranh giới triển khai. Nét đứt chỉ thành phần
+bên ngoài hoặc legacy; không biểu thị chúng đã được xác minh chạy đồng thời.
+\caption{Topology triển khai suy ra từ manifest và entry point hiện có}
+\label{fig:deployment-architecture}
+\end{figure}
+\end{landscape}

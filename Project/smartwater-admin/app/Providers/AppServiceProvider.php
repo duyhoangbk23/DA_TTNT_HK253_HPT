@@ -13,7 +13,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->useDatabasePath(base_path('../smartwater-database/database'));
     }
 
     /**

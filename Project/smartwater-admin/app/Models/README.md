@@ -1,53 +1,10 @@
-# app/Models/ — Eloquent Models (Not used in demo)
+# `app/Models/`
 
-Chứa Eloquent Models — Laravel ORM models cho database entities.
+Eloquent models ánh xạ MySQL schema do `Project/smartwater-database` sở hữu.
 
-## 📝 Status trong demo
+Các model nghiệp vụ chính gồm `Product`, `Customer`, `Contract`, `Device`, `Mcu` và `Telemetry`.
 
-**KHÔNG DÙNG** — Demo không có database thực.
-
-Folder này trống hoặc chứa các model scaffolding (nếu từng tạo bằng `php artisan make:model`).
-
----
-
-## 📌 Nếu scale sang production
-
-Khi chuyển từ MockData sang thực tế, tạo models như:
-
-```php
-// app/Models/Product.php
-namespace App\Models;
-
-use Illuminate\Database\Eloquent\Model;
-
-class Product extends Model {
-    protected $fillable = ['sku', 'name', 'category_id', 'model', 'capacity', 'status'];
-    
-    public function category() {
-        return $this->belongsTo(Category::class);
-    }
-    
-    public function batches() {
-        return $this->hasMany(Batch::class);
-    }
-}
-```
-
-Rồi thay đổi Controller:
-
-```php
-// BEFORE (demo)
-$products = MockData::products();
-
-// AFTER (production)
-$products = Product::all();  // From DB
-```
-
----
-
-## 🔗 Reference
-
-- [Eloquent Models](https://laravel.com/docs/eloquent)
-- [Relationships](https://laravel.com/docs/eloquent-relationships)
-
-Hiện tại folder này có thể bỏ trống an toàn (chưa dùng).
+- `Device` liên kết product, customer, contract và MCU bằng `mcu_id` dạng chuỗi.
+- `Mcu` có trạng thái đăng ký, kết nối, thời điểm kết nối và danh sách device liên quan.
+- `Telemetry` lưu `timestamp`, `topic`, `mcu_id`, `tds` và `alert`.
+- Customer, contract, inventory, batch, supplier, employee và activity log cũng dùng Eloquent với quan hệ trong model tương ứng.

@@ -1,0 +1,209 @@
+\subsection*{Tuần 6}
+
+\subsubsection*{6.1 Mô tả công việc}
+
+Trong tuần 6 của kỳ thực tập, sinh viên xây dựng chức năng thu nhận, xử lý và lưu trữ dữ liệu từ máy lọc nước, đồng thời phát triển dashboard hỗ trợ giám sát telemetry theo thời gian thực. Dữ liệu đầu vào được ESP32 publish lên HiveMQ Cloud theo cấu trúc đã chuẩn hóa trong tuần 5.
+
+Các công việc chính gồm:
+
+\begin{itemize}
+    \item Cấu hình Device Monitor kết nối HiveMQ bằng MQTT over WebSocket.
+    \item Subscribe topic \texttt{devices/telemetry}.
+    \item Xây dựng API tiếp nhận bản tin từ MQTT Client.
+    \item Parse và kiểm tra payload JSON.
+    \item Chuẩn hóa \texttt{mcu\_id}, \texttt{tds}, \texttt{alert} và bổ sung \texttt{timestamp}.
+    \item Lưu telemetry vào MySQL \texttt{smartwater\_database} qua schema migration dùng chung.
+    \item Xây dựng danh sách MCU, bảng telemetry theo MCU và biểu đồ TDS theo thời gian.
+    \item Kiểm tra luồng dữ liệu từ ESP32 đến giao diện giám sát.
+\end{itemize}
+
+\subsubsection*{6.2 Nội dung thực hiện}
+
+\subsubsubsection*{6.2.1 Kiến trúc thu nhận telemetry}
+
+Device Monitor là thành phần trung gian giữa HiveMQ và cơ sở dữ liệu. MQTT Client chạy trên trình duyệt thiết lập kết nối bảo mật đến HiveMQ Cloud, đăng ký topic và nhận bản tin ngay khi Broker chuyển tiếp dữ liệu.
+
+Luồng dữ liệu được tổ chức như sau:
+
+\begin{center}
+ESP32 $\rightarrow$ HiveMQ $\rightarrow$ MQTT WebSocket Client $\rightarrow$ API Device Monitor
+$\rightarrow$ Telemetry Service $\rightarrow$ Repository $\rightarrow$ MySQL
+\end{center}
+
+Việc tách các bước tiếp nhận, chuẩn hóa và lưu trữ giúp mỗi thành phần có một trách nhiệm rõ ràng, đồng thời thuận tiện cho việc kiểm tra lỗi tại từng giai đoạn.
+
+Hình \ref{fig:week6-hivemq-architecture} minh họa vai trò của HiveMQ Broker trong mô hình truyền dữ liệu giữa thiết bị và các ứng dụng xử lý.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.90\linewidth]{include/image/hivemq.png}
+    \caption{Vai trò của HiveMQ trong kiến trúc truyền dữ liệu IoT}
+    \label{fig:week6-hivemq-architecture}
+\end{figure}
+
+\subsubsubsection*{6.2.2 Kết nối và subscribe HiveMQ}
+
+Trang cấu hình Device Monitor cho phép khai báo địa chỉ Broker, cổng WebSocket, tài khoản và danh sách topic cần theo dõi. Cấu hình được lưu tại trình duyệt để phục vụ quá trình thử nghiệm.
+
+Khi người dùng thực hiện kết nối, MQTT Client tạo địa chỉ WebSocket bảo mật có dạng:
+
+\begin{verbatim}
+wss://<broker>:<port>/mqtt
+\end{verbatim}
+
+Sau khi kết nối thành công, Client subscribe topic \texttt{devices/telemetry}. Sự kiện \texttt{message} được kích hoạt khi có telemetry mới; payload được chuyển thành chuỗi, parse JSON và gửi đến API của Device Monitor.
+
+Các hình dưới đây ghi nhận cấu hình HiveMQ Cloud đã sử dụng trong quá trình thử nghiệm: cluster đang chạy, thông tin kết nối MQTT/TLS và quyền publish/subscribe của credential. Giá trị bí mật không được hiển thị trong báo cáo.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\linewidth]{include/web-UI/hivemq-cluster.png}
+    \caption{HiveMQ Cloud cluster được cấu hình cho thử nghiệm}
+    \label{fig:week6-hivemq-cluster}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\linewidth]{include/web-UI/hivemq-connection.png}
+    \caption{Thông tin kết nối MQTT TLS và WebSocket của HiveMQ Cloud}
+    \label{fig:week6-hivemq-connection}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\linewidth]{include/web-UI/hivemq-credential.png}
+    \caption{Credential HiveMQ Cloud với quyền publish và subscribe}
+    \label{fig:week6-hivemq-credential}
+\end{figure}
+
+Web Client của HiveMQ được dùng để kiểm tra kết nối và subscription độc lập với Device Monitor. Hình \ref{fig:week6-hivemq-topic} minh họa khu vực đăng ký topic; Hình \ref{fig:week6-hivemq-webclient} cho thấy Web Client ở trạng thái kết nối.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.70\linewidth]{include/web-UI/hivemq-sub-topic.png}
+    \caption{Đăng ký topic trong HiveMQ Web Client}
+    \label{fig:week6-hivemq-topic}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\linewidth]{include/web-UI/hivemq-webclient.png}
+    \caption{HiveMQ Web Client ở trạng thái kết nối}
+    \label{fig:week6-hivemq-webclient}
+\end{figure}
+
+\subsubsubsection*{6.2.3 Tiếp nhận và kiểm tra dữ liệu}
+
+API telemetry tiếp nhận ba thành phần gồm topic, payload và nguồn dữ liệu. Telemetry Service thực hiện giải mã payload, làm phẳng các cấu trúc JSON lồng nhau và lấy các trường cần thiết.
+
+Dữ liệu sau chuẩn hóa có dạng:
+
+\begin{verbatim}
+{
+  "topic": "devices/telemetry",
+  "timestamp": "2026-07-26 10:30:00",
+  "mcu_id": "ESP32_001",
+  "tds": 185,
+  "alert": "normal"
+}
+\end{verbatim}
+
+Các quy tắc xử lý gồm:
+
+\begin{itemize}
+    \item \texttt{mcu\_id} là trường bắt buộc, được chuẩn hóa thành chuỗi không rỗng tối đa 50 ký tự.
+    \item \texttt{tds} được chuyển sang dữ liệu số nếu giá trị hợp lệ.
+    \item \texttt{alert} là trường tùy chọn và được chuẩn hóa thành chuỗi khi payload có giá trị.
+    \item \texttt{timestamp} được sinh tại Device Monitor theo thời điểm nhận bản tin.
+    \item Bản tin thiếu hoặc sai \texttt{mcu\_id} bị từ chối trước khi ghi database.
+\end{itemize}
+
+\subsubsubsection*{6.2.4 Lưu telemetry vào MySQL}
+
+Telemetry Repository sử dụng câu lệnh được chuẩn bị trước để ghi dữ liệu vào bảng \texttt{telemetry}. Schema được sở hữu bởi \texttt{smartwater-database}; Device Monitor chỉ kiểm tra bảng đã được migrate trước khi khởi động. Bảng gồm các trường chính:
+
+\begin{itemize}
+    \item \texttt{id}: khóa chính tự tăng.
+    \item \texttt{timestamp}: thời điểm Device Monitor nhận dữ liệu.
+    \item \texttt{topic}: topic MQTT nguồn.
+    \item \texttt{mcu\_id}: định danh MCU dạng chuỗi, tối đa 50 ký tự.
+    \item \texttt{tds}: giá trị TDS.
+    \item \texttt{alert}: trạng thái cảnh báo.
+\end{itemize}
+
+Migration tạo index cho \texttt{timestamp}, \texttt{mcu\_id} và chỉ mục kết hợp \texttt{(mcu\_id, timestamp)} để hỗ trợ truy xuất lịch sử TDS theo từng MCU và theo thời gian. Bảng telemetry không khai báo khóa ngoại đến MCU, vì vậy dữ liệu telemetry được liên kết logic bằng \texttt{mcu\_id}. Device Monitor và SmartWater Admin cùng sử dụng MySQL \texttt{smartwater\_database}, nhờ đó dữ liệu giám sát và dữ liệu nghiệp vụ dùng cùng một nguồn schema.
+
+\subsubsubsection*{6.2.5 Liên kết telemetry với dữ liệu nghiệp vụ}
+
+Telemetry không liên kết trực tiếp với Customer hoặc Device bằng khóa ngoại, mà dùng \texttt{mcu\_id} làm định danh logic. Bảng \texttt{devices} gắn MCU bằng khóa ngoại \texttt{devices.mcu\_id -> mcus.mcu\_id}; SmartWater Admin truy xuất dữ liệu theo chuỗi quan hệ:
+
+\begin{center}
+Customer $\rightarrow$ Contract $\rightarrow$ Product $\rightarrow$ Device + MCU
+$\rightarrow$ Telemetry
+\end{center}
+
+Mỗi Product thuộc tối đa một Contract tại một thời điểm. Device và MCU cùng được gắn vào Product; vì vậy telemetry của MCU có thể được xác định đúng máy lọc nước, hợp đồng và khách hàng đang sử dụng.
+
+\subsubsubsection*{6.2.6 Xây dựng dashboard giám sát}
+
+Dashboard Device Monitor cung cấp các thông tin tổng hợp:
+
+\begin{itemize}
+    \item Tổng số bản ghi telemetry.
+    \item Số topic khác nhau.
+    \item Số MCU đã gửi dữ liệu.
+    \item Thời điểm của bản ghi mới nhất.
+    \item Thống kê số lượng theo từng trạng thái cảnh báo.
+\end{itemize}
+
+Trang Telemetry Live được bố trí thành hai cột. Cột trái lấy các \texttt{mcu\_id} không trùng từ telemetry và hiển thị số bản ghi, thời điểm gần nhất. Khi chọn một MCU, cột phải tải bảng telemetry đã lọc và chuỗi TDS theo thời gian để vẽ biểu đồ.
+
+Bảng telemetry gồm năm cột:
+
+\begin{center}
+\texttt{timestamp}, \texttt{topic}, \texttt{mcu\_id}, \texttt{tds}, \texttt{alert}
+\end{center}
+
+API đọc gồm \path|/api/mcus|, \path|/api/telemetry?mcu_id=...| và \path|/api/telemetry/chart?mcu_id=...|. Khi MQTT Client nhận bản tin mới và API lưu thành công, giao diện tải lại danh sách telemetry của MCU đang chọn. Nhờ đó người quản trị có thể theo dõi dữ liệu mới mà không cần thao tác trực tiếp với Broker hoặc cơ sở dữ liệu.
+
+\subsubsubsection*{6.2.7 Xử lý lỗi}
+
+Trong quá trình phát triển, sinh viên bổ sung cơ chế xử lý lỗi tại các điểm chính:
+
+\begin{itemize}
+    \item Hiển thị trạng thái khi thiếu cấu hình Broker.
+    \item Thông báo lỗi kết nối hoặc ngắt kết nối MQTT.
+    \item Từ chối payload không phải JSON hợp lệ hoặc thiếu \texttt{mcu\_id}.
+    \item Trả HTTP 422 cho dữ liệu đầu vào không hợp lệ; lỗi persistence được trả về HTTP 500 với thông báo tổng quát.
+    \item Dừng khởi động với thông báo rõ ràng khi schema telemetry chưa được migrate.
+    \item Đọc phản hồi API dưới dạng văn bản trước khi parse JSON để tránh lỗi giao diện khi máy chủ trả về HTML.
+    \item Sử dụng prepared statement để giảm rủi ro sai dữ liệu khi ghi MySQL.
+\end{itemize}
+
+\input{include/content/week6-smartadmin.tex}
+
+\subsubsection*{6.3 Kiểm thử và kết quả đạt được}
+
+Sinh viên thực hiện kiểm thử toàn bộ luồng bằng firmware mô phỏng. ESP32 publish telemetry lên HiveMQ, Device Monitor subscribe bản tin, gọi API, làm phẳng payload lồng, chuẩn hóa dữ liệu và ghi vào MySQL. Sau đó dữ liệu được kiểm tra trên danh sách MCU, bảng telemetry đã lọc và biểu đồ TDS.
+
+Hình \ref{fig:week6-hivemq-message} là bằng chứng ESP32 simulator đã publish thành công các bản tin lên topic \texttt{devices/telemetry}. HiveMQ Web Client nhận ba message có \texttt{mcu\_id} \texttt{ESP32\_001} và dữ liệu TDS trong object \texttt{telemetry}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\linewidth]{include/image/hivemq-message.png}
+    \caption{HiveMQ Web Client nhận telemetry được ESP32 simulator publish thành công}
+    \label{fig:week6-hivemq-message}
+\end{figure}
+
+Kết quả đạt được:
+
+\begin{itemize}
+    \item Device Monitor kết nối và subscribe được HiveMQ Cloud.
+    \item Payload được parse và chuẩn hóa thống nhất.
+    \item Telemetry được lưu đúng bảng với \texttt{mcu\_id} dạng chuỗi và timestamp UTC do Device Monitor tạo.
+    \item Telemetry Live hiển thị MCU không trùng, bảng dữ liệu theo MCU và biểu đồ TDS theo thời gian.
+    \item Dữ liệu mẫu xác nhận chuỗi Customer--Contract--Product--Device--MCU--Telemetry có thể được tạo bằng \texttt{ConnectedTelemetryDemoSeeder}.
+    \item Luồng ESP32 $\rightarrow$ HiveMQ $\rightarrow$ Device Monitor $\rightarrow$ MySQL $\rightarrow$ Dashboard hoạt động thống nhất.
+\end{itemize}
+
+Kết quả tuần 6 hoàn thiện nền tảng thu nhận và giám sát telemetry của SmartWater, làm cơ sở cho các chức năng quản lý thiết bị, cảnh báo và bảo trì ở những giai đoạn tiếp theo.

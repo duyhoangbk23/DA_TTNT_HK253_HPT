@@ -1,0 +1,59 @@
+\contentsline {chapter}{Document Control}{i}{chapter*.1}%
+\contentsline {chapter}{\numberline {1}Giới thiệu}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Mục đích}{1}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Phạm vi}{1}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Thuật ngữ và chữ viết tắt}{1}{section.1.3}%
+\contentsline {chapter}{\numberline {2}Tổng quan giải pháp}{2}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Mục tiêu của giải pháp}{2}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Phạm vi và trạng thái}{4}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Quyết định kiến trúc chi phối}{4}{section.2.3}%
+\contentsline {chapter}{\numberline {3}Kiến trúc hệ thống}{5}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Kiến trúc logic}{5}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Lớp publisher}{5}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}Lớp messaging}{5}{subsection.3.1.2}%
+\contentsline {subsection}{\numberline {3.1.3}Lớp thu nhận và persistence}{5}{subsection.3.1.3}%
+\contentsline {subsection}{\numberline {3.1.4}Lớp quản trị}{6}{subsection.3.1.4}%
+\contentsline {section}{\numberline {3.2}Kiến trúc triển khai}{6}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Giao diện giữa các thành phần}{6}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Ranh giới không đồng bộ}{6}{section.3.4}%
+\contentsline {chapter}{\numberline {4}Thiết kế thành phần}{8}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Nguyên tắc phân rã}{8}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Thiết kế nội bộ theo tiến trình}{9}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Firmware và simulator}{9}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Device Monitor}{9}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.3}SmartWater Admin}{9}{subsection.4.2.3}%
+\contentsline {subsection}{\numberline {4.2.4}Worker .NET}{9}{subsection.4.2.4}%
+\contentsline {section}{\numberline {4.3}Ranh giới nhất quán và giao dịch}{10}{section.4.3}%
+\contentsline {chapter}{\numberline {5}Thiết kế luồng dữ liệu}{11}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Luồng telemetry chuẩn}{11}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Hợp đồng dữ liệu}{11}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Luồng lỗi có bằng chứng}{13}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Các đường dữ liệu song song}{13}{section.5.4}%
+\contentsline {chapter}{\numberline {6}Thiết kế dữ liệu}{14}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Nguồn chuẩn và phạm vi}{14}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Chuỗi sở hữu nghiệp vụ}{14}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Telemetry canonical}{15}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Ràng buộc và index đáng chú ý}{15}{section.6.4}%
+\contentsline {section}{\numberline {6.5}Mô hình quan hệ}{15}{section.6.5}%
+\contentsline {section}{\numberline {6.6}Schema song song và giới hạn xác minh}{15}{section.6.6}%
+\contentsline {chapter}{\numberline {7}Thiết kế SmartWater Admin}{16}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Phạm vi và cấu trúc xử lý}{16}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Các module có source}{16}{section.7.2}%
+\contentsline {subsection}{\numberline {7.2.1}Authentication và hồ sơ}{16}{subsection.7.2.1}%
+\contentsline {subsection}{\numberline {7.2.2}Dashboard}{17}{subsection.7.2.2}%
+\contentsline {subsection}{\numberline {7.2.3}Sản phẩm và danh mục}{17}{subsection.7.2.3}%
+\contentsline {subsection}{\numberline {7.2.4}Kho và lô hàng}{17}{subsection.7.2.4}%
+\contentsline {subsection}{\numberline {7.2.5}Khách hàng}{17}{subsection.7.2.5}%
+\contentsline {subsection}{\numberline {7.2.6}Hợp đồng}{18}{subsection.7.2.6}%
+\contentsline {subsection}{\numberline {7.2.7}Thiết bị}{18}{subsection.7.2.7}%
+\contentsline {subsection}{\numberline {7.2.8}MCU và telemetry}{18}{subsection.7.2.8}%
+\contentsline {subsection}{\numberline {7.2.9}Nhân viên}{18}{subsection.7.2.9}%
+\contentsline {subsection}{\numberline {7.2.10}Hoạt động và bảo trì}{19}{subsection.7.2.10}%
+\contentsline {section}{\numberline {7.3}Validation, trạng thái và giới hạn giao diện}{19}{section.7.3}%
+\contentsline {chapter}{\numberline {8}Thiết kế bảo mật}{20}{chapter.8}%
+\contentsline {section}{\numberline {8.1}Phạm vi đánh giá}{20}{section.8.1}%
+\contentsline {section}{\numberline {8.2}Biên tin cậy}{23}{section.8.2}%
+\contentsline {section}{\numberline {8.3}Xử lý thông tin nhạy cảm trong tài liệu}{23}{section.8.3}%
+\contentsline {chapter}{\numberline {9}Công nghệ và phiên bản}{24}{chapter.9}%
+\contentsline {section}{\numberline {9.1}Nguồn xác định phiên bản}{24}{section.9.1}%
+\contentsline {section}{\numberline {9.2}Vai trò công nghệ}{25}{section.9.2}%

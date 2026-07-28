@@ -35,7 +35,7 @@ class DeviceSeeder extends Seeder
                 'customer_id' => $customer->id,
                 'contract_id' => $contract->id,
                 'batch_id' => $batch->id,
-                'mcu_id' => $mcu->id,
+                'mcu_id' => $mcu->mcu_id,
                 'import_date' => now()->subDays(30 + $i * 5)->format('Y-m-d'),
                 'install_date' => now()->subDays(20 + $i * 4)->format('Y-m-d'),
                 'firmware_version' => 'v' . (1 + $i % 3) . '.' . ($i % 10) . '.' . ($i % 5),

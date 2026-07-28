@@ -16,7 +16,7 @@ class UpdateMcuRequest extends FormRequest
         $mcuId = $this->route('mcu');
 
         return [
-            'mcu_code' => 'required|string|max:50|unique:mcus,mcu_code,' . $mcuId,
+            'mcu_id' => 'required|string|max:50|unique:mcus,mcu_id,' . $mcuId,
             'serial_number' => ['required', 'string', 'max:100', 'unique:mcus,serial_number,' . $mcuId, 'regex:/^SN-\d{6}$/'],
             'firmware_version' => 'nullable|string|max:50',
             'status' => 'nullable|in:online,offline,error',

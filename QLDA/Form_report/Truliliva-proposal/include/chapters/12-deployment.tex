@@ -1,0 +1,75 @@
+\chapter{Thiết kế triển khai}
+\label{chap:deployment}
+
+\section{Topology theo source}
+
+ESP32 firmware/simulator chạy trên board \texttt{esp32dev}; HiveMQ là broker ngoài
+repository; Device Monitor và SmartWater Admin là hai HTTP application độc lập; worker
+.NET có thể chạy foreground hoặc dưới Windows Service; các consumer kết nối MySQL.
+Không có bằng chứng container/orchestrator hay broker cục bộ. Sơ đồ topology mô tả
+thành phần \textit{Configured}, không khẳng định một môi trường đã triển khai.
+
+Sơ đồ triển khai đã được trình bày tại Hình~\ref{fig:deployment-architecture}; chương này
+không lặp lại hình để giữ một nguồn đánh số và tham chiếu duy nhất.
+
+\section{Build và start có evidence}
+
+\begin{landscape}
+\begin{longtable}{p{0.18\linewidth}p{0.38\linewidth}p{0.25\linewidth}p{0.12\linewidth}}
+\caption{Lệnh build/start và mức xác minh}\label{tab:deployment-commands}\\
+\hline
+\textbf{Thành phần} & \textbf{Lệnh tại thư mục thành phần} & \textbf{Nguồn/ý nghĩa} & \textbf{Trạng thái} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Thành phần} & \textbf{Lệnh tại thư mục thành phần} & \textbf{Nguồn/ý nghĩa} & \textbf{Trạng thái} \\
+\hline
+\endhead
+Firmware chính & \texttt{pio run} & Build environment \texttt{esp32dev} từ \path|Project/firmware/platformio.ini|. & Configured \\
+Simulator & \texttt{pio run} & Build project \path|Message_sending_test|. & Configured \\
+Device Monitor & \texttt{composer install}; \path|run.bat| & Cài dependency và chạy PHP development server theo script. & Configured \\
+Device Monitor & \path|php -S 127.0.0.1:8001 -t public public/index.php| & Lệnh start trong \path|run.bat|; không phải production web server. & Configured \\
+Admin & \texttt{composer install}; \texttt{npm ci}; \texttt{npm run build} & Cài dependency PHP, cài đúng npm lock rồi build asset. Nếu không dùng lock, script \texttt{composer setup} có nhánh \path|npm install --ignore-scripts|. & Configured \\
+Admin & \path|php artisan migrate --force| & Migration schema dùng database path chia sẻ. Cần xác định đúng database trước khi chạy. & Configured \\
+Admin & \path|php artisan serve --host=127.0.0.1 --port=8000| & Development server trong \path|run.bat|. & Configured \\
+Worker .NET & \texttt{dotnet publish}\newline\path|.\SmartWater.MqttService\SmartWater.MqttService.csproj|\newline\texttt{-c Release} & Chạy từ \path|Hivemq-Service|; publish project net8.0 bằng đường dẫn project đầy đủ. & Configured \\
+Worker .NET & \texttt{dotnet run --project}\newline\path|.\SmartWater.MqttService\SmartWater.MqttService.csproj| & Chạy từ \path|Hivemq-Service| để kiểm tra host foreground. & Configured \\
+Windows Service & \texttt{AddWindowsService} với tên \texttt{SmartWaterMQTT} & Host đã đăng ký tích hợp service; cài/start service cần quyền hệ điều hành. & Configured \\
+HiveMQ broker & Không tìm thấy & Không có Docker Compose, chart hay cấu hình server-side. & Not Found \\
+\hline
+\end{longtable}
+\end{landscape}
+
+\section{Cấu hình và thứ tự triển khai}
+
+\begin{enumerate}
+  \item Cấp MySQL và tạo schema bằng migration Admin; xác minh \texttt{mcus} và
+  \texttt{telemetry} trước khi nhận message.
+  \item Cấp broker/TLS/ACL bên ngoài repository và nạp credential qua kênh riêng.
+  \item Nạp cấu hình cho Device Monitor, Admin và worker; không chép secret vào tài
+  liệu hoặc command history.
+  \item Build/start HTTP applications và kiểm tra health/read query.
+  \item Build/nạp firmware hoặc simulator; xác minh topic, QoS và định danh theo Phụ
+  lục~\ref{app:mqtt-specification}.
+  \item Chạy kiểm tra end-to-end và chỉ đánh dấu runtime verified khi có bản ghi MySQL
+  tương ứng.
+\end{enumerate}
+
+Danh sách biến cấu hình tại Phụ lục~\ref{app:configuration-variables} chỉ chứng minh
+key tồn tại. Nó không chứng minh host reachable, credential hợp lệ, certificate được
+xác minh, migration đã chạy hoặc service đã được cài.
+
+\section{Khoảng trống triển khai}
+
+\begin{itemize}
+  \item Dockerfile, Docker Compose, Kubernetes/Helm và Infrastructure as Code:
+  \textit{Not Found}.
+  \item CI/CD, artifact signing, OTA firmware và rollback tự động:
+  \textit{Not Found}.
+  \item Broker deployment/backup và MySQL backup/restore/retention:
+  \textit{Not Found}.
+  \item Development start scripts cho hai PHP app: \textit{Configured}; không được
+  phân loại là deployment production.
+  \item Windows Service hosting của worker: \textit{Configured}; repository không cung
+  cấp bằng chứng service đã được cài và chạy trên host đích.
+\end{itemize}

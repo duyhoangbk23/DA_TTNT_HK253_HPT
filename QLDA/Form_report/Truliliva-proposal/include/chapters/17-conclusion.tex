@@ -1,0 +1,20 @@
+\chapter{Kết luận}
+\label{chap:conclusion}
+
+SmartWater đã có các khối source chính cho publisher ESP32, MQTT client, Device Monitor,
+SmartWater Admin, persistence MySQL và worker .NET. Đường telemetry gần với schema
+canonical nhất sử dụng \texttt{mcu\_id}, \texttt{tds} và \texttt{alert}, đi qua
+Device Monitor rồi lưu vào bảng \texttt{telemetry}; Admin đọc dữ liệu qua quan hệ MCU
+để hiển thị theo thiết bị.
+
+Live test đã xác nhận thành công luồng end-to-end từ MCU qua HiveMQ đến Device Monitor
+và MySQL: dữ liệu được publish, tiếp nhận, chuẩn hóa và lưu thành công vào bảng
+\texttt{telemetry}. Firmware chính và worker .NET vẫn còn dùng hợp đồng legacy; schema
+Device Monitor đã dùng migration chung, còn các kiểm soát về secret, certificate,
+API authorization, observability và triển khai tự động còn thiếu hoặc chỉ được cấu hình
+một phần.
+
+Vì vậy, phiên bản 0.1 đã có bằng chứng vận hành cho luồng telemetry cốt lõi. Các bước
+tiếp theo là chuẩn hóa toàn bộ contract telemetry, hoàn thiện migration và tăng cường
+kiểm soát vận hành. Các mục trong Chương~\ref{chap:future-enhancements} tiếp tục giữ
+trạng thái \textit{Planned} cho đến khi có implementation và kiểm thử tương ứng.

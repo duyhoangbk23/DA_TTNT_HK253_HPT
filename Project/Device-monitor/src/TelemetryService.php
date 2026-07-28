@@ -14,7 +14,7 @@ final class TelemetryService
         return [
             'topic' => $topic,
             'timestamp' => $this->normalizeTimestamp(),
-            'device_id' => $this->firstString($flat, ['device_id', 'deviceId', 'deviceCode', 'device_code', 'id', 'code']),
+            'mcu_id' => $this->firstString($flat, ['mcu_id']),
             'tds' => $this->firstFloat($flat, ['tds', 'TDS', 'tds_value', 'tdsValue']),
             'alert' => $this->firstScalar($flat, ['alert', 'Alert']),
         ];

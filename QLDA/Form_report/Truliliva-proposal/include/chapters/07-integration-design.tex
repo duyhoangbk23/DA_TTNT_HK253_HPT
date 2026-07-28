@@ -1,0 +1,83 @@
+\chapter{Thiết kế tích hợp}
+\label{chap:integration-design}
+
+\section{Luồng telemetry canonical}
+
+Luồng có mức tương thích cao nhất theo source là:
+
+\begin{enumerate}
+  \item simulator phát MQTT JSON chứa \path|mcu_id|, \texttt{tds}, \texttt{alert}
+  lên \path|devices/telemetry|;
+  \item trình duyệt Device Monitor kết nối HiveMQ bằng WSS, subscribe topic cấu hình và
+  nhận message;
+  \item trình duyệt gọi \path|POST /api/telemetry| của Device Monitor với
+  \texttt{topic} và \texttt{payload};
+  \item \texttt{TelemetryService} chuẩn hóa, \texttt{TelemetryRepository} kiểm tra
+  \path|mcu_id| là chuỗi không rỗng tối đa 50 ký tự và ghi MySQL;
+  \item SmartWater Admin đọc bảng \texttt{telemetry} canonical qua quan hệ MCU để hiển
+  thị tại trang thiết bị.
+\end{enumerate}
+
+Luồng end-to-end đã được \textit{Live Tested}: MCU publish telemetry lên HiveMQ,
+Device Monitor nhận message qua WSS, gọi API ingest và lưu thành công bản ghi vào MySQL.
+Các giới hạn source được nêu dưới đây vẫn cần được xử lý để bảo đảm khả năng vận hành
+ổn định và mở rộng.
+
+\section{Catalogue điểm tích hợp}
+
+\begin{landscape}
+\begin{longtable}{p{0.15\linewidth}p{0.18\linewidth}p{0.25\linewidth}p{0.25\linewidth}p{0.11\linewidth}}
+\caption{Các điểm tích hợp và trạng thái}\label{tab:integration-catalogue}\\
+\hline
+\textbf{Nguồn} & \textbf{Đích/kênh} & \textbf{Hợp đồng} & \textbf{Giới hạn có evidence} & \textbf{Trạng thái} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Nguồn} & \textbf{Đích/kênh} & \textbf{Hợp đồng} & \textbf{Giới hạn có evidence} & \textbf{Trạng thái} \\
+\hline
+\endhead
+Simulator & HiveMQ/MQTT TLS & \path|devices/telemetry|; QoS 0; JSON canonical tối giản. & \path|MCU_ID| dạng chuỗi được gửi trực tiếp theo contract hiện tại. & Implemented \\
+Firmware chính & HiveMQ/MQTT TLS & Topic \path|Config::Topics::TELEMETRY|; JSON theo \path|device_id|. & Sai định danh, topic và tập field so với canonical. & Partially Implemented \\
+HiveMQ & Device Monitor/WSS & Danh sách \texttt{subscriptions}; MQTT message nhị phân. & Broker server-side không nằm trong repository, nhưng đường truyền MCU--Device Monitor đã live test thành công. & Live Tested \\
+Device Monitor JS & Device Monitor/HTTP JSON & \path|POST /api/telemetry|: \texttt{topic}, \texttt{payload}, \texttt{source}. & Cần người dùng bấm kết nối; tự reconnect bị tắt. & Implemented \\
+Device Monitor & MySQL/PDO & Bảng \texttt{telemetry}, năm cột nghiệp vụ canonical. & Đã live test ghi telemetry thành công; schema được kiểm tra và quản lý bởi migration dùng chung. & Live Tested \\
+Client ngoài & Admin/HTTP JSON & \path|POST /api/telemetry|; payload phẳng hoặc lồng. & Không tìm thấy xác thực API; \path|mcu_id| phải tồn tại. & Partially Implemented \\
+Admin & MySQL/Eloquent & Migration dùng chung và quan hệ MCU--telemetry. & Chưa có bằng chứng truy cập MySQL live trong khảo sát. & Configured \\
+Worker .NET & HiveMQ/MQTT TLS & Topic cấu hình, subscribe QoS 1, DTO \path|device_id|. & Không tương thích bảng/khóa canonical. & Partially Implemented \\
+Worker .NET & MySQL/Dapper & \texttt{devices}, \path|device_data|. & Schema legacy riêng, không phục vụ luồng Admin canonical. & Partially Implemented \\
+\hline
+\end{longtable}
+\end{landscape}
+
+\section{HTTP và mapping dữ liệu}
+
+Device Monitor trả 201 khi lưu thành công, 422 khi thiếu topic hoặc
+\path|mcu_id| không hợp lệ và 500 với thông báo tổng quát khi persistence lỗi.
+Admin trả 201 khi Eloquent tạo bản ghi; validation framework trả lỗi JSON cho route
+\path|api/*|. Hai endpoint có cùng path tương đối nhưng thuộc hai ứng dụng khác
+nhau và không gọi lẫn nhau trong source. Không được xem một endpoint là fallback của
+endpoint kia (E-DM-02--E-DM-04, E-ADM-02, E-ADM-05).
+
+Timestamp canonical trong Device Monitor luôn được tạo bằng UTC tại thời điểm nhận;
+tham số timestamp đầu vào không được dùng. Admin chấp nhận định dạng
+\path|Y-m-d H:i:s| và dùng \texttt{now()} khi thiếu. Vì vậy hai consumer có thể ghi
+thời điểm khác nhau cho cùng message. Không tìm thấy message identifier, deduplication
+hoặc đồng bộ clock; trạng thái các cơ chế này là \textit{Not Found}.
+
+\section{Các nhánh không tương thích}
+
+\begin{itemize}
+  \item Firmware chính phát \path|device_id|, trong khi migration canonical và hai
+  API yêu cầu \path|mcu_id|; trạng thái \textit{Partially Implemented}.
+  \item Topic firmware chính có dạng \path|waterpurifier/.../telemetry|; subscription
+  mặc định của Device Monitor là \path|devices/telemetry|; không có mapping topic;
+  trạng thái \textit{Partially Implemented}.
+  \item Worker .NET subscribe topic cấu hình mặc định dạng status và giải mã
+  \path|device_id|; worker ghi schema legacy. Adapter sang canonical là
+  \textit{Not Found}.
+  \item Broker deployment, schema registry, API gateway và integration contract
+  versioning đều \textit{Not Found} trong repository.
+\end{itemize}
+
+Thông số MQTT chi tiết nằm tại Phụ lục~\ref{app:mqtt-specification}; mapping JSON và
+schema nằm tại Phụ lục~\ref{app:telemetry-json} và Chương~\ref{chap:data-design}.

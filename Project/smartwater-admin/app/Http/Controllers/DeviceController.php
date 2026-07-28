@@ -7,8 +7,8 @@ use App\Models\Customer;
 use App\Models\Contract;
 use App\Models\Batch;
 use App\Models\Mcu;
-use App\Models\DeviceDashboardData;
 use App\Services\DeviceService;
+use App\Services\DeviceTelemetryService;
 use App\Http\Requests\StoreDeviceRequest;
 use App\Http\Requests\UpdateDeviceRequest;
 use App\Http\Requests\ReplaceDeviceRequest;
@@ -16,10 +16,12 @@ use App\Http\Requests\ReplaceDeviceRequest;
 class DeviceController extends Controller
 {
     protected $deviceService;
+    protected $deviceTelemetryService;
 
-    public function __construct(DeviceService $deviceService)
+    public function __construct(DeviceService $deviceService, DeviceTelemetryService $deviceTelemetryService)
     {
         $this->deviceService = $deviceService;
+        $this->deviceTelemetryService = $deviceTelemetryService;
     }
 
     public function index()
@@ -54,21 +56,11 @@ class DeviceController extends Controller
     {
         $device = $this->deviceService->getDeviceById($id)->load(['product', 'customer', 'contract', 'mcu']);
 
-        // Lấy telemetry data
-        $telemetryData = DeviceDashboardData::where('device_id', $id)
-            ->orderBy('recorded_at')
-            ->get();
-
-        $labels = $telemetryData->pluck('recorded_at')->map(fn($d) => $d->format('H:i'))->toArray();
-        $telemetry = [
-            'labels' => $labels,
-            'tds' => $telemetryData->pluck('tds')->toArray(),
-            'alerts' => $telemetryData->map(fn ($row) => [
-                'time' => $row->recorded_at->format('H:i'),
-                'alert' => $row->alert ?? 'normal',
-                'tds' => $row->tds,
-            ])->toArray(),
-        ];
+        $telemetry = $this->deviceTelemetryService->forMcu($device->mcu?->mcu_id);
+        $telemetryLogs = $this->deviceTelemetryService->paginatedLogsForMcu(
+            $device->mcu?->mcu_id,
+            (int) request('telemetry_page', 1)
+        );
 
         // Lấy maintenance records
         $maintenance = $device->maintenanceRecords()->with('employee')->latest('maintenance_date')->get();
@@ -80,6 +72,7 @@ class DeviceController extends Controller
         return view('devices.show', [
             'device' => $device,
             'telemetry' => $telemetry,
+            'telemetryLogs' => $telemetryLogs,
             'maintenance' => $maintenance,
             'availableMcus' => $availableMcus,
         ]);

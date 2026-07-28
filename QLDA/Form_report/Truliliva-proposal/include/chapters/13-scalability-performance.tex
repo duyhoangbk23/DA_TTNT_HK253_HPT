@@ -1,0 +1,112 @@
+\chapter{Khả năng mở rộng và hiệu năng}
+\label{chap:scalability-performance}
+
+\section{Phạm vi đánh giá}
+
+Đánh giá này chỉ dựa trên topology, chu kỳ cấu hình, câu truy vấn và index có trong
+source. Repository không chứa benchmark, kiểm thử tải, số liệu dung lượng hay cam kết
+SLA; vì vậy chương này không đưa ra throughput, độ trễ mục tiêu hoặc số lượng thiết bị
+có thể phục vụ.
+
+\section{Topology xử lý hiện tại}
+
+Đường canonical gồm publisher ESP32, HiveMQ bên ngoài repository, mqtt.js chạy trong
+trình duyệt Device Monitor, Slim API và MySQL. Callback trình duyệt chuyển từng MQTT
+message thành một HTTP request; API chuẩn hóa, thực hiện một lệnh \texttt{INSERT} rồi
+đọc lại bản ghi vừa tạo. SmartWater Admin là consumer truy vấn MySQL, không nằm trên
+đường ingest của Device Monitor. Worker .NET là consumer song song nhưng ghi schema
+legacy \texttt{devices}/\path|device_data|, không phải bảng \texttt{telemetry}
+canonical. Evidence:
+\path|Project/Device-monitor/public/assets/app.js|, các hàm
+\texttt{connectToHiveMQ} và \texttt{sendTelemetry},
+\path|Project/Device-monitor/public/index.php|,
+\path|Project/Device-monitor/src/TelemetryRepository.php| và
+\path|Hivemq-Service/SmartWater.MqttService/Repositories/DeviceRepository.cs|.
+
+Trình duyệt Device Monitor phải được mở và người dùng phải khởi tạo kết nối; mqtt.js
+đặt \texttt{reconnectPeriod=0}. Source không có canonical MQTT consumer chạy nền,
+queue trung gian, batch insert hoặc cơ chế back-pressure. Đây là các giới hạn topology
+quan sát được, không phải kết luận từ kiểm thử tải (E-DM-06).
+
+\section{Tần suất và giới hạn cấu hình}
+
+\begingroup
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{landscape}
+\begin{longtable}{p{0.19\linewidth}p{0.20\linewidth}p{0.36\linewidth}p{0.11\linewidth}}
+\caption{Chu kỳ và giới hạn có trong source}\label{tab:scalability-frequency}\\
+\hline
+\textbf{Phạm vi} & \textbf{Giá trị cấu hình} & \textbf{Ý nghĩa kỹ thuật} & \textbf{Trạng thái} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Phạm vi} & \textbf{Giá trị cấu hình} & \textbf{Ý nghĩa kỹ thuật} & \textbf{Trạng thái} \\
+\hline
+\endhead
+Firmware chính & Đọc sensor 1 giây; publish telemetry 5 giây; heartbeat 30 giây & Chu kỳ được khai báo trong \path|Config::Timing|; không chứng minh cadence runtime. & Configured \\
+Simulator & Publish telemetry 10 giây; thử lại Wi-Fi/MQTT 5 giây & Giá trị nằm trong \path|SimulatorConfig.h|; publish chỉ xảy ra khi MQTT đã kết nối. & Configured \\
+Device Monitor API & Mặc định đọc 100, chặn trong khoảng 1--500 bản ghi & Route \path|GET /api/telemetry| giới hạn kích thước phản hồi, nhưng summary vẫn tổng hợp toàn bảng. & Implemented \\
+Device Monitor MQTT & Không tự reconnect & \texttt{reconnectPeriod=0}; kết nối lại phụ thuộc thao tác người dùng. & Configured \\
+Worker .NET & Thử kết nối lại sau 5 giây & Vòng reconnect có trong \texttt{MqttService}; source không có hàng đợi lưu message khi MySQL lỗi. & Partially Implemented \\
+\hline
+\end{longtable}
+\end{landscape}
+\endgroup
+
+Nguồn: \path|Project/firmware/components/config/include/app_config.h|,
+\path|Project/firmware/Message_sending_test/src/config/SimulatorConfig.h|,
+\path|Project/Device-monitor/public/index.php|,
+\path|Project/Device-monitor/public/assets/app.js| và
+\path|Hivemq-Service/SmartWater.MqttService/Services/MqttService.cs|.
+
+\section{Query và index hiện có}
+
+\begingroup
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{landscape}
+\begin{longtable}{p{0.18\linewidth}p{0.28\linewidth}p{0.31\linewidth}p{0.12\linewidth}}
+\caption{Đối chiếu truy vấn và index}\label{tab:scalability-query-index}\\
+\hline
+\textbf{Luồng} & \textbf{Query/index có evidence} & \textbf{Giới hạn quan sát được} & \textbf{Trạng thái} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Luồng} & \textbf{Query/index có evidence} & \textbf{Giới hạn quan sát được} & \textbf{Trạng thái} \\
+\hline
+\endhead
+Telemetry canonical & Migration tạo index đơn trên \texttt{mcu\_id} và index kép \path|(mcu_id,timestamp)|. & Phù hợp mẫu truy vấn chuỗi thời gian theo MCU; migration không tạo index cho \texttt{topic} hoặc \texttt{alert}. & Implemented \\
+Device Monitor latest & \texttt{ORDER BY timestamp DESC, id DESC LIMIT :limit}. & Schema do migration dùng chung quản lý; truy vấn toàn bộ newest không có index đơn theo timestamp. & Partially Implemented \\
+Device Monitor summary & \texttt{COUNT(*)}, \texttt{COUNT(DISTINCT topic)}, \path|COUNT(DISTINCT mcu_id)| và \texttt{GROUP BY alert}. & Mỗi lần tải summary thực hiện nhiều aggregate; source không có cache, bảng tổng hợp hoặc retention. & Partially Implemented \\
+Admin device detail & Tải toàn bộ telemetry của thiết bị bằng \path|orderBy('timestamp')->get()|. & Không có khoảng thời gian, limit hoặc server-side downsampling trong action detail. & Partially Implemented \\
+Admin list modules & Service dùng \texttt{get()} hoặc \texttt{all()}; DataTables phân trang 10 dòng sau khi collection đã tải. & Tìm kiếm, lọc và phân trang diễn ra phía client; \texttt{paginate()} server-side không được tìm thấy. & Not Found \\
+Worker legacy & \path|device_data| có index \path|device_id|, \path|data_time| và index kép. & Các index này chỉ phục vụ schema legacy, không cải thiện truy vấn \texttt{telemetry} canonical. & Partially Implemented \\
+\hline
+\end{longtable}
+\end{landscape}
+\endgroup
+
+Evidence: migration
+\path|Project/smartwater-database/database/migrations/2026_07_13_000000_create_telemetry_table.php|,
+\path|Project/Device-monitor/src/Database.php|,
+\path|Project/Device-monitor/src/TelemetryRepository.php|,
+\path|Project/smartwater-admin/app/Http/Controllers/DeviceController.php|,
+\path|Project/smartwater-admin/app/Services/ProductService.php| và
+\path|Hivemq-Service/SmartWater.MqttService/Database/init.sql|.
+
+\section{Điểm nghẽn kiến trúc có thể xác định từ source}
+
+\begin{itemize}
+  \item Mỗi message canonical phụ thuộc một browser subscriber, một HTTP request và
+  một giao dịch ghi đơn; source không có batch hoặc hàng đợi bền vững.
+  \item Device Monitor khởi tạo PDO và chạy DDL compatibility khi composition root
+  được dựng; DDL này không tương đương migration canonical (E-DM-05, E-DB-02).
+  \item Admin tải collection và lịch sử telemetry đầy đủ trước khi xử lý giao diện;
+  chi phí tăng theo số bản ghi được lấy, nhưng repository không cung cấp số liệu đo.
+  \item Broker, MySQL và các HTTP application không có manifest scale-out, load
+  balancer, connection-pool sizing hoặc capacity policy trong repository.
+\end{itemize}
+
+Các quan sát trên xác định vị trí cần đo trước khi thay đổi kiến trúc. Chúng không được
+dùng để suy ra SLA hoặc ngưỡng chịu tải.

@@ -10,12 +10,16 @@ return new class extends Migration
     {
         Schema::create('mcus', function (Blueprint $table) {
             $table->id();
-            $table->string('mcu_code', 50)->unique();
-            $table->string('serial_number', 100)->unique();
+            $table->string('mcu_id', 50)->unique();
+            $table->string('serial_number', 100)->nullable()->unique();
             $table->string('firmware_version', 50)->nullable();
-            $table->string('api_key', 64)->unique();
+            $table->string('api_key', 64)->nullable()->unique();
             $table->enum('status', ['online', 'offline', 'error'])->default('offline');
             $table->timestamp('last_connected_at')->nullable();
+            $table->enum('registration_status', ['REGISTERED', 'UNREGISTERED'])->default('REGISTERED');
+            $table->enum('connection_status', ['CONNECTED', 'DISCONNECTED'])->default('DISCONNECTED');
+            $table->timestamp('first_seen_at')->nullable();
+            $table->timestamp('last_seen_at')->nullable();
             $table->timestamps();
         });
     }

@@ -10,7 +10,7 @@ void SimulatorApp::begin() {
 
     wifiManager_.begin(SimulatorConfig::WIFI_SSID, SimulatorConfig::WIFI_PASSWORD);
     mqttManager_.begin(
-        SimulatorConfig::DEVICE_ID,
+        SimulatorConfig::MCU_ID,
         SimulatorConfig::MQTT_HOST,
         SimulatorConfig::MQTT_PORT,
         SimulatorConfig::MQTT_USERNAME,
@@ -35,8 +35,8 @@ void SimulatorApp::publishTelemetry() {
 
     StaticJsonDocument<256> doc;
     const int tds = random(40, 301);
-    doc["device_id"] = SimulatorConfig::DEVICE_ID;
-    doc["tds"] = tds;
-    doc["alert"] = tds >= 250 ? "warning" : "normal";
+    doc["mcu_id"] = SimulatorConfig::MCU_ID;
+    JsonObject telemetry = doc["telemetry"].to<JsonObject>();
+    telemetry["tds"] = tds;
     mqttManager_.publishTelemetry(doc);
 }

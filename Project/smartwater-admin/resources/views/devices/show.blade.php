@@ -28,7 +28,7 @@
                 </div>
                 <div class="list-item">
                     <span class="list-icon tint-secondary"><i class="bi bi-cpu-fill"></i></span>
-                    <div><div class="cell-sub">MCU</div><div class="cell-title">{{ $device->mcu->mcu_code ?? 'Chưa gắn MCU' }}</div></div>
+<div><div class="cell-sub">MCU</div><div class="cell-title">{{ $device->mcu->mcu_id ?? 'Chưa gắn MCU' }}</div></div>
                 </div>
                 <div class="list-item">
                     <span class="list-icon tint-success"><i class="bi bi-person"></i></span>
@@ -94,16 +94,33 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($telemetry['alerts'] as $row)
+                                        @forelse($telemetryLogs as $row)
                                             <tr>
-                                                <td>{{ $row['time'] }}</td>
-                                                <td>{{ $row['tds'] }}</td>
-                                                <td><x-status-badge :status="$row['alert']" /></td>
+                                                <td>{{ $row->timestamp->format('d/m/Y H:i:s') }}</td>
+                                                <td>{{ $row->tds ?? '-' }}</td>
+                                                <td><x-status-badge :status="$row->alert ?: 'normal'" /></td>
                                             </tr>
-                                        @endforeach
+                                        @empty
+                                            <tr><td colspan="3" class="text-center text-muted-2">Chưa có log telemetry.</td></tr>
+                                        @endforelse
                                     </tbody>
                                 </table>
                             </div>
+                            @if($telemetryLogs->hasPages())
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    @if($telemetryLogs->onFirstPage())
+                                        <span class="btn btn-sm btn-light border disabled">Trước</span>
+                                    @else
+                                        <a class="btn btn-sm btn-light border" href="{{ $telemetryLogs->previousPageUrl() }}">Trước</a>
+                                    @endif
+                                    <span class="text-muted-2 small">Trang {{ $telemetryLogs->currentPage() }}/{{ $telemetryLogs->lastPage() }}</span>
+                                    @if($telemetryLogs->hasMorePages())
+                                        <a class="btn btn-sm btn-light border" href="{{ $telemetryLogs->nextPageUrl() }}">Sau</a>
+                                    @else
+                                        <span class="btn btn-sm btn-light border disabled">Sau</span>
+                                    @endif
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </x-panel>
@@ -182,10 +199,10 @@
                             <select name="mcu_id" class="form-select" id="mcuSelect" required>
                                 <option value="">-- Chọn MCU --</option>
                                 @foreach($availableMcus as $m)
-                                    <option value="{{ $m->id }}"
+                <option value="{{ $m->mcu_id }}"
                                         data-status="{{ $m->status }}"
                                         data-installed="{{ $m->current_device_count > 0 ? '1' : '0' }}">
-                                        {{ $m->mcu_code }} ({{ $m->serial_number }}) - {{ $m->status ? ucfirst($m->status) : 'N/A' }}{{ $m->current_device_count === 0 ? ' - Chưa lắp đặt' : '' }}
+                    {{ $m->mcu_id }} ({{ $m->serial_number }}) - {{ $m->status ? ucfirst($m->status) : 'N/A' }}{{ $m->current_device_count === 0 ? ' - Chưa lắp đặt' : '' }}
                                     </option>
                                 @endforeach
                             </select>

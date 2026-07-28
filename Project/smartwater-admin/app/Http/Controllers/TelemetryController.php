@@ -16,7 +16,7 @@ class TelemetryController extends Controller
 
         $validated = validator($input, [
             'topic' => 'nullable|string|max:255',
-            'device_id' => 'required|string|max:100',
+            'mcu_id' => 'required|string|max:50',
             'timestamp' => 'nullable|date_format:Y-m-d H:i:s',
             'tds' => 'nullable|numeric',
             'alert' => 'nullable|string|max:255',
@@ -25,7 +25,7 @@ class TelemetryController extends Controller
         $record = Telemetry::create([
             'timestamp' => $validated['timestamp'] ?? now(),
             'topic' => $validated['topic'] ?? 'devices/telemetry',
-            'device_id' => $validated['device_id'],
+            'mcu_id' => $validated['mcu_id'],
             'tds' => $validated['tds'] ?? null,
             'alert' => $validated['alert'] ?? null,
         ]);

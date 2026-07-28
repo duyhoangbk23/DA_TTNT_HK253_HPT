@@ -28,7 +28,7 @@ class StoreContractRequest extends FormRequest
             'device_ids' => 'nullable|array',
             'device_ids.*' => 'required_with:device_ids|distinct|exists:devices,id',
             'mcu_ids' => 'nullable|array',
-            'mcu_ids.*' => 'required_with:mcu_ids|distinct|exists:mcus,id',
+            'mcu_ids.*' => 'required_with:mcu_ids|distinct|string|max:50|exists:mcus,mcu_id',
         ];
     }
 
@@ -55,7 +55,7 @@ class StoreContractRequest extends FormRequest
             }
 
             foreach ((array) $mcuIds as $mcuId) {
-                if (!Mcu::unused()->whereKey($mcuId)->exists()) {
+                if (!Mcu::unused()->where('mcu_id', $mcuId)->exists()) {
                     $validator->errors()->add('mcu_ids', 'Có MCU đã được sử dụng hoặc không còn khả dụng.');
                     break;
                 }

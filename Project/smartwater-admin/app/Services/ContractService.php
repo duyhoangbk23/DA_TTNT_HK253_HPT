@@ -63,16 +63,16 @@ class ContractService
 
             if (!empty($data['device_ids']) && !empty($data['mcu_ids'])) {
                 $deviceIds = collect($data['device_ids'])->map(fn($id) => (int) $id)->unique();
-                $mcuIds = collect($data['mcu_ids'])->map(fn($id) => (int) $id)->unique();
+                $mcuIds = collect($data['mcu_ids'])->map(fn($id) => trim((string) $id))->unique();
                 $pairs = $deviceIds->zip($mcuIds);
                 foreach ($pairs as [$deviceId, $mcuId]) {
                     $device = Device::unused()->whereKey($deviceId)->firstOrFail();
-                    $mcu = Mcu::unused()->whereKey($mcuId)->firstOrFail();
+                    $mcu = Mcu::unused()->where('mcu_id', $mcuId)->firstOrFail();
 
                     $device->update([
                         'contract_id' => $contract->id,
                         'customer_id' => $customer?->id,
-                        'mcu_id' => $mcu->id,
+                        'mcu_id' => $mcu->mcu_id,
                     ]);
                 }
             }

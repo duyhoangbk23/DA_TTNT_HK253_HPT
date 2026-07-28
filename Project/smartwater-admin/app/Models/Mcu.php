@@ -27,12 +27,16 @@ class Mcu extends Model
     }
 
     protected $fillable = [
-        'mcu_code',
+        'mcu_id',
         'serial_number',
         'firmware_version',
         'api_key',
         'status',
         'last_connected_at',
+        'registration_status',
+        'connection_status',
+        'first_seen_at',
+        'last_seen_at',
     ];
 
     protected $hidden = [
@@ -43,12 +47,14 @@ class Mcu extends Model
     {
         return [
             'last_connected_at' => 'datetime',
+            'first_seen_at' => 'datetime',
+            'last_seen_at' => 'datetime',
         ];
     }
 
     public function devices(): HasMany
     {
-        return $this->hasMany(Device::class);
+        return $this->hasMany(Device::class, 'mcu_id', 'mcu_id');
     }
 
     public function scopeUsed(Builder $query): Builder

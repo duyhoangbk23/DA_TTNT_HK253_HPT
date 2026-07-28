@@ -1,0 +1,41 @@
+\begin{landscape}
+\begin{figure}[p]
+\centering
+\resizebox{0.94\linewidth}{!}{%
+\begin{tikzpicture}[
+  source/.style={draw=SmartWaterBlue,rounded corners=3pt,align=center,text width=4.0cm,minimum height=1.25cm,fill=SmartWaterBlue!7,font=\small},
+  event/.style={draw=StatusPartial,rounded corners=3pt,align=center,text width=5.0cm,minimum height=1.25cm,fill=StatusPartial!9,font=\small},
+  result/.style={draw=StatusNotFound,rounded corners=3pt,align=center,text width=5.4cm,minimum height=1.25cm,fill=StatusNotFound!7,font=\small},
+  flow/.style={-{Latex[length=2.5mm]},thick},
+  error/.style={flow,dashed,draw=StatusNotFound}
+]
+\node[source] (s1) at (-8,0) {HiveMQ / mạng};
+\node[event]  (e1) at (0,0) {MQTT disconnect};
+\node[result] (r1) at (8,0) {Device Monitor cập nhật trạng thái\\Không tự reconnect};
+
+\node[source] (s2) at (-8,-2.5) {MQTT payload};
+\node[event]  (e2) at (0,-2.5) {JSON sai hoặc thiếu \texttt{device\_id}};
+\node[result] (r2) at (8,-2.5) {.NET Worker bỏ message\\Không ghi schema legacy};
+
+\node[source] (s3) at (-8,-5.0) {HTTP client};
+\node[event]  (e3) at (0,-5.0) {\texttt{mcu\_id} không tồn tại};
+\node[result] (r3) at (8,-5.0) {Laravel validation error\\Không tạo telemetry};
+
+\node[source] (s4) at (-8,-7.5) {Device Monitor API};
+\node[event]  (e4) at (0,-7.5) {MySQL ném exception khi INSERT};
+\node[result] (r4) at (8,-7.5) {HTTP 500 thông báo tổng quát\\Không lộ exception nội bộ};
+
+\foreach \n in {1,2,3,4}{
+  \draw[flow] (s\n) -- (e\n);
+  \draw[error] (e\n) -- (r\n);
+}
+\end{tikzpicture}%
+}
+
+\vspace{3mm}
+\small\textbf{Chú giải:} mỗi hàng là một nhánh lỗi độc lập có bằng chứng source;
+sơ đồ không suy diễn retry, dead-letter queue hoặc alert vận hành chưa được tìm thấy.
+\caption{Các nhánh lỗi có implementation hoặc handling được xác định}
+\label{fig:error-sequence}
+\end{figure}
+\end{landscape}

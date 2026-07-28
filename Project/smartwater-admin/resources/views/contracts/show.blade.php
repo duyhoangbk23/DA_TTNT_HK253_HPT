@@ -89,7 +89,7 @@
                                     <tr>
                                         <td>{{ $device->device_code }}</td>
                                         <td>{{ $device->serial_number }}</td>
-                                        <td>{{ $device->mcu?->mcu_code ?? 'Chưa gắn MCU' }}</td>
+<td>{{ $device->mcu?->mcu_id ?? 'Chưa gắn MCU' }}</td>
                                         <td>{{ $device->mcu?->serial_number ?? '-' }}</td>
                                         <td>{{ $device->install_date?->format('d/m/Y') ?? 'N/A' }}</td>
                                         <td><x-status-badge :status="$device->status" /></td>

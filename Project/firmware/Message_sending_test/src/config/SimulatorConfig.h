@@ -19,7 +19,7 @@ MIIF...REPLACE_WITH_HIVEMQ_CA...IDAQAB
 -----END CERTIFICATE-----
 )EOF";
 
-inline constexpr const char* DEVICE_ID = "ESP32-0001";
+inline constexpr const char* MCU_ID = "ESP32_001";
 inline constexpr const char* SERIAL_NUMBER = "SN-0001";
 inline constexpr const char* FIRMWARE_VERSION = "v1.1";
 inline constexpr const char* MODEL = "ESP32 NodeMCU 32S";

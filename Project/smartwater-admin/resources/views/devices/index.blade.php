@@ -64,7 +64,7 @@
                         <tr>
                             <td><div class="cell-title">{{ $d->device_code }}</div></td>
                             <td>{{ $d->product?->product_name ?? '-' }}</td>
-                            <td><span class="badge bg-secondary">{{ $d->mcu?->mcu_code ?? 'N/A' }}</span></td>
+<td><span class="badge bg-secondary">{{ $d->mcu?->mcu_id ?? 'N/A' }}</span></td>
                             <td>{{ $d->serial_number }}</td>
                             <td>{{ $d->customer?->customer_name ?? '-' }}</td>
                             <td>{{ $d->import_date?->format('d/m/Y') ?? '-' }}</td>
@@ -134,7 +134,7 @@
                         <tr>
                             <td><div class="cell-title">{{ $d->device_code }}</div></td>
                             <td>{{ $d->product?->product_name ?? '-' }}</td>
-                            <td><span class="badge bg-secondary">{{ $d->mcu?->mcu_code ?? 'N/A' }}</span></td>
+<td><span class="badge bg-secondary">{{ $d->mcu?->mcu_id ?? 'N/A' }}</span></td>
                             <td>{{ $d->serial_number }}</td>
                             <td>{{ $d->customer?->customer_name ?? '-' }}</td>
                             <td>{{ $d->import_date?->format('d/m/Y') ?? '-' }}</td>
@@ -217,7 +217,7 @@
                                     <option value="">-- Chọn MCU --</option>
                                     @foreach ($mcus as $m)
                                         @if(!$m->devices()->whereNull('replaced_at')->exists())
-                                            <option value="{{ $m->id }}">{{ $m->mcu_code }} ({{ $m->serial_number }})</option>
+<option value="{{ $m->mcu_id }}">{{ $m->mcu_id }} ({{ $m->serial_number }})</option>
                                         @endif
                                     @endforeach
                                 </select>
@@ -339,7 +339,7 @@
                                 <select class="form-select" name="mcu_id" id="editDeviceMcu">
                                     <option value="">-- Chọn MCU --</option>
                                     @foreach ($mcus as $m)
-                                        <option value="{{ $m->id }}">{{ $m->mcu_code }} ({{ $m->serial_number }})</option>
+<option value="{{ $m->mcu_id }}">{{ $m->mcu_id }} ({{ $m->serial_number }})</option>
                                     @endforeach
                                 </select>
                             </div>

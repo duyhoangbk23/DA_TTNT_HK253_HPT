@@ -1,6 +1,9 @@
 <?php
 
+use App\Support\DatabaseFailure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
@@ -8,6 +11,24 @@ use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\TelemetryController;
 
 Route::post('/telemetry', [TelemetryController::class, 'ingest']);
+
+Route::get('/health/database', function () {
+    try {
+        DB::select('SELECT 1');
+
+        return response()->json([
+            'status' => 'healthy',
+            'database' => 'connected',
+        ]);
+    } catch (\Throwable $exception) {
+        Log::error('Database health check failed.', DatabaseFailure::context($exception));
+
+        return response()->json([
+            'status' => 'unhealthy',
+            'database' => 'disconnected',
+        ], 503);
+    }
+});
 
 Route::middleware('api')->group(function () {
     // Products API

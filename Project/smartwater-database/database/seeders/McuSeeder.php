@@ -14,7 +14,7 @@ class McuSeeder extends Seeder
 
         for ($i = 1; $i <= 30; $i++) {
             Mcu::create([
-                'mcu_code' => 'ESP32_' . str_pad($i, 3, '0', STR_PAD_LEFT),
+                'mcu_id' => 'ESP32_' . str_pad($i, 3, '0', STR_PAD_LEFT),
                 'serial_number' => 'SN-' . str_pad($i, 6, '0', STR_PAD_LEFT),
                 'firmware_version' => $firmwares[array_rand($firmwares)],
                 'api_key' => Str::random(40),

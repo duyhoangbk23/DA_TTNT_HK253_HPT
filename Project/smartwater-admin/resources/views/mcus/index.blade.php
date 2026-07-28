@@ -36,7 +36,7 @@
                 <tbody>
                     @forelse($usedMcus as $mcu)
                         <tr>
-                            <td class="cell-title">{{ $mcu->mcu_code }}</td>
+                            <td class="cell-title">{{ $mcu->mcu_id }}</td>
                             <td>{{ $mcu->serial_number }}</td>
                             <td><small class="text-muted">{{ $mcu->firmware_version ?? 'N/A' }}</small></td>
                             <td>
@@ -66,7 +66,7 @@
                                     data-bs-toggle="modal"
                                     data-bs-target="#modalEditMcu"
                                     data-id="{{ $mcu->id }}"
-                                    data-mcu-code="{{ $mcu->mcu_code }}"
+                                    data-mcu-id="{{ $mcu->mcu_id }}"
                                     data-serial-number="{{ $mcu->serial_number }}"
                                     data-firmware-version="{{ $mcu->firmware_version }}"
                                     data-status="{{ $mcu->status }}">
@@ -83,7 +83,8 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="text-center text-muted-2 py-4">Chưa có MCU đang sử dụng.</td>
+                            <td class="text-center text-muted-2 py-4">Chưa có MCU đang sử dụng.</td>
+                            <td></td><td></td><td></td><td></td><td></td><td></td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -115,7 +116,7 @@
                 <tbody>
                     @forelse($unusedMcus as $mcu)
                         <tr>
-                            <td class="cell-title">{{ $mcu->mcu_code }}</td>
+                            <td class="cell-title">{{ $mcu->mcu_id }}</td>
                             <td>{{ $mcu->serial_number }}</td>
                             <td><small class="text-muted">{{ $mcu->firmware_version ?? 'N/A' }}</small></td>
                             <td>
@@ -128,7 +129,7 @@
                                     data-bs-toggle="modal"
                                     data-bs-target="#modalEditMcu"
                                     data-id="{{ $mcu->id }}"
-                                    data-mcu-code="{{ $mcu->mcu_code }}"
+                                    data-mcu-id="{{ $mcu->mcu_id }}"
                                     data-serial-number="{{ $mcu->serial_number }}"
                                     data-firmware-version="{{ $mcu->firmware_version }}"
                                     data-status="{{ $mcu->status }}">
@@ -145,7 +146,8 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="text-center text-muted-2 py-4">Chưa có MCU chưa lắp đặt.</td>
+                            <td class="text-center text-muted-2 py-4">Chưa có MCU chưa lắp đặt.</td>
+                            <td></td><td></td><td></td><td></td><td></td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -166,8 +168,8 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <label class="form-label fw-semibold">Mã MCU <span class="text-danger">*</span></label>
-                            <input type="text" name="mcu_code" class="form-control @error('mcu_code') is-invalid @enderror" required>
-                            @error('mcu_code')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
+                            <input type="text" name="mcu_id" class="form-control @error('mcu_id') is-invalid @enderror" required>
+                            @error('mcu_id')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
                         </div>
                         <div class="mb-3">
                             <label class="form-label fw-semibold">Serial Number <span class="text-danger">*</span></label>
@@ -213,8 +215,8 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <label class="form-label fw-semibold">Mã MCU <span class="text-danger">*</span></label>
-                            <input type="text" name="mcu_code" class="form-control @error('mcu_code') is-invalid @enderror" required>
-                            @error('mcu_code')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
+                            <input type="text" name="mcu_id" class="form-control @error('mcu_id') is-invalid @enderror" required>
+                            @error('mcu_id')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
                         </div>
                         <div class="mb-3">
                             <label class="form-label fw-semibold">Serial Number <span class="text-danger">*</span></label>
@@ -256,7 +258,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const id = button.getAttribute('data-id');
         const form = document.getElementById('formEditMcu');
         form.action = `/mcus/${id}`;
-        form.querySelector('input[name="mcu_code"]').value = button.getAttribute('data-mcu-code');
+        form.querySelector('input[name="mcu_id"]').value = button.getAttribute('data-mcu-id');
         form.querySelector('input[name="serial_number"]').value = button.getAttribute('data-serial-number');
         form.querySelector('input[name="firmware_version"]').value = button.getAttribute('data-firmware-version');
         form.querySelector('select[name="status"]').value = button.getAttribute('data-status') || '';

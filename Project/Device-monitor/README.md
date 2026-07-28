@@ -1,145 +1,103 @@
 # Device Monitor
 
-Web nhận telemetry từ HiveMQ bằng PHP + Slim Framework.
+Device Monitor nhận telemetry từ HiveMQ qua MQTT over WebSocket, gửi payload đã nhận về Slim API, lưu MySQL và hiển thị dữ liệu trực tiếp.
 
-## Mục tiêu
+## Yêu cầu
 
-- Topic chung cho mọi device: `devices/telemetry`
-- Lưu toàn bộ telemetry vào một bảng
-- Truy xuất và sort dữ liệu theo `device_id`
-- Hiển thị bảng telemetry và phục vụ dữ liệu cho biểu đồ
+- PHP 8.1+ với `pdo_mysql`
+- Composer
+- MySQL đang chạy tại `127.0.0.1:3306`
+- Bảng `telemetry` đã được tạo bởi `Project/smartwater-database`
 
-## Chức năng
+## Khởi động
 
-- Kết nối HiveMQ qua MQTT over WebSocket
-- Subscribe topic chung `devices/telemetry`
-- Nhận message JSON từ ESP32
-- Parse payload
-- Lưu telemetry vào database qua API Slim
-- Xem danh sách telemetry theo `device_id`
-- Tổng hợp dữ liệu để vẽ biểu đồ theo từng thiết bị
+Từ thư mục gốc repository, chạy migration trước:
 
-## Luồng xử lý
-
-1. ESP32 publish telemetry lên HiveMQ tại topic `devices/telemetry`
-2. Frontend subscribe topic này và nhận message
-3. Frontend gửi message về `POST /api/telemetry`
-4. Backend parse JSON và lưu vào bảng `telemetry`
-5. Frontend đọc `GET /api/telemetry` và sort theo `device_id`, `timestamp`
-
-## Cấu trúc thư mục
-
-```text
-Device-monitor/
-├─ public/
-│  ├─ index.php
-│  └─ assets/
-│     ├─ app.css
-│     └─ app.js
-├─ src/
-│  ├─ Database.php
-│  ├─ Responder.php
-│  ├─ TelemetryRepository.php
-│  ├─ TelemetryService.php
-│  └─ View.php
-├─ templates/
-│  ├─ layout.php
-│  ├─ dashboard.php
-│  ├─ config.php
-│  └─ telemetry.php
-├─ storage/
-├─ composer.json
-├─ composer.lock
-└─ README.md
+```bat
+Project\smartwater-database\migrate.bat
 ```
+
+Sau đó chạy Device Monitor:
+
+```bat
+Project\Device-monitor\run.bat
+```
+
+Launcher dùng các giá trị mặc định:
+
+```env
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=smartwater_database
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+Ứng dụng chạy tại `http://127.0.0.1:8001`.
+
+## Luồng telemetry
+
+1. ESP32 publish JSON lên topic `devices/telemetry`.
+2. Trang `/telemetry` subscribe topic qua HiveMQ WebSocket.
+3. Frontend gọi `POST /api/telemetry`.
+4. Slim chuẩn hóa payload, sinh thời điểm UTC hiện tại và lưu vào bảng `telemetry`.
+5. Trang Telemetry Live tải danh sách MCU, bảng telemetry đã lọc và biểu đồ TDS.
+
+## Telemetry Live
+
+Trang `/telemetry` có hai cột:
+
+- Danh sách `mcu_id` không trùng, số telemetry và thời điểm gần nhất.
+- Telemetry của MCU được chọn cùng biểu đồ TDS theo thời gian.
+
+Khi nhận telemetry MQTT mới, danh sách MCU được làm mới. Nếu MCU đang được chọn nhận telemetry, bảng và biểu đồ cũng được làm mới.
 
 ## API
 
-- `GET /api/health`
-- `GET /api/telemetry?limit=100`
-- `GET /api/telemetry/summary`
-- `POST /api/telemetry`
+| Method | Endpoint | Mô tả |
+| --- | --- | --- |
+| `GET` | `/api/health` | Kiểm tra dịch vụ. |
+| `GET` | `/api/mcus` | Danh sách MCU từng gửi telemetry. |
+| `GET` | `/api/telemetry?limit=100&mcu_id=MCU-DEMO-001` | Telemetry, có thể lọc theo `mcu_id`. |
+| `GET` | `/api/telemetry/chart?mcu_id=MCU-DEMO-001` | Điểm `{timestamp, tds}` theo thứ tự thời gian. |
+| `GET` | `/api/telemetry/summary` | Tổng hợp telemetry, topic, MCU và alert. |
+| `POST` | `/api/telemetry` | Lưu telemetry. |
 
-## JSON message
+`/api/telemetry/chart` trả `422` nếu thiếu `mcu_id`.
 
-### Payload từ ESP32
-
-```json
-{
-  "device_id": "esp32-01",
-  "timestamp": "2026-07-13 10:00:00",
-  "tds": 284,
-  "alert": "normal"
-}
-```
-
-### Ý nghĩa field
-
-- `device_id`: mã thiết bị
-- `timestamp`: thời điểm đo
-- `tds`: giá trị TDS
-- `alert`: trạng thái cảnh báo
-
-### Message gửi về backend
+### Payload gửi vào
 
 ```json
 {
   "topic": "devices/telemetry",
   "payload": {
-    "device_id": "esp32-01",
-    "timestamp": "2026-07-13 10:00:00",
-    "tds": 284,
+    "mcu_id": "MCU-DEMO-001",
+    "tds": 119.75,
     "alert": "normal"
-  }
+  },
+  "source": "hivemq-web"
 }
 ```
 
-## Schema telemetry
+`payload` có thể là object JSON hoặc chuỗi JSON. `mcu_id` là chuỗi không rỗng, tối đa 50 ký tự. Thời điểm lưu được Device Monitor tạo theo UTC.
 
-Bảng `telemetry` lưu các cột chính:
+## Bảng telemetry
 
-- `device_id`
-- `timestamp`
-- `tds`
-- `alert`
+| Cột | Ý nghĩa |
+| --- | --- |
+| `id` | Khóa chính. |
+| `timestamp` | Thời điểm Device Monitor nhận telemetry. |
+| `topic` | MQTT topic. |
+| `mcu_id` | Mã MCU. |
+| `tds` | Giá trị TDS, có thể rỗng. |
+| `alert` | Trạng thái cảnh báo, có thể rỗng. |
 
-Các cột hỗ trợ:
+## Kiểm tra
 
-- `id`
-- `topic`
-- `source`
-- `payload_raw`
-- `payload_json`
-- `created_at`
-
-Index phục vụ truy xuất theo thiết bị:
-
-- `device_id + timestamp`
-
-## Database
-
-### MySQL
-
-Biến môi trường:
-
-- `DB_CONNECTION=mysql`
-- `DB_DRIVER=mysql`
-- `DB_HOST`
-- `DB_PORT`
-- `DB_DATABASE`
-- `DB_USERNAME`
-- `DB_PASSWORD`
-
-Mặc định dự án sẽ dùng MySQL. Nếu muốn đổi sang driver khác, cấu hình lại trong môi trường chạy.
-
-## Chạy dự án
-
-```bash
-composer install
-php -S localhost:8000 -t public public/index.php
+```powershell
+php tests/TelemetryRepositoryTest.php
+powershell -ExecutionPolicy Bypass -File tests/TelemetryApiTest.ps1
+powershell -ExecutionPolicy Bypass -File tests/TelemetryUiTest.ps1
+powershell -ExecutionPolicy Bypass -File tests/TelemetryEncodingTest.ps1
+node --check public/assets/app.js
 ```
-
-## Ghi chú
-
-- Dữ liệu telemetry từ mọi device được lưu chung một bảng.
-- Khi truy xuất, backend sắp xếp theo `device_id` rồi `timestamp`.
