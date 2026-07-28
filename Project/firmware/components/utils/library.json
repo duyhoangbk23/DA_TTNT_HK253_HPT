@@ -1,0 +1,7 @@
+{
+  "name": "smartwater-utils",
+  "build": {
+    "includeDir": "include",
+    "srcDir": "src"
+  }
+}

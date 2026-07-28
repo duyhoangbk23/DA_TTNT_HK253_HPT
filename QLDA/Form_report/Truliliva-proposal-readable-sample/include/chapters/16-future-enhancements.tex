@@ -1,0 +1,45 @@
+\chapter{Định hướng phát triển}
+\label{chap:future-enhancements}
+
+\section{Nguyên tắc roadmap}
+
+Toàn bộ hạng mục trong chương này mang nhãn \textbf{Future Enhancement} và trạng thái
+\textit{Planned}. Chúng không được mô tả như chức năng đã triển khai. Mỗi đề xuất bắt
+nguồn từ gap có evidence tại Chương~\ref{chap:limitations-risks}; phạm vi và công nghệ
+cụ thể cần được thiết kế, thử nghiệm và phê duyệt riêng.
+
+\begingroup
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{longtable}{p{0.20\textwidth}p{0.25\textwidth}p{0.34\textwidth}p{0.10\textwidth}}
+\caption{Roadmap Future Enhancement}\label{tab:future-enhancement-roadmap}\\
+\hline
+\textbf{Future Enhancement} & \textbf{Căn cứ hiện trạng} & \textbf{Kết quả cần có trước khi đổi trạng thái} & \textbf{Trạng thái} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Future Enhancement} & \textbf{Căn cứ hiện trạng} & \textbf{Kết quả cần có trước khi đổi trạng thái} & \textbf{Trạng thái} \\
+\hline
+\endhead
+Future Enhancement --- Chuẩn hóa contract telemetry & Firmware chính và worker còn dùng \texttt{device\_id}; simulator tạo ID không hợp lệ; topic không đồng nhất (R-01--R-03, R-06). & Một contract versioned theo \texttt{mcu\_id}, mapping topic, dữ liệu migration tương thích và kiểm thử publish--persist--query. & Planned \\
+Future Enhancement --- Củng cố ingest và schema & DDL Device Monitor lệch migration; chưa có idempotency, queue hoặc dead-letter handling (R-04). & Chỉ định migration canonical, xử lý duplicate/retry, transaction boundary và test lỗi MySQL/broker có kiểm soát. & Planned \\
+Future Enhancement --- Alert notification & Source lưu/hiển thị trường \texttt{alert}, nhưng không tìm thấy delivery workflow hoặc alert vận hành. & Định nghĩa rule, kênh gửi, trạng thái giao nhận, chống gửi trùng và audit; có test từ telemetry đến notification. & Planned \\
+Future Enhancement --- OTA firmware & Không tìm thấy artifact signing, OTA, device rollout hoặc rollback trong repository (R-17). & Có gói firmware ký số, xác minh chữ ký, phân nhóm rollout, báo cáo trạng thái và rollback được kiểm thử. & Planned \\
+Future Enhancement --- Predictive maintenance & Maintenance hiện là dữ liệu hiển thị nhúng; không có pipeline đặc trưng, model hoặc đánh giá dự báo. & Có dataset/version, mục tiêu dự báo, tiêu chí đánh giá, quản lý model và quy trình phản hồi về maintenance. & Planned \\
+Future Enhancement --- Edge AI & Firmware hiện đọc sensor và publish; không có model inference hay model lifecycle trên ESP32. & Có model phù hợp tài nguyên thiết bị, version/rollback, benchmark trên phần cứng mục tiêu và telemetry về kết quả inference. & Planned \\
+Future Enhancement --- Time-series database & Telemetry hiện lưu MySQL với index thời gian; retention/downsampling chưa được tìm thấy. & Có đánh giá nhu cầu, retention, partition/downsampling, migration, backup/restore và kiểm thử query tương thích trước khi chọn nền tảng. & Planned \\
+Future Enhancement --- Horizontal scaling & Canonical ingest phụ thuộc browser, HTTP request đơn và một database; không có manifest scale-out. & Có consumer chạy nền, phân vùng/shared subscription phù hợp, idempotency, load balancing, connection sizing và benchmark tái lập. & Planned \\
+Future Enhancement --- Observability & Logging không đồng đều; metrics, tracing, correlation ID và alert vận hành không được tìm thấy. & Có structured log không chứa secret, metric, trace/correlation, dependency health và rule cảnh báo được kiểm thử. & Planned \\
+Future Enhancement --- Bảo mật và quản lý secret & Credential plaintext/default, ESP32 \texttt{setInsecure()}, API telemetry và RBAC còn thiếu kiểm soát (R-08, R-09, R-16). & Có secret provisioning/rotation, certificate validation, API authentication/authorization, broker ACL và kiểm thử quyền. & Planned \\
+Future Enhancement --- Hoàn thiện Admin và triển khai & Thiếu view show, mismatch validation, Batch hidden/detail lỗi contract và thiếu automation triển khai (R-10--R-13, R-17). & Có view/request contract nhất quán, test route/module, server-side pagination, pipeline build/deploy, backup/restore và rollback. & Planned \\
+\hline
+\end{longtable}
+\endgroup
+
+\section{Điều kiện xác nhận hoàn thành roadmap}
+
+Một hạng mục chỉ được nâng khỏi \textit{Planned} khi có source hoặc cấu hình tương ứng,
+kiểm thử ở đúng ranh giới và bằng chứng runtime phù hợp. Tài liệu thiết kế, mock giao diện,
+key cấu hình hoặc log ``application started'' không đủ để xác nhận tích hợp live. Đối với
+thay đổi telemetry, bằng chứng tối thiểu gồm payload/version, topic, HTTP hoặc consumer
+result và bản ghi canonical truy vấn lại từ persistence.

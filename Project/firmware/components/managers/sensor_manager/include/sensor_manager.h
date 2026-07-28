@@ -13,6 +13,7 @@ public:
     void update(int wifiRssi);
 
     SensorData getTelemetry() const;
+    bool consumeSensorError(SensorData& telemetry);
 
 private:
     TdsSensor _tdsSensor;
@@ -20,5 +21,7 @@ private:
     FlowSensor _flowSensor;
 
     SensorData _telemetry;
+    bool _sensorErrorActive = false;
+    bool _sensorErrorPending = false;
     mutable SemaphoreHandle_t _mutex = nullptr;
 };

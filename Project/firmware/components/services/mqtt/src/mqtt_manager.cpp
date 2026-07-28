@@ -60,13 +60,15 @@ bool MQTTManager::publishTelemetry(const SensorData& telemetry) {
         return false;
     }
 
-    StaticJsonDocument<384> document;
-    document["device_id"] = telemetry.deviceId;
-    document["timestamp"] = telemetry.timestamp;
-    document["tds"] = telemetry.tds;
-    document["pressure"] = telemetry.pressure;
-    document["flow"] = telemetry.flow;
-    document["wifi_rssi"] = telemetry.wifiRssi;
+    JsonDocument document;
+    document["mcu_id"] = telemetry.mcuId;
+    JsonObject reading = document["telemetry"].to<JsonObject>();
+    if (telemetry.tdsAvailable) {
+        reading["tds"] = telemetry.tds;
+    } else {
+        reading["tds"] = nullptr;
+    }
+    reading["alert"] = telemetry.alert;
 
     return publishDocument(Config::Topics::TELEMETRY, document, false);
 }
@@ -76,8 +78,8 @@ bool MQTTManager::publishStatus(const SensorData& telemetry, const char* status)
         return false;
     }
 
-    StaticJsonDocument<256> document;
-    document["device_id"] = telemetry.deviceId;
+    JsonDocument document;
+    document["mcu_id"] = telemetry.mcuId;
     document["status"] = status != nullptr ? status : "online";
     document["wifi_connected"] = WiFi.status() == WL_CONNECTED;
     document["mqtt_connected"] = _client.connected();
@@ -103,7 +105,7 @@ void MQTTManager::handleMessage(char* topic, byte* payload, unsigned int length)
         return;
     }
 
-    StaticJsonDocument<256> document;
+    JsonDocument document;
     const DeserializationError error = deserializeJson(document, payload, length);
     if (error) {
         Logger::error("Invalid MQTT command JSON: %s", error.c_str());
@@ -141,7 +143,7 @@ bool MQTTManager::reconnect() {
 
     _client.subscribe(Config::Topics::COMMAND);
     SensorData telemetry;
-    telemetry.deviceId = Config::Device::DEVICE_ID;
+    telemetry.mcuId = Config::Device::MCU_ID;
     telemetry.timestamp = millis();
     publishStatus(telemetry, "online");
     Logger::mqtt("Connected and subscribed to command topic");
@@ -167,6 +169,6 @@ bool MQTTManager::publishDocument(const char* topic, JsonDocument& document, boo
 String MQTTManager::buildClientId() const {
     const uint64_t chipId = ESP.getEfuseMac();
     char buffer[48];
-    snprintf(buffer, sizeof(buffer), "%s-%04X", Config::Device::DEVICE_ID, static_cast<uint16_t>(chipId & 0xFFFF));
+    snprintf(buffer, sizeof(buffer), "%s-%04X", Config::Device::MCU_ID, static_cast<uint16_t>(chipId & 0xFFFF));
     return String(buffer);
 }

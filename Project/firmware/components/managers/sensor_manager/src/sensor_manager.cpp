@@ -7,13 +7,15 @@
 void SensorManager::begin() {
     _mutex = xSemaphoreCreateMutex();
 
-    _tdsSensor.begin(Config::Pins::TDS);
+    _tdsSensor.begin(Config::Pins::TDS_RX, Config::Pins::TDS_TX);
     _pressureSensor.begin(Config::Pins::PRESSURE);
     _flowSensor.begin(Config::Pins::FLOW);
 
-    _telemetry.deviceId = Config::Device::DEVICE_ID;
+    _telemetry.mcuId = Config::Device::MCU_ID;
     _telemetry.timestamp = millis();
     _telemetry.tds = 0;
+    _telemetry.tdsAvailable = false;
+    _telemetry.alert = "sensor_disconnected";
     _telemetry.pressure = 0.0f;
     _telemetry.flow = 0.0f;
     _telemetry.wifiRssi = 0;
@@ -23,17 +25,42 @@ void SensorManager::begin() {
 
 void SensorManager::update(int wifiRssi) {
     SensorData telemetry;
-    telemetry.deviceId = Config::Device::DEVICE_ID;
+    telemetry.mcuId = Config::Device::MCU_ID;
     telemetry.timestamp = millis();
-    telemetry.tds = _tdsSensor.read();
+    telemetry.tdsAvailable = _tdsSensor.read(telemetry.tds);
+    telemetry.alert = telemetry.tdsAvailable ? "normal" : "sensor_disconnected";
     telemetry.pressure = _pressureSensor.read();
     telemetry.flow = _flowSensor.read();
     telemetry.wifiRssi = wifiRssi;
 
     if (_mutex != nullptr && xSemaphoreTake(_mutex, portMAX_DELAY) == pdTRUE) {
+        if (!telemetry.tdsAvailable && !_sensorErrorActive) {
+            _sensorErrorActive = true;
+            _sensorErrorPending = true;
+            Logger::error("TDS sensor disconnected or no UART data on RX %u", Config::Pins::TDS_RX);
+        } else if (telemetry.tdsAvailable && _sensorErrorActive) {
+            _sensorErrorActive = false;
+            Logger::info("TDS sensor UART data restored");
+        }
+
         _telemetry = telemetry;
         xSemaphoreGive(_mutex);
     }
+}
+
+bool SensorManager::consumeSensorError(SensorData& telemetry) {
+    if (_mutex == nullptr || xSemaphoreTake(_mutex, portMAX_DELAY) != pdTRUE) {
+        return false;
+    }
+
+    const bool pending = _sensorErrorPending;
+    if (pending) {
+        telemetry = _telemetry;
+        _sensorErrorPending = false;
+    }
+    xSemaphoreGive(_mutex);
+
+    return pending;
 }
 
 SensorData SensorManager::getTelemetry() const {

@@ -1,0 +1,81 @@
+\chapter{Vận hành và xử lý lỗi}
+\label{chap:operations-error-handling}
+
+\section{Hành vi lỗi theo thành phần}
+
+\begin{landscape}
+\begin{longtable}{p{0.17\linewidth}p{0.23\linewidth}p{0.38\linewidth}p{0.13\linewidth}}
+\caption{Xử lý lỗi và khả năng vận hành}\label{tab:error-operations}\\
+\hline
+\textbf{Thành phần} & \textbf{Tình huống} & \textbf{Hành vi có trong source} & \textbf{Trạng thái} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Thành phần} & \textbf{Tình huống} & \textbf{Hành vi có trong source} & \textbf{Trạng thái} \\
+\hline
+\endhead
+Firmware chính & Wi-Fi/MQTT ngắt & Bỏ qua kết nối khi Wi-Fi down; thử lại theo \texttt{RECONNECT\_INTERVAL\_MS}; ghi trạng thái connect/publish. & Implemented \\
+Firmware chính & Command JSON sai & \texttt{deserializeJson} lỗi được log và command bị bỏ qua. & Implemented \\
+Simulator & MQTT ngắt & Thử kết nối lại theo \texttt{MQTT\_RECONNECT\_INTERVAL\_MS}. Không log mã lỗi connect/publish. & Partially Implemented \\
+Device Monitor JS & Message không phải JSON & Giữ payload dạng text; API normalization sau đó thiếu \texttt{mcu\_id} và trả lỗi lưu. & Partially Implemented \\
+Device Monitor JS & WSS/HTTP lỗi & Hiển thị lỗi kết nối/lưu; \texttt{reconnectPeriod=0} nên không tự reconnect. & Partially Implemented \\
+Device Monitor API & Dữ liệu sai & Thiếu topic hoặc \texttt{mcu\_id} sai trả JSON 422. & Implemented \\
+Device Monitor API & Database/ngoại lệ & Bắt \texttt{Throwable}, trả JSON 500 tổng quát; nhánh catch không ghi exception vào logger. Error middleware có cờ \texttt{APP\_DEBUG}. & Partially Implemented \\
+Admin API & Validation lỗi & Laravel validator và cấu hình render JSON cho \path|api/*|. & Implemented \\
+Admin API & Persistence lỗi & Không có xử lý chuyên biệt tại telemetry controller; ngoại lệ đi qua pipeline Laravel khai báo bằng \texttt{withExceptions}. Route \path|api/*| được buộc render JSON. & Configured \\
+Worker .NET & JSON sai/thiếu ID & Bắt \texttt{JsonException} hoặc bỏ message thiếu \texttt{device\_id}; không log nguyên nhân. & Partially Implemented \\
+Worker .NET & MQTT ngắt & Loop reconnect mỗi 5 giây, khóa chống nhiều loop; ngoại lệ bị nuốt. & Partially Implemented \\
+Worker .NET & MySQL lỗi & Không có retry/circuit breaker hoặc catch tại repository/service. & Not Found \\
+\hline
+\end{longtable}
+\end{landscape}
+
+Evidence: \path|Project/firmware/components/services/mqtt/src/mqtt_manager.cpp|,
+\path|Project/firmware/Message_sending_test/src/mqtt/MqttManager.cpp|,
+\path|Project/Device-monitor/public/assets/app.js|,
+\path|Project/Device-monitor/public/index.php|,
+\path|Hivemq-Service/SmartWater.MqttService/Services/MqttService.cs| và
+\path|Hivemq-Service/SmartWater.MqttService/Services/DeviceService.cs|.
+
+\section{Health, logging và quan sát}
+
+\begin{itemize}
+  \item Device Monitor có \path|GET /api/health| trả trạng thái ứng dụng và thời gian,
+  nhưng không probe MySQL hoặc HiveMQ: \textit{Partially Implemented}.
+  \item Laravel đăng ký endpoint \path|/up| qua bootstrap: \textit{Configured}; source
+  không chứng minh dependency health check.
+  \item Ngoại lệ Admin đi qua \path|bootstrap/app.php::withExceptions|; request
+  \path|api/*| được render JSON. \path|config/logging.php| chọn channel bằng
+  \texttt{LOG\_CHANNEL}, stack bằng \texttt{LOG\_STACK} và mức bằng
+  \texttt{LOG\_LEVEL}, đồng thời khai báo các driver single, daily, stderr, syslog và
+  errorlog: \textit{Configured}. Không tìm thấy callback report riêng cho telemetry.
+  \item Firmware chính có logger mức ứng dụng: \textit{Implemented}; simulator không có
+  logging MQTT có cấu trúc: \textit{Not Found}.
+  \item Worker .NET có cấu hình \texttt{Logging.LogLevel}, nhưng service không inject
+  \texttt{ILogger} và nhiều ngoại lệ bị bỏ qua: \textit{Partially Implemented}.
+  \item Metrics, distributed tracing, correlation ID, dashboard hạ tầng và alert vận
+  hành: \textit{Not Found}.
+\end{itemize}
+
+\section{Runbook kiểm tra tối thiểu}
+
+Sau khi nạp cấu hình bằng kênh riêng, thứ tự kiểm tra là MySQL/migration, ứng dụng
+HTTP, broker, consumer, publisher rồi truy vấn bản ghi mới. Một lượt kiểm chứng hợp lệ
+cần lưu timestamp, topic, \texttt{mcu\_id}, payload gửi, HTTP status và hàng MySQL
+tương ứng. Log ``application started'' hoặc build thành công chỉ xác nhận tiến trình hay
+source, không xác nhận broker/MySQL.
+
+\begin{enumerate}
+  \item Kiểm tra migration/status schema canonical và MCU mục tiêu tồn tại.
+  \item Gọi health endpoint của ứng dụng; sau đó kiểm tra một truy vấn telemetry.
+  \item Kết nối subscriber với topic cấu hình và xác nhận event connect/subscription.
+  \item Phát một payload có \texttt{mcu\_id} số dương đã tồn tại.
+  \item Xác nhận HTTP 201 và truy vấn đúng bản ghi trong bảng \texttt{telemetry}.
+  \item Ngắt broker/MySQL có kiểm soát để quan sát reconnect và lỗi; không thực hiện
+  trên dữ liệu vận hành nếu chưa có phê duyệt.
+\end{enumerate}
+
+Script tự động hóa runbook end-to-end, backup/restore, retention telemetry, dead-letter
+queue và quy trình rollback đều \textit{Not Found}. Test source hiện có được xếp
+\textit{Configured}; tài liệu này không khẳng định chúng đã chạy trong môi trường live
+(E-TEST-01--E-TEST-02).

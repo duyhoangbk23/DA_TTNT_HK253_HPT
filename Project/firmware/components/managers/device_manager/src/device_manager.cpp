@@ -21,6 +21,7 @@ void DeviceManager::begin() {
     _relay.off();
     _buzzer.off();
 
+    _cacheMutex = xSemaphoreCreateMutex();
     _sensorManager.begin();
     _networkManager.begin();
     _networkManager.setCommandCallback(handleCommand);
@@ -32,7 +33,48 @@ void DeviceManager::begin() {
 void DeviceManager::loop() {
     _networkManager.update();
     _networkManager.loop();
+    flushTelemetryCache();
     vTaskDelay(pdMS_TO_TICKS(10));
+}
+
+void DeviceManager::cacheTelemetry(const SensorData& telemetry) {
+    if (_cacheMutex == nullptr || xSemaphoreTake(_cacheMutex, portMAX_DELAY) != pdTRUE) {
+        Logger::error("Cannot lock telemetry cache");
+        return;
+    }
+
+    if (_cacheSize == Config::Cache::MAX_TELEMETRY_RECORDS) {
+        _cacheHead = (_cacheHead + 1U) % Config::Cache::MAX_TELEMETRY_RECORDS;
+        --_cacheSize;
+        Logger::error("Telemetry cache full; discarded oldest record");
+    }
+
+    const size_t tail = (_cacheHead + _cacheSize) % Config::Cache::MAX_TELEMETRY_RECORDS;
+    _telemetryCache[tail] = telemetry;
+    ++_cacheSize;
+    xSemaphoreGive(_cacheMutex);
+}
+
+void DeviceManager::flushTelemetryCache() {
+    if (!_networkManager.isMqttConnected()) {
+        return;
+    }
+
+    if (_cacheMutex == nullptr || xSemaphoreTake(_cacheMutex, portMAX_DELAY) != pdTRUE) {
+        return;
+    }
+
+    while (_cacheSize > 0U) {
+        const SensorData telemetry = _telemetryCache[_cacheHead];
+        if (!_networkManager.publishTelemetry(telemetry)) {
+            break;
+        }
+
+        _cacheHead = (_cacheHead + 1U) % Config::Cache::MAX_TELEMETRY_RECORDS;
+        --_cacheSize;
+    }
+
+    xSemaphoreGive(_cacheMutex);
 }
 
 void DeviceManager::startTasks() {
@@ -73,6 +115,13 @@ void DeviceManager::sensorTask(void* parameter) {
 
     for (;;) {
         controller->_sensorManager.update(controller->_networkManager.getRSSI());
+
+        SensorData sensorError;
+        if (controller->_sensorManager.consumeSensorError(sensorError)) {
+            controller->cacheTelemetry(sensorError);
+            controller->flushTelemetryCache();
+        }
+
         vTaskDelayUntil(&lastWake, pdMS_TO_TICKS(Config::Timing::SENSOR_READ_MS));
     }
 }
@@ -82,12 +131,11 @@ void DeviceManager::mqttPublishTask(void* parameter) {
     TickType_t lastWake = xTaskGetTickCount();
 
     for (;;) {
-        if (controller->_networkManager.isWifiConnected() && controller->_networkManager.isMqttConnected()) {
-            SensorData telemetry = controller->_sensorManager.getTelemetry();
-            telemetry.wifiRssi = controller->_networkManager.getRSSI();
-            telemetry.timestamp = millis();
-            controller->_networkManager.publishTelemetry(telemetry);
-        }
+        SensorData telemetry = controller->_sensorManager.getTelemetry();
+        telemetry.wifiRssi = controller->_networkManager.getRSSI();
+        telemetry.timestamp = millis();
+        controller->cacheTelemetry(telemetry);
+        controller->flushTelemetryCache();
 
         vTaskDelayUntil(&lastWake, pdMS_TO_TICKS(Config::Timing::MQTT_PUBLISH_MS));
     }

@@ -2,19 +2,32 @@
 
 #include <app_config.h>
 #include <pin_map.h>
-#include <utils.h>
-
-void TdsSensor::begin(uint8_t pin) {
-    _pin = pin;
-    pinMode(_pin, INPUT);
+void TdsSensor::begin(uint8_t rxPin, uint8_t txPin) {
+    _rxPin = rxPin;
+    _txPin = txPin;
+    Serial2.begin(Config::Sensor::TDS_BAUD_RATE, SERIAL_8N1, _rxPin, _txPin);
 }
 
-int TdsSensor::read() {
-    if (Config::Sensor::ENABLE_MOCK_DATA) {
-        return Utils::randomInt(150, 350);
+bool TdsSensor::read(int& tds) {
+    while (Serial2.available() > 0) {
+        _parser.push(static_cast<char>(Serial2.read()));
     }
 
-    const int raw = analogRead(_pin);
-    const float mapped = Utils::mapFloat(static_cast<float>(raw), 0.0f, static_cast<float>(Config::Sensor::ADC_MAX), 0.0f, 1000.0f);
-    return static_cast<int>(Utils::clampFloat(mapped, 0.0f, 1000.0f));
+    if (_parser.takeReading(tds)) {
+        _lastTds = tds;
+        _hasReading = true;
+        _lastReadingMs = millis();
+        return true;
+    }
+
+    if (isConnected()) {
+        tds = _lastTds;
+        return true;
+    }
+
+    return false;
+}
+
+bool TdsSensor::isConnected() const {
+    return _hasReading && (millis() - _lastReadingMs) <= Config::Sensor::TDS_TIMEOUT_MS;
 }

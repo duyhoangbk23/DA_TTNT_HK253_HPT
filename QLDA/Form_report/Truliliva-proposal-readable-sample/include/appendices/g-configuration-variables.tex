@@ -1,0 +1,49 @@
+\chapter{Biến cấu hình}
+\label{app:configuration-variables}
+
+Phụ lục chỉ liệt kê tên key và nơi tiêu thụ. ``Configured'' nghĩa là key được khai báo
+hoặc đọc trong source; không có nghĩa giá trị runtime hợp lệ. Không có giá trị secret
+được sao chép.
+
+\begin{landscape}
+\begin{longtable}{p{0.18\linewidth}p{0.34\linewidth}p{0.30\linewidth}p{0.11\linewidth}}
+\caption{Danh mục biến cấu hình}\label{tab:configuration-variables}\\
+\hline
+\textbf{Phạm vi} & \textbf{Tên biến/key} & \textbf{Mục đích và evidence} & \textbf{Trạng thái} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Phạm vi} & \textbf{Tên biến/key} & \textbf{Mục đích và evidence} & \textbf{Trạng thái} \\
+\hline
+\endhead
+Firmware Wi-Fi & \path|Config::Wifi::SSID|, \texttt{PASSWORD}, \path|RECONNECT_INTERVAL_MS| & Kết nối/retry Wi-Fi trong header cấu hình và manager. & Configured \\
+Firmware MQTT & \path|Config::Mqtt::HOST|, \texttt{PORT}, \texttt{USERNAME}, \texttt{PASSWORD}, \path|RECONNECT_INTERVAL_MS|, \path|MAX_PACKET_SIZE| & Broker, credential, retry và buffer cho PubSubClient. & Configured \\
+Firmware identity/topic & \path|Config::Device::DEVICE_ID|; \path|Config::Topics::TELEMETRY|, \texttt{STATUS}, \texttt{COMMAND} & Client identity và ba topic. & Configured \\
+Firmware timing & \path|Config::Timing::SENSOR_READ_MS|, \path|MQTT_PUBLISH_MS|, \path|HEARTBEAT_MS| & Chu kỳ task trong DeviceManager. & Configured \\
+Simulator Wi-Fi & \path|WIFI_SSID|, \path|WIFI_PASSWORD|, \path|WIFI_RECONNECT_INTERVAL_MS| & Kết nối/retry Wi-Fi. & Configured \\
+Simulator MQTT & \path|MQTT_HOST|, \path|MQTT_PORT|, \path|MQTT_USERNAME|, \path|MQTT_PASSWORD|, \path|MQTT_RECONNECT_INTERVAL_MS| & Broker, credential và retry. & Configured \\
+Simulator contract & \path|MCU_ID|, \path|TOPIC_PREFIX|, \path|TELEMETRY_INTERVAL_MS| & Định danh chuỗi, topic và chu kỳ publish; \path|MCU_ID| được gửi trực tiếp. & Implemented \\
+Simulator CA & \path|MQTT_ROOT_CA| & Hằng được khai báo nhưng client gọi \texttt{setInsecure()} và không sử dụng CA. & Not Found \\
+Device Monitor DB & \path|DB_DSN|, \path|DB_HOST|, \path|DB_PORT|, \path|DB_DATABASE|/\path|DB_NAME|, \path|DB_CHARSET| & Tạo PDO DSN trong \path|Database.php|. & Configured \\
+Device Monitor DB credential & \path|DB_USERNAME|/\path|DB_USER|, \path|DB_PASSWORD|/\path|DB_PASS| & Credential PDO; alias tương thích được source hỗ trợ. & Configured \\
+Device Monitor runtime & \path|APP_DEBUG| & Điều khiển display details của Slim error middleware. & Configured \\
+Device Monitor browser & \texttt{brokerUrl}, \texttt{port}, \texttt{username}, \texttt{password}, \texttt{subscriptions} & Object \texttt{hivemqConfig} trong local storage, được \path|app.js| tiêu thụ. & Configured \\
+Admin application & \path|APP_ENV|, \path|APP_KEY|, \path|APP_DEBUG|, \path|APP_URL|, \path|BCRYPT_ROUNDS| & Môi trường, encryption, debug, URL và cost băm mật khẩu theo \path|.env.example|. & Configured \\
+Admin locale & \path|APP_LOCALE|, \path|APP_FALLBACK_LOCALE|, \path|APP_FAKER_LOCALE| & Locale ứng dụng, fallback và dữ liệu giả theo env template. & Configured \\
+Admin logging & \path|LOG_CHANNEL|, \path|LOG_STACK|, \path|LOG_DEPRECATIONS_CHANNEL|, \path|LOG_LEVEL| & Chọn channel/stack/deprecation channel và mức log trong \path|config/logging.php|. & Configured \\
+Admin database & \path|DB_CONNECTION|, \path|DB_URL|, \path|DB_HOST|, \path|DB_PORT|, \path|DB_DATABASE|, \path|DB_USERNAME|, \path|DB_PASSWORD|, \path|MYSQL_ATTR_SSL_CA| & Kết nối schema dùng chung; URL và CA TLS được đọc trong \path|config/database.php|. & Configured \\
+Admin state/services & \path|SESSION_*|, \path|CACHE_STORE|, \path|QUEUE_CONNECTION|, \path|FILESYSTEM_DISK| & Session, cache, queue và storage theo env template. & Configured \\
+Worker HiveMQ & \path|HiveMQ.Host|, \texttt{Port}, \texttt{Username}, \texttt{Password}, \texttt{ClientId}, \texttt{Topic}, \texttt{KeepAlive}, \texttt{UseTls} & Options binding trong \path|Program.cs|/\path|HiveMQOptions.cs|. & Configured \\
+Worker MySQL & \path|MySql.Server|, \texttt{Port}, \texttt{Database}, \texttt{User}, \texttt{Password} & Tạo connection string MySqlConnector. & Configured \\
+Worker logging & \path|Logging.LogLevel.Default|, \path|Logging.LogLevel.Microsoft.Hosting.Lifetime| & Key có trong appsettings; business services chưa dùng logger. & Partially Implemented \\
+\hline
+\end{longtable}
+\end{landscape}
+
+\section{Phân biệt cấu hình và xác minh runtime}
+
+Không biến nào trong bảng được đánh dấu \textit{Implemented} chỉ vì có giá trị mặc
+định. Để nâng từ \textit{Configured} sang xác minh vận hành cần kiểm tra riêng: DNS/TCP,
+TLS chain, quyền broker/topic, kết nối MySQL, schema/migration, quyền ghi, health endpoint
+và một bản ghi telemetry end-to-end. Broker manifest và secret manager/provisioning cho
+ESP32 là \textit{Not Found}; không được suy ra từ tên key cấu hình (E-MQ-06).

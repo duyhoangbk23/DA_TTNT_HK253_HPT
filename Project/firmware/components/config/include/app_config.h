@@ -4,12 +4,12 @@
 
 namespace Config {
 namespace Device {
-constexpr const char* DEVICE_ID = "device001";
+constexpr const char* MCU_ID = "ESP32_001";
 }
 
 namespace Wifi {
-constexpr const char* SSID = "YOUR_WIFI_SSID";
-constexpr const char* PASSWORD = "YOUR_WIFI_PASSWORD";
+constexpr const char* SSID = "DD04122005";
+constexpr const char* PASSWORD = "04122005";
 constexpr uint32_t RECONNECT_INTERVAL_MS = 10000UL;
 }
 
@@ -23,13 +23,15 @@ constexpr uint16_t MAX_PACKET_SIZE = 1024;
 }
 
 namespace Topics {
-constexpr const char* TELEMETRY = "waterpurifier/device001/telemetry";
-constexpr const char* STATUS = "waterpurifier/device001/status";
-constexpr const char* COMMAND = "waterpurifier/device001/command";
+constexpr const char* TELEMETRY = "devices/telemetry";
+constexpr const char* STATUS = "devices/status";
+constexpr const char* COMMAND = "devices/command/ESP32_001";
 }
 
 namespace Sensor {
 constexpr bool ENABLE_MOCK_DATA = true;
+constexpr uint32_t TDS_BAUD_RATE = 9600UL;
+constexpr uint32_t TDS_TIMEOUT_MS = 10000UL;
 constexpr float FLOW_PULSES_PER_LITER = 450.0f;
 constexpr uint16_t ADC_MAX = 4095;
 constexpr float ADC_REF_VOLTAGE = 3.3f;
@@ -37,7 +39,11 @@ constexpr float ADC_REF_VOLTAGE = 3.3f;
 
 namespace Timing {
 constexpr uint32_t SENSOR_READ_MS = 1000UL;
-constexpr uint32_t MQTT_PUBLISH_MS = 5000UL;
+constexpr uint32_t MQTT_PUBLISH_MS = 300000UL;
 constexpr uint32_t HEARTBEAT_MS = 30000UL;
+}
+
+namespace Cache {
+constexpr size_t MAX_TELEMETRY_RECORDS = 24;
 }
 }

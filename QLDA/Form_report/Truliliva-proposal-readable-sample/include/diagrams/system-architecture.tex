@@ -1,0 +1,42 @@
+\begin{landscape}
+\begin{figure}[p]
+\centering
+\resizebox{0.98\linewidth}{!}{%
+\begin{tikzpicture}[
+  node distance=8mm,
+  box/.style={draw=SmartWaterBlue,rounded corners=3pt,align=center,text width=3.15cm,minimum height=1.65cm,fill=SmartWaterBlue!7,font=\small},
+  external/.style={box,draw=StatusPartial,dashed,fill=StatusPartial!10},
+  partial/.style={box,draw=StatusPartial,fill=StatusPartial!8},
+  legacy/.style={box,draw=StatusPlanned,dashed,fill=black!6},
+  flow/.style={-{Latex[length=2.5mm]},thick,draw=SmartWaterNavy},
+  branch/.style={flow,dashed,draw=StatusPartial}
+]
+\node[partial] (sim) {Simulator ESP32\\\texttt{mcu\_id, tds, alert}\\Partially Implemented};
+\node[external,right=of sim] (broker) {HiveMQ\\Broker bên ngoài\\Configured};
+\node[box,right=of broker] (browser) {Device Monitor\\mqtt.js / WSS\\Implemented};
+\node[box,right=of browser] (slim) {Slim API\\Normalize + persist\\Implemented};
+\node[box,right=of slim] (db) {MySQL canonical\\\texttt{telemetry.mcu\_id}\\Implemented};
+\node[partial,right=of db] (admin) {SmartWater Admin\\Hiển thị theo thiết bị\\Partially Implemented};
+
+\node[legacy,below=24mm of sim] (firmware) {Firmware chính\\Payload \texttt{device\_id}\\Contract legacy};
+\node[legacy,below=24mm of browser] (worker) {.NET MQTT Worker\\DTO \texttt{device\_id}\\Partially Implemented};
+\node[legacy,right=12mm of worker] (legacydb) {MySQL legacy\\\texttt{devices, device\_data}\\Không canonical};
+
+\draw[flow] (sim) -- node[above]{TLS} (broker);
+\draw[flow] (broker) -- node[above]{WSS} (browser);
+\draw[flow] (browser) -- node[above]{HTTP} (slim);
+\draw[flow] (slim) -- node[above]{PDO} (db);
+\draw[flow] (db) -- node[above]{ORM} (admin);
+\draw[branch] (firmware.east) -| node[pos=0.22,below]{mismatch} (broker.south);
+\draw[branch] (broker.south) |- node[pos=0.55,above]{SUB} (worker.north);
+\draw[branch] (worker) -- node[above]{Dapper} (legacydb);
+\end{tikzpicture}%
+}
+
+\vspace{3mm}
+\small\textbf{Chú giải:} nét liền là luồng canonical theo source; nét đứt là nhánh
+legacy hoặc ranh giới chưa tương thích. Broker là phụ thuộc bên ngoài repository.
+\caption{Kiến trúc tổng thể và các ranh giới hợp đồng SmartWater}
+\label{fig:system-architecture}
+\end{figure}
+\end{landscape}

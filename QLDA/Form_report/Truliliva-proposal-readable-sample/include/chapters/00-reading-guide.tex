@@ -1,0 +1,39 @@
+\chapter*{Tóm tắt giải pháp và cách đọc}
+\addcontentsline{toc}{chapter}{Tóm tắt giải pháp và cách đọc}
+
+\section*{Giá trị của hệ thống}
+
+SmartWater hỗ trợ đội vận hành theo dõi chất lượng nước và quản lý vòng đời thiết bị. Dữ liệu TDS được phát qua MQTT, tiếp nhận bởi Device Monitor, lưu vào MySQL và được SmartWater Admin khai thác theo MCU hoặc thiết bị. Song song với telemetry, Admin hỗ trợ quản lý sản phẩm, kho, khách hàng, hợp đồng, thiết bị, nhân viên và bảo trì.
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{p{0.22\textwidth}X >{\raggedright\arraybackslash}p{0.22\textwidth}}
+\toprule
+\textbf{Nhu cầu} & \textbf{Chức năng hệ thống} & \textbf{Trạng thái} \\
+\midrule
+Giám sát nước & Nhận TDS và cảnh báo từ MQTT; xem danh sách MCU, lịch sử và biểu đồ TDS. & \statusImplemented \\
+Khai thác telemetry & Liên kết telemetry với MCU/thiết bị và hiển thị trên trang chi tiết thiết bị. & \statusPartial \\
+Quản lý vận hành & Quản lý sản phẩm, tồn kho, khách hàng, hợp đồng, thiết bị, nhân viên và bảo trì. & \statusPartial \\
+Tích hợp mở rộng & Firmware chính và worker .NET có luồng MQTT riêng theo hợp đồng legacy. & \statusPartial \\
+\bottomrule
+\end{tabularx}
+\caption{Các năng lực chính của giải pháp}
+\label{tab:solution-capabilities-summary}
+\end{table}
+
+\section*{Cách đọc tài liệu}
+
+\begin{enumerate}
+  \item Đọc Chương~\ref{chap:solution-overview} để nắm bài toán, các chức năng và trạng thái từng khối.
+  \item Đọc Chương~\ref{chap:system-architecture}--\ref{chap:data-flow-design} để hiểu kiến trúc, thành phần và luồng telemetry chuẩn.
+  \item Đọc Chương~\ref{chap:smartwater-admin} khi cần tra cứu chức năng nghiệp vụ của SmartWater Admin.
+  \item Đọc các chương bảo mật, vận hành và công nghệ khi cần triển khai hoặc đánh giá kỹ thuật.
+  \item Tra Phụ lục~\ref{app:feature-matrix} để đối chiếu chức năng và Phụ lục~\ref{app:source-evidence} để kiểm tra đường dẫn bằng chứng source.
+\end{enumerate}
+
+\section*{Quy ước bằng chứng}
+
+Thân tài liệu chỉ giữ mã evidence và kết luận ảnh hưởng trực tiếp đến kiến trúc hoặc chức năng. Đường dẫn source, catalogue API, schema và dữ liệu chi tiết được đặt ở phụ lục. Nhãn \statusImplemented{} chỉ xác nhận có source; chỉ nội dung ghi rõ ``live test'' mới là bằng chứng runtime.
+
+\clearpage

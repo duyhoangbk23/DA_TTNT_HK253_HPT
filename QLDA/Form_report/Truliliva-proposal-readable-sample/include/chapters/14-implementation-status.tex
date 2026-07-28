@@ -1,0 +1,71 @@
+\chapter{Trạng thái triển khai}
+\label{chap:implementation-status}
+
+\section{Quy ước bảy trạng thái}
+
+\begin{longtable}{p{0.21\linewidth}p{0.69\linewidth}}
+\caption{Quy ước đánh giá trạng thái}\label{tab:implementation-status-definitions}\\
+\hline
+\textbf{Trạng thái} & \textbf{Cách sử dụng trong tài liệu} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Trạng thái} & \textbf{Cách sử dụng trong tài liệu} \\
+\hline
+\endhead
+Implemented & Có source thực hiện hành vi được mô tả; không đồng nghĩa đã kiểm chứng runtime live. \\
+Live Tested & Luồng đã được chạy thành công trong môi trường thực tế với các thành phần liên quan trao đổi dữ liệu và tạo kết quả mong đợi. \\
+Partially Implemented & Có một phần luồng hoặc thành phần nhưng còn mismatch, thiếu consumer/view/validation hoặc chưa tạo thành workflow hoàn chỉnh. \\
+Configured & Có manifest, key, route registration hoặc lệnh build/start; giá trị và môi trường runtime chưa được xác minh. \\
+Prototype/Mock & Giao diện hoặc dữ liệu minh họa tồn tại nhưng không đại diện cho luồng nghiệp vụ/persistence hoàn chỉnh. \\
+Planned & Chỉ là hạng mục dự kiến. Trong tài liệu này các hạng mục đó đồng thời mang nhãn \textit{Future Enhancement}. \\
+Not Found & Không tìm thấy implementation trong phạm vi source đã khảo sát. \\
+\hline
+\end{longtable}
+
+\section{Ma trận trạng thái toàn hệ thống}
+
+\begingroup
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{landscape}
+\begin{longtable}{p{0.18\linewidth}p{0.23\linewidth}p{0.37\linewidth}p{0.16\linewidth}}
+\caption{Implementation status theo bằng chứng source}\label{tab:system-implementation-status}\\
+\hline
+\textbf{Phạm vi} & \textbf{Khả năng} & \textbf{Evidence và giới hạn} & \textbf{Trạng thái} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Phạm vi} & \textbf{Khả năng} & \textbf{Evidence và giới hạn} & \textbf{Trạng thái} \\
+\hline
+\endhead
+Schema canonical & MCU và telemetry & Migration tạo \texttt{mcus}, \path|telemetry.mcu_id| dạng chuỗi, index MCU và index thời gian (E-DB-02--E-DB-03). & Implemented \\
+Firmware chính & Publish telemetry và nhận command & MQTT lifecycle có source, nhưng payload dùng \path|device_id|, topic riêng và các field ngoài contract canonical (E-FW-03--E-FW-04). & Partially Implemented \\
+Simulator & Publish payload tối giản & Có \path|mcu_id| dạng chuỗi, TDS và alert; ID được gửi trực tiếp theo contract hiện tại (E-SIM-02--E-SIM-04). & Implemented \\
+HiveMQ & Broker cho các client & Client TLS/WSS và key kết nối tồn tại; server manifest, ACL và runtime broker nằm ngoài repository (E-MQ-06). & Configured \\
+Device Monitor & MQTT browser, dashboard, Slim API & Subscribe, POST, normalize, insert, danh sách MCU, lọc telemetry, biểu đồ TDS và summary có implementation (E-DM-02--E-DM-06). & Implemented \\
+Telemetry runtime & MCU $\rightarrow$ HiveMQ $\rightarrow$ Device Monitor $\rightarrow$ MySQL & MCU publish dữ liệu lên HiveMQ; Device Monitor nhận, chuẩn hóa và lưu thành công telemetry vào database. & Live Tested \\
+Device Monitor & Schema và vận hành & Kiểm tra sự tồn tại schema do migration dùng chung quản lý; catch 500 không ghi exception, health không kiểm tra dependency, reconnect browser bị tắt. & Partially Implemented \\
+SmartWater Admin & Auth, Customer, Contract, Device, MCU, Employee & Từng module liệt kê có source và được đánh giá granular là Implemented; trạng thái aggregate của Admin vẫn là một phần do các gap ở Profile, Product, Category, Inventory, Batch, Dashboard và Activity. & Partially Implemented \\
+SmartWater Admin & Dashboard nghiệp vụ & KPI và chuỗi tháng đọc database; trend KPI được hard-code. & Partially Implemented \\
+SmartWater Admin & Trend KPI và Activity route & Trend lấy giá trị tĩnh; Activity đọc \path|MockData::activities| thay vì \texttt{ActivityLog}. & Prototype/Mock \\
+SmartWater Admin & Product, Category, Inventory & CRUD/API có source nhưng ba action show trỏ đến Blade không tồn tại; Category update còn lệch route parameter. & Partially Implemented \\
+SmartWater Admin & Profile & Cập nhật hồ sơ/mật khẩu có controller và view; request dùng chung khiến form mật khẩu thiếu các field bắt buộc. & Partially Implemented \\
+SmartWater Admin & Batch & Route/controller/model/view còn tồn tại; detail lệch contract dữ liệu và liên kết sidebar bị comment (E-ADM-07). & Partially Implemented \\
+SmartWater Admin & Maintenance workflow độc lập & Có model/bảng và các màn hình nhúng chỉ đọc; không tìm thấy route/controller/service/view CRUD riêng. & Not Found \\
+Worker .NET & MQTT consumer và MySQL persistence & Hosted worker, MQTTnet và Dapper có source nhưng dùng \path|device_id|, \texttt{devices}/\path|device_data| legacy (E-MQ-01--E-MQ-05). & Partially Implemented \\
+Deployment & Build/start cục bộ & PlatformIO, Composer/PHP development server, Artisan/Vite và dotnet publish/run có manifest hoặc script. & Configured \\
+Deployment & Broker/server/container/CI/CD/backup & Không tìm thấy broker manifest, container/orchestrator, pipeline, backup/restore, retention hoặc rollback tự động. & Not Found \\
+Roadmap & 11 Future Enhancements: bảy mục bắt buộc gồm Alert, OTA, predictive, Edge AI, time-series, horizontal scaling, observability; bốn mục bổ sung gồm chuẩn hóa contract, ingest/schema, bảo mật/secret và hoàn thiện Admin/deployment. & Chỉ được mô tả tại Chương~\ref{chap:future-enhancements}; không có implementation evidence hiện tại. & Planned \\
+\hline
+\end{longtable}
+\end{landscape}
+\endgroup
+
+\section{Mức xác minh}
+
+Ma trận kết hợp snapshot source với kết quả live test của luồng telemetry. Live test đã
+xác nhận MCU, HiveMQ, Device Monitor và MySQL hoạt động đồng thời: payload được publish,
+Device Monitor ingest thành công và bản ghi tương ứng được lưu trong bảng
+\texttt{telemetry}. Các trạng thái khác chỉ được đánh giá theo evidence source khi chưa
+có xác nhận runtime riêng.

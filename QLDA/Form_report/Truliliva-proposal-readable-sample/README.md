@@ -1,0 +1,31 @@
+# SMARTWATER SOLUTION DESIGN DOCUMENT -- READABILITY SAMPLE
+
+Bản copy mẫu, không thay đổi tài liệu gốc `Truliliva-proposal`. Bản này ưu tiên mô tả giải pháp, chức năng và luồng sử dụng; vẫn giữ mã evidence/audit trong nội dung chính và đặt catalogue chi tiết ở phụ lục.
+
+Dự án LaTeX dùng XeLaTeX, tiếng Việt, phiên bản tài liệu `0.1` và trạng thái `Draft`.
+
+## Biên dịch
+
+Chạy từ thư mục `QLDA/Form_report/Truliliva-proposal`:
+
+```powershell
+xelatex -interaction=nonstopmode -halt-on-error main.tex
+xelatex -interaction=nonstopmode -halt-on-error main.tex
+```
+
+Hoặc dùng `latexmk`:
+
+```powershell
+latexmk -xelatex -interaction=nonstopmode main.tex
+```
+
+PDF đầu ra: `main.pdf`.
+
+## Cấu trúc
+
+- `main.tex`: preamble, front matter, 17 chương và phụ lục A--K.
+- `include/frontmatter`: trang bìa và Document Control.
+- `include/chapters`: nội dung thiết kế giải pháp.
+- `include/diagrams`: sáu sơ đồ TikZ.
+- `include/appendices`: catalogue, đặc tả, bằng chứng và ma trận chức năng.
+- `include/images`: ảnh kiến trúc, dữ liệu và giao diện được chọn lọc.

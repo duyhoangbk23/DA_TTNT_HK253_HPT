@@ -24,6 +24,10 @@ public:
     void setCommandCallback(CommandCallback callback);
 
 private:
+    bool lockMqtt();
+    void unlockMqtt();
+
     WifiManager _wifiManager;
     MQTTManager _mqttManager;
+    SemaphoreHandle_t _mqttMutex = nullptr;
 };
