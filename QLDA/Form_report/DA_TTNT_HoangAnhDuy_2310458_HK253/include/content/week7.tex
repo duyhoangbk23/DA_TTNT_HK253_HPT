@@ -2,85 +2,54 @@
 
 \subsubsection*{7.1 Mô tả công việc}
 
-Trong tuần 7, sinh viên thực hiện kiểm thử hệ thống, tối ưu và hoàn thiện các chức năng đã được giao của SmartWater. Phạm vi kiểm thử bao gồm luồng telemetry từ ESP32 simulator đến HiveMQ, Device Monitor, MySQL và SmartWater Admin; đồng thời kiểm tra dữ liệu mẫu, giao diện giám sát và các chức năng quản trị chính.
+Tuần 7 là giai đoạn kiểm tra, hoàn thiện và tổng kết các hạng mục đã thực hiện trong dự án SmartWater. Sinh viên rà soát luồng dữ liệu từ thiết bị đến hệ thống giám sát, các chức năng quản trị và mức độ đáp ứng của giao diện đối với nhu cầu theo dõi, quản lý thông tin vận hành.
 
 Các công việc chính gồm:
 
 \begin{itemize}
-    \item Kiểm thử luồng ESP32 $\rightarrow$ HiveMQ $\rightarrow$ Device Monitor $\rightarrow$ MySQL.
-    \item Kiểm tra parser telemetry, API ingest, repository và giao diện Telemetry Live.
-    \item Kiểm thử dữ liệu mẫu có liên kết Customer--Contract--Product--Device--MCU--Telemetry.
-    \item Rà soát các route và giao diện quản trị SmartWater Admin.
-    \item Tối ưu schema telemetry, truy vấn lịch sử TDS và trải nghiệm lựa chọn MCU.
-    \item Hoàn thiện tài liệu vận hành, migration và dữ liệu seeder phục vụ kiểm thử lặp lại.
+    \item Kiểm tra tính liên tục của luồng dữ liệu từ thiết bị đến hệ thống quản lý.
+    \item Rà soát chức năng giám sát dữ liệu theo từng thiết bị.
+    \item Kiểm tra dữ liệu nghiệp vụ và các phân hệ quản trị chính.
+    \item Hoàn thiện trải nghiệm sử dụng, khả năng tra cứu và hiển thị thông tin.
+    \item Tổng hợp kết quả, tài liệu hóa công việc và rút kinh nghiệm sau thực tập.
 \end{itemize}
 
 \subsubsection*{7.2 Nội dung thực hiện}
 
-\subsubsubsection*{7.2.1 Phạm vi và môi trường kiểm thử}
+\subsubsubsection*{7.2.1 Kiểm tra luồng vận hành tổng thể}
 
-Môi trường kiểm thử gồm firmware simulator \texttt{Message\_sending\_test} chạy trên ESP32, HiveMQ Cloud làm MQTT Broker, Device Monitor làm subscriber MQTT over WebSocket và API ingest, MySQL \texttt{smartwater\_database} làm nơi lưu trữ, cùng SmartWater Admin để khai thác dữ liệu nghiệp vụ. Simulator publish lên topic \texttt{devices/telemetry}; Device Monitor sinh timestamp UTC, chuẩn hóa payload và lưu vào bảng \texttt{telemetry}.
+Sinh viên kiểm tra luồng vận hành từ thời điểm thiết bị gửi dữ liệu đến khi thông tin được tiếp nhận, lưu trữ và hiển thị trên nền tảng SmartWater. Việc kiểm tra được thực hiện theo các tình huống sử dụng tiêu biểu nhằm bảo đảm dữ liệu được truyền liên tục, nhận biết đúng thiết bị và có thể khai thác lại khi cần theo dõi.
 
-Luồng kiểm thử end-to-end được xác định như sau:
+Kết quả cho thấy các thành phần của hệ thống phối hợp nhất quán, đáp ứng yêu cầu giám sát dữ liệu vận hành và hỗ trợ quản lý thông tin theo từng thiết bị. Luồng dữ liệu hoàn chỉnh cũng là cơ sở để kết nối thông tin kỹ thuật với bối cảnh khách hàng, hợp đồng và sản phẩm trong hoạt động quản trị.
 
-\begin{center}
-ESP32 simulator $\rightarrow$ HiveMQ $\rightarrow$ Device Monitor $\rightarrow$ MySQL
-$\rightarrow$ SmartWater Admin
-\end{center}
+\subsubsubsection*{7.2.2 Hoàn thiện chức năng giám sát}
 
-Kiểm thử được chia thành ba mức: kiểm thử đơn vị cho logic repository/model, kiểm thử API và giao diện Device Monitor, và kiểm thử tích hợp cho dữ liệu demo cùng luồng publish--persist.
+Chức năng giám sát được rà soát theo hướng đơn giản, trực quan và thuận tiện cho người sử dụng. Người quản trị có thể chọn thiết bị cần theo dõi, xem các dữ liệu liên quan và quan sát xu hướng TDS theo thời gian. Cách tổ chức này giúp giảm thời gian tìm kiếm thông tin, đồng thời hỗ trợ nhận biết sớm các thay đổi trong quá trình vận hành.
 
-\subsubsubsection*{7.2.2 Kiểm thử telemetry tại Device Monitor}
+Sinh viên cũng hoàn thiện các thông báo và trạng thái hiển thị cần thiết để người dùng dễ nhận biết tình trạng hoạt động của hệ thống. Giao diện được điều chỉnh nhằm bảo đảm thông tin quan trọng được trình bày rõ ràng, phù hợp với mục đích theo dõi hằng ngày.
 
-Device Monitor có các test source cho những điểm xử lý chính:
+\subsubsubsection*{7.2.3 Hoàn thiện các phân hệ quản trị}
 
-\begin{itemize}
-    \item \texttt{TelemetryRepositoryTest.php}: kiểm tra validate \texttt{mcu\_id}, ghi và đọc dữ liệu telemetry.
-    \item \texttt{TelemetryApiTest.ps1}: kiểm tra các endpoint danh sách MCU, telemetry, biểu đồ TDS và API ingest.
-    \item \texttt{TelemetryUiTest.ps1}: kiểm tra các thành phần giao diện Telemetry Live.
-    \item \texttt{TelemetryEncodingTest.ps1}: kiểm tra nội dung tiếng Việt trên giao diện không bị lỗi mã hóa.
-\end{itemize}
+Các phân hệ quản trị được rà soát trên toàn bộ quy trình nghiệp vụ, bao gồm quản lý sản phẩm, kho, khách hàng, hợp đồng, thiết bị, nhân viên và lịch sử hoạt động. Việc liên kết các nhóm thông tin này giúp hệ thống hỗ trợ hiệu quả cho quá trình tra cứu, theo dõi và quản lý thiết bị trong bối cảnh vận hành thực tế.
 
-Các test xác nhận \texttt{mcu\_id} là chuỗi không rỗng tối đa 50 ký tự. API \path|/api/mcus| trả về danh sách MCU không trùng; \path|/api/telemetry?mcu_id=...| trả về các bản ghi đã lọc; \path|/api/telemetry/chart?mcu_id=...| trả về chuỗi TDS theo thời gian. API ingest trả HTTP 422 cho dữ liệu thiếu hoặc không hợp lệ và trả HTTP 201 khi persistence thành công.
+Dashboard tổng quan được hoàn thiện để cung cấp các chỉ số và thông tin cần thiết cho người quản trị. Các màn hình chức năng được thống nhất về bố cục, cách trình bày và thao tác, giúp nâng cao tính đồng bộ của ứng dụng.
 
-\subsubsubsection*{7.2.3 Kiểm thử schema và dữ liệu mẫu}
+\subsubsubsection*{7.2.4 Rà soát hiệu quả vận hành}
 
-Schema MySQL được kiểm thử thông qua migration dùng chung tại dự án \texttt{smartwater-database}. Device Monitor không tự tạo bảng telemetry; ứng dụng kiểm tra sự tồn tại schema khi khởi động và yêu cầu chạy \texttt{migrate.bat} nếu migration chưa hoàn tất. Cách tổ chức này tránh tình trạng schema do ứng dụng tạo ra khác với schema do Laravel sử dụng.
+Trong giai đoạn hoàn thiện, sinh viên tập trung cải thiện tính nhất quán của thông tin thiết bị, khả năng truy cập dữ liệu và tốc độ quan sát trên giao diện giám sát. Các thành phần được điều chỉnh theo hướng giảm thao tác không cần thiết, bảo đảm người dùng có thể tiếp cận thông tin phù hợp một cách nhanh chóng.
 
-\texttt{ConnectedTelemetryDemoSeederTest.php} kiểm tra seeder tạo được chuỗi dữ liệu liên kết đầy đủ. Seeder tạo Customer \texttt{KH-DEMO-001}, Contract \texttt{HD-DEMO-001}, Product \texttt{SP-DEMO-001}, Device \texttt{TB-DEMO-001}, MCU \texttt{MCU-DEMO-001} có trạng thái \texttt{CONNECTED} và ba bản ghi telemetry TDS. Seeder xóa telemetry cũ của MCU demo trước khi tạo mới nên có thể chạy lặp lại mà không sinh bản ghi trùng.
+Việc rà soát cũng giúp chuẩn hóa tài liệu hướng dẫn và quy trình sử dụng, tạo điều kiện để các thành viên khác trong dự án có thể tiếp nhận, vận hành và tiếp tục phát triển hệ thống.
 
-\subsubsubsection*{7.2.4 Tối ưu dữ liệu và truy vấn telemetry}
+\subsubsection*{7.3 Kết quả đạt được, kỹ năng và định hướng}
 
-Các tối ưu chính được áp dụng trong quá trình hoàn thiện:
+Kết quả đạt được trong tuần 7 gồm:
 
 \begin{itemize}
-    \item Chuẩn hóa \texttt{mcu\_id} thành chuỗi trong MCU, Device và telemetry để đồng nhất định danh xuyên suốt pipeline.
-    \item Sử dụng prepared statement khi Device Monitor ghi telemetry vào MySQL.
-    \item Tạo index cho \texttt{timestamp}, \texttt{mcu\_id} và index kết hợp \texttt{(mcu\_id, timestamp)} để phục vụ truy vấn lịch sử TDS theo MCU.
-    \item Tách endpoint danh sách MCU, bảng telemetry đã lọc và chuỗi dữ liệu biểu đồ để giảm dữ liệu tải không cần thiết trên giao diện.
-    \item Sử dụng timestamp UTC do Device Monitor tạo để tránh phụ thuộc vào đồng hồ của publisher.
+    \item Hoàn thiện luồng dữ liệu giám sát từ thiết bị đến hệ thống quản lý SmartWater.
+    \item Hoàn thiện chức năng theo dõi dữ liệu theo từng thiết bị và biểu đồ xu hướng TDS.
+    \item Hoàn thiện các phân hệ quản trị phục vụ quản lý thông tin nghiệp vụ và vận hành.
+    \item Chuẩn hóa giao diện, tài liệu và quy trình kiểm tra trước khi bàn giao nội bộ.
+    \item Tổng hợp kết quả thực hiện và xác định định hướng phát triển tiếp theo của hệ thống.
 \end{itemize}
 
-Trang Telemetry Live được tối ưu theo bố cục hai cột: cột trái là danh sách MCU từng gửi telemetry, cột phải là bảng dữ liệu của MCU đang chọn và biểu đồ TDS theo thời gian. Cách tổ chức này giúp người quản trị tập trung vào một thiết bị thay vì phải tìm thủ công trong toàn bộ dữ liệu telemetry.
-
-\subsubsubsection*{7.2.5 Hoàn thiện chức năng SmartWater Admin}
-
-Sinh viên rà soát dashboard và các module quản trị đã xây dựng: sản phẩm, kho, lô hàng, khách hàng, hợp đồng, thiết bị, MCU, nhân viên, lịch sử hoạt động và hồ sơ người dùng. Dashboard lấy KPI và các dữ liệu tổng hợp từ \texttt{DashboardService}; các route quản trị được bảo vệ bằng middleware \texttt{auth}.
-
-Đối với luồng giám sát, SmartWater Admin khai thác quan hệ Customer--Contract--Product--Device--MCU để xác định ngữ cảnh nghiệp vụ của telemetry. Điều này giúp kết hợp dữ liệu IoT với thông tin khách hàng, hợp đồng và thiết bị trong cùng giao diện quản trị.
-
-\subsubsection*{7.3 Kết quả kiểm thử và hoàn thiện}
-
-Kết quả kiểm thử xác nhận các thành phần cốt lõi của luồng telemetry hoạt động liên kết: ESP32 simulator publish dữ liệu lên HiveMQ, Device Monitor nhận và chuẩn hóa message, MySQL lưu telemetry, sau đó dữ liệu có thể được hiển thị theo MCU. Các test repository, API, giao diện và seeder hỗ trợ phát hiện lỗi hồi quy khi tiếp tục phát triển.
-
-Các kết quả đạt được:
-
-\begin{itemize}
-    \item Hoàn thiện luồng telemetry từ publish MQTT đến persistence MySQL.
-    \item Hoàn thiện danh sách MCU, lọc telemetry và biểu đồ TDS theo thời gian trong Device Monitor.
-    \item Hoàn thiện migration dùng chung và seeder dữ liệu demo có quan hệ nghiệp vụ đầy đủ.
-    \item Hoàn thiện các giao diện quản trị SmartWater Admin phục vụ khai thác dữ liệu nghiệp vụ và telemetry.
-    \item Bổ sung các test source cho repository, API, giao diện, encoding tiếng Việt, model MCU và seeder telemetry demo.
-\end{itemize}
-
-Những hạng mục cần tiếp tục theo dõi gồm kiểm thử runtime đầy đủ cho từng module quản trị, thay thế xu hướng KPI cố định bằng dữ liệu so sánh thực tế, tăng cường xác thực API telemetry và bổ sung quan sát vận hành cho broker, API và database.
+Qua kỳ thực tập, sinh viên tích lũy được kinh nghiệm về phân tích yêu cầu, phối hợp triển khai hệ thống, tích hợp luồng dữ liệu, kiểm tra chất lượng, viết tài liệu và làm việc trong môi trường dự án. Đây là nền tảng quan trọng để tiếp tục phát triển SmartWater theo hướng mở rộng quy mô vận hành, bổ sung các chức năng hỗ trợ ra quyết định và nâng cao trải nghiệm của người dùng.
