@@ -2,113 +2,51 @@
 
 \subsubsection*{5.1 Mô tả công việc}
 
-Trong tuần 5 của kỳ thực tập, sinh viên tập trung xây dựng kết nối giữa ESP32 và MQTT Broker nhằm hình thành kênh truyền dữ liệu từ máy lọc nước lên hệ thống SmartWater. Trên cơ sở phương án phần cứng đã lựa chọn trong tuần 4, sinh viên phát triển chương trình thử nghiệm gửi bản tin trên ESP32, cấu hình kết nối Wi-Fi, kết nối HiveMQ Cloud và xây dựng cơ chế publish telemetry theo chu kỳ.
+Trong tuần 5 của kỳ thực tập, sinh viên tập trung hoàn thiện kênh truyền dữ liệu từ thiết bị lọc nước đến nền tảng SmartWater. Mục tiêu của công việc là hình thành luồng thông tin ổn định, tạo cơ sở để hệ thống tiếp nhận, lưu trữ và giám sát dữ liệu vận hành ở các giai đoạn tiếp theo.
 
-Các công việc chính được thực hiện gồm:
+Các công việc chính gồm:
 
 \begin{itemize}
-    \item Xây dựng chương trình mô phỏng firmware trên nền tảng ESP32.
-    \item Cấu hình kết nối Wi-Fi và cơ chế tự kết nối lại khi mất mạng.
-    \item Cấu hình MQTT Client để kết nối đến HiveMQ Cloud.
-    \item Xây dựng topic dùng chung \texttt{devices/telemetry}.
-    \item Chuẩn hóa payload JSON với \texttt{mcu\_id} dạng chuỗi và giá trị TDS.
-    \item Xây dựng cơ chế publish dữ liệu theo chu kỳ.
-    \item Kiểm tra trạng thái kết nối và nội dung bản tin được gửi lên Broker.
+    \item Hoàn thiện chương trình truyền dữ liệu thử nghiệm trên thiết bị.
+    \item Thiết lập kết nối mạng và cơ chế duy trì truyền thông ổn định.
+    \item Kết nối thiết bị với nền tảng truyền thông IoT của dự án.
+    \item Chuẩn hóa thông tin đo lường trước khi gửi đến hệ thống.
+    \item Kiểm tra tính liên tục của luồng dữ liệu và khả năng tiếp nhận bản tin.
 \end{itemize}
 
 \subsubsection*{5.2 Nội dung thực hiện}
 
-\subsubsubsection*{5.2.1 Xây dựng chương trình thử nghiệm trên ESP32}
+\subsubsubsection*{5.2.1 Chuẩn bị kênh truyền dữ liệu từ thiết bị}
 
-Để kiểm tra luồng truyền dữ liệu trước khi tích hợp cảm biến thực tế, sinh viên xây dựng chương trình \texttt{Message\_sending\_test}. Chương trình đóng vai trò firmware mô phỏng, tạo dữ liệu TDS và cảnh báo tương tự dữ liệu được thu nhận từ máy lọc nước.
+Trên cơ sở phương án phần cứng đã lựa chọn ở tuần trước, sinh viên xây dựng chương trình thử nghiệm để mô phỏng quá trình thiết bị gửi dữ liệu vận hành. Việc thử nghiệm trước với dữ liệu mô phỏng giúp kiểm tra độc lập luồng truyền thông, giảm rủi ro khi tích hợp với cảm biến và thiết bị thực tế.
 
-Mã nguồn được phân chia theo trách nhiệm:
+Chương trình được tổ chức theo các nhóm chức năng gồm khởi tạo thiết bị, duy trì kết nối và tạo dữ liệu đo lường. Cách tổ chức này giúp quá trình bảo trì, kiểm tra và mở rộng hệ thống thuận lợi hơn khi chuyển sang vận hành với dữ liệu thực.
 
-\begin{itemize}
-    \item \textbf{SimulatorApp}: điều phối quá trình khởi tạo và vòng lặp chính.
-    \item \textbf{WifiManager}: quản lý kết nối Wi-Fi.
-    \item \textbf{MqttManager}: thiết lập kết nối và publish bản tin MQTT.
-    \item \textbf{SimulatorConfig}: lưu các tham số cấu hình phục vụ thử nghiệm.
-\end{itemize}
+\subsubsubsection*{5.2.2 Thiết lập truyền thông ổn định}
 
-Cách tổ chức này giúp tách cấu hình, quản lý kết nối và logic tạo telemetry, nhờ đó chương trình dễ kiểm tra và thuận tiện khi chuyển từ dữ liệu mô phỏng sang dữ liệu cảm biến thực tế. Trong source hiện tại, \texttt{SimulatorConfig::MCU\_ID} có giá trị dạng chuỗi (ví dụ \texttt{ESP32\_001}), topic được tạo từ \texttt{TOPIC\_PREFIX} và chu kỳ publish mặc định là 10 giây.
+Thiết bị được cấu hình để chủ động thiết lập kết nối mạng và duy trì liên lạc với nền tảng truyền thông IoT. Trong quá trình vận hành, hệ thống theo dõi trạng thái kết nối và tự khôi phục khi xảy ra gián đoạn, bảo đảm việc truyền dữ liệu chỉ được thực hiện khi kênh liên lạc sẵn sàng.
 
-\subsubsubsection*{5.2.2 Kết nối Wi-Fi}
+Giải pháp này giúp hạn chế thất thoát dữ liệu do sự cố mạng tạm thời, đồng thời tạo tiền đề để hệ thống có thể vận hành liên tục trong môi trường thực tế. Việc kiểm tra kết nối được thực hiện song song với quá trình gửi dữ liệu nhằm bảo đảm khả năng phản hồi kịp thời khi trạng thái truyền thông thay đổi.
 
-Khi khởi động, ESP32 sử dụng thông tin mạng được khai báo trong cấu hình để thiết lập kết nối Wi-Fi. Trạng thái kết nối được kiểm tra liên tục trong vòng lặp chính. Nếu kết nối bị gián đoạn, chương trình thực hiện kết nối lại theo khoảng thời gian định trước thay vì dừng toàn bộ hệ thống.
+\subsubsubsection*{5.2.3 Chuẩn hóa thông tin giám sát}
 
-Cơ chế này đảm bảo quá trình publish chỉ được thực hiện khi ESP32 đã có kết nối mạng, đồng thời hạn chế việc gửi dữ liệu thất bại khi Wi-Fi chưa sẵn sàng.
+Thông tin gửi từ thiết bị được chuẩn hóa theo một cấu trúc thống nhất, bao gồm định danh thiết bị, giá trị TDS và trạng thái cảnh báo khi cần thiết. Định danh thiết bị được duy trì xuyên suốt trong luồng dữ liệu để các thành phần phía sau có thể nhận biết đúng nguồn gửi và liên kết với thông tin quản lý tương ứng.
 
-\subsubsubsection*{5.2.3 Kết nối HiveMQ Cloud}
+Việc thống nhất nội dung bản tin giúp nền tảng SmartWater tiếp nhận dữ liệu một cách nhất quán, hỗ trợ quá trình lưu trữ, tra cứu và hiển thị kết quả giám sát. Các thông tin kỹ thuật chi tiết được quản lý trong tài liệu nội bộ của dự án.
 
-Sau khi Wi-Fi hoạt động, MQTT Client thiết lập phiên kết nối đến HiveMQ Cloud. Các tham số cần thiết gồm địa chỉ Broker, cổng kết nối, tài khoản xác thực và mã nhận diện MCU. Thông tin nhạy cảm được đặt trong file cấu hình và không được đưa trực tiếp vào phần xử lý bản tin. Client tạo mã phiên từ \texttt{MCU\_ID} kèm hậu tố ngẫu nhiên, thiết lập keep-alive và chỉ publish khi phiên MQTT đang kết nối.
+\subsubsubsection*{5.2.4 Kiểm tra quá trình truyền dữ liệu}
 
-Quá trình kết nối được thực hiện theo các bước:
+Sinh viên theo dõi quá trình gửi dữ liệu theo chu kỳ, kiểm tra trạng thái kết nối và đối chiếu nội dung bản tin tại các điểm tiếp nhận của hệ thống. Kết quả cho thấy thiết bị duy trì được việc truyền dữ liệu ổn định, thông tin đo lường được gửi đầy đủ và sẵn sàng cho bước tích hợp vào chức năng giám sát.
 
-\begin{enumerate}
-    \item Khởi tạo MQTT Client và cấu hình Broker.
-    \item Kiểm tra trạng thái Wi-Fi.
-    \item Thực hiện xác thực với HiveMQ Cloud.
-    \item Duy trì vòng lặp MQTT để giữ phiên kết nối.
-    \item Thử kết nối lại khi phiên MQTT bị gián đoạn.
-\end{enumerate}
+\subsubsection*{5.3 Kết quả đạt được và kỹ năng tích lũy}
 
-\subsubsubsection*{5.2.4 Thiết kế topic và payload}
-
-Hệ thống sử dụng topic \texttt{devices/telemetry} làm kênh truyền dữ liệu telemetry. Việc sử dụng topic chung giúp Device Monitor chỉ cần đăng ký một kênh để tiếp nhận dữ liệu từ nhiều MCU; bản tin được phân biệt bằng trường \texttt{mcu\_id}.
-
-Payload được chuẩn hóa theo cấu trúc mà simulator đang publish:
-
-\begin{verbatim}
-{
-  "mcu_id": "ESP32_001",
-  "telemetry": {
-    "tds": 185
-  }
-}
-\end{verbatim}
-
-Trong đó:
+Kết quả đạt được trong tuần 5 gồm:
 
 \begin{itemize}
-    \item \texttt{mcu\_id}: định danh MCU dạng chuỗi, tối đa 50 ký tự.
-    \item \texttt{tds}: giá trị tổng chất rắn hòa tan của nước.
-    \item \texttt{telemetry}: object chứa dữ liệu đo; Device Monitor làm phẳng object này khi tiếp nhận.
+    \item Hoàn thiện kênh truyền dữ liệu từ thiết bị đến nền tảng SmartWater.
+    \item Bảo đảm khả năng duy trì kết nối và khôi phục truyền thông khi có gián đoạn.
+    \item Chuẩn hóa thông tin giám sát để phục vụ cho việc tiếp nhận và xử lý tập trung.
+    \item Tạo nền tảng cho chức năng lưu trữ, theo dõi thiết bị và hiển thị xu hướng dữ liệu ở tuần tiếp theo.
 \end{itemize}
 
-Firmware không gửi \texttt{timestamp}; trường \texttt{alert} cũng là tùy chọn ở pipeline hiện tại. Thời điểm tiếp nhận được Device Monitor sinh UTC tại phía hệ thống nhằm đảm bảo dữ liệu thời gian có cùng định dạng và không phụ thuộc đồng hồ trên ESP32.
-
-\subsubsubsection*{5.2.5 Cơ chế publish dữ liệu}
-
-Trong vòng lặp chính, ESP32 gọi hàm duy trì Wi-Fi và MQTT trước khi kiểm tra chu kỳ gửi telemetry. Khi đủ thời gian và MQTT Client đang kết nối, chương trình tạo giá trị TDS, xác định trạng thái cảnh báo, đóng gói JSON và publish lên topic đã cấu hình.
-
-Nguyên tắc xử lý gồm:
-
-\begin{itemize}
-    \item Không publish khi MQTT Client chưa kết nối.
-    \item Sử dụng \texttt{millis()} để kiểm soát chu kỳ thay vì chặn chương trình bằng thời gian chờ dài.
-    \item Sinh giá trị TDS mẫu trong khoảng 40--300 để kiểm tra pipeline mà chưa phụ thuộc cảm biến thực tế.
-    \item Chỉ gửi \texttt{mcu\_id} và dữ liệu TDS cần thiết để giảm kích thước bản tin.
-\end{itemize}
-
-Luồng publish được mô tả như sau:
-
-\begin{center}
-ESP32 $\rightarrow$ Wi-Fi $\rightarrow$ HiveMQ Cloud $\rightarrow$ Topic \texttt{devices/telemetry}
-\end{center}
-
-\subsubsection*{5.3 Kiểm thử và kết quả đạt được}
-
-Sinh viên biên dịch chương trình PlatformIO cho ESP32, theo dõi Serial Monitor và kiểm tra bản tin trên HiveMQ. Quá trình thử nghiệm tập trung vào khả năng kết nối, định dạng JSON lồng, topic và việc duy trì publish theo chu kỳ.
-
-Kết quả đạt được:
-
-\begin{itemize}
-    \item ESP32 kết nối được với mạng Wi-Fi và MQTT Broker.
-    \item Chương trình duy trì kết nối và có cơ chế kết nối lại.
-    \item Bản tin được publish đúng topic \texttt{devices/telemetry}.
-    \item Payload chứa \texttt{mcu\_id} dạng chuỗi và TDS trong object \texttt{telemetry}, tương thích với parser của Device Monitor.
-    \item Firmware chỉ đảm nhiệm thu thập và gửi dữ liệu; việc bổ sung thời gian và lưu trữ được chuyển cho Device Monitor.
-\end{itemize}
-
-Kết quả tuần 5 hoàn thiện kênh truyền dữ liệu từ thiết bị lên MQTT Broker, tạo đầu vào cho chức năng thu nhận, xử lý, lưu trữ và giám sát telemetry trong tuần tiếp theo.
+Qua công việc này, sinh viên củng cố kiến thức về truyền thông IoT, thiết kế luồng dữ liệu và phương pháp kiểm tra tích hợp giữa thiết bị với hệ thống phần mềm. Đồng thời, sinh viên nhận thức rõ vai trò của việc chuẩn hóa dữ liệu ngay từ đầu nguồn nhằm bảo đảm tính nhất quán trong toàn bộ quá trình vận hành hệ thống.
