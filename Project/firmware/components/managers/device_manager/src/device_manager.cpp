@@ -11,7 +11,7 @@ DeviceManager& DeviceManager::instance() {
 }
 
 void DeviceManager::begin() {
-    // Entry point chỉ ủy quyền cho DeviceManager; toàn bộ khởi tạo phần cứng và task nền nằm trong manager này.
+    // Khởi tạo phần cứng, mutex bộ đệm, các manager/callback rồi tạo và sở hữu các task nền của thiết bị.
     _instance = this;
 
     Logger::begin(115200);
@@ -81,7 +81,7 @@ void DeviceManager::flushTelemetryCache() {
 }
 
 void DeviceManager::startTasks() {
-    // Chu kỳ chính duy trì các tác vụ mạng và xử lý lệnh mà không chặn các FreeRTOS task đọc/gửi telemetry.
+    // Guard chỉ tạo một lần ba task FreeRTOS: đọc cảm biến, publish MQTT và phát heartbeat.
     if (_tasksStarted) {
         return;
     }

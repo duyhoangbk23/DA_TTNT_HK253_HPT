@@ -38,7 +38,7 @@ bool MqttManager::isConnected() {
 }
 
 bool MqttManager::publishTelemetry(const JsonDocument& document) {
-    /* Mỗi chu kỳ tạo một mẫu telemetry, gắn mcu_id dạng chuỗi rồi publish lên topic telemetry đã cấu hình. */
+    /* Serialize document do simulator đã tạo rồi publish nguyên nội dung lên topic devices/telemetry. */
     if (!client_.connected()) {
         return false;
     }

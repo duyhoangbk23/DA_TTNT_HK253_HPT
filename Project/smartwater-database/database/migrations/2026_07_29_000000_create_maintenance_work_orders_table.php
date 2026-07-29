@@ -27,7 +27,7 @@ return new class extends Migration
             $table->timestamp('completed_at')->nullable();
             $table->timestamps();
 
-            // Các index phục vụ hai truy vấn chính: ticket mở theo thiết bị và lịch định kỳ theo hợp đồng/ngày đến hạn.
+            // Các index phục vụ ba mẫu truy vấn: ticket theo thiết bị/trạng thái, lịch hợp đồng/ngày đến hạn và alert theo loại/thời điểm kích hoạt.
             $table->index(['device_id', 'status']);
             $table->index(['contract_id', 'scheduled_for']);
             $table->index(['type', 'triggered_at']);

@@ -3,7 +3,7 @@
 #include <WiFi.h>
 
 void SimulatorApp::begin() {
-    /* Simulator giữ cùng hợp đồng payload với firmware thật để backend xử lý hai nguồn theo một luồng duy nhất. */
+    /* Simulator dùng cùng envelope và topic telemetry như firmware thật cho hai trường hiện có: mcu_id và telemetry.tds. */
     Serial.begin(115200);
     delay(200);
 
@@ -35,7 +35,7 @@ void SimulatorApp::publishTelemetry() {
         return;
     }
 
-    /* Simulator giữ cùng hợp đồng payload với firmware thật để backend xử lý hai nguồn theo một luồng duy nhất. */
+    /* Document mô phỏng chỉ chứa mcu_id dạng chuỗi và telemetry.tds; telemetry.alert chưa được tạo ở đường chạy này. */
     StaticJsonDocument<256> doc;
     const int tds = random(40, 301);
     doc["mcu_id"] = SimulatorConfig::MCU_ID;

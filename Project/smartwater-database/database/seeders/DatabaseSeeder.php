@@ -30,7 +30,7 @@ class DatabaseSeeder extends Seeder
             McuSeeder::class,
             UnusedMcuSeeder::class,
             DeviceSeeder::class,
-            // Telemetry, bảo trì và activity log được seed cuối vì phụ thuộc toàn bộ quan hệ phía trên.
+            // Nhóm cuối gồm telemetry kết nối, thiết bị chưa dùng, dashboard, bảo trì và activity log vì phụ thuộc các quan hệ phía trên.
             ConnectedTelemetryDemoSeeder::class,
             UnusedDeviceSeeder::class,
             DeviceDashboardDataSeeder::class,

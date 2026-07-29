@@ -7,7 +7,7 @@ RandomTelemetryGenerator::RandomTelemetryGenerator() {
 }
 
 TelemetryData RandomTelemetryGenerator::next() {
-    /* Mỗi lần gọi tạo một mẫu TDS và trạng thái alert ngẫu nhiên cho simulator. */
+    /* Generator độc lập này chưa được SimulatorApp sử dụng; mỗi lần gọi tạo TDS ngẫu nhiên và alert luôn bằng 0. */
     TelemetryData data{};
     data.tds = randomInt(40, 300);
     data.alert=randomInt(0, 1); 

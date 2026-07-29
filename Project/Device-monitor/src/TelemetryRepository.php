@@ -315,7 +315,7 @@ final class TelemetryRepository
 
     private function normalizeMcuId(mixed $mcuKey): string
     {
-        // MCU ID là khóa ngoài dạng chuỗi; giữ nguyên số 0 ở đầu sau khi kiểm tra biên độ hợp lệ.
+        // mcu_id là định danh MCU bên ngoài dạng chuỗi; giữ nguyên số 0 ở đầu sau khi kiểm tra độ dài hợp lệ.
         $mcuId = trim((string) $mcuKey);
         if ($mcuId === '' || strlen($mcuId) > 50) {
             throw new InvalidArgumentException('Missing or invalid mcu_id');
