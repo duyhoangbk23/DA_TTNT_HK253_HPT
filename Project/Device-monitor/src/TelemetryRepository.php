@@ -33,6 +33,19 @@ final class TelemetryRepository
             ':alert' => $row['alert'],
         ]);
 
+        $this->updateMcuStatus([
+            'timestamp' => $row['timestamp'],
+            'mcu_id' => $mcuId,
+            'alert' => $row['alert'],
+        ]);
+
+        $this->createAlertWorkOrder([
+            'timestamp' => $row['timestamp'],
+            'mcu_id' => $mcuId,
+            'tds' => $row['tds'],
+            'alert' => $row['alert'],
+        ]);
+
         $id = (int) $this->pdo->lastInsertId();
         return $this->find($id) ?? [
             'id' => $id,
@@ -42,6 +55,34 @@ final class TelemetryRepository
             'tds' => $row['tds'],
             'alert' => $row['alert'],
         ];
+    }
+
+    private function updateMcuStatus(array $telemetry): void
+    {
+        $alert = strtolower(trim((string) ($telemetry['alert'] ?? '')));
+        $status = match ($alert) {
+            'offline' => 'offline',
+            'error', 'critical', 'sensor_disconnected' => 'error',
+            default => 'online',
+        };
+
+        $statement = $this->pdo->prepare(
+            'UPDATE mcus
+             SET status = :status,
+                 connection_status = :connection_status,
+                 first_seen_at = COALESCE(first_seen_at, :first_seen_at),
+                 last_seen_at = :last_seen_at,
+                 last_connected_at = :last_connected_at
+             WHERE mcu_id = :mcu_id'
+        );
+        $statement->execute([
+            ':status' => $status,
+            ':connection_status' => $status === 'offline' ? 'DISCONNECTED' : 'CONNECTED',
+            ':first_seen_at' => $telemetry['timestamp'],
+            ':last_seen_at' => $telemetry['timestamp'],
+            ':last_connected_at' => $telemetry['timestamp'],
+            ':mcu_id' => $telemetry['mcu_id'],
+        ]);
     }
 
     public function find(int $id): ?array
@@ -75,6 +116,87 @@ final class TelemetryRepository
         $stmt->execute();
 
         return $stmt->fetchAll();
+    }
+
+    private function createAlertWorkOrder(array $telemetry): void
+    {
+        $alert = strtolower(trim((string) ($telemetry['alert'] ?? '')));
+        if (in_array($alert, ['', 'normal', 'online'], true)) {
+            return;
+        }
+
+        $deviceStatement = $this->pdo->prepare(
+            'SELECT id, contract_id FROM devices WHERE mcu_id = :mcu_id AND replaced_at IS NULL LIMIT 1'
+        );
+        $deviceStatement->execute([':mcu_id' => $telemetry['mcu_id']]);
+        $device = $deviceStatement->fetch(PDO::FETCH_ASSOC);
+        if ($device === false) {
+            return;
+        }
+
+        $handledStatement = $this->pdo->prepare(
+            'SELECT id FROM maintenance_work_orders
+             WHERE device_id = :device_id AND type = :type AND source_alert = :alert
+               AND triggered_at >= :triggered_at
+             LIMIT 1'
+        );
+        $handledStatement->execute([
+            ':device_id' => $device['id'],
+            ':type' => 'alert',
+            ':alert' => $alert,
+            ':triggered_at' => $telemetry['timestamp'],
+        ]);
+        if ($handledStatement->fetchColumn() !== false) {
+            return;
+        }
+
+        $openKey = 'alert:' . $device['id'] . ':' . $alert;
+        $snapshot = json_encode([
+            'timestamp' => $telemetry['timestamp'],
+            'mcu_id' => $telemetry['mcu_id'],
+            'tds' => $telemetry['tds'],
+            'alert' => $alert,
+        ], JSON_THROW_ON_ERROR);
+        $now = gmdate('Y-m-d H:i:s');
+
+        $openStatement = $this->pdo->prepare(
+            'SELECT id FROM maintenance_work_orders WHERE open_key = :open_key LIMIT 1'
+        );
+        $openStatement->execute([':open_key' => $openKey]);
+        $openId = $openStatement->fetchColumn();
+        if ($openId !== false) {
+            $updateStatement = $this->pdo->prepare(
+                'UPDATE maintenance_work_orders
+                 SET triggered_at = :triggered_at, telemetry_snapshot = :telemetry_snapshot, updated_at = :updated_at
+                 WHERE id = :id'
+            );
+            $updateStatement->execute([
+                ':triggered_at' => $telemetry['timestamp'],
+                ':telemetry_snapshot' => $snapshot,
+                ':updated_at' => $now,
+                ':id' => $openId,
+            ]);
+            return;
+        }
+
+        $insertStatement = $this->pdo->prepare(
+            'INSERT INTO maintenance_work_orders
+             (device_id, contract_id, type, source_alert, priority, status, triggered_at, telemetry_snapshot, open_key, created_at, updated_at)
+             VALUES (:device_id, :contract_id, :type, :source_alert, :priority, :status, :triggered_at, :telemetry_snapshot, :open_key, :created_at, :updated_at)'
+        );
+        $insertStatement->execute([
+            ':device_id' => $device['id'],
+            ':contract_id' => $device['contract_id'],
+            ':type' => 'alert',
+            ':source_alert' => $alert,
+            ':priority' => in_array($alert, ['sensor_disconnected', 'error', 'critical', 'offline'], true) ? 'critical' : 'high',
+            ':status' => 'new',
+            ':triggered_at' => $telemetry['timestamp'],
+            ':telemetry_snapshot' => $snapshot,
+            ':open_key' => $openKey,
+            ':created_at' => $now,
+            ':updated_at' => $now,
+        ]);
     }
 
     public function paginate(int $page = 1, int $perPage = 25, ?string $mcuId = null): array

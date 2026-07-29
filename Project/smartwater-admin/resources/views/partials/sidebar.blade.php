@@ -10,6 +10,7 @@
         ['route' => 'contracts.index',  'label' => 'Hợp đồng',          'icon' => 'bi-file-earmark-text'],
         ['route' => 'devices.index',    'label' => 'Thiết bị',          'icon' => 'bi-cpu'],
         ['route' => 'mcus.index',       'label' => 'MCU/Controller',     'icon' => 'bi-microchip'],
+        ['route' => 'maintenance-work-orders.index', 'label' => 'Bảo trì', 'icon' => 'bi-tools'],
         ['section' => 'Hệ thống'],
         ['route' => 'employees.index',  'label' => 'Nhân viên',         'icon' => 'bi-person-badge'],
         ['route' => 'activities.index', 'label' => 'Lịch sử hoạt động', 'icon' => 'bi-clock-history'],

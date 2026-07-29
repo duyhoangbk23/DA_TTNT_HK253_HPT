@@ -68,8 +68,7 @@
                                     data-id="{{ $mcu->id }}"
                                     data-mcu-id="{{ $mcu->mcu_id }}"
                                     data-serial-number="{{ $mcu->serial_number }}"
-                                    data-firmware-version="{{ $mcu->firmware_version }}"
-                                    data-status="{{ $mcu->status }}">
+                                    data-firmware-version="{{ $mcu->firmware_version }}">
                                     <i class="bi bi-pencil me-1"></i>Sửa
                                 </button>
                                 <form method="POST" action="{{ route('mcus.destroy', $mcu->id) }}" style="display:inline;">
@@ -120,7 +119,16 @@
                             <td>{{ $mcu->serial_number }}</td>
                             <td><small class="text-muted">{{ $mcu->firmware_version ?? 'N/A' }}</small></td>
                             <td>
-                                <span class="badge bg-light text-dark">N/A</span>
+                                @php($displayStatus = \App\Models\Mcu::getDisplayStatus($mcu->status))
+                                @if($displayStatus === 'Online')
+                                    <span class="badge bg-success">Online</span>
+                                @elseif($displayStatus === 'Offline')
+                                    <span class="badge bg-secondary">Offline</span>
+                                @elseif($displayStatus === 'Error')
+                                    <span class="badge bg-danger">Error</span>
+                                @else
+                                    <span class="badge bg-light text-dark">N/A</span>
+                                @endif
                             </td>
                             <td><small>{{ $mcu->last_connected_at?->format('d/m/Y H:i') ?? 'Chưa kết nối' }}</small></td>
                             <td><span class="text-muted-2">Chưa gắn</span></td>
@@ -131,8 +139,7 @@
                                     data-id="{{ $mcu->id }}"
                                     data-mcu-id="{{ $mcu->mcu_id }}"
                                     data-serial-number="{{ $mcu->serial_number }}"
-                                    data-firmware-version="{{ $mcu->firmware_version }}"
-                                    data-status="{{ $mcu->status }}">
+                                    data-firmware-version="{{ $mcu->firmware_version }}">
                                     <i class="bi bi-pencil me-1"></i>Sửa
                                 </button>
                                 <form method="POST" action="{{ route('mcus.destroy', $mcu->id) }}" style="display:inline;">
@@ -181,16 +188,6 @@
                             <input type="text" name="firmware_version" class="form-control @error('firmware_version') is-invalid @enderror">
                             @error('firmware_version')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label fw-semibold">Trạng thái</label>
-                            <select name="status" class="form-select @error('status') is-invalid @enderror">
-                                <option value="">N/A</option>
-                                <option value="offline">Offline</option>
-                                <option value="online">Online</option>
-                                <option value="error">Error</option>
-                            </select>
-                            @error('status')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
-                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-white border" data-bs-dismiss="modal">Hủy</button>
@@ -228,16 +225,6 @@
                             <input type="text" name="firmware_version" class="form-control @error('firmware_version') is-invalid @enderror">
                             @error('firmware_version')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label fw-semibold">Trạng thái</label>
-                            <select name="status" class="form-select @error('status') is-invalid @enderror">
-                                <option value="">N/A</option>
-                                <option value="offline">Offline</option>
-                                <option value="online">Online</option>
-                                <option value="error">Error</option>
-                            </select>
-                            @error('status')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
-                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-white border" data-bs-dismiss="modal">Hủy</button>
@@ -261,7 +248,6 @@ document.addEventListener('DOMContentLoaded', function() {
         form.querySelector('input[name="mcu_id"]').value = button.getAttribute('data-mcu-id');
         form.querySelector('input[name="serial_number"]').value = button.getAttribute('data-serial-number');
         form.querySelector('input[name="firmware_version"]').value = button.getAttribute('data-firmware-version');
-        form.querySelector('select[name="status"]').value = button.getAttribute('data-status') || '';
     });
 
 });

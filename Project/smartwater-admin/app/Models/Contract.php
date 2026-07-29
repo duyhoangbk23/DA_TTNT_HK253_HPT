@@ -45,6 +45,11 @@ class Contract extends Model
         return $this->hasMany(Device::class);
     }
 
+    public function maintenanceWorkOrders(): HasMany
+    {
+        return $this->hasMany(MaintenanceWorkOrder::class);
+    }
+
     public function currentDevice()
     {
         return $this->devices()

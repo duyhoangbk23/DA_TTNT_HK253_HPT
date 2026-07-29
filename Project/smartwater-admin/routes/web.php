@@ -10,6 +10,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\MaintenanceWorkOrderController;
 use App\Http\Controllers\McuController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
@@ -81,6 +82,9 @@ Route::middleware('auth')->group(function () {
     Route::put('/devices/{id}', [DeviceController::class, 'update'])->name('devices.update');
     Route::delete('/devices/{id}', [DeviceController::class, 'destroy'])->name('devices.destroy');
     Route::post('/devices/{id}/replace', [DeviceController::class, 'replace'])->name('devices.replace');
+
+    Route::get('/maintenance-work-orders', [MaintenanceWorkOrderController::class, 'index'])->name('maintenance-work-orders.index');
+    Route::put('/maintenance-work-orders/{maintenanceWorkOrder}', [MaintenanceWorkOrderController::class, 'update'])->name('maintenance-work-orders.update');
 
     Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
     Route::post('/employees', [EmployeeController::class, 'store'])->name('employees.store');

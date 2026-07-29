@@ -94,4 +94,9 @@ class Device extends Model
     {
         return $this->hasMany(MaintenanceRecord::class);
     }
+
+    public function maintenanceWorkOrders(): HasMany
+    {
+        return $this->hasMany(MaintenanceWorkOrder::class);
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Mcu;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 class McuService
@@ -48,20 +49,14 @@ class McuService
 
     public function createMcu(array $data): Mcu
     {
-        if (($data['status'] ?? '') === '') {
-            $data['status'] = null;
-        }
-
+        $data = Arr::only($data, ['mcu_id', 'serial_number', 'firmware_version']);
         $data['api_key'] = Str::random(40);
         return Mcu::create($data);
     }
 
     public function updateMcu(int $id, array $data): Mcu
     {
-        if (($data['status'] ?? '') === '') {
-            $data['status'] = null;
-        }
-
+        $data = Arr::only($data, ['mcu_id', 'serial_number', 'firmware_version']);
         $mcu = $this->getMcuById($id);
         $mcu->update($data);
         return $mcu;

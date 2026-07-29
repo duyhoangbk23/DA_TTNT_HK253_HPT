@@ -39,6 +39,11 @@ class Employee extends Model
         return $this->hasMany(MaintenanceRecord::class);
     }
 
+    public function maintenanceWorkOrders(): HasMany
+    {
+        return $this->hasMany(MaintenanceWorkOrder::class);
+    }
+
     public function activityLogs(): HasMany
     {
         return $this->hasMany(ActivityLog::class, 'user_id');
