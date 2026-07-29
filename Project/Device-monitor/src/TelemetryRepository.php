@@ -204,7 +204,7 @@ final class TelemetryRepository
 
     public function paginate(int $page = 1, int $perPage = 25, ?string $mcuId = null): array
     {
-        // Read model phân trang tách biệt với truy vấn biểu đồ và cho phép lọc theo MCU.
+        // Mô hình đọc phân trang tách biệt với truy vấn biểu đồ và cho phép lọc theo MCU.
         $page = max(1, $page);
         $perPage = max(1, min(100, $perPage));
         $where = '';
