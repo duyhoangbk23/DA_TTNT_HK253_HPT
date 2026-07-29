@@ -6,7 +6,7 @@
 Luồng có mức tương thích cao nhất theo source là:
 
 \begin{enumerate}
-  \item simulator phát MQTT JSON chứa \path|mcu_id|, \texttt{tds}, \texttt{alert}
+  \item simulator phát MQTT JSON chứa \path|mcu_id| và \texttt{telemetry.tds}
   lên \path|devices/telemetry|;
   \item trình duyệt Device Monitor kết nối HiveMQ bằng WSS, subscribe topic cấu hình và
   nhận message;
@@ -36,18 +36,29 @@ Các giới hạn source được nêu dưới đây vẫn cần được xử l
 \textbf{Nguồn} & \textbf{Đích/kênh} & \textbf{Hợp đồng} & \textbf{Giới hạn có evidence} & \textbf{Trạng thái} \\
 \hline
 \endhead
-Simulator & HiveMQ/MQTT TLS & \path|devices/telemetry|; QoS 0; JSON canonical tối giản. & \path|MCU_ID| dạng chuỗi được gửi trực tiếp theo contract hiện tại. & Implemented \\
-Firmware chính & HiveMQ/MQTT TLS & Topic \path|Config::Topics::TELEMETRY|; JSON theo \path|device_id|. & Sai định danh, topic và tập field so với canonical. & Partially Implemented \\
+Simulator & HiveMQ/MQTT TLS & \path|devices/telemetry|; QoS 0; JSON canonical tối giản. & \path|MCU_ID| dạng chuỗi và \texttt{telemetry.tds} được gửi trực tiếp. & Implemented \\
+Firmware chính & HiveMQ/MQTT TLS & \path|devices/telemetry|; JSON \path|mcu_id| và object \path|telemetry| chứa TDS/cảnh báo. & Dùng \path|Config::Device::MCU_ID| dạng chuỗi; source xác nhận contract, chưa xác nhận hardware runtime riêng. & Implemented \\
 HiveMQ & Device Monitor/WSS & Danh sách \texttt{subscriptions}; MQTT message nhị phân. & Broker server-side không nằm trong repository, nhưng đường truyền MCU--Device Monitor đã live test thành công. & Live Tested \\
 Device Monitor JS & Device Monitor/HTTP JSON & \path|POST /api/telemetry|: \texttt{topic}, \texttt{payload}, \texttt{source}. & Cần người dùng bấm kết nối; tự reconnect bị tắt. & Implemented \\
 Device Monitor & MySQL/PDO & Bảng \texttt{telemetry}, năm cột nghiệp vụ canonical. & Đã live test ghi telemetry thành công; schema được kiểm tra và quản lý bởi migration dùng chung. & Live Tested \\
-Client ngoài & Admin/HTTP JSON & \path|POST /api/telemetry|; payload phẳng hoặc lồng. & Không tìm thấy xác thực API; \path|mcu_id| phải tồn tại. & Partially Implemented \\
+Client ngoài & Admin/HTTP JSON & \path|POST /api/telemetry|; payload phẳng hoặc lồng. & Không tìm thấy xác thực API; \path|mcu_id| phải là chuỗi tối đa 50 ký tự. & Partially Implemented \\
 Admin & MySQL/Eloquent & Migration dùng chung và quan hệ MCU--telemetry. & Chưa có bằng chứng truy cập MySQL live trong khảo sát. & Configured \\
 Worker .NET & HiveMQ/MQTT TLS & Topic cấu hình, subscribe QoS 1, DTO \path|device_id|. & Không tương thích bảng/khóa canonical. & Partially Implemented \\
 Worker .NET & MySQL/Dapper & \texttt{devices}, \path|device_data|. & Schema legacy riêng, không phục vụ luồng Admin canonical. & Partially Implemented \\
 \hline
 \end{longtable}
 \end{landscape}
+
+\section{Telemetry Live theo MCU}
+
+Trang \path|/telemetry| của Device Monitor cung cấp một luồng khai thác dữ liệu đã
+lưu, độc lập với thao tác kết nối broker. Giao diện lấy \path|GET /api/mcus| để hiển
+thị từng \texttt{mcu\_id} không trùng cùng số bản ghi và thời điểm gần nhất; khi chọn
+một MCU, JavaScript đồng thời gọi \path|GET /api/telemetry?mcu_id=...| để phân trang
+lịch sử và \path|GET /api/telemetry/chart?mcu_id=...\&range=...| để dựng biểu đồ TDS.
+Các khoảng thời gian hỗ trợ là 1 giờ, 6 giờ, 12 giờ, 1 ngày và 1 tuần; endpoint biểu
+đồ yêu cầu \texttt{mcu\_id} và trả lỗi 422 khi thiếu hoặc khi \texttt{range} không hợp lệ.
+Đây là khả năng có source; xác nhận live test hiện có áp dụng cho nhánh ingest--persist.
 
 \section{HTTP và mapping dữ liệu}
 
@@ -67,11 +78,6 @@ hoặc đồng bộ clock; trạng thái các cơ chế này là \textit{Not Fou
 \section{Các nhánh không tương thích}
 
 \begin{itemize}
-  \item Firmware chính phát \path|device_id|, trong khi migration canonical và hai
-  API yêu cầu \path|mcu_id|; trạng thái \textit{Partially Implemented}.
-  \item Topic firmware chính có dạng \path|waterpurifier/.../telemetry|; subscription
-  mặc định của Device Monitor là \path|devices/telemetry|; không có mapping topic;
-  trạng thái \textit{Partially Implemented}.
   \item Worker .NET subscribe topic cấu hình mặc định dạng status và giải mã
   \path|device_id|; worker ghi schema legacy. Adapter sang canonical là
   \textit{Not Found}.

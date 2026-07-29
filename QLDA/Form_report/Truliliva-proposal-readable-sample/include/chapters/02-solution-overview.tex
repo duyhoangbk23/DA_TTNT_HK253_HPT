@@ -43,7 +43,7 @@ Mã evidence của luồng này là E-SIM-03, E-DM-02--E-DM-06, E-DB-02 và E-AD
 Giải pháp hiện có hỗ trợ ba mục tiêu có bằng chứng source. Chi tiết đường dẫn được tập trung tại Phụ lục~\ref{app:source-evidence}, để phần này giữ trọng tâm ở năng lực hệ thống:
 
 \begin{itemize}
-  \item thu nhận TDS và trạng thái cảnh báo từ publisher MQTT; simulator tạo payload \texttt{mcu\_id}, \texttt{tds}, \texttt{alert} trong \texttt{SimulatorApp::publishTelemetry} (E-SIM-03);
+  \item thu nhận TDS và trạng thái cảnh báo từ publisher MQTT; simulator tạo payload \texttt{mcu\_id} và \texttt{telemetry.tds}, còn firmware chính phát thêm cảnh báo trong object telemetry (E-SIM-03, E-FW-04);
   \item giám sát gần thời gian thực và lưu lịch sử qua dashboard/API Device Monitor; các route đọc, tổng hợp và ghi telemetry được khai báo trong \path|Project/Device-monitor/public/index.php| (E-DM-02);
   \item khai thác lịch sử telemetry theo thiết bị trong Admin; \texttt{DeviceController::show} truy vấn quan hệ \texttt{Device::telemetry} và view \path|resources/views/devices/show.blade.php| hiển thị đồ thị TDS/cảnh báo.
 \end{itemize}
@@ -59,12 +59,12 @@ Hệ thống đã được live test thành công theo chuỗi telemetry MCU $\r
 \hline
 \textbf{Khối} & \textbf{Trạng thái} & \textbf{Căn cứ} \\
 \hline
-Simulator telemetry & Implemented & Có publisher định kỳ và payload \texttt{mcu\_id} dạng chuỗi, TDS, alert theo contract canonical (E-SIM-01--E-SIM-04). \\
+Simulator telemetry & Implemented & Có publisher định kỳ và payload \texttt{mcu\_id} dạng chuỗi cùng \texttt{telemetry.tds} theo contract canonical (E-SIM-01--E-SIM-04). \\
 HiveMQ broker & Configured & Có cấu hình và client kết nối nhưng không tìm thấy manifest server-side trong repository (E-MQ-06). \\
 Device Monitor & Implemented & mqtt.js subscribe qua WSS, Slim API chuẩn hóa và PDO repository ghi/đọc \texttt{telemetry} (E-DM-02--E-DM-06). \\
 SmartWater Admin & Partially Implemented & Các module lõi, API telemetry và quan hệ MCU có source; tổng thể còn view thiếu, mock data và mismatch validation/navigation (E-ADM-02--E-ADM-07). \\
 Database dùng chung & Implemented & Migration chuẩn định nghĩa \texttt{telemetry.mcu\_id} dạng chuỗi, có index riêng và index kết hợp với timestamp (E-DB-01--E-DB-03). \\
-Firmware chính & Partially Implemented & Có sensor/task/MQTT/command, nhưng telemetry vẫn dùng \texttt{device\_id} và nhiều trường ngoài contract chuẩn (E-FW-03, E-FW-04). \\
+Firmware chính & Implemented & Có sensor/task/MQTT/command; telemetry dùng \texttt{mcu\_id} dạng chuỗi và object \texttt{telemetry} chứa TDS/cảnh báo trên topic canonical (E-FW-03, E-FW-04). \\
 .NET MQTT worker & Partially Implemented & Subscribe và lưu MySQL đã có, nhưng DTO/schema riêng dùng \texttt{device\_id}, \texttt{devices}, \texttt{device\_data} (E-MQ-01--E-MQ-05). \\
 \hline
 \end{tabular}

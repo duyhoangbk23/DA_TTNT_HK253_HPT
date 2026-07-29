@@ -144,7 +144,7 @@ tìm kiếm, lọc trạng thái và quan hệ đều có source. Trạng thái:
 thực hiện CRUD và thay thế thiết bị. \path|DeviceService::replaceDevice| dùng
 transaction để đánh dấu thiết bị cũ \texttt{replaced}, ghi self-reference, tháo
 MCU cũ và gắn Device/MCU mới vào Product. \path|DeviceController::show| lấy
-telemetry qua quan hệ has-many-through Product--MCU và lấy maintenance kèm
+telemetry theo \texttt{mcu\_id} của thiết bị qua \texttt{DeviceTelemetryService} và lấy maintenance kèm
 Employee; view dựng chuỗi TDS, alert và lịch sử bảo trì. Validation kiểm tra mã,
 serial unique, batch tồn tại, ngày và các trạng thái được hỗ trợ. Trạng thái:
 \textit{Implemented}. Bảng chính: \texttt{devices}, \texttt{products},
@@ -160,11 +160,12 @@ trường, không ghi giá trị. Trạng thái module MCU: \textit{Implemented}
 \texttt{mcus}, \texttt{products}, \texttt{devices}, \texttt{telemetry}.
 
 \texttt{TelemetryController::ingest} nhận payload phẳng hoặc trường
-\texttt{payload} lồng, validate \texttt{mcu\_id} tồn tại và ghi timestamp, topic,
+\texttt{payload} lồng, validate \texttt{mcu\_id} là chuỗi tối đa 50 ký tự và ghi timestamp, topic,
 TDS, alert bằng model \texttt{Telemetry}; phản hồi JSON HTTP 201. API ingest là
-\textit{Implemented}; service layer telemetry riêng là \textit{Not Found} vì file
-service hiện không có implementation. Evidence: \path|routes/api.php|,
-\path|TelemetryController::ingest|, \path|Models/Telemetry.php|
+\textit{Implemented}; \texttt{DeviceTelemetryService} cung cấp truy vấn chuỗi TDS và
+phân trang lịch sử cho màn hình chi tiết thiết bị, còn ingest được xử lý trực tiếp tại controller.
+Evidence: \path|routes/api.php|, \path|TelemetryController::ingest|,
+\path|Services/DeviceTelemetryService.php|, \path|Models/Telemetry.php|
 (E-ADM-05--E-ADM-06).
 
 \subsection{Nhân viên}

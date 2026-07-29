@@ -33,8 +33,9 @@
 }
 
 \vspace{3mm}
-\small\textbf{Tiền điều kiện:} \texttt{mcu\_id} phải là số dương tồn tại trong bảng
-\texttt{mcus}. Cấu hình simulator hiện chưa thỏa tiền điều kiện này.
+\small\textbf{Tiền điều kiện:} payload phải có \texttt{mcu\_id} là chuỗi không rỗng,
+tối đa 50 ký tự. Migration telemetry không khai báo khóa ngoại đến \texttt{mcus},
+nên Device Monitor có thể lưu telemetry trước khi MCU nghiệp vụ được hoàn thiện.
 \caption{Trình tự telemetry canonical theo source}
 \label{fig:telemetry-sequence}
 \end{figure}

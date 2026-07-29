@@ -47,8 +47,9 @@
 \contentsline {chapter}{\numberline {7}Thiết kế tích hợp}{26}{chapter.7}%
 \contentsline {section}{\numberline {7.1}Luồng telemetry canonical}{26}{section.7.1}%
 \contentsline {section}{\numberline {7.2}Catalogue điểm tích hợp}{26}{section.7.2}%
-\contentsline {section}{\numberline {7.3}HTTP và mapping dữ liệu}{28}{section.7.3}%
-\contentsline {section}{\numberline {7.4}Các nhánh không tương thích}{28}{section.7.4}%
+\contentsline {section}{\numberline {7.3}Telemetry Live theo MCU}{28}{section.7.3}%
+\contentsline {section}{\numberline {7.4}HTTP và mapping dữ liệu}{28}{section.7.4}%
+\contentsline {section}{\numberline {7.5}Các nhánh không tương thích}{28}{section.7.5}%
 \contentsline {chapter}{\numberline {8}Thiết kế SmartWater Admin}{29}{chapter.8}%
 \contentsline {section}{\numberline {8.1}Phạm vi và cấu trúc xử lý}{29}{section.8.1}%
 \contentsline {section}{\numberline {8.2}Các module có source}{30}{section.8.2}%
@@ -124,13 +125,13 @@
 \contentsline {section}{\numberline {F.3}API Admin}{89}{section.F.3}%
 \contentsline {section}{\numberline {F.4}Mapping end-to-end}{89}{section.F.4}%
 \contentsline {section}{\numberline {F.5}Tính tương thích hiện tại}{89}{section.F.5}%
-\contentsline {chapter}{\numberline {G}Biến cấu hình}{90}{appendix.G}%
-\contentsline {section}{\numberline {G.1}Phân biệt cấu hình và xác minh runtime}{93}{section.G.1}%
-\contentsline {chapter}{\numberline {H}Bằng chứng hình ảnh chọn lọc}{94}{appendix.H}%
-\contentsline {chapter}{\numberline {I}Các điểm không đồng nhất đã biết}{98}{appendix.I}%
-\contentsline {section}{\numberline {I.1}Ghi chú về thay thế thiết bị}{99}{section.I.1}%
-\contentsline {section}{\numberline {I.2}Giới hạn xác minh}{99}{section.I.2}%
-\contentsline {chapter}{\numberline {J}Chỉ mục bằng chứng source}{100}{appendix.J}%
-\contentsline {section}{\numberline {J.1}Giới hạn bằng chứng}{102}{section.J.1}%
-\contentsline {chapter}{\numberline {K}Ma trận chức năng SmartWater Admin}{104}{appendix.K}%
-\contentsline {section}{\numberline {K.1}Các quan hệ chi phối chức năng}{106}{section.K.1}%
+\contentsline {chapter}{\numberline {G}Biến cấu hình}{91}{appendix.G}%
+\contentsline {section}{\numberline {G.1}Phân biệt cấu hình và xác minh runtime}{94}{section.G.1}%
+\contentsline {chapter}{\numberline {H}Bằng chứng hình ảnh chọn lọc}{95}{appendix.H}%
+\contentsline {chapter}{\numberline {I}Các điểm không đồng nhất đã biết}{99}{appendix.I}%
+\contentsline {section}{\numberline {I.1}Ghi chú về thay thế thiết bị}{100}{section.I.1}%
+\contentsline {section}{\numberline {I.2}Giới hạn xác minh}{100}{section.I.2}%
+\contentsline {chapter}{\numberline {J}Chỉ mục bằng chứng source}{101}{appendix.J}%
+\contentsline {section}{\numberline {J.1}Giới hạn bằng chứng}{104}{section.J.1}%
+\contentsline {chapter}{\numberline {K}Ma trận chức năng SmartWater Admin}{105}{appendix.K}%
+\contentsline {section}{\numberline {K.1}Các quan hệ chi phối chức năng}{107}{section.K.1}%

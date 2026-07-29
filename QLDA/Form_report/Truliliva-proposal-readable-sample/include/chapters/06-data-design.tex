@@ -31,13 +31,13 @@ Phụ lục~\ref{app:database-catalogue}.
 Quan hệ trung tâm của Admin là
 \texttt{customers.id} $\rightarrow$ \texttt{contracts.customer\_id}
 $\rightarrow$ \texttt{products.contract\_id}. Mỗi product có tối đa một
-device và một MCU do \texttt{devices.product\_id} và
-\texttt{mcus.product\_id} đều nullable và unique. Thiết kế này cho phép
-product, device và MCU tồn tại ở trạng thái chưa gán; khi lập hợp đồng,
-\texttt{ContractService} gán ba bản ghi trong một transaction. Truy vấn chi tiết
-thiết bị đi từ Device qua Product và MCU để lấy telemetry
-(\texttt{ContractService}, \texttt{Device::telemetry},
-\texttt{DeviceController::show}).
+device qua \texttt{devices.product\_id}; thiết bị liên kết tùy chọn với MCU bằng
+\texttt{devices.mcu\_id} $\rightarrow$ \texttt{mcus.mcu\_id}. Định danh MCU là
+chuỗi nghiệp vụ duy nhất, tách biệt với khóa nội bộ \texttt{mcus.id}. Thiết kế này
+cho phép product, device và MCU tồn tại ở trạng thái chưa gán; khi lập hợp đồng,
+\texttt{ContractService} thực hiện các cập nhật liên quan trong transaction.
+\texttt{DeviceController::show} lấy lịch sử telemetry theo \texttt{mcu\_id} của
+thiết bị thông qua \texttt{DeviceTelemetryService}.
 
 Lịch sử thay thế thiết bị được biểu diễn bằng self-reference
 \texttt{devices.replaced\_by\_device\_id} cùng \texttt{replaced\_at} và giá trị
@@ -67,9 +67,9 @@ Phụ lục~\ref{app:telemetry-json}.
 \begin{itemize}
   \item Các mã nghiệp vụ chính như \texttt{customer\_code},
   \texttt{contract\_code}, \texttt{product\_code}, \texttt{device\_code},
-  \texttt{mcu\_code} và các serial number được đặt unique.
+  \texttt{mcu\_id} và các serial number được đặt unique.
   \item \texttt{inventories.product\_id} unique tạo quan hệ một--một
-  Product--Inventory; hai khóa product trên Device và MCU cũng unique nhưng nullable.
+  Product--Inventory; \texttt{devices.product\_id} cũng unique nhưng nullable.
   \item \texttt{sessions.user\_id} chỉ được tạo bằng \texttt{foreignId}
   và index, không gọi \texttt{constrained}; do đó migration không khai báo FK
   tới \texttt{users} cho cột này.
@@ -91,13 +91,12 @@ là FK nullable. Ký hiệu \texttt{UQ} nhấn mạnh cột unique và
 
 \section{Schema song song và giới hạn xác minh}
 
-\path|Device-monitor/src/Database.php| có thể tự tạo bảng telemetry
-bằng DDL riêng. DDL này dùng \texttt{DOUBLE} cho TDS, không tạo FK,
-index hay \texttt{created\_at}/\texttt{updated\_at}; vì vậy chỉ khớp một phần
-với migration canonical. Worker .NET lại ghi schema legacy \texttt{smartwater}
+\path|Device-monitor/src/Database.php| chỉ kết nối và kiểm tra bảng telemetry;
+ứng dụng không tự tạo schema. Migration và seed được quản lý tập trung bởi
+\path|Project/smartwater-database| qua \path|migrate.bat|. Worker .NET lại ghi schema legacy \texttt{smartwater}
 với \texttt{devices}/\texttt{device\_data} và khóa chuỗi
 \texttt{device\_id} (E-DM-05, E-MQ-04--E-MQ-05). Các khác biệt này được
 tổng hợp tại Phụ lục~\ref{app:known-inconsistencies}.
 
-Phân tích trên xác nhận cấu trúc source, không xác nhận migration hay
-ghi/đọc MySQL live trong môi trường triển khai.
+Phân tích xác nhận cấu trúc source; riêng luồng MCU--HiveMQ--Device Monitor--MySQL
+đã có bằng chứng live test về publish, chuẩn hóa và persistence telemetry.

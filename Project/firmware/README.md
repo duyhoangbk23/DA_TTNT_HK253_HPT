@@ -11,6 +11,12 @@
 - Framework: `Arduino`
 - Baud monitor: `115200`
 
+## Định danh telemetry
+
+Firmware chính dùng `Config::Device::MCU_ID` và publish trường JSON `mcu_id` dạng
+chuỗi. Ví dụ: `"mcu_id": "ESP32_001"`. Simulator `Message_sending_test` cũng dùng
+cùng tên `MCU_ID`/`mcu_id`.
+
 ## Build code
 Mở thư mục `Project/firmware` trong VS Code, sau đó chạy:
 

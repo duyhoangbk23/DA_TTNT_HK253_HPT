@@ -18,7 +18,7 @@ hoặc đọc trong source; không có nghĩa giá trị runtime hợp lệ. Kh�
 \endhead
 Firmware Wi-Fi & \path|Config::Wifi::SSID|, \texttt{PASSWORD}, \path|RECONNECT_INTERVAL_MS| & Kết nối/retry Wi-Fi trong header cấu hình và manager. & Configured \\
 Firmware MQTT & \path|Config::Mqtt::HOST|, \texttt{PORT}, \texttt{USERNAME}, \texttt{PASSWORD}, \path|RECONNECT_INTERVAL_MS|, \path|MAX_PACKET_SIZE| & Broker, credential, retry và buffer cho PubSubClient. & Configured \\
-Firmware identity/topic & \path|Config::Device::DEVICE_ID|; \path|Config::Topics::TELEMETRY|, \texttt{STATUS}, \texttt{COMMAND} & Client identity và ba topic. & Configured \\
+Firmware identity/topic & \path|Config::Device::MCU_ID|; \path|Config::Topics::TELEMETRY|, \texttt{STATUS}, \texttt{COMMAND} & Định danh MCU dạng chuỗi và ba topic. & Configured \\
 Firmware timing & \path|Config::Timing::SENSOR_READ_MS|, \path|MQTT_PUBLISH_MS|, \path|HEARTBEAT_MS| & Chu kỳ task trong DeviceManager. & Configured \\
 Simulator Wi-Fi & \path|WIFI_SSID|, \path|WIFI_PASSWORD|, \path|WIFI_RECONNECT_INTERVAL_MS| & Kết nối/retry Wi-Fi. & Configured \\
 Simulator MQTT & \path|MQTT_HOST|, \path|MQTT_PORT|, \path|MQTT_USERNAME|, \path|MQTT_PASSWORD|, \path|MQTT_RECONNECT_INTERVAL_MS| & Broker, credential và retry. & Configured \\

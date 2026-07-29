@@ -21,7 +21,7 @@ The sensor must emit one ASCII reading per line, for example `TDS: 245.7 ppm\r\n
 
 ## Wi-Fi and MQTT contract
 
-Wi-Fi and HiveMQ credentials follow `Message_sending_test`. The main firmware publishes to the same topic, `devices/telemetry`, every five minutes. Its payload keeps the simulation's `mcu_id` and nested `telemetry.tds` contract:
+Wi-Fi and HiveMQ credentials follow `Message_sending_test`. The main firmware publishes to the same topic, `devices/telemetry`, every five minutes. `Config::Device::MCU_ID` is emitted as the string field `mcu_id`. Its payload keeps the simulator's `mcu_id` and nested `telemetry.tds` contract:
 
 ```json
 {

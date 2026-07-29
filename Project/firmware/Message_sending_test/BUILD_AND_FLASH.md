@@ -21,11 +21,14 @@ Sửa các giá trị sau trước khi build:
 - `MQTT_USERNAME`
 - `MQTT_PASSWORD`
 - `MQTT_ROOT_CA`
-- `DEVICE_ID`
+- `MCU_ID`
 - `SERIAL_NUMBER`
 - `FIRMWARE_VERSION`
 - `MODEL`
 - `TOPIC_PREFIX`
+
+`MCU_ID` được publish dưới tên trường JSON `mcu_id` dạng chuỗi. Giữ thống nhất tên
+biến cấu hình và trường JSON này trong payload telemetry.
 
 ## 2. Build
 

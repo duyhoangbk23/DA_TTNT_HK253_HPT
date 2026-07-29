@@ -35,13 +35,19 @@ Sửa file `src/config/SimulatorConfig.h`:
 - `MQTT_USERNAME`
 - `MQTT_PASSWORD`
 - `MQTT_ROOT_CA`
-- `DEVICE_ID`
+- `MCU_ID`
 - `SERIAL_NUMBER`
 - `FIRMWARE_VERSION`
 - `MODEL`
 - `TOPIC_PREFIX`
 - `TELEMETRY_INTERVAL_MS`
 - `STATUS_INTERVAL_MS`
+
+## Định danh telemetry
+
+Simulator dùng `MCU_ID` và publish trường JSON `mcu_id` dạng chuỗi lên
+`devices/telemetry`, giống firmware chính. Cấu hình và payload telemetry dùng thống
+nhất hai tên này.
 
 ## Build
 Chạy trong thư mục `Project/firmware/Message_sending_test`:

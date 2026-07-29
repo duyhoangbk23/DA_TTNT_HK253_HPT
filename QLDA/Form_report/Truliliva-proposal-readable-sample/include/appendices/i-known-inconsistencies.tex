@@ -18,9 +18,9 @@ INC-01 & Đã khắc phục: simulator gửi trực tiếp \path|MCU_ID| dạng 
 Payload simulator tương thích với contract Device Monitor; không còn phép chuyển đổi \texttt{strtoull}. &
 \path|SimulatorApp.cpp|, \path|SimulatorConfig.h|, \path|TelemetryRepository.php|. \textit{Implemented}. \\
 
-INC-02 & Firmware chính phát \path|device_id|, timestamp phía thiết bị và các trường pressure/flow/RSSI; parser canonical chỉ nhận \path|mcu_id|, TDS, alert. &
-Định danh bị null và bản ghi bị từ chối; các trường phụ bị loại. &
-\path|mqtt_manager.cpp::publishTelemetry|, \path|TelemetryService.php|. E-FW-04/E-DM-03. \textit{Partially Implemented}. \\
+INC-02 & Đã khắc phục: firmware chính phát \path|mcu_id| dạng chuỗi và object \path|telemetry| chứa TDS/cảnh báo, cùng định danh với simulator và parser canonical. &
+Định danh được Device Monitor nhận trực tiếp; simulator không bắt buộc trường cảnh báo vì schema telemetry cho phép null. &
+\path|mqtt_manager.cpp::publishTelemetry|, \path|TelemetryService.php|. E-FW-04/E-DM-03. \textit{Implemented}. \\
 
 INC-03 & Worker .NET dùng \path|device_id|, schema \texttt{smartwater} và bảng \path|device_data|; migration canonical dùng \path|mcu_id| và \texttt{telemetry}. &
 Worker không tạo dữ liệu mà Admin/Device Monitor truy vấn theo schema canonical. &

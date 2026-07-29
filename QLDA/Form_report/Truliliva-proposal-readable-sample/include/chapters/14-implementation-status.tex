@@ -40,12 +40,12 @@ Not Found & Không tìm thấy implementation trong phạm vi source đã khảo
 \hline
 \endhead
 Schema canonical & MCU và telemetry & Migration tạo \texttt{mcus}, \path|telemetry.mcu_id| dạng chuỗi, index MCU và index thời gian (E-DB-02--E-DB-03). & Implemented \\
-Firmware chính & Publish telemetry và nhận command & MQTT lifecycle có source, nhưng payload dùng \path|device_id|, topic riêng và các field ngoài contract canonical (E-FW-03--E-FW-04). & Partially Implemented \\
-Simulator & Publish payload tối giản & Có \path|mcu_id| dạng chuỗi, TDS và alert; ID được gửi trực tiếp theo contract hiện tại (E-SIM-02--E-SIM-04). & Implemented \\
+Firmware chính & Publish telemetry và nhận command & MQTT lifecycle có source; publish \path|mcu_id| dạng chuỗi cùng object telemetry trên \path|devices/telemetry| (E-FW-03--E-FW-04). & Implemented \\
+Simulator & Publish payload tối giản & Có \path|mcu_id| dạng chuỗi và \texttt{telemetry.tds}; ID được gửi trực tiếp theo contract hiện tại (E-SIM-02--E-SIM-04). & Implemented \\
 HiveMQ & Broker cho các client & Client TLS/WSS và key kết nối tồn tại; server manifest, ACL và runtime broker nằm ngoài repository (E-MQ-06). & Configured \\
 Device Monitor & MQTT browser, dashboard, Slim API & Subscribe, POST, normalize, insert, danh sách MCU, lọc telemetry, biểu đồ TDS và summary có implementation (E-DM-02--E-DM-06). & Implemented \\
 Telemetry runtime & MCU $\rightarrow$ HiveMQ $\rightarrow$ Device Monitor $\rightarrow$ MySQL & MCU publish dữ liệu lên HiveMQ; Device Monitor nhận, chuẩn hóa và lưu thành công telemetry vào database. & Live Tested \\
-Device Monitor & Schema và vận hành & Kiểm tra sự tồn tại schema do migration dùng chung quản lý; catch 500 không ghi exception, health không kiểm tra dependency, reconnect browser bị tắt. & Partially Implemented \\
+Device Monitor & Schema và vận hành & Kiểm tra schema do migration dùng chung quản lý; lỗi database được ghi log có ngữ cảnh và \path|/health/database| probe MySQL. Browser vẫn yêu cầu thao tác kết nối và tự reconnect bị tắt. & Partially Implemented \\
 SmartWater Admin & Auth, Customer, Contract, Device, MCU, Employee & Từng module liệt kê có source và được đánh giá granular là Implemented; trạng thái aggregate của Admin vẫn là một phần do các gap ở Profile, Product, Category, Inventory, Batch, Dashboard và Activity. & Partially Implemented \\
 SmartWater Admin & Dashboard nghiệp vụ & KPI và chuỗi tháng đọc database; trend KPI được hard-code. & Partially Implemented \\
 SmartWater Admin & Trend KPI và Activity route & Trend lấy giá trị tĩnh; Activity đọc \path|MockData::activities| thay vì \texttt{ActivityLog}. & Prototype/Mock \\
