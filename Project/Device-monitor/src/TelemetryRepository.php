@@ -15,6 +15,7 @@ final class TelemetryRepository
 
     public function insert(array $row): array
     {
+        // Một lần ingest gồm ba tác động liên tiếp: lưu telemetry, cập nhật trạng thái MCU, rồi đồng bộ ticket alert nếu cần.
         $mcuId = $this->normalizeMcuId($row['mcu_id'] ?? null);
         $topic = trim((string) ($row['topic'] ?? 'devices/telemetry'));
         if ($topic === '') {
@@ -59,6 +60,7 @@ final class TelemetryRepository
 
     private function updateMcuStatus(array $telemetry): void
     {
+        // Snapshot trạng thái MCU luôn phản ánh alert và thời điểm của telemetry vừa được ingest.
         $alert = strtolower(trim((string) ($telemetry['alert'] ?? '')));
         $status = match ($alert) {
             'offline' => 'offline',
@@ -120,6 +122,7 @@ final class TelemetryRepository
 
     private function createAlertWorkOrder(array $telemetry): void
     {
+        // open_key bảo đảm mỗi thiết bị và loại alert chỉ có một ticket đang mở; telemetry mới cập nhật snapshot thay vì nhân bản ticket.
         $alert = strtolower(trim((string) ($telemetry['alert'] ?? '')));
         if (in_array($alert, ['', 'normal', 'online'], true)) {
             return;
@@ -201,6 +204,7 @@ final class TelemetryRepository
 
     public function paginate(int $page = 1, int $perPage = 25, ?string $mcuId = null): array
     {
+        // Read model phân trang tách biệt với truy vấn biểu đồ và cho phép lọc theo MCU.
         $page = max(1, $page);
         $perPage = max(1, min(100, $perPage));
         $where = '';
@@ -242,6 +246,7 @@ final class TelemetryRepository
 
     public function mcus(): array
     {
+        // Danh sách MCU được tổng hợp từ telemetry để điều khiển bộ lọc của các API đọc.
         return $this->pdo->query(
             'SELECT mcu_id, COUNT(*) AS telemetry_count, MAX(timestamp) AS latest_timestamp
              FROM telemetry
@@ -252,6 +257,7 @@ final class TelemetryRepository
 
     public function tdsSeries(string $mcuId, int $limit = 500, int $windowHours = 1): array
     {
+        // Cửa sổ biểu đồ được neo tại bản ghi mới nhất của đúng MCU để dữ liệu mô phỏng và dữ liệu trễ vẫn hiển thị nhất quán.
         $windowHours = max(1, min(168, $windowHours));
         $latestStmt = $this->pdo->prepare(
             'SELECT MAX(timestamp) FROM telemetry WHERE mcu_id = :mcu_id'
@@ -309,6 +315,7 @@ final class TelemetryRepository
 
     private function normalizeMcuId(mixed $mcuKey): string
     {
+        // MCU ID là khóa ngoài dạng chuỗi; giữ nguyên số 0 ở đầu sau khi kiểm tra biên độ hợp lệ.
         $mcuId = trim((string) $mcuKey);
         if ($mcuId === '' || strlen($mcuId) > 50) {
             throw new InvalidArgumentException('Missing or invalid mcu_id');

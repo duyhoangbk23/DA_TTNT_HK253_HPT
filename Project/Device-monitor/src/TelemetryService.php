@@ -8,6 +8,7 @@ final class TelemetryService
 {
     public function normalize(string $topic, mixed $payload, string $receivedAt = '', string $source = 'hivemq'): array
     {
+        // Chuẩn hóa nhiều dạng payload về một cấu trúc telemetry duy nhất trước khi chạm database.
         $decoded = $this->decodePayload($payload);
         $flat = $this->flatten($decoded);
 
@@ -22,6 +23,7 @@ final class TelemetryService
 
     private function decodePayload(mixed $payload): array|string
     {
+        // Chấp nhận payload đã giải mã, object, JSON hoặc chuỗi thô từ HiveMQ.
         if (is_array($payload)) {
             return $payload;
         }
@@ -45,6 +47,7 @@ final class TelemetryService
 
     private function flatten(array|string $decoded): array
     {
+        // Gộp các envelope phổ biến để các trường telemetry được đọc nhất quán ở một cấp.
         if (!is_array($decoded)) {
             return ['value' => $decoded];
         }

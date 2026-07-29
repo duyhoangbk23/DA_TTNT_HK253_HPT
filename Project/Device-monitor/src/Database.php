@@ -12,6 +12,7 @@ final class Database
 
     public function pdo(): PDO
     {
+        // Kết nối được khởi tạo lười để các route không dùng dữ liệu không phụ thuộc vào MySQL.
         if ($this->pdo instanceof PDO) {
             return $this->pdo;
         }

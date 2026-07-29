@@ -15,6 +15,7 @@ use Slim\Factory\AppFactory;
 require __DIR__ . '/../vendor/autoload.php';
 
 if (PHP_SAPI === 'cli-server') {
+    // Chuyển tệp tĩnh hợp lệ về PHP built-in server, để Slim chỉ xử lý các route ứng dụng.
     $path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
     $candidate = realpath(__DIR__ . $path);
     if ($path !== '/' && $candidate !== false && str_starts_with($candidate, __DIR__) && is_file($candidate)) {
@@ -23,6 +24,7 @@ if (PHP_SAPI === 'cli-server') {
 }
 
 $app = AppFactory::create();
+// Middleware tách việc đọc body và định tuyến trước khi request đi vào các boundary API.
 $app->addBodyParsingMiddleware();
 $app->addRoutingMiddleware();
 
@@ -67,6 +69,7 @@ $errorMiddleware->setDefaultErrorHandler(
 );
 
 $database = new Database();
+// Chỉ mở kết nối PDO khi route thực sự cần dữ liệu; các trang HTML tĩnh vẫn có thể tải khi MySQL tạm thời lỗi.
 $repository = static function () use ($database): TelemetryRepository {
     return new TelemetryRepository($database->pdo());
 };
@@ -136,6 +139,7 @@ $app->get('/api/telemetry/chart', function (ServerRequestInterface $request, Res
     }
 
     $limit = max(1, min(500, (int)($query['limit'] ?? 500)));
+    // Chỉ chấp nhận các cửa sổ biểu đồ đã định nghĩa để giới hạn truy vấn theo MCU được chọn.
     $ranges = [
         '1h' => 1,
         '6h' => 6,
@@ -163,6 +167,7 @@ $app->get('/api/telemetry/summary', function (ServerRequestInterface $request, R
 });
 
 $app->get('/health/database', function (ServerRequestInterface $request, ResponseInterface $response) use ($database, $logDatabaseFailure) {
+    // Lỗi kết nối được ghi log nội bộ theo ngữ cảnh đã lọc và trả về thông báo 503 an toàn cho client.
     try {
         $database->pdo()->query('SELECT 1');
 
@@ -181,6 +186,7 @@ $app->get('/health/database', function (ServerRequestInterface $request, Respons
 });
 
 $app->post('/api/telemetry', function (ServerRequestInterface $request, ResponseInterface $response) use ($repository, $service) {
+    // Boundary nhận telemetry chịu trách nhiệm chuẩn hóa request, còn service/repository xử lý hợp đồng payload và lưu trữ.
     $payload = $request->getParsedBody();
     if (is_string($payload)) {
         $payload = json_decode($payload, true) ?: [];

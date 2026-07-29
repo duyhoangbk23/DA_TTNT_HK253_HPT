@@ -12,6 +12,7 @@ final class DatabaseFailure
 
     public static function isUnavailable(Throwable $exception): bool
     {
+        // Nhận diện riêng lỗi hạ tầng để HTTP boundary có thể trả phản hồi 503 an toàn thay vì lộ chi tiết PDO.
         foreach (self::chain($exception) as $current) {
             $sqlState = self::sqlState($current);
             $driverCode = self::driverCode($current);
