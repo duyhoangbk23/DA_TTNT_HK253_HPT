@@ -31,6 +31,7 @@ Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
 |--------------------------------------------------------------------------
 */
 
+// Route quản trị chỉ điều phối request đã xác thực; nghiệp vụ và truy vấn phức tạp được giao cho service tương ứng.
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 

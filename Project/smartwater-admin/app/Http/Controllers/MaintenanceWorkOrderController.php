@@ -12,6 +12,7 @@ use Illuminate\View\View;
 
 class MaintenanceWorkOrderController extends Controller
 {
+    // Trang bảo trì ghép ticket công việc với danh sách thiết bị lỗi nhưng giữ hai bộ phân trang tách biệt.
     public function index(Request $request): View
     {
         $orders = MaintenanceWorkOrder::query()

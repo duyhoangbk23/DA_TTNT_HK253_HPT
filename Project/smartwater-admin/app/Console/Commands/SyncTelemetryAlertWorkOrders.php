@@ -10,6 +10,7 @@ class SyncTelemetryAlertWorkOrders extends Command
     protected $signature = 'maintenance:sync-alerts';
     protected $description = 'Create alert work orders from abnormal telemetry';
 
+    // Command chỉ kích hoạt đồng bộ alert telemetry; lịch chạy theo phút được cấu hình riêng trong routes/console.php.
     public function handle(MaintenanceWorkOrderService $service): int
     {
         $this->info("Created {$service->synchronizeAlerts(now())} alert work order(s).");

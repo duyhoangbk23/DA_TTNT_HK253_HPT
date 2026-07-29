@@ -52,11 +52,13 @@ class Mcu extends Model
         ];
     }
 
+    // Quan hệ dùng mcu_id chuỗi để giữ đúng định danh xuyên suốt giữa firmware, telemetry và thiết bị.
     public function devices(): HasMany
     {
         return $this->hasMany(Device::class, 'mcu_id', 'mcu_id');
     }
 
+    // MCU đang dùng có một thiết bị chưa thay thế, gắn hợp đồng và có mcu_id.
     public function scopeUsed(Builder $query): Builder
     {
         return $query->whereHas('devices', function (Builder $query) {
@@ -66,6 +68,7 @@ class Mcu extends Model
         });
     }
 
+    // MCU chưa dùng không có thiết bị hiện hành đáp ứng điều kiện gắn hợp đồng.
     public function scopeUnused(Builder $query): Builder
     {
         return $query->whereDoesntHave('devices', function (Builder $query) {
@@ -75,6 +78,7 @@ class Mcu extends Model
         });
     }
 
+    // Thiết bị hiện hành là liên kết mới nhất còn hiệu lực của MCU này.
     public function currentDevice()
     {
         return $this->devices()

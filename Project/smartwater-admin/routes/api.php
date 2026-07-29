@@ -30,6 +30,7 @@ Route::get('/health/database', function () {
     }
 });
 
+// Nhóm API điều phối request theo tài nguyên; controller giữ ranh giới HTTP với phần nghiệp vụ tương ứng.
 Route::middleware('api')->group(function () {
     // Products API
     Route::get('/products', [ProductController::class, 'apiIndex']);

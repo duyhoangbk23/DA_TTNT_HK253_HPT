@@ -9,6 +9,7 @@ final class MaintenanceWorkOrderService
 {
     private const LEAD_DAYS = 7;
 
+    // Đồng bộ lịch chỉ xét hợp đồng còn hiệu lực và thiết bị chưa thay thế.
     public function synchronizeScheduled(Carbon $today): int
     {
         $created = 0;
@@ -31,6 +32,7 @@ final class MaintenanceWorkOrderService
 
             foreach ($devices as $device) {
                 foreach ($dueDates as $dueDate) {
+                    // Khóa chống trùng theo thiết bị, loại scheduled và ngày đến hạn.
                     if ($this->hasOrderForSchedule($device->id, $dueDate)) {
                         continue;
                     }
@@ -59,6 +61,7 @@ final class MaintenanceWorkOrderService
         return $created;
     }
 
+    // Alert tạo lịch tức thì từ telemetry bất thường mới nhất của mỗi MCU.
     public function synchronizeAlerts(Carbon $now): int
     {
         $created = 0;
@@ -80,6 +83,7 @@ final class MaintenanceWorkOrderService
                 ->where('mcu_id', $telemetry->mcu_id)
                 ->whereNull('replaced_at')
                 ->first();
+            // Khóa chống trùng ngăn cùng một alert đã xử lý sinh thêm ticket khi telemetry đến liên tục.
             if ($device === null || $this->hasHandledAlert($device->id, $alert, $telemetry->timestamp)) {
                 continue;
             }
@@ -93,6 +97,7 @@ final class MaintenanceWorkOrderService
             ], JSON_THROW_ON_ERROR);
 
             $openOrder = DB::table('maintenance_work_orders')->where('open_key', $openKey)->first();
+            // Một alert còn mở được cập nhật snapshot thay vì tạo ticket song song.
             if ($openOrder !== null) {
                 DB::table('maintenance_work_orders')->where('id', $openOrder->id)->update([
                     'triggered_at' => $telemetry->timestamp,
@@ -122,6 +127,7 @@ final class MaintenanceWorkOrderService
         return $created;
     }
 
+    // Hoàn tất ticket giải phóng open_key để alert hoặc lịch hợp lệ về sau có thể tạo ticket mới.
     public function completeWorkOrder(int $workOrderId, Carbon $completedAt): void
     {
         DB::table('maintenance_work_orders')
@@ -134,6 +140,7 @@ final class MaintenanceWorkOrderService
             ]);
     }
 
+    // Lịch định kỳ bắt đầu từ ngày hiệu lực hợp đồng và tăng theo maintenance_cycle_months; không lấy ngày bảo trì gần nhất làm mốc.
     private function scheduleDates(object $contract, Carbon $today): array
     {
         $cycleMonths = (int) $contract->maintenance_cycle_months;
@@ -158,6 +165,7 @@ final class MaintenanceWorkOrderService
         return $dates;
     }
 
+    // Kiểm tra trùng lịch theo ngày đến hạn cố định của hợp đồng.
     private function hasOrderForSchedule(int $deviceId, Carbon $dueDate): bool
     {
         return DB::table('maintenance_work_orders')
@@ -167,6 +175,7 @@ final class MaintenanceWorkOrderService
             ->exists();
     }
 
+    // Alert đã được xử lý tại cùng hoặc thời điểm mới hơn không tạo lại ticket.
     private function hasHandledAlert(int $deviceId, string $alert, string $timestamp): bool
     {
         return DB::table('maintenance_work_orders')
@@ -177,6 +186,7 @@ final class MaintenanceWorkOrderService
             ->exists();
     }
 
+    // Nhóm alert mất kết nối hoặc lỗi nghiêm trọng được ưu tiên critical; các alert còn lại là high.
     private function priorityFor(string $alert): string
     {
         return in_array($alert, ['sensor_disconnected', 'error', 'critical', 'offline'], true)

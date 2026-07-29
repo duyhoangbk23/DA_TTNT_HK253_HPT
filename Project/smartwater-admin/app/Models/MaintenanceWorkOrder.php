@@ -19,6 +19,7 @@ class MaintenanceWorkOrder extends Model
         'completed_at' => 'datetime',
     ];
 
+    // Ticket liên kết thiết bị, hợp đồng và nhân viên để hiển thị và phân công trong luồng bảo trì.
     public function device(): BelongsTo { return $this->belongsTo(Device::class); }
     public function contract(): BelongsTo { return $this->belongsTo(Contract::class); }
     public function employee(): BelongsTo { return $this->belongsTo(Employee::class); }

@@ -16,6 +16,7 @@ class McuController extends Controller
         $this->mcuService = $mcuService;
     }
 
+    // Trang MCU ghép hai tập đang dùng/chưa dùng để hiển thị quyền sở hữu hiện tại mà không thay đổi status telemetry.
     public function index()
     {
         $usedMcus = $this->mcuService->getUsedMcus();

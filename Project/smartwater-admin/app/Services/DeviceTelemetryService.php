@@ -7,6 +7,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class DeviceTelemetryService
 {
+    // mcu_id là định danh chuỗi xuyên suốt firmware, telemetry và thiết bị; không chuyển sang khóa số nội bộ mcus.id.
     public function forMcu(?string $mcuId): array
     {
         $mcuId = trim((string) $mcuId);
@@ -14,6 +15,7 @@ class DeviceTelemetryService
             return $this->emptySeries();
         }
 
+        // Biểu đồ dùng tối đa 500 bản ghi mới nhất rồi sắp lại theo thời gian tăng dần để hiển thị.
         $records = Telemetry::query()
             ->where('mcu_id', $mcuId)
             ->latest('timestamp')
@@ -34,6 +36,7 @@ class DeviceTelemetryService
         ];
     }
 
+    // Log dùng paginator riêng để không làm đổi dữ liệu biểu đồ.
     public function paginatedLogsForMcu(?string $mcuId, int $page = 1, int $perPage = 15): LengthAwarePaginator
     {
         $mcuId = trim((string) $mcuId);

@@ -24,6 +24,7 @@ class DeviceController extends Controller
         $this->deviceTelemetryService = $deviceTelemetryService;
     }
 
+    // Trang danh sách thiết bị ghép trạng thái sử dụng với các dữ liệu đăng ký cần cho thao tác quản trị.
     public function index()
     {
         $usedDevices = $this->deviceService->getUsedDevices();
@@ -52,6 +53,7 @@ class DeviceController extends Controller
         ]);
     }
 
+    // Trang chi tiết thiết bị ghép dữ liệu nghiệp vụ với telemetry thật theo mcu_id; phân trang log độc lập với chuỗi biểu đồ.
     public function show(int $id)
     {
         $device = $this->deviceService->getDeviceById($id)->load(['product', 'customer', 'contract', 'mcu']);

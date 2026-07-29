@@ -12,6 +12,7 @@ class ActivityController extends Controller
     {
         $search = trim((string) $request->query('q', ''));
 
+        // Activity Log chỉ đọc bản ghi đã lưu trong database; eager load user.employee tránh truy vấn lặp khi hiển thị người thực hiện.
         $activities = ActivityLog::query()
             ->with(['user.employee'])
             ->when($search !== '', function (Builder $query) use ($search): void {

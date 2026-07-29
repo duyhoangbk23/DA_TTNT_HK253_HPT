@@ -13,6 +13,7 @@ class McuService
         return Mcu::all();
     }
 
+    // MCU đang dùng được xác định từ thiết bị hiện hành có hợp đồng, không từ status telemetry.
     public function getUsedMcus()
     {
         return Mcu::used()
@@ -25,6 +26,7 @@ class McuService
             ->get();
     }
 
+    // MCU chưa dùng không có thiết bị hiện hành gắn hợp đồng.
     public function getUnusedMcus()
     {
         return Mcu::unused()
@@ -47,6 +49,7 @@ class McuService
         return $this->getUnusedMcus()->where('status', 'online')->values();
     }
 
+    // Dữ liệu quản lý chỉ được phép thay đổi thông tin đăng ký MCU; status do backend telemetry cập nhật và chỉ được hiển thị ở Admin.
     public function createMcu(array $data): Mcu
     {
         $data = Arr::only($data, ['mcu_id', 'serial_number', 'firmware_version']);
@@ -54,6 +57,7 @@ class McuService
         return Mcu::create($data);
     }
 
+    // Chỉ các trường đăng ký được cập nhật; không nhận status từ luồng quản trị.
     public function updateMcu(int $id, array $data): Mcu
     {
         $data = Arr::only($data, ['mcu_id', 'serial_number', 'firmware_version']);
@@ -62,6 +66,7 @@ class McuService
         return $mcu;
     }
 
+    // Không xóa MCU còn được thiết bị hiện hành của hợp đồng sử dụng.
     public function deleteMcu(int $id): bool
     {
         $mcu = $this->getMcuById($id);
