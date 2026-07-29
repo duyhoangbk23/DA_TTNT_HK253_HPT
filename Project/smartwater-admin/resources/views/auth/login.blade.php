@@ -35,7 +35,7 @@
             </div>
         </div>
 
-        <small class="opacity-75">© {{ date('Y') }} SmartWater. Giao diện demo.</small>
+        <small class="opacity-75">© {{ date('Y') }} SmartWater.</small>
     </div>
 
     {{-- Cột biểu mẫu --}}

@@ -8,7 +8,6 @@
 @endsection
 
 @section('page-actions')
-    {{-- Buttons removed for demo --}}
 @endsection
 
 @section('content')
@@ -17,8 +16,7 @@
         @foreach ($kpis as $kpi)
             <div class="col-12 col-sm-6 col-xl-4 col-xxl-2">
                 <x-kpi-card :label="$kpi['label']" :value="number_format($kpi['value'])"
-                            :icon="$kpi['icon']" :color="$kpi['color']"
-                            :trend="$kpi['trend']" :up="$kpi['up']" />
+                            :icon="$kpi['icon']" :color="$kpi['color']" />
             </div>
         @endforeach
     </div>
