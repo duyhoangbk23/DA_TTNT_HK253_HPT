@@ -9,6 +9,7 @@ void TdsSensor::begin(uint8_t rxPin, uint8_t txPin) {
 }
 
 bool TdsSensor::read(int& tds) {
+    // Dữ liệu UART được đưa vào parser để nhận bản đọc TDS hoàn chỉnh.
     while (Serial2.available() > 0) {
         _parser.push(static_cast<char>(Serial2.read()));
     }
@@ -29,5 +30,6 @@ bool TdsSensor::read(int& tds) {
 }
 
 bool TdsSensor::isConnected() const {
+    // TDS chỉ được xem là hợp lệ trong cửa sổ timeout; quá hạn sẽ tạo alert sensor_disconnected.
     return _hasReading && (millis() - _lastReadingMs) <= Config::Sensor::TDS_TIMEOUT_MS;
 }

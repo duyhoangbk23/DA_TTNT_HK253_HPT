@@ -11,6 +11,7 @@ DeviceManager& DeviceManager::instance() {
 }
 
 void DeviceManager::begin() {
+    // Entry point chỉ ủy quyền cho DeviceManager; toàn bộ khởi tạo phần cứng và task nền nằm trong manager này.
     _instance = this;
 
     Logger::begin(115200);
@@ -38,6 +39,7 @@ void DeviceManager::loop() {
 }
 
 void DeviceManager::cacheTelemetry(const SensorData& telemetry) {
+    // Khi MQTT mất kết nối, telemetry được giữ trong bộ đệm giới hạn và gửi bù sau khi kết nối phục hồi.
     if (_cacheMutex == nullptr || xSemaphoreTake(_cacheMutex, portMAX_DELAY) != pdTRUE) {
         Logger::error("Cannot lock telemetry cache");
         return;
@@ -56,6 +58,7 @@ void DeviceManager::cacheTelemetry(const SensorData& telemetry) {
 }
 
 void DeviceManager::flushTelemetryCache() {
+    // Khi MQTT mất kết nối, telemetry được giữ trong bộ đệm giới hạn và gửi bù sau khi kết nối phục hồi.
     if (!_networkManager.isMqttConnected()) {
         return;
     }
@@ -78,6 +81,7 @@ void DeviceManager::flushTelemetryCache() {
 }
 
 void DeviceManager::startTasks() {
+    // Chu kỳ chính duy trì các tác vụ mạng và xử lý lệnh mà không chặn các FreeRTOS task đọc/gửi telemetry.
     if (_tasksStarted) {
         return;
     }

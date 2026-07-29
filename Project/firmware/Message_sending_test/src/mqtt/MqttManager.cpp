@@ -38,6 +38,7 @@ bool MqttManager::isConnected() {
 }
 
 bool MqttManager::publishTelemetry(const JsonDocument& document) {
+    /* Mỗi chu kỳ tạo một mẫu telemetry, gắn mcu_id dạng chuỗi rồi publish lên topic telemetry đã cấu hình. */
     if (!client_.connected()) {
         return false;
     }
@@ -49,6 +50,7 @@ bool MqttManager::publishTelemetry(const JsonDocument& document) {
 }
 
 void MqttManager::connect() {
+    /* Simulator giữ cùng hợp đồng payload với firmware thật để backend xử lý hai nguồn theo một luồng duy nhất. */
     lastAttemptMs_ = millis();
     if (WiFi.status() != WL_CONNECTED) {
         return;

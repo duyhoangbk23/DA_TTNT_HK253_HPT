@@ -40,6 +40,7 @@ int NetworkManager::getRSSI() const {
 }
 
 bool NetworkManager::publishTelemetry(const SensorData& telemetry) {
+    // Mutex tuần tự hóa publish MQTT giữa các FreeRTOS task dùng chung kết nối.
     if (!lockMqtt()) {
         return false;
     }
@@ -50,6 +51,7 @@ bool NetworkManager::publishTelemetry(const SensorData& telemetry) {
 }
 
 bool NetworkManager::publishStatus(const SensorData& telemetry, const char* status) {
+    // Mutex tuần tự hóa publish MQTT giữa các FreeRTOS task dùng chung kết nối.
     if (!lockMqtt()) {
         return false;
     }

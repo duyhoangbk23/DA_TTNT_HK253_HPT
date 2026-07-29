@@ -46,6 +46,7 @@ String WifiManager::getSSID() const {
 }
 
 void WifiManager::startConnection() {
+    // Khi Wi-Fi chưa sẵn sàng, lần kết nối lại tiếp theo được giới hạn theo RECONNECT_INTERVAL_MS.
     _lastReconnectAttempt = millis();
 
     Logger::wifi("Connecting to SSID: %s", Config::Wifi::SSID);

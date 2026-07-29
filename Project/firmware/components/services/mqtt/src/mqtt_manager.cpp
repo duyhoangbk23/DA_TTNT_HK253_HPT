@@ -56,6 +56,7 @@ bool MQTTManager::isConnected() {
 }
 
 bool MQTTManager::publishTelemetry(const SensorData& telemetry) {
+    // JSON telemetry giữ mcu_id dạng chuỗi cùng TDS và trạng thái alert trên topic devices/telemetry.
     if (!_client.connected()) {
         return false;
     }
@@ -118,6 +119,7 @@ void MQTTManager::handleMessage(char* topic, byte* payload, unsigned int length)
 }
 
 bool MQTTManager::reconnect() {
+    // MQTT chỉ kết nối lại sau khi Wi-Fi hoạt động để tránh chặn luồng publish telemetry.
     if (WiFi.status() != WL_CONNECTED) {
         Logger::wifi("Skipping MQTT reconnect because WiFi is down");
         return false;
@@ -151,6 +153,7 @@ bool MQTTManager::reconnect() {
 }
 
 bool MQTTManager::publishDocument(const char* topic, JsonDocument& document, bool retained) {
+    // Payload được tuần tự hóa ngay trước khi publish lên topic đã cấu hình.
     char buffer[512];
     const size_t length = serializeJson(document, buffer, sizeof(buffer));
     if (length == 0U) {

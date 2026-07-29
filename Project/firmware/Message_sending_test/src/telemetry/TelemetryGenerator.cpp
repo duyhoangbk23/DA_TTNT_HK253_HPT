@@ -7,6 +7,7 @@ RandomTelemetryGenerator::RandomTelemetryGenerator() {
 }
 
 TelemetryData RandomTelemetryGenerator::next() {
+    /* Mỗi chu kỳ tạo một mẫu telemetry, gắn mcu_id dạng chuỗi rồi publish lên topic telemetry đã cấu hình. */
     TelemetryData data{};
     data.tds = randomInt(40, 300);
     data.alert=randomInt(0, 1); 

@@ -24,6 +24,7 @@ void SensorManager::begin() {
 }
 
 void SensorManager::update(int wifiRssi) {
+    // Snapshot cảm biến được bảo vệ bằng mutex để task đọc cảm biến và task MQTT không dùng dữ liệu đang cập nhật dở.
     SensorData telemetry;
     telemetry.mcuId = Config::Device::MCU_ID;
     telemetry.timestamp = millis();
@@ -49,6 +50,7 @@ void SensorManager::update(int wifiRssi) {
 }
 
 bool SensorManager::consumeSensorError(SensorData& telemetry) {
+    // TDS chỉ được xem là hợp lệ trong cửa sổ timeout; quá hạn sẽ tạo alert sensor_disconnected.
     if (_mutex == nullptr || xSemaphoreTake(_mutex, portMAX_DELAY) != pdTRUE) {
         return false;
     }
