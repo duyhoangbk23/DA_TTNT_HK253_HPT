@@ -50,7 +50,7 @@ bool MqttManager::publishTelemetry(const JsonDocument& document) {
 }
 
 void MqttManager::connect() {
-    /* Simulator giữ cùng hợp đồng payload với firmware thật để backend xử lý hai nguồn theo một luồng duy nhất. */
+    /* MQTT chỉ thử kết nối lại khi Wi-Fi đã kết nối, đồng thời ghi nhận thời điểm thử để áp dụng khoảng reconnect. */
     lastAttemptMs_ = millis();
     if (WiFi.status() != WL_CONNECTED) {
         return;
