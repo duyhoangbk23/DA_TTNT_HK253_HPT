@@ -1,0 +1,24 @@
+# Local build caches
+/.pio-home/
+Project/firmware/**/.pio/
+Hivemq-Service/SmartWater.MqttService/bin/
+Hivemq-Service/SmartWater.MqttService/obj/
+
+# LaTeX intermediate files
+QLDA/Form_report/**/*.aux
+QLDA/Form_report/**/*.log
+QLDA/Form_report/**/*.out
+QLDA/Form_report/**/*.toc
+QLDA/Form_report/**/*.lof
+QLDA/Form_report/**/*.lot
+QLDA/Form_report/**/*.fls
+QLDA/Form_report/**/*.fdb_latexmk
+QLDA/Form_report/**/*.synctex.gz
+QLDA/Form_report/**/*.xdv
+QLDA/Form_report/**/*.bbl
+QLDA/Form_report/**/*.blg
+QLDA/Form_report/**/*.nav
+QLDA/Form_report/**/*.snm
+QLDA/Form_report/**/*.vrb
+QLDA/Form_report/**/titlepage-preview.png
+QLDA/Form_report/**/preview-[0-9]*.png
