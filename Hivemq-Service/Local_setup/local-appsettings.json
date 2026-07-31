@@ -1,0 +1,12 @@
+{
+  "HiveMQ": {
+    "Host": "127.0.0.1",
+    "Port": 1883,
+    "Username": "",
+    "Password": "",
+    "ClientId": "SmartWater-Service-Local",
+    "Topic": "devices/telemetry",
+    "KeepAlive": 60,
+    "UseTls": false
+  }
+}

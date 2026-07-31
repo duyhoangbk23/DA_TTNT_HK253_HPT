@@ -1,0 +1,11 @@
+services:
+  hivemq:
+    image: hivemq/hivemq-ce:latest
+    container_name: smartwater-hivemq-local
+    restart: unless-stopped
+    ports:
+      - "${MQTT_PORT:-1883}:1883"
+      - "${MQTT_WEBSOCKET_PORT:-8000}:8000"
+    volumes:
+      - ./data:/opt/hivemq/data
+      - ./log:/opt/hivemq/log
