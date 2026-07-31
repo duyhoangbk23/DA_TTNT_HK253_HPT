@@ -1,6 +1,6 @@
-﻿\subsection*{Tuần 3}
+\tocsubsection{Tuần 3}
 
-\subsubsection*{3.1 Mô tả công việc}
+\tocsubsubsection{3.1 Mô tả công việc}
 
 Trong tuần 3 của kỳ thực tập, sinh viên tập trung nghiên cứu kiến trúc phần mềm cho hệ thống quản lý thiết bị IoT trong dự án SmartWater. Trên cơ sở hồ sơ đề xuất kỹ thuật, các tài liệu nghiệp vụ và quá trình trao đổi với người hướng dẫn, sinh viên tiến hành phân tích bài toán, xác định các yêu cầu của hệ thống và xây dựng mô hình kiến trúc phù hợp trước khi bắt đầu giai đoạn phát triển.
 
@@ -18,7 +18,7 @@ Các công việc đã thực hiện trong tuần gồm:
     \item Khảo sát giao thức MQTT, HiveMQ Cloud và MQTT over WebSocket.
     \item Khảo sát, đánh giá và lựa chọn các công nghệ phục vụ phát triển hệ thống.
 \end{itemize}
-\subsubsection*{3.2 Thiết kế kiến trúc phần mềm}
+\tocsubsubsection{3.2 Thiết kế kiến trúc phần mềm}
 
 Sau khi nghiên cứu hồ sơ đề xuất kỹ thuật và xác định phạm vi của dự án, sinh viên tiến hành thiết kế kiến trúc phần mềm cho hệ thống SmartWater. Đây là bước quan trọng nhằm xác định các thành phần của hệ thống, phân chia trách nhiệm giữa các ứng dụng và xây dựng luồng xử lý dữ liệu từ thiết bị IoT đến hệ thống quản lý.
 
@@ -26,7 +26,7 @@ Mục tiêu của giai đoạn này không chỉ là đáp ứng yêu cầu hi�
 
 Quá trình thiết kế được thực hiện thông qua các bước gồm phân tích bài toán, xác định yêu cầu thiết kế, đánh giá các phương án kiến trúc và đề xuất mô hình kiến trúc phù hợp với đặc điểm của hệ thống.
 
-\subsubsubsection*{3.2.1 Phân tích bài toán}
+\tocsubsubsubsection{3.2.1 Phân tích bài toán}
 
 Trước khi tiến hành thiết kế kiến trúc phần mềm, sinh viên thực hiện phân tích bài toán nhằm xác định đặc điểm hoạt động của hệ thống SmartWater, các yêu cầu đặt ra trong quá trình vận hành và những vấn đề cần giải quyết trong quá trình thiết kế.
 
@@ -57,7 +57,7 @@ Hai nhóm chức năng này có mục đích, đặc điểm hoạt động và 
 Nếu toàn bộ chức năng được triển khai trong cùng một ứng dụng, hệ thống sẽ phải đồng thời xử lý dữ liệu telemetry và các nghiệp vụ quản lý. Điều này làm tăng sự phụ thuộc giữa các thành phần, gây khó khăn trong việc bảo trì, đồng thời hạn chế khả năng mở rộng khi cần bổ sung thêm các chức năng hoặc ứng dụng mới.
 
 Từ kết quả phân tích trên, sinh viên nhận thấy kiến trúc phần mềm cần tách biệt giữa lớp thu nhận dữ liệu và lớp quản lý nghiệp vụ, đồng thời xây dựng một nguồn dữ liệu telemetry dùng chung để nhiều ứng dụng có thể khai thác mà không làm ảnh hưởng lẫn nhau.
-\subsubsubsection*{3.2.2 Xác định yêu cầu thiết kế}
+\tocsubsubsubsection{3.2.2 Xác định yêu cầu thiết kế}
 
 Từ kết quả phân tích bài toán, sinh viên tiến hành xác định các yêu cầu mà kiến trúc phần mềm cần đáp ứng. Các yêu cầu này được xây dựng dựa trên đặc điểm hoạt động của hệ thống, nhu cầu quản lý thực tế cũng như định hướng phát triển lâu dài của dự án.
 
@@ -81,7 +81,7 @@ Ngoài việc mở rộng chức năng, từng thành phần cũng cần có kh�
 
 Kiến trúc cần được tổ chức theo hướng phân chia rõ trách nhiệm giữa các thành phần, giúp mã nguồn dễ quản lý, thuận tiện cho việc kiểm thử, bảo trì và triển khai các phiên bản mới. Đồng thời, việc giảm sự phụ thuộc giữa các thành phần sẽ hạn chế ảnh hưởng dây chuyền khi thực hiện thay đổi hoặc bổ sung chức năng.
 
-\subsubsubsection*{3.2.3 Đề xuất giải pháp kiến trúc}
+\tocsubsubsubsection{3.2.3 Đề xuất giải pháp kiến trúc}
 
 Sau khi xác định các yêu cầu thiết kế, sinh viên tiến hành nghiên cứu và đánh giá các phương án kiến trúc nhằm lựa chọn mô hình phù hợp với đặc điểm của hệ thống SmartWater. Việc lựa chọn kiến trúc không chỉ cần đáp ứng các yêu cầu hiện tại mà còn phải đảm bảo khả năng phát triển lâu dài của dự án.
 
@@ -127,7 +127,7 @@ Sau khi xác định các yêu cầu thiết kế, sinh viên tiến hành nghi�
 % Hình \ref{fig:software-architecture} mô tả kiến trúc phần mềm được đề xuất.
 
 
-\subsubsubsection*{3.2.5 Đánh giá và lựa chọn kiến trúc phù hợp}
+\tocsubsubsubsection{3.2.5 Đánh giá và lựa chọn kiến trúc phù hợp}
 
 % Sau khi phân tích hai phương án kiến trúc, sinh viên tiến hành đánh giá mức độ phù hợp của từng phương án dựa trên các tiêu chí về khả năng mở rộng, tính độc lập giữa các thành phần, khả năng bảo trì và định hướng phát triển lâu dài của hệ thống.
 
@@ -158,20 +158,19 @@ Trong kiến trúc này, Device Monitor đóng vai trò là thành phần tích 
 Ngoài việc giảm sự phụ thuộc giữa các thành phần, kiến trúc này còn tạo ra một nguồn dữ liệu thống nhất để nhiều chức năng cùng khai thác. Trong tương lai, hệ thống có thể mở rộng thêm cảnh báo tự động, phân tích dữ liệu và dự đoán bảo trì mà không làm thay đổi luồng thu nhận telemetry hiện có.
 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection*{3.3 Thiết kế Device Monitor}
-\paragraph{
+\tocsubsubsection{3.3 Thiết kế Device Monitor}
 Sau khi hoàn thành thiết kế kiến trúc tổng thể của hệ thống, sinh viên tiếp tục thiết kế chi tiết ứng dụng Device Monitor. Đây là thành phần chịu trách nhiệm tiếp nhận dữ liệu telemetry từ các thiết bị IoT, xử lý dữ liệu trước khi lưu trữ và cung cấp nguồn dữ liệu thống nhất cho SmartWater Admin khai thác.
 
-Device Monitor đảm nhiệm việc giao tiếp với MQTT Broker và xử lý dữ liệu telemetry. Việc tách riêng thành một ứng dụng độc lập giúp giảm sự phụ thuộc giữa lớp thu nhận dữ liệu và lớp nghiệp vụ, đồng thời tạo điều kiện mở rộng hệ thống khi số lượng thiết bị hoặc lưu lượng dữ liệu tăng lên.}
+Device Monitor đảm nhiệm việc giao tiếp với MQTT Broker và xử lý dữ liệu telemetry. Việc tách riêng thành một ứng dụng độc lập giúp giảm sự phụ thuộc giữa lớp thu nhận dữ liệu và lớp nghiệp vụ, đồng thời tạo điều kiện mở rộng hệ thống khi số lượng thiết bị hoặc lưu lượng dữ liệu tăng lên.
 
 
-\subsubsubsection*{3.3.1 Mục tiêu thiết kế}
+\tocsubsubsubsection{3.3.1 Mục tiêu thiết kế}
 
 Mục tiêu của Device Monitor là xây dựng một thành phần trung gian giữa các thiết bị IoT và hệ thống quản lý. Toàn bộ dữ liệu telemetry do các thiết bị gửi lên sẽ được Device Monitor tiếp nhận, kiểm tra, chuẩn hóa và lưu trữ trước khi được các ứng dụng khác sử dụng.
 
 Kiến trúc này giúp SmartWater Admin không cần trực tiếp kết nối đến MQTT Broker hay xử lý các bản tin MQTT. Thay vào đó, SmartWater Admin chỉ khai thác dữ liệu đã được chuẩn hóa để phục vụ các nghiệp vụ quản lý, góp phần giảm sự phụ thuộc giữa các thành phần và nâng cao khả năng mở rộng của hệ thống.
 
-\subsubsubsection*{3.3.2 Kiến trúc Device Monitor}
+\tocsubsubsubsection{3.3.2 Kiến trúc Device Monitor}
 \paragraph{
 Để đáp ứng các yêu cầu đã đặt ra, Device Monitor được thiết kế theo mô hình xử lý tuần tự (Pipeline Processing). Trong mô hình này, dữ liệu telemetry sẽ lần lượt đi qua các bước tiếp nhận, kiểm tra, xử lý và lưu trữ trước khi được cung cấp cho các ứng dụng khai thác.
 
@@ -202,7 +201,7 @@ Mô hình kiến trúc của Device Monitor được trình bày trong Hình \re
     \label{fig:device-monitor-model}
 \end{figure}
 
-\subsubsubsection*{3.3.3 Luồng xử lý dữ liệu}
+\tocsubsubsubsection{3.3.3 Luồng xử lý dữ liệu}
 
 Quá trình xử lý dữ liệu của Device Monitor được thực hiện theo các bước sau:
 
@@ -224,7 +223,7 @@ Quá trình xử lý dữ liệu của Device Monitor được thực hiện the
 
 Luồng xử lý này giúp toàn bộ quá trình chuẩn hóa dữ liệu được thực hiện tập trung tại Device Monitor. Nhờ đó, firmware trên thiết bị chỉ cần gửi các thông tin cần thiết, trong khi các ứng dụng phía sau luôn sử dụng cùng một cấu trúc dữ liệu đã được chuẩn hóa.
 
-\subsubsubsection*{3.3.4 Chức năng của Device Monitor}
+\tocsubsubsubsection{3.3.4 Chức năng của Device Monitor}
 
 Dựa trên kiến trúc đã thiết kế, Device Monitor thực hiện các chức năng chính sau:
 
@@ -238,7 +237,7 @@ Dựa trên kiến trúc đã thiết kế, Device Monitor thực hiện các ch
     \item Cung cấp dữ liệu telemetry cho SmartWater Admin và các ứng dụng khác trong hệ thống.
 \end{itemize}
 
-\subsubsubsection*{3.3.5 Đánh giá thiết kế}
+\tocsubsubsubsection{3.3.5 Đánh giá thiết kế}
 \paragraph{
 Thiết kế Device Monitor đáp ứng mục tiêu xây dựng một thành phần chuyên trách cho việc thu nhận và xử lý dữ liệu telemetry từ các thiết bị IoT. Việc tách riêng Device Monitor khỏi SmartWater Admin giúp giảm sự phụ thuộc giữa quá trình giao tiếp với thiết bị và các nghiệp vụ quản lý, từ đó nâng cao khả năng bảo trì và phát triển hệ thống.
 
@@ -246,145 +245,56 @@ Bên cạnh đó, Device Monitor thực hiện việc kiểm tra, chuẩn hóa v
 
 Ngoài ra, kiến trúc này còn tạo nền tảng cho việc mở rộng hệ thống trong tương lai. Khi cần bổ sung các chức năng như cảnh báo thời gian thực, phân tích dữ liệu, dự đoán bảo trì hoặc các ứng dụng IoT khác, các thành phần mới có thể khai thác trực tiếp nguồn dữ liệu telemetry đã được chuẩn hóa mà không cần thay đổi quy trình thu nhận dữ liệu hiện có.
 }
-\subsubsection*{3.4 Thiết kế SmartWater Admin}
+\tocsubsubsection{3.4 Định hướng mô phỏng SmartWater Admin}
 \paragraph{
-Sau khi hoàn thành thiết kế Device Monitor, sinh viên tiếp tục xây dựng kiến trúc cho SmartWater Admin nhằm phục vụ các nghiệp vụ quản lý của hệ thống SmartWater. Đây là ứng dụng được người quản trị sử dụng để theo dõi tình trạng hoạt động của các máy lọc nước, quản lý thông tin khách hàng và thực hiện các nghiệp vụ trong quá trình vận hành hệ thống.
+Sau khi hoàn thành thiết kế Device Monitor, sinh viên đề xuất mô phỏng SmartWater Admin nhằm minh họa cách khai thác dữ liệu phục vụ quản lý. Phần Website không thuộc phạm vi phụ trách chính của sinh viên và chưa có đầy đủ đặc tả nghiệp vụ chính thức từ khách hàng, do đó báo cáo chỉ trình bày định hướng ở mức tổng quan.
 
-Khác với Device Monitor tập trung vào việc thu nhận và xử lý dữ liệu telemetry, SmartWater Admin chỉ khai thác dữ liệu đã được xử lý để phục vụ các chức năng quản trị. Việc tách biệt hai ứng dụng giúp giảm sự phụ thuộc giữa tầng xử lý dữ liệu và tầng nghiệp vụ, đồng thời giúp hệ thống dễ bảo trì và mở rộng trong tương lai.
+Khác với Device Monitor tập trung vào việc tiếp nhận và lưu trữ dữ liệu đo, SmartWater Admin được định hướng khai thác dữ liệu đã xử lý để phục vụ các chức năng quản lý. Việc tách biệt hai vai trò giúp giảm sự phụ thuộc giữa phần giám sát thiết bị và phần nghiệp vụ.
 }
-\subsubsubsection*{3.4.1 Mục tiêu thiết kế}
+\tocsubsubsubsection{3.4.1 Mục tiêu thiết kế}
 \paragraph{
-Mục tiêu của SmartWater Admin là xây dựng một nền tảng quản trị tập trung cho phép quản lý toàn bộ thông tin nghiệp vụ của hệ thống SmartWater.
-
-Ứng dụng cần đáp ứng các mục tiêu sau:
+Mô phỏng SmartWater Admin hướng đến minh họa khả năng tổ chức thông tin quản trị và khai thác dữ liệu vận hành ở mức tổng quan.
 }
 \begin{itemize}
-    \item Cung cấp giao diện quản trị tập trung cho người dùng.
-    \item Quản lý thông tin máy lọc nước, thiết bị và khách hàng.
-    \item Quản lý hợp đồng, kho, lô hàng và kế hoạch bảo trì.
-    \item Theo dõi trạng thái hoạt động của thiết bị thông qua dữ liệu telemetry.
-    \item Xây dựng kiến trúc module giúp dễ dàng bổ sung thêm các chức năng trong tương lai.
+    \item Minh họa giao diện tổng quan cho người quản trị.
+    \item Thể hiện mối liên hệ giữa thiết bị, dữ liệu vận hành và thông tin nghiệp vụ.
+    \item Tạo cơ sở trao đổi với khách hàng khi hoàn thiện đặc tả chức năng.
 \end{itemize}
 
-Trong kiến trúc được đề xuất, SmartWater Admin không trực tiếp giao tiếp với MQTT Broker mà chỉ sử dụng dữ liệu telemetry đã được Device Monitor xử lý và lưu trữ. Điều này giúp giảm sự phụ thuộc vào giao thức truyền thông và cho phép ứng dụng tập trung hoàn toàn vào các nghiệp vụ quản lý.
+Trong định hướng này, Website chỉ khai thác dữ liệu đã được xử lý và lưu trữ, không trực tiếp giao tiếp với thiết bị hoặc nền tảng truyền thông.
 
-\subsubsubsection*{3.4.2 Kiến trúc SmartWater Admin}
+\tocsubsubsubsection{3.4.2 Kiến trúc SmartWater Admin}
 \paragraph{
-SmartWater Admin được triển khai dưới dạng ứng dụng Laravel nguyên khối phân lớp. Một yêu cầu đi qua chuỗi xử lý \textit{Route $\rightarrow$ Controller $\rightarrow$ Service $\rightarrow$ Eloquent Model $\rightarrow$ MySQL}, sau đó kết quả được trình bày bằng Blade View.
-
-Các chức năng nghiệp vụ được tổ chức theo từng nhóm trong cùng một ứng dụng. Cách phân lớp giúp tách giao diện, điều phối yêu cầu, xử lý nghiệp vụ và truy cập dữ liệu, nhưng SmartWater Admin vẫn là một khối triển khai thống nhất chứ không phải hệ thống microservice.
-
-Các module chính của hệ thống bao gồm:
-}
-\begin{itemize}
-    \item Dashboard
-    \item Device Management
-    \item Water Purifier Management
-    \item Customer Management
-    \item Contract Management
-    \item Maintenance Management
-    \item Inventory Management
-    \item Batch Management
-    \item User Management
-\end{itemize}
-
-Toàn bộ telemetry được Device Monitor xử lý trước khi lưu vào MySQL \texttt{smartwater\_database}. SmartWater Admin sử dụng cùng nguồn dữ liệu và mô hình quan hệ \textit{Customer $\rightarrow$ Contract $\rightarrow$ Product $\rightarrow$ Device + MCU $\rightarrow$ Telemetry} để phục vụ giám sát và quản lý.
-
-Hình \ref{fig:admin-architecture} mô tả kiến trúc tổng thể của SmartWater Admin.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.95\linewidth]{include/image/smartwater-architect.png}
-    \caption{Kiến trúc SmartWater Admin}
-    \label{fig:admin-architecture}
-\end{figure}
-
-\subsubsubsection*{3.4.3 Các module nghiệp vụ}
-
-Để đáp ứng các yêu cầu quản lý của hệ thống, SmartWater Admin được chia thành nhiều module với phạm vi chức năng riêng biệt.
-
-\begin{itemize}
-    \item \textbf{Dashboard}: Hiển thị tổng quan tình trạng hoạt động của hệ thống, số lượng thiết bị, dữ liệu telemetry và các cảnh báo.
-    
-    \item \textbf{Device Management}: Quản lý thông tin thiết bị IoT, theo dõi trạng thái hoạt động và liên kết thiết bị với máy lọc nước.
-
-    \item \textbf{Water Purifier Management}: Quản lý thông tin máy lọc nước và quá trình triển khai thiết bị.
-
-    \item \textbf{Customer Management}: Quản lý thông tin khách hàng sử dụng hệ thống.
-
-    \item \textbf{Contract Management}: Quản lý hợp đồng thuê hoặc sử dụng máy lọc nước.
-
-    \item \textbf{Inventory Management}: Quản lý kho thiết bị và vật tư.
-
-    \item \textbf{Batch Management}: Quản lý thông tin lô hàng phục vụ quá trình nhập xuất và theo dõi thiết bị.
-
-    \item \textbf{Maintenance Management}: Quản lý kế hoạch bảo trì, lịch sử sửa chữa và theo dõi quá trình bảo dưỡng.
-
-    \item \textbf{User Management}: Quản lý tài khoản người dùng và phân quyền truy cập hệ thống.
-\end{itemize}
-
-Việc phân chia thành các module độc lập giúp mã nguồn có cấu trúc rõ ràng, đồng thời tạo điều kiện thuận lợi khi phát triển thêm các chức năng mới trong tương lai.
-
-\subsubsubsection*{3.4.4 Luồng xử lý nghiệp vụ}
-
-Quá trình xử lý nghiệp vụ trong SmartWater Admin được thực hiện theo các bước sau:
-
-\begin{enumerate}
-    \item Người quản trị đăng nhập vào hệ thống SmartWater Admin.
-
-    \item Hệ thống truy xuất dữ liệu telemetry đã được Device Monitor lưu trữ trong cơ sở dữ liệu.
-
-    \item Thông qua trường \texttt{mcu\_id}, hệ thống liên kết telemetry với MCU. MCU và Device cùng thuộc một Product; Product thuộc tối đa một Contract và Contract thuộc một Customer.
-
-    \item Dữ liệu sau khi tổng hợp được hiển thị trên Dashboard hoặc các module quản lý tương ứng.
-
-    \item Người quản trị thực hiện các nghiệp vụ như quản lý thiết bị, khách hàng, hợp đồng, kho và kế hoạch bảo trì.
-
-    \item Các thay đổi về dữ liệu nghiệp vụ được cập nhật vào cơ sở dữ liệu và phản ánh trở lại trên giao diện quản trị.
-\end{enumerate}
-
-Luồng xử lý này giúp SmartWater Admin chỉ tập trung vào việc khai thác dữ liệu đã được xử lý thay vì trực tiếp giao tiếp với các thiết bị IoT.
-
-\subsubsubsection*{3.4.5 Đánh giá thiết kế}
-\paragraph{
-Thiết kế SmartWater Admin đáp ứng mục tiêu xây dựng một hệ thống quản trị tập trung cho toàn bộ các nghiệp vụ của SmartWater. Việc tách biệt hoàn toàn khỏi Device Monitor giúp ứng dụng không phải xử lý các giao thức truyền thông với thiết bị mà chỉ tập trung vào việc quản lý và khai thác dữ liệu.
-
-Kiến trúc module giúp giảm sự phụ thuộc giữa các chức năng, nâng cao khả năng bảo trì và tạo điều kiện thuận lợi khi bổ sung thêm các nghiệp vụ mới. Trong tương lai, các module như quản lý bảo hành, báo cáo thống kê, phân tích dữ liệu hoặc phân quyền nâng cao có thể được phát triển mà không làm thay đổi kiến trúc tổng thể của hệ thống.
-
+Kiến trúc mô phỏng gồm lớp giao diện quản trị, lớp xử lý nghiệp vụ và lớp khai thác dữ liệu đã lưu trữ. Các thành phần được mô tả nhằm làm rõ luồng thông tin tổng quát từ dữ liệu vận hành đến các màn hình phục vụ người quản trị; thiết kế chi tiết và cách triển khai nội bộ không được công bố trong báo cáo.
 }
 
-\subsubsection*{3.5 Thiết kế cơ sở dữ liệu}
+\tocsubsubsubsection{3.4.3 Các module nghiệp vụ}
+
+Các nhóm chức năng mô phỏng gồm tổng quan vận hành, thông tin thiết bị, khách hàng, hợp đồng và các dữ liệu phục vụ công tác quản lý. Phạm vi và quy trình chi tiết của từng nhóm sẽ được xác định khi có đặc tả chính thức từ khách hàng.
+
+\tocsubsubsubsection{3.4.4 Luồng xử lý nghiệp vụ}
+
+Luồng nghiệp vụ được mô phỏng theo hướng người quản trị truy cập giao diện, xem dữ liệu vận hành đã được lưu trữ và sử dụng thông tin tổng hợp để theo dõi thiết bị. Cách tổ chức này giúp phần quản trị tập trung vào khai thác thông tin thay vì trực tiếp xử lý kết nối với thiết bị IoT.
+
+\tocsubsubsubsection{3.4.5 Đánh giá thiết kế}
 \paragraph{
-Cơ sở dữ liệu dùng chung được thiết kế theo mô hình quan hệ để kết nối dữ liệu
-nghiệp vụ và dữ liệu giám sát IoT. Các migration trong dự án
-\texttt{smartwater-database} là nguồn chuẩn của schema; SmartWater Admin và
-Device Monitor cùng sử dụng database \texttt{smartwater\_database}.
+Thiết kế ở mức mô phỏng đáp ứng mục tiêu minh họa cách liên kết dữ liệu vận hành với các nhu cầu quản lý cơ bản. Khi yêu cầu khách hàng được làm rõ, các chức năng, giao diện và tiêu chí nghiệm thu cần được phân tích, thiết kế và kiểm thử riêng trước khi triển khai chính thức.
 }
 
-Các thực thể nghiệp vụ được liên kết theo chuỗi \textit{Customer $\rightarrow$
-Contract $\rightarrow$ Product $\rightarrow$ Device + MCU}. Bảng
-\texttt{telemetry} lưu lịch sử TDS theo \texttt{mcu\_id}; trường này là chuỗi
-tối đa 50 ký tự, có index riêng và index kết hợp với \texttt{timestamp} để hỗ
-trợ truy vấn telemetry theo thời gian. Ngoài ra, các nhóm bảng người dùng và
-phân quyền, danh mục sản phẩm, kho/lô hàng, bảo trì, nhật ký hoạt động và tệp
-đính kèm phục vụ các nghiệp vụ quản trị của SmartWater Admin.
+\tocsubsubsection{3.5 Định hướng tổ chức dữ liệu}
+\paragraph{
+Cơ sở dữ liệu được tổ chức để lưu trữ dữ liệu đo từ thiết bị và hỗ trợ liên kết với các thông tin quản lý cần thiết. Các cấu trúc bảng, quan hệ chi tiết, quy tắc truy cập và thông tin cấu hình thuộc phạm vi nội bộ của doanh nghiệp nên không được trình bày trong báo cáo.
+}
 
-Hình \ref{fig:db-design} mô tả các bảng dữ liệu và quan hệ chính của hệ thống.
+Dữ liệu được lưu trữ có cấu trúc để phục vụ việc tra cứu lịch sử đo, theo dõi thiết bị và cung cấp thông tin cho các màn hình giám sát hoặc quản lý ở mức phù hợp.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.98\linewidth]{include/image/DB_Design.png}
-    \caption{Thiết kế cơ sở dữ liệu SmartWater}
-    \label{fig:db-design}
-\end{figure}
-
-\subsubsection*{3.6 Lựa chọn công nghệ}
+\tocsubsubsection{3.6 Lựa chọn công nghệ}
 \paragraph{
 Sau khi hoàn thành quá trình phân tích yêu cầu và thiết kế kiến trúc phần mềm, sinh viên tiến hành khảo sát và lựa chọn các công nghệ phù hợp để triển khai hệ thống SmartWater. Việc lựa chọn được thực hiện dựa trên các tiêu chí như khả năng đáp ứng yêu cầu của hệ thống, tính ổn định, khả năng mở rộng, mức độ phổ biến của cộng đồng và sự phù hợp với định hướng phát triển của dự án.
 
 Các công nghệ được lựa chọn bao gồm MQTT kết hợp với HiveMQ Cloud cho quá trình truyền nhận dữ liệu IoT, PHP và Laravel để phát triển các ứng dụng web, cùng với MySQL làm hệ quản trị cơ sở dữ liệu.
 }
-\subsubsubsection*{3.6.1 MQTT và HiveMQ}
+\tocsubsubsubsection{3.6.1 MQTT và HiveMQ}
 \paragraph{
 Một trong những yêu cầu quan trọng của hệ thống SmartWater là tiếp nhận dữ liệu telemetry từ nhiều thiết bị IoT hoạt động đồng thời. Vì vậy, hệ thống cần một cơ chế truyền nhận dữ liệu có độ trễ thấp, hỗ trợ nhiều thiết bị kết nối cùng lúc và dễ dàng mở rộng khi số lượng thiết bị tăng lên.
 
@@ -394,7 +304,7 @@ MQTT hoạt động theo mô hình Publish/Subscribe, trong đó các thiết b�
 
 HiveMQ Cloud được lựa chọn làm MQTT Broker do cung cấp dịch vụ trên nền tảng đám mây, hỗ trợ kết nối bảo mật bằng TLS, quản lý topic linh hoạt và dễ dàng tích hợp với các ứng dụng web. Việc sử dụng HiveMQ Cloud giúp giảm thời gian triển khai hạ tầng MQTT, đồng thời thuận lợi cho quá trình thử nghiệm và phát triển hệ thống.
 }
-\subsubsubsection*{3.6.2 PHP}
+\tocsubsubsubsection{3.6.2 PHP}
 \paragraph{
 Do hệ thống SmartWater bao gồm các ứng dụng web phục vụ quản lý và giám sát thiết bị, sinh viên lựa chọn PHP làm ngôn ngữ lập trình chính trong quá trình phát triển.
 
@@ -404,7 +314,7 @@ Bên cạnh đó, PHP phù hợp với cả Device Monitor và SmartWater Admin.
 }
 
 
-\subsubsubsection*{3.6.3 Laravel}
+\tocsubsubsubsection{3.6.3 Laravel}
 \paragraph{
 Laravel được lựa chọn làm framework phát triển SmartWater Admin. Device Monitor là ứng dụng tích hợp MQTT độc lập và không được tổ chức như một ứng dụng Laravel.
 
@@ -412,7 +322,7 @@ Laravel là framework mã nguồn mở được phát triển trên nền tảng
 
 Việc sử dụng Laravel giúp hiện thực chuỗi Route, Controller, Service, Eloquent Model và Blade View, phù hợp với kiến trúc nguyên khối phân lớp. Migration và Eloquent ORM đồng thời giúp các truy vấn tuân theo cấu trúc bảng và quan hệ dữ liệu đã chuẩn hóa.
 }
-\subsubsubsection*{3.6.4 ASP.NET Core}
+\tocsubsubsubsection{3.6.4 ASP.NET Core}
 \paragraph{
 Trong giai đoạn khảo sát công nghệ, sinh viên tiến hành tìm hiểu ASP.NET Core như một phương án để phát triển các ứng dụng phía máy chủ. ASP.NET Core là framework mã nguồn mở do Microsoft phát triển, hỗ trợ xây dựng các ứng dụng web, RESTful API và các dịch vụ backend với hiệu năng cao.
 
@@ -421,7 +331,7 @@ Framework này cung cấp nhiều tính năng hỗ trợ phát triển phần m�
 Qua quá trình nghiên cứu, sinh viên nhận thấy ASP.NET Core là một lựa chọn phù hợp đối với các hệ thống backend và các dịch vụ xử lý dữ liệu. Tuy nhiên, sau khi đánh giá yêu cầu của dự án, nhóm quyết định lựa chọn PHP kết hợp với Laravel nhằm đảm bảo tính thống nhất giữa các thành phần của hệ thống và phù hợp với môi trường phát triển tại doanh nghiệp.
 }
 
-\subsubsubsection*{3.6.5 MySQL}
+\tocsubsubsubsection{3.6.5 MySQL}
 \paragraph{
 Hệ thống SmartWater cần lưu trữ đồng thời dữ liệu telemetry từ các thiết bị IoT và dữ liệu nghiệp vụ của hệ thống quản lý. Do đó, sinh viên lựa chọn MySQL làm hệ quản trị cơ sở dữ liệu cho dự án.
 

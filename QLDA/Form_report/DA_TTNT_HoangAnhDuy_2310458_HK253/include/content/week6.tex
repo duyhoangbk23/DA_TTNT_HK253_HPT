@@ -1,8 +1,8 @@
-\subsection*{Tuần 6}
+\tocsubsection{Tuần 6}
 
-\subsubsection*{6.1 Mô tả công việc}
+\tocsubsubsection{6.1 Mô tả công việc}
 
-Trong tuần 6 của kỳ thực tập, sinh viên tích hợp chức năng tiếp nhận, lưu trữ và giám sát dữ liệu vận hành từ thiết bị lọc nước. Song song với đó, sinh viên hoàn thiện các màn hình quản trị SmartWater để khai thác dữ liệu theo nhu cầu quản lý và vận hành.
+Trong tuần 6 của kỳ thực tập, sinh viên tích hợp chức năng tiếp nhận, lưu trữ và giám sát dữ liệu vận hành từ thiết bị lọc nước. Song song với đó, sinh viên xây dựng và đánh giá các màn hình mô phỏng SmartWater để minh họa khả năng khai thác dữ liệu cho nhu cầu quản lý và vận hành.
 
 Các công việc chính gồm:
 
@@ -11,12 +11,12 @@ Các công việc chính gồm:
     \item Tổ chức lưu trữ dữ liệu giám sát tập trung.
     \item Xây dựng màn hình theo dõi thông tin theo từng thiết bị.
     \item Trình bày xu hướng TDS nhằm hỗ trợ quan sát quá trình vận hành.
-    \item Hoàn thiện các phân hệ quản trị phục vụ hoạt động nội bộ.
+    \item Xây dựng mô phỏng các phân hệ quản trị phục vụ hoạt động nội bộ.
 \end{itemize}
 
-\subsubsection*{6.2 Nội dung thực hiện}
+\tocsubsubsection{6.2 Nội dung thực hiện}
 
-\subsubsubsection*{6.2.1 Tích hợp luồng dữ liệu giám sát}
+\tocsubsubsubsection{6.2.1 Tích hợp luồng dữ liệu giám sát}
 
 Hệ thống SmartWater được tổ chức theo luồng dữ liệu từ thiết bị, qua nền tảng truyền thông IoT, đến ứng dụng giám sát và kho dữ liệu tập trung. Cách tổ chức này giúp tách biệt nhiệm vụ của từng thành phần, đồng thời bảo đảm dữ liệu có thể được tiếp nhận, xử lý và khai thác nhất quán.
 
@@ -34,66 +34,31 @@ Hình \ref{fig:week6-hivemq-architecture} minh họa vai trò của nền tảng
     \label{fig:week6-hivemq-architecture}
 \end{figure}
 
-\subsubsubsection*{6.2.2 Tiếp nhận dữ liệu và kiểm tra kết nối}
+\tocsubsubsubsection{6.2.2 Tiếp nhận dữ liệu và kiểm tra kết nối}
 
 Sinh viên hoàn thiện cơ chế tiếp nhận dữ liệu từ nền tảng truyền thông IoT và kiểm tra trạng thái kết nối trong quá trình vận hành. Khi có dữ liệu mới, hệ thống tiếp nhận thông tin, kiểm tra tính hợp lệ và chuyển đến bước xử lý tiếp theo. Cách làm này giúp duy trì luồng dữ liệu liên tục, đồng thời hỗ trợ phát hiện sớm các tình huống cần xử lý.
 
-Các hình dưới đây ghi nhận môi trường truyền thông đã được sử dụng trong quá trình triển khai và kiểm tra nội bộ. Các thông tin cấu hình chi tiết được quản lý theo quy định của dự án.
+Kết quả kiểm tra xác nhận dữ liệu được tiếp nhận ổn định từ nền tảng truyền thông. Các hình ảnh và thông tin cấu hình chi tiết của môi trường triển khai không được trình bày trong báo cáo do thuộc phạm vi bảo mật của dự án.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.95\linewidth]{include/web-UI/hivemq-cluster.png}
-    \caption{Môi trường HiveMQ Cloud được sử dụng cho dự án}
-    \label{fig:week6-hivemq-cluster}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.95\linewidth]{include/web-UI/hivemq-connection.png}
-    \caption{Thông tin kết nối truyền thông của hệ thống}
-    \label{fig:week6-hivemq-connection}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.95\linewidth]{include/web-UI/hivemq-credential.png}
-    \caption{Thiết lập quyền truy cập phục vụ quá trình tích hợp}
-    \label{fig:week6-hivemq-credential}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.70\linewidth]{include/web-UI/hivemq-sub-topic.png}
-    \caption{Thiết lập kênh theo dõi dữ liệu trên HiveMQ Web Client}
-    \label{fig:week6-hivemq-topic}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.95\linewidth]{include/web-UI/hivemq-webclient.png}
-    \caption{Trạng thái kết nối của HiveMQ Web Client}
-    \label{fig:week6-hivemq-webclient}
-\end{figure}
-
-\subsubsubsection*{6.2.3 Lưu trữ và liên kết thông tin vận hành}
+\tocsubsubsubsection{6.2.3 Lưu trữ và liên kết thông tin vận hành}
 
 Dữ liệu sau khi tiếp nhận được chuẩn hóa và lưu trữ tập trung để phục vụ giám sát lâu dài. Mỗi bản ghi được gắn với thiết bị tương ứng, nhờ đó người quản trị có thể theo dõi lịch sử vận hành, tra cứu thông tin liên quan và kết nối dữ liệu kỹ thuật với thông tin nghiệp vụ.
 
 Việc tổ chức dữ liệu tập trung giúp bảo đảm tính nhất quán giữa các chức năng giám sát và quản trị. Đồng thời, hệ thống có thể cung cấp thông tin cần thiết cho việc quản lý khách hàng, hợp đồng, sản phẩm và thiết bị mà không yêu cầu người dùng thao tác trực tiếp với các thành phần kỹ thuật.
 
-\subsubsubsection*{6.2.4 Xây dựng giao diện giám sát}
+\tocsubsubsubsection{6.2.4 Xây dựng giao diện giám sát}
 
 Trang giám sát được thiết kế để người dùng theo dõi dữ liệu theo từng thiết bị. Giao diện hiển thị danh sách thiết bị đã gửi dữ liệu, thông tin đo lường liên quan và biểu đồ TDS theo thời gian. Bố cục này giúp người quản trị nhanh chóng xác định thiết bị cần quan tâm và quan sát sự thay đổi của dữ liệu vận hành.
 
 Các trạng thái cần thiết cũng được thể hiện rõ ràng trên giao diện để hỗ trợ quá trình sử dụng. Khi có dữ liệu mới, hệ thống cập nhật thông tin theo thiết bị đang được lựa chọn, góp phần nâng cao tính trực quan và giảm thao tác tìm kiếm thủ công.
 
-\subsubsubsection*{6.2.5 Hoàn thiện trải nghiệm vận hành}
+\tocsubsubsubsection{6.2.5 Hoàn thiện trải nghiệm vận hành}
 
 Trong quá trình triển khai, sinh viên rà soát các tình huống gián đoạn kết nối, dữ liệu chưa đầy đủ và phản hồi chưa phù hợp với người dùng. Các trạng thái hiển thị và thông báo được điều chỉnh để người quản trị có thể nhận biết tình hình vận hành, từ đó xử lý kịp thời và tiếp tục theo dõi hệ thống một cách thuận tiện.
 
 \input{include/content/week6-smartadmin.tex}
 
-\subsubsection*{6.3 Kết quả đạt được và kỹ năng tích lũy}
+\tocsubsubsection{6.3 Kết quả đạt được và kỹ năng tích lũy}
 
 Sinh viên kiểm tra luồng dữ liệu từ thiết bị đến hệ thống giám sát và đối chiếu kết quả trên giao diện quản trị. Hình \ref{fig:week6-hivemq-message} minh họa việc dữ liệu vận hành đã được truyền thành công đến nền tảng truyền thông trong quá trình kiểm tra.
 
@@ -108,9 +73,9 @@ Kết quả đạt được trong tuần 6 gồm:
 
 \begin{itemize}
     \item Hoàn thiện chức năng tiếp nhận, lưu trữ và khai thác dữ liệu giám sát.
-    \item Hoàn thiện giao diện theo dõi thiết bị, dữ liệu vận hành và xu hướng TDS.
+    \item Hoàn thiện giao diện giám sát thiết bị, dữ liệu vận hành và xu hướng TDS.
     \item Tích hợp dữ liệu giám sát với các thông tin quản trị liên quan trong SmartWater.
-    \item Hoàn thiện các phân hệ quản trị hỗ trợ công tác vận hành nội bộ.
+    \item Xây dựng mô phỏng các phân hệ quản trị hỗ trợ công tác vận hành nội bộ.
     \item Tạo cơ sở để kiểm tra tổng thể và bàn giao các hạng mục dự án ở giai đoạn tiếp theo.
 \end{itemize}
 

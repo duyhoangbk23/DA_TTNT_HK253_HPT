@@ -1,6 +1,6 @@
-\subsection*{Tuần 4}
+\tocsubsection{Tuần 4}
 
-\subsubsection*{4.1 Mô tả công việc}
+\tocsubsubsection{4.1 Mô tả công việc}
 
 Trong tuần 4 của kỳ thực tập, sinh viên được giao nhiệm vụ khảo sát phần cứng của máy lọc nước Truliva nhằm xây dựng phương án thu thập dữ liệu phục vụ hệ thống giám sát thiết bị từ xa. Các công việc được thực hiện bao gồm:
 
@@ -21,16 +21,16 @@ Trong tuần 4 của kỳ thực tập, sinh viên được giao nhiệm vụ kh
 \end{itemize}
 
 
-\subsubsection*{4.2 Nội dung thực hiện}
+\tocsubsubsection{4.2 Nội dung thực hiện}
 
-\subsubsubsection*{4.2.1 Bối cảnh}
+\tocsubsubsubsection{4.2.1 Bối cảnh}
 
 Dự án SmartWater hướng đến xây dựng hệ thống giám sát và quản lý máy lọc nước Truliva thông qua nền tảng IoT, cho phép theo dõi trạng thái hoạt động của thiết bị từ xa, thu thập dữ liệu vận hành và hỗ trợ công tác bảo trì. Để đáp ứng yêu cầu này, hệ thống cần có khả năng thu thập dữ liệu từ phần cứng của máy lọc nước và truyền về máy chủ để xử lý.
 
 Trước khi triển khai giải pháp IoT, cần khảo sát cấu trúc phần cứng của thiết bị nhằm xác định kiến trúc điều khiển, các thành phần điện tử, giao tiếp giữa các bo mạch và khả năng khai thác dữ liệu. Kết quả khảo sát sẽ là cơ sở để đánh giá tính khả thi của các phương án tích hợp và lựa chọn giải pháp phù hợp.
 
 Vì vậy, trong tuần 4, sinh viên tập trung nghiên cứu phần cứng máy lọc nước Truliva, phân tích hệ thống điều khiển và đề xuất phương án thu thập dữ liệu phục vụ cho các giai đoạn phát triển tiếp theo.
-\subsubsubsection*{4.2.2 Khảo sát phần cứng máy lọc nước}
+\tocsubsubsubsection{4.2.2 Khảo sát phần cứng máy lọc nước}
 
 \textbf{Mục tiêu khảo sát}
 
@@ -75,7 +75,7 @@ Sinh viên tiến hành xác định các tín hiệu đầu vào của hệ th�
 \textbf{Kết quả khảo sát}
 
 Kết quả khảo sát cho thấy máy lọc nước Truliva có cấu trúc phần cứng được thiết kế theo dạng module, trong đó bo UR S61298 đóng vai trò điều khiển trung tâm và bo UR S61296 đảm nhiệm chức năng hiển thị. Hai bo mạch trao đổi dữ liệu thông qua giao tiếp nội bộ, tạo nền tảng để nghiên cứu khả năng thu thập dữ liệu và tích hợp hệ thống IoT trong các bước tiếp theo.
-\subsubsubsection*{4.2.3 Phân tích hệ thống điều khiển}
+\tocsubsubsubsection{4.2.3 Phân tích hệ thống điều khiển}
 
 Sau khi hoàn thành quá trình khảo sát phần cứng, sinh viên tiến hành phân tích kiến trúc điều khiển của máy lọc nước Truliva nhằm xác định nguyên lý hoạt động của hệ thống, mối liên kết giữa các bo mạch và các vị trí có thể khai thác dữ liệu phục vụ cho việc tích hợp IoT.
 
@@ -127,7 +127,7 @@ Trong giai đoạn này, sinh viên tập trung phân tích ưu điểm và hạ
 \textbf{Kết quả phân tích}
 
 Kết quả phân tích cho thấy hệ thống điều khiển của máy lọc nước Truliva được thiết kế theo kiến trúc nhiều module với vi điều khiển trung tâm đảm nhiệm toàn bộ chức năng điều khiển. Mặc dù hệ thống có các đường giao tiếp nội bộ, việc xác định đầy đủ giao thức truyền thông và nguyên lý hoạt động của từng thành phần còn gặp nhiều khó khăn do thiếu tài liệu kỹ thuật chi tiết. Đây là cơ sở để tiếp tục đánh giá tính khả thi của các phương án tích hợp IoT trong phần tiếp theo.
-\subsubsubsection*{4.2.4 Phân tích vấn đề}
+\tocsubsubsubsection{4.2.4 Phân tích vấn đề}
 
 Sau khi phân tích kiến trúc điều khiển của máy lọc nước Truliva, sinh viên tiến hành đánh giá khả năng tích hợp hệ thống IoT trực tiếp vào thiết bị. Mục tiêu ban đầu là khai thác dữ liệu ngay từ bo điều khiển trung tâm để thu thập đầy đủ các thông số vận hành và truyền về hệ thống giám sát.
 
@@ -146,7 +146,7 @@ Tuy nhiên, trong quá trình nghiên cứu, một số khó khăn kỹ thuật 
 Từ những kết quả khảo sát trên, sinh viên nhận thấy phương án tích hợp trực tiếp vào hệ thống điều khiển mặc dù có khả năng khai thác được nhiều dữ liệu hơn nhưng đòi hỏi quá trình phân tích firmware, giải mã giao thức truyền thông và hiểu rõ thiết kế phần cứng của nhà sản xuất. Đây là những công việc có độ phức tạp cao, vượt ngoài phạm vi và thời gian của kỳ thực tập.
 
 Do đó, cần nghiên cứu một phương án thu thập dữ liệu khác có tính khả thi cao hơn, hạn chế can thiệp vào hệ thống điều khiển hiện có nhưng vẫn đáp ứng yêu cầu thu thập dữ liệu phục vụ cho hệ thống SmartWater.
-\subsubsubsection*{4.2.5 Đánh giá các phương án}
+\tocsubsubsubsection{4.2.5 Đánh giá các phương án}
 
 Dựa trên kết quả khảo sát phần cứng và phân tích hệ thống điều khiển, sinh viên tiến hành đánh giá các phương án thu thập dữ liệu từ máy lọc nước Truliva. Mục tiêu của quá trình đánh giá là lựa chọn giải pháp có tính khả thi, đảm bảo an toàn cho thiết bị và đáp ứng yêu cầu của hệ thống SmartWater.
 
@@ -190,9 +190,11 @@ Chỉ thu thập được các thông số từ cảm biến và cần thiết k
 Qua quá trình đánh giá, sinh viên nhận thấy hai phương án đầu có khả năng khai thác được nhiều dữ liệu hơn, tuy nhiên đều gặp những hạn chế về tài liệu kỹ thuật, giao thức truyền thông và mức độ can thiệp vào hệ thống điều khiển của thiết bị. Trong phạm vi thời gian của kỳ thực tập, việc triển khai hai phương án này không đảm bảo tính khả thi và tiềm ẩn nhiều rủi ro.
 
 Ngược lại, phương án sử dụng ESP32 làm bộ thu thập dữ liệu độc lập đáp ứng tốt các yêu cầu của dự án. Giải pháp này không làm thay đổi thiết kế của bo điều khiển, có thể dễ dàng tích hợp với giao thức MQTT để truyền dữ liệu lên hệ thống SmartWater, đồng thời tạo điều kiện thuận lợi cho việc mở rộng và bảo trì trong tương lai. Vì vậy, phương án này được lựa chọn để triển khai trong các giai đoạn tiếp theo.
-\subsubsubsection*{4.2.6 Lựa chọn giải pháp}
+\tocsubsubsubsection{4.2.6 Lựa chọn giải pháp}
 
 Sau quá trình khảo sát phần cứng và đánh giá các phương án thu thập dữ liệu, sinh viên quyết định lựa chọn phương án sử dụng vi điều khiển ESP32 làm bộ thu thập dữ liệu độc lập cho hệ thống IoT.
+
+Ngoài mô hình ESP32 NodeMCU thông dụng, các dòng ESP32-S2, ESP32-S3, ESP32-C2, ESP32-C3, ESP32-C5 và ESP32-C6 cũng được xem xét như các phương án phần cứng thay thế. Nhóm S2 và S3 phù hợp khi cần bổ sung năng lực xử lý hoặc các giao tiếp ngoại vi; nhóm C2 và C3 phù hợp với các nút thu thập dữ liệu có yêu cầu tiết kiệm chi phí; trong khi C5 và C6 là lựa chọn có thể cân nhắc khi cần khai thác các chuẩn kết nối không dây mới. Việc lựa chọn model cụ thể cần dựa trên số lượng chân GPIO, giao tiếp cần sử dụng, mức tiêu thụ điện năng, khả năng cung ứng linh kiện và yêu cầu mở rộng của hệ thống.
 
 Giải pháp này được lựa chọn dựa trên các ưu điểm sau:
 
@@ -210,7 +212,7 @@ Với những ưu điểm trên, phương án sử dụng ESP32 đáp ứng tố
 
 \vspace{0.5em}
 
-\subsubsubsection*{4.2.7 Thiết kế giải pháp ESP32}
+\tocsubsubsubsection{4.2.7 Thiết kế giải pháp ESP32}
 
 Sau khi lựa chọn phương án triển khai, sinh viên tiến hành thiết kế kiến trúc phần cứng của hệ thống thu thập dữ liệu dựa trên vi điều khiển ESP32.
 
@@ -237,7 +239,56 @@ Ngoài phần cứng, sinh viên xây dựng luồng xử lý dữ liệu trên 
 
 \vspace{0.5em}
 
-\subsubsubsection*{4.2.8 Tích hợp HiveMQ}
+\tocsubsubsubsection{Hardware Interface Design}
+
+\textbf{ESP32 -- TDS Sensor Integration}
+
+Nội dung này mô tả nguyên lý thiết kế giao tiếp phần cứng giữa cảm biến TDS và ESP32 trong phương án sử dụng tín hiệu analog. Thiết kế tập trung vào luồng tín hiệu, các ràng buộc điện và những yếu tố ảnh hưởng đến độ tin cậy; các chi tiết triển khai phần mềm không thuộc phạm vi trình bày.
+
+\textbf{Mô hình kết nối}
+
+\begin{center}
+\begin{tabular}{c}
+\textbf{TDS Probe} \\
+$\downarrow$ \\
+\textbf{TDS Signal Conditioning Module} \\
+$\downarrow$ \\
+\textbf{ESP32 ADC} \\
+$\downarrow$ \\
+\textbf{Firmware} \\
+$\downarrow$ \\
+\textbf{MQTT}
+\end{tabular}
+\end{center}
+
+Đầu dò TDS tiếp xúc với nước và tạo ra tín hiệu điện phản ánh đặc tính dẫn điện của mẫu đo. Do tín hiệu từ đầu dò không phù hợp để đưa trực tiếp vào vi điều khiển, TDS Signal Conditioning Module đảm nhiệm kích thích đầu dò, điều hòa và chuyển đổi tín hiệu thành điện áp analog có thể đo được. Bộ chuyển đổi ADC của ESP32 lấy mẫu điện áp này; firmware thực hiện xử lý, chuẩn hóa giá trị TDS và chuyển dữ liệu sang lớp truyền thông MQTT để gửi đến hệ thống giám sát.
+
+\textbf{Electrical Design Considerations}
+
+Thiết kế điện phải được kiểm tra theo thông số của module TDS được lựa chọn. Điện áp hoạt động của module và dải điện áp đầu ra analog cần được xác nhận trước khi kết nối với ADC của ESP32. Tín hiệu đưa vào GPIO hoặc ADC không được vượt quá giới hạn điện áp do nhà sản xuất ESP32 quy định; khi dải đầu ra của module không tương thích, cần sử dụng mạch chia áp, đệm hoặc giải pháp bảo vệ phù hợp.
+
+ESP32 và module TDS phải sử dụng chung điểm tham chiếu GND để bảo đảm phép đo ổn định. Chân ADC được lựa chọn cần phù hợp với kiến trúc phần cứng và không xung đột với các ngoại vi khác. Khối nguồn nên có độ ổn định tốt, được bố trí tụ lọc và đường hồi dòng hợp lý nhằm hạn chế nhiễu trên tín hiệu analog. Đường tín hiệu cần ngắn, tránh đi song song với các đường nguồn hoặc đường chuyển mạch có mức nhiễu cao. Đầu dò TDS không được nối trực tiếp với ESP32 mà bắt buộc phải đi qua mạch xử lý tín hiệu chuyên dụng.
+
+\textbf{Analog Signal Processing}
+
+ESP32 lấy mẫu tín hiệu bằng bộ ADC và firmware chuyển giá trị số thu được thành điện áp tương ứng. Điện áp sau đó được quy đổi thành giá trị TDS dựa trên đặc tính và dữ liệu hiệu chuẩn của module. Để giảm ảnh hưởng của nhiễu tức thời, hệ thống có thể áp dụng bộ lọc Moving Average hoặc Median Filter trước khi sử dụng kết quả đo. Khi giải pháp được bổ sung cảm biến nhiệt độ, dữ liệu nhiệt có thể được dùng để bù ảnh hưởng của nhiệt độ nước đối với phép đo TDS. Phần này chỉ xác định nguyên tắc xử lý, không quy định công thức chuyển đổi cụ thể.
+
+\textbf{Reliability Considerations}
+
+Độ chính xác của phép đo chịu ảnh hưởng bởi nhiễu nguồn, nhiễu điện từ phát sinh trong thời gian ESP32 truyền Wi-Fi, chiều dài và cách bố trí dây tín hiệu analog, sai số của bộ ADC, trạng thái hiệu chuẩn của cảm biến, nhiệt độ nước và chất lượng của module TDS. Vì vậy, đánh giá độ tin cậy cần xem xét đồng thời thiết kế nguồn, bố trí mạch, quy trình lấy mẫu và điều kiện vận hành thực tế. Việc hiệu chuẩn định kỳ bằng dung dịch tham chiếu phù hợp là cơ sở để duy trì tính nhất quán của dữ liệu đo.
+
+\textbf{Design Decisions}
+
+\begin{itemize}
+    \item Sử dụng module TDS có mạch xử lý tín hiệu thay vì đọc trực tiếp tín hiệu từ đầu dò.
+    \item Thực hiện lọc dữ liệu tại firmware trước khi phát bản tin MQTT nhằm hạn chế nhiễu và giá trị bất thường.
+    \item Chuẩn hóa dữ liệu TDS trước khi gửi đến Device Monitor để bảo đảm tính nhất quán trong quá trình tiếp nhận, lưu trữ và hiển thị.
+    \item Duy trì khả năng mở rộng để bổ sung chức năng hiệu chuẩn và bù nhiệt độ trong các phiên bản tiếp theo.
+\end{itemize}
+
+\vspace{0.5em}
+
+\tocsubsubsubsection{4.2.8 Tích hợp HiveMQ}
 
 Để xây dựng hệ thống truyền dữ liệu theo mô hình IoT, sinh viên nghiên cứu và lựa chọn HiveMQ Cloud làm MQTT Broker cho hệ thống.
 
@@ -248,15 +299,15 @@ ESP32 được cấu hình để kết nối tới HiveMQ thông qua giao thức
 Dữ liệu sau khi được ESP32 thu thập sẽ được đóng gói thành bản tin JSON và gửi đến HiveMQ Broker. Từ đây, hệ thống Device Monitor có thể đăng ký (Subscribe) các Topic tương ứng để tiếp nhận dữ liệu, phân tích và lưu vào cơ sở dữ liệu phục vụ chức năng giám sát và quản lý thiết bị.
 
 Kiến trúc này giúp tách biệt quá trình thu thập dữ liệu khỏi hệ thống quản lý, tăng khả năng mở rộng và giảm sự phụ thuộc giữa các thành phần trong hệ thống.
-\subsubsubsection*{}
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\textwidth]{include/image/ESP32-NodeMCU.png}
-    \caption{Mô hình ESP32 NodeMCU thu thập dữ liệu từ cảm biến TDS và tín hiệu Alert của máy lọc nước Truliva}
-    \label{fig:esp32-node}
-\end{figure}
+% \tocsubsubsubsection{}
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.9\textwidth]{include/image/ESP32_NodeMCU.jpg}
+%     \caption{Mô hình ESP32 NodeMCU thu thập dữ liệu từ cảm biến TDS và tín hiệu Alert của máy lọc nước Truliva}
+%     \label{fig:esp32-node}
+% \end{figure}
 
-\subsubsection*{4.3 Kết quả đạt được}
+\tocsubsubsection{4.3 Kết quả đạt được}
 
 Sau khi hoàn thành các công việc trong tuần 4, sinh viên đã đạt được các kết quả sau:
 

@@ -1,6 +1,6 @@
-\subsection*{Tuần 5}
+\tocsubsection{Tuần 5}
 
-\subsubsection*{5.1 Mô tả công việc}
+\tocsubsubsection{5.1 Mô tả công việc}
 
 Trong tuần 5 của kỳ thực tập, sinh viên tập trung hoàn thiện kênh truyền dữ liệu từ thiết bị lọc nước đến nền tảng SmartWater. Mục tiêu của công việc là hình thành luồng thông tin ổn định, tạo cơ sở để hệ thống tiếp nhận, lưu trữ và giám sát dữ liệu vận hành ở các giai đoạn tiếp theo.
 
@@ -14,31 +14,31 @@ Các công việc chính gồm:
     \item Kiểm tra tính liên tục của luồng dữ liệu và khả năng tiếp nhận bản tin.
 \end{itemize}
 
-\subsubsection*{5.2 Nội dung thực hiện}
+\tocsubsubsection{5.2 Nội dung thực hiện}
 
-\subsubsubsection*{5.2.1 Chuẩn bị kênh truyền dữ liệu từ thiết bị}
+\tocsubsubsubsection{5.2.1 Chuẩn bị kênh truyền dữ liệu từ thiết bị}
 
 Trên cơ sở phương án phần cứng đã lựa chọn ở tuần trước, sinh viên xây dựng chương trình thử nghiệm để mô phỏng quá trình thiết bị gửi dữ liệu vận hành. Việc thử nghiệm trước với dữ liệu mô phỏng giúp kiểm tra độc lập luồng truyền thông, giảm rủi ro khi tích hợp với cảm biến và thiết bị thực tế.
 
 Chương trình được tổ chức theo các nhóm chức năng gồm khởi tạo thiết bị, duy trì kết nối và tạo dữ liệu đo lường. Cách tổ chức này giúp quá trình bảo trì, kiểm tra và mở rộng hệ thống thuận lợi hơn khi chuyển sang vận hành với dữ liệu thực.
 
-\subsubsubsection*{5.2.2 Thiết lập truyền thông ổn định}
+\tocsubsubsubsection{5.2.2 Thiết lập truyền thông ổn định}
 
 Thiết bị được cấu hình để chủ động thiết lập kết nối mạng và duy trì liên lạc với nền tảng truyền thông IoT. Trong quá trình vận hành, hệ thống theo dõi trạng thái kết nối và tự khôi phục khi xảy ra gián đoạn, bảo đảm việc truyền dữ liệu chỉ được thực hiện khi kênh liên lạc sẵn sàng.
 
 Giải pháp này giúp hạn chế thất thoát dữ liệu do sự cố mạng tạm thời, đồng thời tạo tiền đề để hệ thống có thể vận hành liên tục trong môi trường thực tế. Việc kiểm tra kết nối được thực hiện song song với quá trình gửi dữ liệu nhằm bảo đảm khả năng phản hồi kịp thời khi trạng thái truyền thông thay đổi.
 
-\subsubsubsection*{5.2.3 Chuẩn hóa thông tin giám sát}
+\tocsubsubsubsection{5.2.3 Chuẩn hóa thông tin giám sát}
 
 Thông tin gửi từ thiết bị được chuẩn hóa theo một cấu trúc thống nhất, bao gồm định danh thiết bị, giá trị TDS và trạng thái cảnh báo khi cần thiết. Định danh thiết bị được duy trì xuyên suốt trong luồng dữ liệu để các thành phần phía sau có thể nhận biết đúng nguồn gửi và liên kết với thông tin quản lý tương ứng.
 
 Việc thống nhất nội dung bản tin giúp nền tảng SmartWater tiếp nhận dữ liệu một cách nhất quán, hỗ trợ quá trình lưu trữ, tra cứu và hiển thị kết quả giám sát. Các thông tin kỹ thuật chi tiết được quản lý trong tài liệu nội bộ của dự án.
 
-\subsubsubsection*{5.2.4 Kiểm tra quá trình truyền dữ liệu}
+\tocsubsubsubsection{5.2.4 Kiểm tra quá trình truyền dữ liệu}
 
 Sinh viên theo dõi quá trình gửi dữ liệu theo chu kỳ, kiểm tra trạng thái kết nối và đối chiếu nội dung bản tin tại các điểm tiếp nhận của hệ thống. Kết quả cho thấy thiết bị duy trì được việc truyền dữ liệu ổn định, thông tin đo lường được gửi đầy đủ và sẵn sàng cho bước tích hợp vào chức năng giám sát.
 
-\subsubsection*{5.3 Kết quả đạt được và kỹ năng tích lũy}
+\tocsubsubsection{5.3 Kết quả đạt được và kỹ năng tích lũy}
 
 Kết quả đạt được trong tuần 5 gồm:
 

@@ -132,6 +132,20 @@ morekeywords={}
 \newcommand*\l@subsubsubsection{\@dottedtocline{3}{10.0em}{4.1em}}
 \newcommand*{\subsubsubsectionmark}[1]{}
 \makeatother
+\long\def\paragraph#1{#1}
+
+\newcommand{\tocsubsection}[1]{%
+  \subsection*{#1}%
+  \addcontentsline{toc}{subsection}{#1}%
+}
+\newcommand{\tocsubsubsection}[1]{%
+  \subsubsection*{#1}%
+  \addcontentsline{toc}{subsubsection}{#1}%
+}
+\newcommand{\tocsubsubsubsection}[1]{%
+  \subsubsubsection*{#1}%
+  \addcontentsline{toc}{subsubsubsection}{#1}%
+}
 
 \everymath{\color{black}}%make in-line maths symbols blue to read/check easily
 
@@ -142,48 +156,30 @@ morekeywords={}
 \begin{document}
 
 \begin{titlepage}
-
+\thispagestyle{empty}
 \begin{center}
-\Large \textbf{ĐẠI HỌC QUỐC GIA THÀNH PHỐ HỒ CHÍ MINH} \\
-\vspace{0.2cm}
-\Large \textbf{TRƯỜNG ĐẠI HỌC BÁCH KHOA} \\
-\vspace{0.2cm}
-\Large \textbf{KHOA KHOA HỌC VÀ KĨ THUẬT MÁY TÍNH}
-\end{center}
+    \includegraphics[width=3.2cm]{Images/hcmut.png}\\[0.35cm]
+    {\large\bfseries Đại học Quốc gia Thành phố Hồ Chí Minh}\\[0.12cm]
+    {\large\bfseries Trường Đại học Bách khoa}\\[0.12cm]
+    {\large\bfseries Khoa Khoa học và Kĩ thuật Máy tính}\\[0.35cm]
+    \rule{0.82\textwidth}{0.6pt}
 
-\vspace{0.3cm}
+    \vspace{2.2cm}
+    {\Huge\bfseries Báo cáo}\\[0.25cm]
+    {\Huge\bfseries Thực tập ngoài trường}\\[0.3cm]
+    {\large\bfseries Học kỳ 253 năm học 2025-2026}
+    \vspace{1.4cm}
 
-\begin{figure}[h!]
-\begin{center}
-\includegraphics[width=4cm]{Images/hcmut.png}
+    \begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.82\textwidth}@{}}
+        \textbf{Ngành: Kĩ thuật máy tính}\\[0.12cm]
+        \textbf{Chương trình đào tạo: Chính quy}\\[0.35cm]
+        \textbf{Đơn vị/ Doanh nghiệp nhận thực tập: Công ty Cổ phần Tin học HPT}\\
+        \textbf{Cán bộ hướng dẫn chuyên của doanh nghiệp: Thái Lâm Thuận}\\[0.12cm]
+        \textbf{Giảng viên hướng dẫn: Nguyễn Thành Lộc}\\[0.12cm]
+        \textbf{Sinh viên thực hiện (SVTH): Hoàng Anh Duy}\\
+        \textbf{MSSV:2310458}
+    \end{tabular}
 \end{center}
-\end{figure}
-
-\begin{center}
-\begin{tabular}{c}
-\multicolumn{1}{c}{\textbf{{\LARGE BÁO CÁO}}}\\
-\\{\textbf{{\LARGE THỰC TẬP NGOÀI TRƯỜNG}}}
-\\
-\textbf{\Large HỌC KỲ 253 NĂM HỌC 2025-2026} \\
-\end{tabular}
-\end{center}
-\vspace{0.5cm}
-\begin{itemize}
-\renewcommand\labelitemi{--}
-    \item \Large \textbf{NGÀNH: KĨ THUẬT MÁY TÍNH}
-    \item \Large \textbf{CHƯƠNG TRÌNH ĐÀO TẠO: CHÍNH QUY}
-\end{itemize}
-\vspace{0.7cm}
-\begin{itemize}
-\renewcommand\labelitemi{--}
-    \item \Large \textbf{ĐƠN VỊ/ DOANH NGHIỆP NHẬN THỰC TẬP:}
-    \\ \Large \textbf{CÔNG TY CỔ PHẦN TIN HỌC HPT}
-    \item \Large \textbf{CÁN BỘ HƯỚNG DẪN CHUYÊN CỦA DOANH NGHIỆP: THÁI LÂM THUẬN}
-    \item \Large \textbf{GIẢNG VIÊN HƯỚNG DẪN: NGUYỄN THÀNH LỘC} 
-    \item \Large \textbf{SINH VIÊN THỰC HIỆN (SVTH):}
-    \\ \Large \textbf{HỌ VÀ TÊN: HOÀNG ANH DUY} \\ \textbf{MSSV:2310458}
-\end{itemize}
-\vspace{0.5cm}
 
 \end{titlepage}
 
@@ -207,10 +203,13 @@ morekeywords={}
 % \section*{PHỤ LỤC}
 \begin{center}
     \section*{LỜI MỞ ĐẦU}
-\end{center}\
+    \addcontentsline{toc}{section}{LỜI MỞ ĐẦU}
+\end{center}
 
 
-\paragraph{Báo cáo này được thực hiện trong khuôn khổ học phần Thực tập doanh nghiệp tại Trường Đại học Bách Khoa – Đại học Quốc gia Thành phố Hồ Chí Minh. Quá trình thực tập tại Công ty Cổ phần Dịch vụ Công nghệ Tin học HPT đã giúp em có cơ hội vận dụng các kiến thức đã học vào môi trường làm việc thực tế, đồng thời hiểu rõ hơn về quy trình phát triển phần mềm và cách triển khai các dự án trong doanh nghiệp.
+Báo cáo này được thực hiện trong khuôn khổ học phần Thực tập doanh nghiệp tại Trường Đại học Bách Khoa – Đại học Quốc gia Thành phố Hồ Chí Minh. Quá trình thực tập tại Công ty Cổ phần Dịch vụ Công nghệ Tin học HPT đã giúp em có cơ hội vận dụng các kiến thức đã học vào môi trường làm việc thực tế, đồng thời hiểu rõ hơn về quy trình phát triển phần mềm và cách triển khai các dự án trong doanh nghiệp.
+
+Do nội dung thực tập gắn với dự án nội bộ của doanh nghiệp, báo cáo chỉ trình bày ở mức tổng quan các công việc, kết quả và kinh nghiệm đạt được. Các tài liệu thiết kế chi tiết, mã nguồn, thông tin cấu hình và các nội dung kỹ thuật thuộc phạm vi bảo mật của công ty không được công bố trực tiếp trong báo cáo.
 
 Em xin chân thành cảm ơn quý Thầy, Cô Trường Đại học Bách Khoa – Đại học Quốc gia Thành phố Hồ Chí Minh, đặc biệt là quý Thầy, Cô Khoa Khoa học và Kỹ thuật Máy tính, đã trang bị cho em nền tảng kiến thức và tạo điều kiện để em hoàn thành học phần thực tập doanh nghiệp.
 
@@ -222,8 +221,7 @@ Em cũng xin cảm ơn Công ty Cổ phần Dịch vụ Công nghệ Tin học H
 
 Do thời gian thực tập và kinh nghiệm thực tế còn hạn chế, báo cáo khó tránh khỏi những thiếu sót. Em rất mong nhận được các ý kiến đóng góp từ quý Thầy, Cô và Công ty để có thể tiếp tục hoàn thiện kiến thức và kỹ năng của mình.
 
-Em xin chân thành cảm ơn.Em hy vọng nội dung của báo cáo sẽ phản ánh đầy đủ quá trình học tập, nghiên cứu và làm việc của bản thân trong thời gian thực tập. Đồng thời, em rất mong nhận được những ý kiến đóng góp từ quý thầy cô để có thể tiếp tục hoàn thiện kiến thức và kỹ năng của mình trong thời gian tới.
-}
+Em xin chân thành cảm ơn. Em hy vọng nội dung của báo cáo sẽ phản ánh đầy đủ quá trình học tập, nghiên cứu và làm việc của bản thân trong thời gian thực tập. Đồng thời, em rất mong nhận được những ý kiến đóng góp từ quý thầy cô để có thể tiếp tục hoàn thiện kiến thức và kỹ năng của mình trong thời gian tới.
 \newpage
 
 

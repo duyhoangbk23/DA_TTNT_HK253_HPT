@@ -1,0 +1,111 @@
+\thispagestyle {empty}
+\contentsline {section}{LỜI MỞ ĐẦU}{1}{section*.4}%
+\contentsline {section}{\numberline {1}Giới thiệu chung}{2}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Giới thiệu về Công ty HPT}{2}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Văn hóa doanh nghiệp}{2}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}Cơ cấu tổ chức}{3}{subsection.1.3}%
+\contentsline {subsection}{\numberline {1.4}Giới thiệu về nội dung thực tập}{4}{subsection.1.4}%
+\contentsline {subsection}{Tuần 1}{5}{section*.9}%
+\contentsline {subsubsection}{1.1 Mô tả công việc}{5}{section*.10}%
+\contentsline {subsubsubsection}{Nội dung công việc}{5}{section*.11}%
+\contentsline {subsubsection}{1.2 Nội dung tìm hiểu}{5}{section*.12}%
+\contentsline {subsubsubsection}{1.2.1 Tổng quan về quản lý dự án}{5}{section*.13}%
+\contentsline {subsubsubsection}{1.2.2 Quy trình quản lý dự án theo chuẩn CMMI}{6}{section*.14}%
+\contentsline {subsubsubsection}{1.2.3 Hoạch định dự án}{7}{section*.16}%
+\contentsline {subsubsubsection}{1.2.4 Agile Scrum}{7}{section*.17}%
+\contentsline {subsubsubsection}{1.2.5 Quy trình phối hợp với khách hàng}{10}{section*.19}%
+\contentsline {subsubsubsection}{Quản lý thay đổi}{10}{section*.20}%
+\contentsline {subsubsubsection}{Quản lý rủi ro}{10}{section*.21}%
+\contentsline {subsubsubsection}{Đảm bảo chất lượng}{10}{section*.22}%
+\contentsline {subsubsubsection}{Hỗ trợ, triển khai và bàn giao }{11}{section*.23}%
+\contentsline {subsubsection}{1.3 Kết quả/kiến thức thu hoạch }{11}{section*.24}%
+\contentsline {subsection}{Tuần 2}{12}{section*.25}%
+\contentsline {subsubsection}{2.1 Mô tả công việc}{12}{section*.26}%
+\contentsline {subsubsection}{2.2 Nghiên cứu hồ sơ đề xuất kĩ thuật}{12}{section*.27}%
+\contentsline {subsubsubsection}{Mục tiêu nghiên cứu}{12}{section*.28}%
+\contentsline {subsubsubsection}{Phạm vi nghiên cứu}{13}{section*.29}%
+\contentsline {subsubsection}{2.3 Mô hình tổng thể hệ thống}{13}{section*.30}%
+\contentsline {subsubsection}{2.4 Core System}{13}{section*.32}%
+\contentsline {subsubsubsection}{Vai trò}{13}{section*.33}%
+\contentsline {subsubsubsection}{Các phân hệ chính}{13}{section*.34}%
+\contentsline {subsubsubsection}{Mối liên kết giữa các phân hệ}{14}{section*.35}%
+\contentsline {subsubsection}{2.5 Omnichannel Integration}{14}{section*.36}%
+\contentsline {subsubsubsection}{Vai trò}{14}{section*.37}%
+\contentsline {subsubsubsection}{Nhận xét}{14}{section*.38}%
+\contentsline {subsubsection}{2.6 Field Service \& IoT}{14}{section*.39}%
+\contentsline {subsubsubsection}{Vai trò của Field Service và IoT}{14}{section*.40}%
+\contentsline {subsubsubsection}{Kiến trúc IoT bốn lớp}{14}{section*.41}%
+\contentsline {subsubsubsection}{Quy trình hệ thống giám sát máy lọc nước}{15}{section*.42}%
+\contentsline {subsubsubsection}{Phân tích quy trình truyền dữ liệu}{15}{section*.44}%
+\contentsline {subsubsubsection}{Đánh giá dưới góc nhìn sinh viên thực tập}{16}{section*.45}%
+\contentsline {subsection}{Tuần 3}{17}{section*.46}%
+\contentsline {subsubsection}{3.1 Mô tả công việc}{17}{section*.47}%
+\contentsline {subsubsection}{3.2 Thiết kế kiến trúc phần mềm}{17}{section*.48}%
+\contentsline {subsubsubsection}{3.2.1 Phân tích bài toán}{17}{section*.49}%
+\contentsline {subsubsubsection}{3.2.2 Xác định yêu cầu thiết kế}{18}{section*.50}%
+\contentsline {subsubsubsection}{3.2.3 Đề xuất giải pháp kiến trúc}{18}{section*.51}%
+\contentsline {subsubsubsection}{3.2.5 Đánh giá và lựa chọn kiến trúc phù hợp}{19}{section*.52}%
+\contentsline {subsubsection}{3.3 Thiết kế Device Monitor}{19}{section*.54}%
+\contentsline {subsubsubsection}{3.3.1 Mục tiêu thiết kế}{19}{section*.55}%
+\contentsline {subsubsubsection}{3.3.2 Kiến trúc Device Monitor}{19}{section*.56}%
+\contentsline {subsubsubsection}{3.3.3 Luồng xử lý dữ liệu}{20}{section*.58}%
+\contentsline {subsubsubsection}{3.3.4 Chức năng của Device Monitor}{21}{section*.59}%
+\contentsline {subsubsubsection}{3.3.5 Đánh giá thiết kế}{21}{section*.60}%
+\contentsline {subsubsection}{3.4 Định hướng mô phỏng SmartWater Admin}{21}{section*.61}%
+\contentsline {subsubsubsection}{3.4.1 Mục tiêu thiết kế}{21}{section*.62}%
+\contentsline {subsubsubsection}{3.4.2 Kiến trúc SmartWater Admin}{22}{section*.63}%
+\contentsline {subsubsubsection}{3.4.3 Các module nghiệp vụ}{22}{section*.64}%
+\contentsline {subsubsubsection}{3.4.4 Luồng xử lý nghiệp vụ}{22}{section*.65}%
+\contentsline {subsubsubsection}{3.4.5 Đánh giá thiết kế}{22}{section*.66}%
+\contentsline {subsubsection}{3.5 Định hướng tổ chức dữ liệu}{22}{section*.67}%
+\contentsline {subsubsection}{3.6 Lựa chọn công nghệ}{22}{section*.68}%
+\contentsline {subsubsubsection}{3.6.1 MQTT và HiveMQ}{22}{section*.69}%
+\contentsline {subsubsubsection}{3.6.2 PHP}{23}{section*.70}%
+\contentsline {subsubsubsection}{3.6.3 Laravel}{23}{section*.71}%
+\contentsline {subsubsubsection}{3.6.4 ASP.NET Core}{23}{section*.72}%
+\contentsline {subsubsubsection}{3.6.5 MySQL}{23}{section*.73}%
+\contentsline {subsection}{Tuần 4}{24}{section*.74}%
+\contentsline {subsubsection}{4.1 Mô tả công việc}{24}{section*.75}%
+\contentsline {subsubsection}{4.2 Nội dung thực hiện}{24}{section*.76}%
+\contentsline {subsubsubsection}{4.2.1 Bối cảnh}{24}{section*.77}%
+\contentsline {subsubsubsection}{4.2.2 Khảo sát phần cứng máy lọc nước}{24}{section*.78}%
+\contentsline {subsubsubsection}{4.2.3 Phân tích hệ thống điều khiển}{25}{section*.79}%
+\contentsline {subsubsubsection}{4.2.4 Phân tích vấn đề}{26}{section*.80}%
+\contentsline {subsubsubsection}{4.2.5 Đánh giá các phương án}{26}{section*.81}%
+\contentsline {subsubsubsection}{4.2.6 Lựa chọn giải pháp}{27}{section*.83}%
+\contentsline {subsubsubsection}{4.2.7 Thiết kế giải pháp ESP32}{28}{section*.84}%
+\contentsline {subsubsubsection}{Hardware Interface Design}{28}{section*.85}%
+\contentsline {subsubsubsection}{4.2.8 Tích hợp HiveMQ}{29}{section*.86}%
+\contentsline {subsubsection}{4.3 Kết quả đạt được}{29}{section*.87}%
+\contentsline {subsection}{Tuần 5}{30}{section*.88}%
+\contentsline {subsubsection}{5.1 Mô tả công việc}{30}{section*.89}%
+\contentsline {subsubsection}{5.2 Nội dung thực hiện}{30}{section*.90}%
+\contentsline {subsubsubsection}{5.2.1 Chuẩn bị kênh truyền dữ liệu từ thiết bị}{30}{section*.91}%
+\contentsline {subsubsubsection}{5.2.2 Thiết lập truyền thông ổn định}{30}{section*.92}%
+\contentsline {subsubsubsection}{5.2.3 Chuẩn hóa thông tin giám sát}{30}{section*.93}%
+\contentsline {subsubsubsection}{5.2.4 Kiểm tra quá trình truyền dữ liệu}{30}{section*.94}%
+\contentsline {subsubsection}{5.3 Kết quả đạt được và kỹ năng tích lũy}{30}{section*.95}%
+\contentsline {subsection}{Tuần 6}{32}{section*.96}%
+\contentsline {subsubsection}{6.1 Mô tả công việc}{32}{section*.97}%
+\contentsline {subsubsection}{6.2 Nội dung thực hiện}{32}{section*.98}%
+\contentsline {subsubsubsection}{6.2.1 Tích hợp luồng dữ liệu giám sát}{32}{section*.99}%
+\contentsline {subsubsubsection}{6.2.2 Tiếp nhận dữ liệu và kiểm tra kết nối}{33}{section*.101}%
+\contentsline {subsubsubsection}{6.2.3 Lưu trữ và liên kết thông tin vận hành}{33}{section*.102}%
+\contentsline {subsubsubsection}{6.2.4 Xây dựng giao diện giám sát}{33}{section*.103}%
+\contentsline {subsubsubsection}{6.2.5 Hoàn thiện trải nghiệm vận hành}{33}{section*.104}%
+\contentsline {subsubsubsection}{6.2.6 Mô phỏng ứng dụng quản trị SmartWater}{33}{section*.105}%
+\contentsline {subsubsubsection}{6.2.6.1 Xác thực và dashboard tổng quan}{33}{section*.106}%
+\contentsline {subsubsubsection}{6.2.6.2 Quản lý danh mục, sản phẩm và kho}{35}{section*.109}%
+\contentsline {subsubsubsection}{6.2.6.3 Quản lý khách hàng và hợp đồng}{36}{section*.113}%
+\contentsline {subsubsubsection}{6.2.6.4 Quản lý thiết bị và giám sát vận hành}{37}{section*.117}%
+\contentsline {subsubsubsection}{6.2.6.5 Hỗ trợ vận hành và hồ sơ người dùng}{39}{section*.121}%
+\contentsline {subsubsection}{6.3 Kết quả đạt được và kỹ năng tích lũy}{40}{section*.125}%
+\contentsline {subsection}{Tuần 7}{42}{section*.127}%
+\contentsline {subsubsection}{7.1 Mô tả công việc}{42}{section*.128}%
+\contentsline {subsubsection}{7.2 Nội dung thực hiện}{42}{section*.129}%
+\contentsline {subsubsubsection}{7.2.1 Kiểm tra luồng vận hành tổng thể}{42}{section*.130}%
+\contentsline {subsubsubsection}{7.2.2 Hoàn thiện chức năng giám sát}{43}{section*.132}%
+\contentsline {subsubsubsection}{7.2.3 Mô phỏng các phân hệ quản trị}{43}{section*.134}%
+\contentsline {subsubsubsection}{7.2.4 Rà soát hiệu quả vận hành}{44}{section*.136}%
+\contentsline {subsubsection}{7.3 Kết quả đạt được, kỹ năng và định hướng}{44}{section*.137}%
+\contentsline {subsubsection}{7.4 Kết luận và định hướng phát triển}{45}{section*.138}%

@@ -1,6 +1,6 @@
-\subsection*{Tuần 2}
+\tocsubsection{Tuần 2}
 
-\subsubsection*{2.1 Mô tả công việc}
+\tocsubsubsection{2.1 Mô tả công việc}
 Trong tuần thứ hai, sinh viên được hướng dẫn nghiên cứu hồ sơ đề xuất kỹ thuật (Technical Proposal) nhằm tìm hiểu bài toán, mô hình tổng thể và kiến trúc giải pháp của dự án. Nội dung nghiên cứu tập trung vào việc xác định các thành phần chính của hệ thống, mối liên kết giữa các phân hệ nghiệp vụ và quy trình truyền dữ liệu từ thiết bị IoT đến hệ thống quản lý trung tâm.
 
 Thông qua quá trình nghiên cứu tài liệu, sinh viên bước đầu hình thành cái nhìn tổng quan về kiến trúc hệ thống trước khi tham gia vào các công việc thiết kế và phát triển ở các tuần tiếp theo.
@@ -16,7 +16,7 @@ Các công việc chính được thực hiện trong tuần gồm:
     \item Xác định phạm vi công việc sẽ thực hiện trong giai đoạn phát triển.
 \end{itemize}
 
-\subsubsection*{2.2 Nghiên cứu hồ sơ đề xuất kĩ thuật}
+\tocsubsubsection{2.2 Nghiên cứu hồ sơ đề xuất kĩ thuật}
 
 \textbf{Bối cảnh:}
 
@@ -30,7 +30,7 @@ Vì đây chỉ là hồ sơ đề xuất kĩ thuật tạm thời, chưa phải
 
 % \textbf{Khách hàng vì còn eo hẹp kinh phí nên kèo này chưa chốt.}
 
-\subsubsubsection*{Mục tiêu nghiên cứu}
+\tocsubsubsubsection{Mục tiêu nghiên cứu}
 
 Mục tiêu của tuần này là tìm hiểu bài toán và phạm vi của dự án thông qua hồ sơ đề xuất kỹ thuật. Các nội dung nghiên cứu tập trung vào:
 
@@ -43,18 +43,18 @@ Mục tiêu của tuần này là tìm hiểu bài toán và phạm vi của d�
     \item Chuẩn bị kiến thức nền phục vụ cho các tuần phát triển tiếp theo.
 \end{itemize}
 
-\subsubsubsection*{Phạm vi nghiên cứu}
+\tocsubsubsubsection{Phạm vi nghiên cứu}
 
 Trong tuần này, sinh viên chỉ dừng ở mức nghiên cứu và tìm hiểu kiến trúc tổng thể của hệ thống. Các nội dung như phân tích yêu cầu chi tiết, thiết kế cơ sở dữ liệu, thiết kế API, xây dựng backend, lập trình thiết bị và kiểm thử chưa được triển khai ở giai đoạn này.
 
 Mục tiêu chính là hiểu được cách hệ thống được tổ chức, mối liên hệ giữa các thành phần và vai trò của từng lớp trong kiến trúc tổng thể.
 
-\subsubsection*{2.3 Mô hình tổng thể hệ thống}
+\tocsubsubsection{2.3 Mô hình tổng thể hệ thống}
 
 
 Theo hồ sơ đề xuất kỹ thuật của công ty HPT, hệ thống được tổ chức thành ba nhóm chức năng chính gồm \textbf{Core System}, \textbf{Omnichannel Integration} và \textbf{Field Service \& IoT}. Mỗi nhóm đảm nhận một vai trò riêng nhưng được liên kết với nhau nhằm hình thành một hệ thống quản lý thống nhất.
 
-\begin{figure}[H!]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.5\textwidth]{include/image/kien_truc_tong_the.png}
     \caption{Kiến trúc tổng thể của hệ thống}
@@ -71,40 +71,40 @@ Trong đó:
 
 Qua nghiên cứu mô hình tổng thể, em nhận thấy kiến trúc được thiết kế theo hướng phân tách chức năng rõ ràng giữa các nhóm nghiệp vụ và hệ thống thu thập dữ liệu. Cách tổ chức này giúp từng thành phần có thể phát triển tương đối độc lập nhưng vẫn đảm bảo khả năng trao đổi dữ liệu thông qua các cơ chế tích hợp chung. Đồng thời, việc phân chia thành nhiều lớp chức năng cũng tạo điều kiện mở rộng hệ thống khi số lượng thiết bị hoặc người dùng tăng lên trong tương lai.
 
-\subsubsection*{2.4 Core System}
+\tocsubsubsection{2.4 Core System}
 
-\subsubsubsection*{Vai trò}
+\tocsubsubsubsection{Vai trò}
 
 Core System là trung tâm xử lý nghiệp vụ của toàn bộ hệ thống. Theo hồ sơ đề xuất kỹ thuật, thành phần này quản lý các thông tin quan trọng như khách hàng, thiết bị, hợp đồng, thanh toán và bảo trì. Mọi dữ liệu từ các thành phần khác cuối cùng đều được đồng bộ về Core System nhằm đảm bảo tính nhất quán trong quá trình vận hành.
 
 Đối với sinh viên thực tập, việc tìm hiểu Core System giúp hình dung được nơi dữ liệu IoT sẽ được tích hợp và khai thác trong các chức năng quản lý sau này, thay vì chỉ xem hệ thống IoT như một thành phần hoạt động độc lập.
 
-\subsubsubsection*{Các phân hệ chính}
+\tocsubsubsubsection{Các phân hệ chính}
 
 Theo hồ sơ đề xuất kỹ thuật, Core System bao gồm các phân hệ chính như CRM, Asset Management, Contract Management, Billing System và Maintenance Management. Mỗi phân hệ đảm nhiệm một chức năng nghiệp vụ riêng nhưng đều sử dụng chung dữ liệu của hệ thống.
 
 Qua nghiên cứu tài liệu, em nhận thấy Asset Management giữ vai trò quan trọng trong bài toán quản lý máy lọc nước vì đây là nơi quản lý toàn bộ thông tin của từng thiết bị như mã định danh, vị trí lắp đặt, trạng thái hoạt động và lịch sử bảo trì. Điều này cho thấy dữ liệu thu thập từ hệ thống IoT không tồn tại độc lập mà được liên kết với từng thiết bị cụ thể trong cơ sở dữ liệu nghiệp vụ.
 
-\subsubsubsection*{Mối liên kết giữa các phân hệ}
+\tocsubsubsubsection{Mối liên kết giữa các phân hệ}
 
 Các phân hệ trong Core System không hoạt động độc lập mà liên kết với nhau theo vòng đời của một dịch vụ. Thông tin khách hàng được liên kết với hợp đồng thuê, hợp đồng gắn với thiết bị được lắp đặt, đồng thời phát sinh hóa đơn định kỳ và lịch bảo trì trong suốt quá trình sử dụng.
 
 Qua nghiên cứu hồ sơ đề xuất kỹ thuật, em nhận thấy cách tổ chức dữ liệu này giúp đảm bảo tính nhất quán giữa các nghiệp vụ và tạo nền tảng để tích hợp dữ liệu IoT vào quá trình quản lý. Khi thiết bị gửi dữ liệu vận hành về hệ thống, dữ liệu có thể được liên kết trực tiếp với khách hàng, hợp đồng và lịch sử bảo trì tương ứng, từ đó hỗ trợ theo dõi tình trạng thiết bị và nâng cao hiệu quả quản lý dịch vụ.
-\subsubsection*{2.5 Omnichannel Integration}
+\tocsubsubsection{2.5 Omnichannel Integration}
 
-\subsubsubsection*{Vai trò}
+\tocsubsubsubsection{Vai trò}
 
 Theo hồ sơ đề xuất kỹ thuật, Omnichannel Integration là lớp trung gian giúp hệ thống tiếp nhận và đồng bộ dữ liệu từ nhiều kênh tương tác khác nhau như Website, Facebook, Zalo và Pancake. Các thông tin như khách hàng tiềm năng, yêu cầu tư vấn hoặc đơn hàng sẽ được tập trung về Core System để quản lý thống nhất.
 
 Qua nghiên cứu tài liệu, em nhận thấy Omnichannel không phải là trọng tâm trong phạm vi thực tập nhưng đóng vai trò quan trọng trong việc đảm bảo dữ liệu khách hàng được quản lý tập trung thay vì phân tán trên nhiều nền tảng khác nhau. Điều này giúp các bộ phận kinh doanh, chăm sóc khách hàng và kỹ thuật có thể khai thác cùng một nguồn dữ liệu trong quá trình vận hành.
 
-\subsubsubsection*{Nhận xét}
+\tocsubsubsubsection{Nhận xét}
 
 Mặc dù không trực tiếp tham gia phát triển các chức năng Omnichannel, việc tìm hiểu thành phần này giúp em hiểu được nguồn gốc của dữ liệu khách hàng trước khi được liên kết với thông tin thiết bị và dữ liệu IoT trong hệ thống quản lý.
 
-\subsubsection*{2.6 Field Service \& IoT}
+\tocsubsubsection{2.6 Field Service \& IoT}
 
-\subsubsubsection*{Vai trò của Field Service và IoT}
+\tocsubsubsubsection{Vai trò của Field Service và IoT}
 
 Theo hồ sơ đề xuất kỹ thuật, Field Service hỗ trợ kỹ thuật viên thực hiện các công việc ngoài hiện trường như tiếp nhận lịch bảo trì, check-in tại địa điểm lắp đặt, cập nhật trạng thái công việc và ghi nhận kết quả sau khi hoàn thành.
 
@@ -112,7 +112,7 @@ Bên cạnh đó, hệ thống IoT được tích hợp nhằm thu thập dữ l
 
 Qua nghiên cứu hồ sơ đề xuất kỹ thuật, em nhận thấy IoT là thành phần tạo nên sự khác biệt của hệ thống. Nếu Core System tập trung quản lý thông tin nghiệp vụ thì IoT cung cấp dữ liệu vận hành thực tế từ thiết bị, giúp doanh nghiệp có thể theo dõi tình trạng máy lọc nước theo thời gian và nâng cao hiệu quả quản lý dịch vụ.
 
-\subsubsubsection*{Kiến trúc IoT bốn lớp}
+\tocsubsubsubsection{Kiến trúc IoT bốn lớp}
 
 Hồ sơ đề xuất kỹ thuật mô tả hệ thống IoT theo mô hình bốn lớp gồm Perception Layer, Network Layer, Processing Layer và Application Layer. Qua nghiên cứu, em nhận thấy việc phân chia thành nhiều lớp giúp mỗi thành phần đảm nhận một chức năng riêng, đồng thời làm cho hệ thống dễ bảo trì và mở rộng hơn.
 
@@ -126,7 +126,7 @@ Hồ sơ đề xuất kỹ thuật mô tả hệ thống IoT theo mô hình bố
     \item \textbf{Application Layer}: cung cấp giao diện Web hoặc Dashboard để hiển thị dữ liệu, cảnh báo và trạng thái hoạt động của thiết bị. Theo em, việc tách riêng tầng hiển thị giúp giao diện người dùng có thể phát triển độc lập với hệ thống thu thập dữ liệu phía dưới.
 \end{itemize}
 
-\subsubsubsection*{Quy trình hệ thống giám sát máy lọc nước}
+\tocsubsubsubsection{Quy trình hệ thống giám sát máy lọc nước}
 
 Theo mô hình được đề xuất trong hồ sơ kỹ thuật, dữ liệu được truyền từ thiết bị đến hệ thống quản lý thông qua giao thức MQTT và được xử lý theo các bước sau:
 
@@ -145,7 +145,7 @@ Theo mô hình được đề xuất trong hồ sơ kỹ thuật, dữ liệu đ
     \label{fig:iot_process}
 \end{figure}
 
-\subsubsubsection*{Phân tích quy trình truyền dữ liệu}
+\tocsubsubsubsection{Phân tích quy trình truyền dữ liệu}
 
 Qua nghiên cứu hồ sơ đề xuất kỹ thuật, hệ thống sử dụng mô hình truyền thông theo cơ chế \textit{publish/subscribe}. Trong đó, ESP32 đóng vai trò \textit{Publisher}, HiveMQ Cloud là \textit{MQTT Broker} và ứng dụng Device Service trên máy chủ là \textit{Subscriber}.
 
@@ -153,7 +153,7 @@ Theo em, việc sử dụng Broker làm trung gian giúp thiết bị không c�
 
 Bên cạnh đó, việc tách riêng quá trình thu thập dữ liệu, xử lý nghiệp vụ và hiển thị thông tin cũng giúp các thành phần có thể được phát triển và bảo trì độc lập. Đây là một đặc điểm quan trọng của các hệ thống IoT quy mô lớn.
 
-\subsubsubsection*{Đánh giá dưới góc nhìn sinh viên thực tập}
+\tocsubsubsubsection{Đánh giá dưới góc nhìn sinh viên thực tập}
 
 Sau khi nghiên cứu hồ sơ đề xuất kỹ thuật, em nhận thấy kiến trúc của hệ thống được xây dựng theo hướng phân tách rõ ràng giữa tầng nghiệp vụ và tầng IoT. Core System chịu trách nhiệm quản lý dữ liệu nghiệp vụ, trong khi hệ thống IoT tập trung thu thập và truyền dữ liệu vận hành từ thiết bị về máy chủ.
 

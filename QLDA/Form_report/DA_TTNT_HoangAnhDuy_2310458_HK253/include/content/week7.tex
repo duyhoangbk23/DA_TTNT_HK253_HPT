@@ -1,6 +1,6 @@
-\subsection*{Tuần 7}
+\tocsubsection{Tuần 7}
 
-\subsubsection*{7.1 Mô tả công việc}
+\tocsubsubsection{7.1 Mô tả công việc}
 
 Tuần 7 là giai đoạn kiểm tra, hoàn thiện và tổng kết các hạng mục đã thực hiện trong dự án SmartWater. Sinh viên rà soát luồng dữ liệu từ thiết bị đến hệ thống giám sát, các chức năng quản trị và mức độ đáp ứng của giao diện đối với nhu cầu theo dõi, quản lý thông tin vận hành.
 
@@ -14,42 +14,87 @@ Các công việc chính gồm:
     \item Tổng hợp kết quả, tài liệu hóa công việc và rút kinh nghiệm sau thực tập.
 \end{itemize}
 
-\subsubsection*{7.2 Nội dung thực hiện}
+\tocsubsubsection{7.2 Nội dung thực hiện}
 
-\subsubsubsection*{7.2.1 Kiểm tra luồng vận hành tổng thể}
+\tocsubsubsubsection{7.2.1 Kiểm tra luồng vận hành tổng thể}
 
-Sinh viên kiểm tra luồng vận hành từ thời điểm thiết bị gửi dữ liệu đến khi thông tin được tiếp nhận, lưu trữ và hiển thị trên nền tảng SmartWater. Việc kiểm tra được thực hiện theo các tình huống sử dụng tiêu biểu nhằm bảo đảm dữ liệu được truyền liên tục, nhận biết đúng thiết bị và có thể khai thác lại khi cần theo dõi.
+Sinh viên kiểm tra luồng vận hành xuyên suốt từ thiết bị đến các ứng dụng quản lý. ESP32 thực hiện đo chỉ số TDS, chuẩn hóa dữ liệu đo và gửi bản tin lên nền tảng HiveMQ. Device Monitor duy trì kết nối WebSocket với HiveMQ để tiếp nhận dữ liệu, phân tích nội dung bản tin, kiểm tra tính hợp lệ và lưu bản ghi vào cơ sở dữ liệu. Sau đó, các bản ghi được hiển thị trên Device Monitor để phục vụ việc theo dõi theo từng thiết bị; SmartWater Admin Dashboard khai thác dữ liệu đã lưu để tổng hợp và trình bày thông tin vận hành trên giao diện quản trị.
 
-Kết quả cho thấy các thành phần của hệ thống phối hợp nhất quán, đáp ứng yêu cầu giám sát dữ liệu vận hành và hỗ trợ quản lý thông tin theo từng thiết bị. Luồng dữ liệu hoàn chỉnh cũng là cơ sở để kết nối thông tin kỹ thuật với bối cảnh khách hàng, hợp đồng và sản phẩm trong hoạt động quản trị.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\linewidth]{include/Simulate/Device-monitor-record.png}
+    \caption{Bản ghi dữ liệu telemetry được hiển thị trên Device Monitor}
+    \label{fig:week7-device-monitor-record}
+\end{figure}
 
-\subsubsubsection*{7.2.2 Hoàn thiện chức năng giám sát}
+Kết quả kiểm tra cho thấy các thành phần phối hợp nhất quán, bảo đảm dữ liệu được truyền, xử lý, lưu trữ và khai thác liên tục. Luồng dữ liệu hoàn chỉnh cũng là cơ sở để kết nối thông tin kỹ thuật với bối cảnh khách hàng, hợp đồng và sản phẩm trong hoạt động quản trị.
+
+\tocsubsubsubsection{7.2.2 Hoàn thiện chức năng giám sát}
 
 Chức năng giám sát được rà soát theo hướng đơn giản, trực quan và thuận tiện cho người sử dụng. Người quản trị có thể chọn thiết bị cần theo dõi, xem các dữ liệu liên quan và quan sát xu hướng TDS theo thời gian. Cách tổ chức này giúp giảm thời gian tìm kiếm thông tin, đồng thời hỗ trợ nhận biết sớm các thay đổi trong quá trình vận hành.
 
 Sinh viên cũng hoàn thiện các thông báo và trạng thái hiển thị cần thiết để người dùng dễ nhận biết tình trạng hoạt động của hệ thống. Giao diện được điều chỉnh nhằm bảo đảm thông tin quan trọng được trình bày rõ ràng, phù hợp với mục đích theo dõi hằng ngày.
 
-\subsubsubsection*{7.2.3 Hoàn thiện các phân hệ quản trị}
+Quá trình kiểm thử trang web quản lý tập trung vào việc truy xuất dữ liệu, hiển thị bản ghi theo thiết bị, quan sát xu hướng TDS và tính nhất quán giữa các màn hình. Cơ sở dữ liệu được rà soát thông qua các bản ghi telemetry và mối liên kết với dữ liệu quản trị liên quan, qua đó bảo đảm dữ liệu được lưu trữ có cấu trúc, có thể tra cứu và sẵn sàng cho việc hiển thị trên các ứng dụng của hệ thống.
 
-Các phân hệ quản trị được rà soát trên toàn bộ quy trình nghiệp vụ, bao gồm quản lý sản phẩm, kho, khách hàng, hợp đồng, thiết bị, nhân viên và lịch sử hoạt động. Việc liên kết các nhóm thông tin này giúp hệ thống hỗ trợ hiệu quả cho quá trình tra cứu, theo dõi và quản lý thiết bị trong bối cảnh vận hành thực tế.
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.2}
+    \begin{tabular}{|p{0.25\linewidth}|p{0.38\linewidth}|p{0.25\linewidth}|}
+        \hline
+        \textbf{Hạng mục} & \textbf{Nội dung kiểm tra} & \textbf{Kết quả} \\
+        \hline
+        Kết nối thiết bị & ESP32 kết nối Internet, đo TDS và gửi dữ liệu lên nền tảng truyền thông. & Hoạt động ổn định. \\
+        \hline
+        Tiếp nhận dữ liệu & Device Monitor tiếp nhận, phân tích và hiển thị dữ liệu theo thiết bị. & Đạt yêu cầu. \\
+        \hline
+        Lưu trữ dữ liệu & Bản ghi đo được lưu trữ và có thể tra cứu lại trên cơ sở dữ liệu. & Đạt yêu cầu. \\
+        \hline
+        Website quản lý & Các màn hình Dashboard và quản trị khai thác dữ liệu ở mức mô phỏng. & Phù hợp phạm vi thực tập. \\
+        \hline
+    \end{tabular}
+    \caption{Tổng hợp kết quả kiểm thử các hạng mục chính}
+    \label{tab:week7-test-summary}
+\end{table}
 
-Dashboard tổng quan được hoàn thiện để cung cấp các chỉ số và thông tin cần thiết cho người quản trị. Các màn hình chức năng được thống nhất về bố cục, cách trình bày và thao tác, giúp nâng cao tính đồng bộ của ứng dụng.
+\tocsubsubsubsection{7.2.3 Mô phỏng các phân hệ quản trị}
 
-\subsubsubsection*{7.2.4 Rà soát hiệu quả vận hành}
+Các phân hệ quản trị được xây dựng và rà soát ở mức mô phỏng, bao gồm quản lý sản phẩm, kho, khách hàng, hợp đồng, thiết bị, nhân viên và lịch sử hoạt động. Việc liên kết các nhóm thông tin này minh họa khả năng hỗ trợ tra cứu, theo dõi và quản lý thiết bị trong bối cảnh vận hành thực tế.
+
+Dashboard tổng quan được xây dựng ở mức mô phỏng để cung cấp các chỉ số và thông tin cần thiết cho người quản trị. Các màn hình chức năng được thống nhất về bố cục, cách trình bày và thao tác, tạo cơ sở cho việc hoàn thiện khi có đặc tả chính thức từ khách hàng.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\linewidth]{include/Simulate/Smartwater-admin-dashboard.png}
+    \caption{Dashboard SmartWater Admin hiển thị thông tin vận hành}
+    \label{fig:week7-smartwater-admin-dashboard}
+\end{figure}
+
+\tocsubsubsubsection{7.2.4 Rà soát hiệu quả vận hành}
 
 Trong giai đoạn hoàn thiện, sinh viên tập trung cải thiện tính nhất quán của thông tin thiết bị, khả năng truy cập dữ liệu và tốc độ quan sát trên giao diện giám sát. Các thành phần được điều chỉnh theo hướng giảm thao tác không cần thiết, bảo đảm người dùng có thể tiếp cận thông tin phù hợp một cách nhanh chóng.
 
 Việc rà soát cũng giúp chuẩn hóa tài liệu hướng dẫn và quy trình sử dụng, tạo điều kiện để các thành viên khác trong dự án có thể tiếp nhận, vận hành và tiếp tục phát triển hệ thống.
 
-\subsubsection*{7.3 Kết quả đạt được, kỹ năng và định hướng}
+\tocsubsubsection{7.3 Kết quả đạt được, kỹ năng và định hướng}
 
 Kết quả đạt được trong tuần 7 gồm:
 
 \begin{itemize}
-    \item Hoàn thiện luồng dữ liệu giám sát từ thiết bị đến hệ thống quản lý SmartWater.
+    \item Kiểm thử thành công luồng dữ liệu giám sát từ thiết bị đến cơ sở dữ liệu.
     \item Hoàn thiện chức năng theo dõi dữ liệu theo từng thiết bị và biểu đồ xu hướng TDS.
-    \item Hoàn thiện các phân hệ quản trị phục vụ quản lý thông tin nghiệp vụ và vận hành.
+    \item Hoàn thiện kiểm thử giao diện quản lý, dữ liệu telemetry và cơ sở dữ liệu phục vụ vận hành.
+    \item Xây dựng mô phỏng các phân hệ quản trị phục vụ minh họa nghiệp vụ và vận hành.
     \item Chuẩn hóa giao diện, tài liệu và quy trình kiểm tra trước khi bàn giao nội bộ.
     \item Tổng hợp kết quả thực hiện và xác định định hướng phát triển tiếp theo của hệ thống.
 \end{itemize}
 
+Hiện tại, hệ thống đã vận hành tốt ở các hạng mục kết nối thiết bị lên Internet, tiếp nhận dữ liệu đo và lưu trữ bản ghi vào cơ sở dữ liệu. Website quản lý được xây dựng ở mức mô phỏng do chưa có đầy đủ đặc tả nghiệp vụ từ khách hàng, đồng thời đây không phải là phần công việc phụ trách chính của sinh viên trong kỳ thực tập. Các giao diện hiện có là cơ sở để minh họa khả năng khai thác dữ liệu và có thể tiếp tục hoàn thiện khi yêu cầu chính thức được xác định.
+
 Qua kỳ thực tập, sinh viên tích lũy được kinh nghiệm về phân tích yêu cầu, phối hợp triển khai hệ thống, tích hợp luồng dữ liệu, kiểm tra chất lượng, viết tài liệu và làm việc trong môi trường dự án. Đây là nền tảng quan trọng để tiếp tục phát triển SmartWater theo hướng mở rộng quy mô vận hành, bổ sung các chức năng hỗ trợ ra quyết định và nâng cao trải nghiệm của người dùng.
+
+\tocsubsubsection{7.4 Kết luận và định hướng phát triển}
+
+Kỳ thực tập đã giúp sinh viên hoàn thành các hạng mục trọng tâm của luồng giám sát, từ kết nối thiết bị lên Internet, thu thập chỉ số TDS, tiếp nhận dữ liệu qua nền tảng truyền thông đến lưu trữ bản ghi trong cơ sở dữ liệu. Kết quả này tạo nền tảng vận hành cho việc theo dõi tình trạng thiết bị và khai thác dữ liệu phục vụ công tác quản lý.
+
+Trong giai đoạn tiếp theo, Website quản lý có thể được hoàn thiện dựa trên đặc tả nghiệp vụ chính thức của khách hàng, bao gồm quy trình sử dụng, phạm vi chức năng và tiêu chí nghiệm thu. Bên cạnh đó, hệ thống có thể tiếp tục bổ sung các báo cáo tổng hợp, cảnh báo vận hành và các chức năng hỗ trợ ra quyết định phù hợp với nhu cầu thực tế.
