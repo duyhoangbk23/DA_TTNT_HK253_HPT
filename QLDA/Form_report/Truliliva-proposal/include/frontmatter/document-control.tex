@@ -9,7 +9,7 @@
 Tên tài liệu & SMARTWATER SOLUTION DESIGN DOCUMENT \\
 Mã tài liệu & SW-SDD \\
 Tác giả & Hoàng Anh Duy \\
-Phiên bản & 0.1 \\
+Phiên bản & 0.3 \\
 Trạng thái & Draft \\
 Trạng thái rà soát & Chưa phê duyệt / Not reviewed \\
 Phạm vi & Firmware, MQTT, Device Monitor, SmartWater Admin, database dùng chung và worker .NET \\
@@ -26,13 +26,15 @@ Phạm vi & Firmware, MQTT, Device Monitor, SmartWater Admin, database dùng chu
 \textbf{Phiên bản} & \textbf{Ngày} & \textbf{Tác giả} & \textbf{Mô tả} \\
 \midrule
 0.1 & 24/07/2026 & Hoàng Anh Duy & Bản Draft đầu tiên, tổng hợp thiết kế và trạng thái triển khai theo bằng chứng source. \\
+0.2 & 28/07/2026 & Hoàng Anh Duy & Bản mẫu ưu tiên mô tả giải pháp và chức năng; giữ mã evidence trong thân tài liệu, chuyển chi tiết tra cứu sang phụ lục. \\
+0.3 & 28/07/2026 & Hoàng Anh Duy & Đồng bộ mô hình định danh MCU chuỗi, schema dùng chung và luồng Telemetry Live theo source hiện tại. \\
 \bottomrule
 \end{tabularx}
 \caption{Lịch sử phiên bản tài liệu}
 \end{table}
 
 \section*{Quy ước sử dụng}
-Tài liệu phân loại bằng chứng theo sáu trạng thái: \textit{Implemented},
+Tài liệu phân loại bằng chứng theo bảy trạng thái: \textit{Implemented}, \textit{Live Tested},
 \textit{Partially Implemented}, \textit{Configured}, \textit{Prototype/Mock},
 \textit{Planned} và \textit{Not Found}. Mọi kết luận chỉ phản ánh source tĩnh trừ khi
 có bằng chứng runtime được nêu rõ. Giá trị mật khẩu, token, API key và certificate

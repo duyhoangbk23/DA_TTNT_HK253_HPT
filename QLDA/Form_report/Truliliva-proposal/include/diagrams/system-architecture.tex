@@ -11,14 +11,14 @@
   flow/.style={-{Latex[length=2.5mm]},thick,draw=SmartWaterNavy},
   branch/.style={flow,dashed,draw=StatusPartial}
 ]
-\node[partial] (sim) {Simulator ESP32\\\texttt{mcu\_id, tds, alert}\\Partially Implemented};
+\node[box] (sim) {Simulator ESP32\\\texttt{mcu\_id, telemetry.tds}\\Implemented};
 \node[external,right=of sim] (broker) {HiveMQ\\Broker bên ngoài\\Configured};
 \node[box,right=of broker] (browser) {Device Monitor\\mqtt.js / WSS\\Implemented};
 \node[box,right=of browser] (slim) {Slim API\\Normalize + persist\\Implemented};
 \node[box,right=of slim] (db) {MySQL canonical\\\texttt{telemetry.mcu\_id}\\Implemented};
 \node[partial,right=of db] (admin) {SmartWater Admin\\Hiển thị theo thiết bị\\Partially Implemented};
 
-\node[legacy,below=24mm of sim] (firmware) {Firmware chính\\Payload \texttt{device\_id}\\Contract legacy};
+\node[box,below=24mm of sim] (firmware) {Firmware chính\\\texttt{mcu\_id, telemetry}\\Contract canonical};
 \node[legacy,below=24mm of browser] (worker) {.NET MQTT Worker\\DTO \texttt{device\_id}\\Partially Implemented};
 \node[legacy,right=12mm of worker] (legacydb) {MySQL legacy\\\texttt{devices, device\_data}\\Không canonical};
 
@@ -27,7 +27,7 @@
 \draw[flow] (browser) -- node[above]{HTTP} (slim);
 \draw[flow] (slim) -- node[above]{PDO} (db);
 \draw[flow] (db) -- node[above]{ORM} (admin);
-\draw[branch] (firmware.east) -| node[pos=0.22,below]{mismatch} (broker.south);
+\draw[flow] (firmware.east) -| node[pos=0.22,below]{TLS} (broker.south);
 \draw[branch] (broker.south) |- node[pos=0.55,above]{SUB} (worker.north);
 \draw[branch] (worker) -- node[above]{Dapper} (legacydb);
 \end{tikzpicture}%

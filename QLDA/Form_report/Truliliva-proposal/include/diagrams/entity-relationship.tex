@@ -24,7 +24,7 @@
 \node[core] (customers) at (-10.5,3) {\textbf{customers}\\code UQ; soft delete};
 \node[core] (contracts) at (-5.5,3) {\textbf{contracts}\\customer\_id FK; code UQ};
 \node[core] (products) at (-0.5,3) {\textbf{products}\\contract\_id?; category\_id FK};
-\node[core] (devices) at (4.5,3) {\textbf{devices}\\product\_id? UQ; self-FK?};
+\node[core] (devices) at (4.5,3) {\textbf{devices}\\product\_id? UQ; mcu\_id? FK; self-FK?};
 \node[entity] (maintenance) at (9.5,3) {\textbf{maintenance\_records}\\device\_id FK; employee\_id FK};
 \node[entity] (categories) at (-0.5,5.25) {\textbf{categories}\\PK id};
 \node[entity] (dashdata) at (9.5,5.25) {\textbf{device\_dashboard\_data}\\device\_id FK; legacy};
@@ -32,8 +32,8 @@
 % Support and telemetry
 \node[entity] (contractsvc) at (-5.5,0) {\textbf{contract\_services}\\contract\_id? FK};
 \node[entity] (inventory) at (-0.5,0) {\textbf{inventories}\\product\_id UQ FK};
-\node[core] (mcus) at (4.5,0) {\textbf{mcus}\\product\_id? UQ; api\_key UQ};
-\node[core] (telemetry) at (9.5,0) {\textbf{telemetry}\\mcu\_id FK; time indexes};
+\node[core] (mcus) at (4.5,0) {\textbf{mcus}\\mcu\_id UQ; api\_key UQ};
+\node[core] (telemetry) at (9.5,0) {\textbf{telemetry}\\mcu\_id IDX; time indexes};
 
 % Supply
 \node[entity] (suppliers) at (-10.5,-3) {\textbf{suppliers}\\PK id};
@@ -56,8 +56,8 @@
 \draw[rel] (devices) -- node[above]{1:N} (maintenance);
 \draw[rel] (devices.north) |- (dashdata.west);
 \draw[rel] (products) -- (inventory);
-\draw[optional] (products.east) -- ++(0.5,0) |- (mcus.north);
-\draw[rel] (mcus) -- node[above]{1:N} (telemetry);
+\draw[optional] (devices.south) -- node[right]{0..1:1} (mcus.north);
+\draw[logical] (mcus) -- node[above]{1:N logical} (telemetry);
 
 \draw[optional] (suppliers) -- (batches);
 \draw[rel] (batches) -- (details);

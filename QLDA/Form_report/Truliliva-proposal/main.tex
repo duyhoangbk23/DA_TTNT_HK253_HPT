@@ -1,10 +1,9 @@
 \documentclass[a4paper,12pt,oneside]{report}
-\usepackage[T5]{fontenc}
-\usepackage[utf8]{inputenc}
-% \defaultfontfeatures{Ligatures=TeX}
-% \setmainfont{Times New Roman}
-% \setsansfont{Arial}
-% \setmonofont{Consolas}[Scale=0.80]
+\usepackage{fontspec}
+\defaultfontfeatures{Ligatures=TeX}
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+\setmonofont{Consolas}[Scale=0.80]
 
 \usepackage[a4paper,top=2.5cm,bottom=2.5cm,left=3cm,right=2.5cm,headheight=15pt]{geometry}
 \usepackage{fancyhdr}
@@ -13,6 +12,7 @@
 \usepackage{longtable}
 \usepackage{tabularx}
 \usepackage{xcolor}
+\usepackage{colortbl}
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,positioning,shapes.geometric,fit,calc,matrix}
 \usepackage{listings}
@@ -80,13 +80,13 @@
   citecolor=SmartWaterNavy,
   pdftitle={SMARTWATER SOLUTION DESIGN DOCUMENT},
   pdfauthor={Hoàng Anh Duy},
-  pdfsubject={SmartWater Solution Design, version 0.1 Draft}
+  pdfsubject={SmartWater Solution Design, readability sample version 0.3}
 }
 
 \pagestyle{fancy}
 \fancyhf{}
 \fancyhead[L]{\small SMARTWATER SOLUTION DESIGN DOCUMENT}
-\fancyhead[R]{\small Version 0.1 -- Draft}
+\fancyhead[R]{\small Version 0.3 -- Readability sample}
 \fancyfoot[C]{\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 \renewcommand{\footrulewidth}{0pt}
@@ -104,6 +104,7 @@
 \clearpage
 
 \pagenumbering{arabic}
+\input{include/chapters/00-reading-guide}
 \input{include/chapters/01-introduction}
 \input{include/chapters/02-solution-overview}
 \input{include/chapters/03-system-architecture}
@@ -115,12 +116,12 @@
 \input{include/chapters/09-security}
 \input{include/chapters/10-operations-error-handling}
 \input{include/chapters/11-technologies}
-% \input{include/chapters/12-deployment}
-% \input{include/chapters/13-scalability-performance}
-% \input{include/chapters/14-implementation-status}
-% \input{include/chapters/15-limitations-risks}
-% \input{include/chapters/16-future-enhancements}
-% \input{include/chapters/17-conclusion}
+\input{include/chapters/12-deployment}
+\input{include/chapters/13-scalability-performance}
+\input{include/chapters/14-implementation-status}
+\input{include/chapters/15-limitations-risks}
+\input{include/chapters/16-future-enhancements}
+\input{include/chapters/17-conclusion}
 
 \appendix
 \input{include/appendices/a-repository-structure}

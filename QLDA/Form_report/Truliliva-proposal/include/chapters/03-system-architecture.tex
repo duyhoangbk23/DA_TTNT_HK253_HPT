@@ -9,7 +9,7 @@ Kiến trúc được chia thành năm lớp: thiết bị/publisher, messaging,
 
 \subsection{Lớp publisher}
 
-Simulator là publisher phù hợp gần nhất với contract chuẩn: khi MQTT đã kết nối, nó phát JSON gồm \texttt{mcu\_id}, \texttt{tds}, \texttt{alert} lên topic ghép từ \texttt{TOPIC\_PREFIX} và \path|/telemetry| (E-SIM-03, E-SIM-04). Firmware chính có vòng đời thiết bị, sensor task, status và command, nhưng \texttt{MQTTManager::publishTelemetry} vẫn phát \texttt{device\_id}, \texttt{timestamp}, \texttt{pressure}, \texttt{flow} và \texttt{wifi\_rssi}; nó chưa tương thích trực tiếp với schema chuẩn (E-FW-03, E-FW-04).
+Simulator và firmware chính đều là publisher của contract chuẩn: khi MQTT đã kết nối, chúng phát JSON có \texttt{mcu\_id} dạng chuỗi và object \texttt{telemetry} lên \path|devices/telemetry|. Firmware chính tạo TDS và cảnh báo từ \texttt{SensorData}; simulator tạo TDS mẫu. Cả hai dùng định danh \texttt{MCU\_ID} cùng mô hình với schema canonical (E-FW-03, E-FW-04, E-SIM-03, E-SIM-04).
 
 \subsection{Lớp messaging}
 
@@ -42,7 +42,7 @@ Các ranh giới chạy độc lập gồm hai project PlatformIO, Slim Device M
 \hline
 \textbf{Nguồn--đích} & \textbf{Giao thức} & \textbf{Hợp đồng} & \textbf{Bằng chứng} \\
 \hline
-Simulator--HiveMQ & MQTT/TLS & Topic \path|TOPIC_PREFIX/telemetry|; JSON \texttt{mcu\_id, tds, alert} & \texttt{SimulatorApp.cpp}; \texttt{MqttManager.cpp} (E-SIM-03, E-SIM-04). \\
+Simulator--HiveMQ & MQTT/TLS & Topic \path|TOPIC_PREFIX/telemetry|; JSON \texttt{mcu\_id} và \texttt{telemetry.tds} & \texttt{SimulatorApp.cpp}; \texttt{MqttManager.cpp} (E-SIM-03, E-SIM-04). \\
 HiveMQ--trình duyệt & MQTT/WSS & Danh sách subscription từ cấu hình trình duyệt & \path|public/assets/app.js::connectToHiveMQ| (E-DM-06). \\
 Trình duyệt--Slim & HTTP JSON & \path|POST /api/telemetry|: \texttt{topic, payload, source} & \texttt{app.js::sendTelemetry}; \path|public/index.php| (E-DM-02, E-DM-06). \\
 Slim--MySQL & PDO & \path|INSERT/SELECT telemetry| & \texttt{TelemetryRepository.php}; \texttt{Database.php} (E-DM-04, E-DM-05). \\
@@ -56,4 +56,4 @@ HiveMQ--worker .NET & MQTT/TLS & DTO \texttt{device\_id}; ghi \texttt{device\_da
 
 \section{Ranh giới không đồng bộ}
 
-Đường chuẩn \path|mcu_id/telemetry| và đường legacy \path|device_id/device_data| không có adapter ánh xạ. Firmware chính phát \texttt{device\_id}; worker .NET giải mã \texttt{device\_id} rồi ghi schema riêng; trong khi Device Monitor, Laravel API và migration yêu cầu \texttt{mcu\_id}. Không có bằng chứng cho phép nối hai đường này thành một pipeline tương thích (E-FW-04, E-DM-03, E-ADM-05, E-DB-02, E-MQ-03--E-MQ-05).
+Firmware chính, simulator, Device Monitor, Laravel API và migration dùng đường chuẩn \path|mcu_id/telemetry|. Nhánh legacy còn lại là worker .NET: worker giải mã \texttt{device\_id} rồi ghi schema riêng \path|device_data|. Không có adapter source nào ánh xạ nhánh worker này sang pipeline canonical (E-FW-04, E-SIM-03, E-DM-03, E-ADM-05, E-DB-02, E-MQ-03--E-MQ-05).

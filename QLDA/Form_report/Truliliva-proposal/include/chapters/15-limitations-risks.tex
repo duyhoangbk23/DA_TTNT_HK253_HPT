@@ -58,34 +58,35 @@ tương ứng.
 \endhead
 
 R-01 &
-Firmware chính dùng \path|device_id|; pipeline canonical yêu cầu
-\path|mcu_id|. &
+Đã khắc phục: firmware chính dùng \path|mcu_id| dạng chuỗi, cùng contract
+định danh với pipeline canonical. &
 \path|firmware/components/services/mqtt/src/mqtt_manager.cpp|;
 \path|Device-monitor/src/TelemetryService.php|;
 migration telemetry. &
-Parser không nhận định danh canonical và repository không thể ghi bản ghi hợp
-lệ. &
-\textbf{\textit{Partially Implemented}}
+Parser và repository nhận trực tiếp định danh canonical; source chưa tự chứng minh
+phần cứng đã publish trong môi trường runtime riêng. &
+\textbf{\textit{Implemented}}
 \\
 
 R-02 &
-Simulator và Device Monitor dùng \path|mcu_id| dạng chuỗi, trong khi firmware chính
-vẫn phát \path|device_id|. &
+Simulator và firmware chính đều dùng \path|mcu_id| dạng chuỗi; simulator hiện chỉ
+phát TDS, còn firmware chính phát thêm \texttt{alert}. &
 \path|firmware/Message_sending_test/src/simulator/SimulatorApp.cpp|;
 \path|firmware/components/services/mqtt/src/mqtt_manager.cpp|;
 \path|Device-monitor/src/TelemetryRepository.php|. &
-Firmware chính không tương thích trực tiếp với contract chuỗi \path|mcu_id| của
-pipeline telemetry hiện tại. &
+Device Monitor chấp nhận cảnh báo nullable, nên hai publisher tương thích về
+định danh và TDS; dữ liệu simulator không có cảnh báo. &
 \textbf{\textit{Partially Implemented}}
 \\
 
 R-03 &
-Topic firmware chính và subscription mặc định Device Monitor không đồng nhất. &
+Đã khắc phục: firmware chính publish \path|devices/telemetry|, trùng subscription
+mặc định của Device Monitor. &
 \path|firmware/components/config/include/app_config.h|;
 \path|Device-monitor/public/assets/app.js|. &
-Message chỉ được nhận khi cấu hình subscription được điều chỉnh; source không
-có mapping topic. &
-\textbf{\textit{Partially Implemented}}
+Không cần mapping topic cho cấu hình mặc định; vận hành broker vẫn cần xác minh
+runtime riêng. &
+\textbf{\textit{Implemented}}
 \\
 
 R-04 &
@@ -100,11 +101,12 @@ khai phải chạy \path|smartwater-database/migrate.bat| trước. &
 \\
 
 R-05 &
-Device Monitor trả 500 tổng quát nhưng không ghi exception; health không probe
-MySQL/HiveMQ. &
+\path|/api/health| chỉ là health nhẹ và không probe HiveMQ; kết nối broker vẫn do
+trình duyệt khởi tạo thủ công. \path|/health/database| đã probe MySQL và lỗi database
+được ghi log có ngữ cảnh. &
 \path|Device-monitor/public/index.php|. &
-Thiếu bằng chứng chẩn đoán nguyên nhân persistence và health có thể vẫn trả
-\texttt{ok} mà chưa kiểm tra dependency. &
+Health nhẹ có thể trả \texttt{ok} khi chưa kiểm tra dependency; không có health probe
+broker phía server hoặc cơ chế reconnect tự động phía trình duyệt. &
 \textbf{\textit{Partially Implemented}}
 \\
 

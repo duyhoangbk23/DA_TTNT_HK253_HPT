@@ -88,13 +88,13 @@ và timestamp dùng thời gian server. Model \texttt{Telemetry} ghi thêm
 \hline
 \endhead
 Định danh &
-Firmware chính phát \texttt{device\_id}; simulator phát trực tiếp \texttt{mcu\_id} dạng chuỗi. &
+Firmware chính và simulator đều phát \texttt{mcu\_id} dạng chuỗi. &
 Service chỉ trích \texttt{mcu\_id}; Repository buộc chuỗi không rỗng tối đa 50 ký tự. &
 \texttt{telemetry.mcu\_id} VARCHAR(50) có index và index với timestamp; model dùng chuỗi. &
 Device Monitor hiển thị danh sách MCU duy nhất, lọc bảng telemetry theo MCU và vẽ TDS theo thời gian. \\
 
 Thời gian &
-Firmware chính có \texttt{timestamp}; simulator không phát. &
+Hai publisher không gửi timestamp telemetry; firmware status có \texttt{uptime\_ms}. &
 Luôn tạo UTC server, không dùng timestamp publisher. &
 \texttt{telemetry.timestamp} có index; model cast datetime; query sắp theo timestamp. &
 Device Monitor hiển timestamp/latest; Admin định dạng \texttt{H:i} làm nhãn. \\
@@ -106,22 +106,22 @@ mqtt.js đặt \texttt{topic} trong envelope; repository lưu chuỗi. &
 Device Monitor hiển topic và đếm distinct; trang Device Admin không hiển thị. \\
 
 TDS &
-Cả firmware chính và simulator đều phát \texttt{tds}. &
+Cả firmware chính và simulator đều phát \texttt{telemetry.tds}. &
 Chấp nhận \texttt{tds}, \texttt{TDS}, \texttt{tds\_value}, \texttt{tdsValue}; cast float. &
 Migration \texttt{DECIMAL(8,2)} nullable; model cast float; Repository insert/select. &
 Device Monitor hiển số; Admin vẽ chuỗi TDS. \\
 
 Cảnh báo &
-Simulator phát \texttt{alert}; firmware chính không phát trường này. &
+Firmware chính phát \texttt{telemetry.alert}; simulator có thể không kèm trường này. &
 Chấp nhận \texttt{alert}/\texttt{Alert}; vắng thì null. &
 Migration/model dùng chuỗi nullable; query Admin mặc định hiển thị \texttt{normal} khi null. &
 Device Monitor nhóm theo alert; Admin tạo danh sách cảnh báo. \\
 
 Trường phụ &
-Firmware chính còn phát \texttt{pressure}, \texttt{flow}, \texttt{wifi\_rssi}. &
-Không ánh xạ, nên bị loại khi normalize. &
-Không có cột tương ứng trong migration/model telemetry. &
-Không hiển thị. \\
+Firmware status phát \texttt{wifi\_rssi}, trạng thái kết nối, IP và uptime; telemetry không phát pressure/flow. &
+Device Monitor chỉ chuẩn hóa envelope telemetry; các trường status không được ghi vào bảng telemetry. &
+Không có cột status tương ứng trong migration/model telemetry. &
+Không hiển thị trong lịch sử telemetry. \\
 \hline
 \end{longtable}
 \endgroup

@@ -18,8 +18,8 @@ không xác nhận các tiến trình đã cùng chạy trong một môi trườ
 \textbf{Thành phần} & \textbf{Trách nhiệm} & \textbf{Hợp đồng ra/vào} & \textbf{Trạng thái} \\
 \hline
 \endhead
-Firmware chính & Đọc sensor, điều khiển relay/buzzer, duy trì Wi-Fi/MQTT. & Phát telemetry/status theo \texttt{device\_id}; nhận JSON command. Hợp đồng này chưa khớp telemetry chuẩn \texttt{mcu\_id}. & Partially Implemented \\
-Simulator & Sinh TDS/cảnh báo và phát định kỳ. & Phát JSON \texttt{mcu\_id} dạng chuỗi, \texttt{tds}, \texttt{alert} lên topic tạo từ \texttt{TOPIC\_PREFIX}. & Implemented \\
+Firmware chính & Đọc sensor, điều khiển relay/buzzer, duy trì Wi-Fi/MQTT. & Phát telemetry/status theo \texttt{mcu\_id}; nhận JSON command. Hợp đồng định danh khớp telemetry chuẩn. & Implemented \\
+Simulator & Sinh TDS mẫu và phát định kỳ. & Phát JSON \texttt{mcu\_id} dạng chuỗi, \texttt{telemetry.tds} lên topic tạo từ \texttt{TOPIC\_PREFIX}. & Implemented \\
 HiveMQ & Trung chuyển publish/subscribe. & Broker bên ngoài; repository chỉ chứa cấu hình client, không có manifest broker. & Configured \\
 Device Monitor trình duyệt & Kết nối WSS, subscribe và chuyển message sang HTTP. & Gửi \texttt{topic}, \texttt{payload}, \texttt{source} đến \path|POST /api/telemetry|. & Implemented \\
 Device Monitor API & Chuẩn hóa, ghi và truy vấn telemetry. & Lưu \texttt{timestamp}, \texttt{topic}, \texttt{mcu\_id}, \texttt{tds}, \texttt{alert} bằng PDO. & Implemented \\

@@ -9,7 +9,7 @@ Device Monitor rồi lưu vào bảng \texttt{telemetry}; Admin đọc dữ li�
 
 Live test đã xác nhận thành công luồng end-to-end từ MCU qua HiveMQ đến Device Monitor
 và MySQL: dữ liệu được publish, tiếp nhận, chuẩn hóa và lưu thành công vào bảng
-\texttt{telemetry}. Firmware chính và worker .NET vẫn còn dùng hợp đồng legacy; schema
+\texttt{telemetry}. Firmware chính đã dùng hợp đồng canonical \texttt{mcu\_id}; worker .NET vẫn còn dùng hợp đồng legacy; schema
 Device Monitor đã dùng migration chung, còn các kiểm soát về secret, certificate,
 API authorization, observability và triển khai tự động còn thiếu hoặc chỉ được cấu hình
 một phần.

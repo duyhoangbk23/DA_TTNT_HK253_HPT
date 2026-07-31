@@ -54,4 +54,4 @@ Các phản hồi lỗi được giới hạn ở những nhánh tồn tại tro
 
 \section{Các đường dữ liệu song song}
 
-API Laravel \path|POST /api/telemetry| có thể ghi trực tiếp vào bảng chuẩn sau khi xác nhận MCU tồn tại, nhưng không được gọi bởi code Device Monitor. Worker .NET cũng subscribe broker, song ghi \path|device_data| thay vì \texttt{telemetry}. Do đó kiến trúc có một đường chuẩn qua Device Monitor, một cổng Admin độc lập và một đường worker legacy; không gộp ba đường thành một luồng thành công duy nhất (E-DM-06, E-ADM-05, E-MQ-03--E-MQ-05).
+API Laravel \path|POST /api/telemetry| có thể ghi trực tiếp vào bảng chuẩn khi payload có \texttt{mcu\_id} là chuỗi hợp lệ, nhưng không được gọi bởi code Device Monitor. Worker .NET cũng subscribe broker, song ghi \path|device_data| thay vì \texttt{telemetry}. Do đó kiến trúc có một đường chuẩn qua Device Monitor, một cổng Admin độc lập và một đường worker legacy; không gộp ba đường thành một luồng thành công duy nhất (E-DM-06, E-ADM-05, E-MQ-03--E-MQ-05).

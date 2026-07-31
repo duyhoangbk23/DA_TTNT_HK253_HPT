@@ -1,7 +1,28 @@
 \chapter{Tổng quan giải pháp}
 \label{chap:solution-overview}
 
-\subsection{Luồng telemetry}
+\section{Hệ thống giải quyết việc gì?}
+
+SmartWater kết nối lớp thiết bị đo với đội vận hành. Hệ thống thu nhận TDS và cảnh báo từ MQTT, lưu lịch sử telemetry để theo dõi theo MCU/thiết bị, đồng thời cung cấp các chức năng quản lý tài sản, khách hàng và bảo trì trong SmartWater Admin. Người dùng không cần làm việc trực tiếp với broker hoặc database để xem dữ liệu vận hành.
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabularx}{\textwidth}{p{0.22\textwidth}X p{0.16\textwidth}}
+\toprule
+\textbf{Nhóm chức năng} & \textbf{Kết quả người dùng nhận được} & \textbf{Bằng chứng} \\
+\midrule
+Telemetry & Nhận, chuẩn hóa, lưu và tra cứu TDS/cảnh báo theo \texttt{mcu\_id}. & E-SIM-03, E-DM-02--E-DM-04, E-DB-02 \\
+Giám sát & Chọn MCU, lọc lịch sử và xem chuỗi TDS theo thời gian. & E-DM-04, E-DM-06 \\
+Quản trị & Quản lý thiết bị, sản phẩm, kho, khách hàng, hợp đồng, nhân viên và bảo trì. & E-ADM-04 \\
+Khai thác tại Admin & Xem telemetry và cảnh báo trong ngữ cảnh thiết bị. & E-ADM-05 \\
+\bottomrule
+\end{tabularx}
+\caption{Chức năng được mô tả theo kết quả sử dụng}
+\label{tab:solution-function-outcomes}
+\end{table}
+
+\section{Luồng telemetry}
 
 Hệ thống SmartWater được triển khai theo nhiều ranh giới chức năng, giao tiếp thông qua
 MQTT, HTTP và MySQL. Luồng xử lý telemetry được tổ chức như sau:
@@ -14,23 +35,15 @@ MQTT, HTTP và MySQL. Luồng xử lý telemetry được tổ chức như sau:
     \item SmartWater Admin truy vấn dữ liệu để hiển thị giá trị TDS và trạng thái cảnh báo trên trang chi tiết thiết bị.
 \end{enumerate}
 
-Nguồn bằng chứng tương ứng gồm:
-
-\begin{itemize}
-    \item Firmware simulator: \texttt{SimulatorApp.cpp} (E-SIM-03)
-    \item Device Monitor MQTT client: \texttt{public/assets/app.js} (E-DM-02)
-    \item Slim API endpoint: \texttt{public/index.php} (E-DM-06)
-    \item Database schema: \texttt{create\_telemetry\_table.php} (E-DB-02)
-    \item SmartWater Admin: \texttt{DeviceController.php}
-\end{itemize}
+Mã evidence của luồng này là E-SIM-03, E-DM-02--E-DM-06, E-DB-02 và E-ADM-05. Đường dẫn source đầy đủ được tra tại Phụ lục~\ref{app:source-evidence}.
 \input{include/diagrams/system-architecture}
 
-\section{Mục tiêu của giải pháp}
+\section{Mục tiêu và năng lực đã có}
 
-Giải pháp hiện có hỗ trợ ba mục tiêu có bằng chứng source:
+Giải pháp hiện có hỗ trợ ba mục tiêu có bằng chứng source. Chi tiết đường dẫn được tập trung tại Phụ lục~\ref{app:source-evidence}, để phần này giữ trọng tâm ở năng lực hệ thống:
 
 \begin{itemize}
-  \item thu nhận TDS và trạng thái cảnh báo từ publisher MQTT; simulator tạo payload \texttt{mcu\_id}, \texttt{tds}, \texttt{alert} trong \texttt{SimulatorApp::publishTelemetry} (E-SIM-03);
+  \item thu nhận TDS và trạng thái cảnh báo từ publisher MQTT; simulator tạo payload \texttt{mcu\_id} và \texttt{telemetry.tds}, còn firmware chính phát thêm cảnh báo trong object telemetry (E-SIM-03, E-FW-04);
   \item giám sát gần thời gian thực và lưu lịch sử qua dashboard/API Device Monitor; các route đọc, tổng hợp và ghi telemetry được khai báo trong \path|Project/Device-monitor/public/index.php| (E-DM-02);
   \item khai thác lịch sử telemetry theo thiết bị trong Admin; \texttt{DeviceController::show} truy vấn quan hệ \texttt{Device::telemetry} và view \path|resources/views/devices/show.blade.php| hiển thị đồ thị TDS/cảnh báo.
 \end{itemize}
@@ -46,12 +59,12 @@ Hệ thống đã được live test thành công theo chuỗi telemetry MCU $\r
 \hline
 \textbf{Khối} & \textbf{Trạng thái} & \textbf{Căn cứ} \\
 \hline
-Simulator telemetry & Implemented & Có publisher định kỳ và payload \texttt{mcu\_id} dạng chuỗi, TDS, alert theo contract canonical (E-SIM-01--E-SIM-04). \\
+Simulator telemetry & Implemented & Có publisher định kỳ và payload \texttt{mcu\_id} dạng chuỗi cùng \texttt{telemetry.tds} theo contract canonical (E-SIM-01--E-SIM-04). \\
 HiveMQ broker & Configured & Có cấu hình và client kết nối nhưng không tìm thấy manifest server-side trong repository (E-MQ-06). \\
 Device Monitor & Implemented & mqtt.js subscribe qua WSS, Slim API chuẩn hóa và PDO repository ghi/đọc \texttt{telemetry} (E-DM-02--E-DM-06). \\
 SmartWater Admin & Partially Implemented & Các module lõi, API telemetry và quan hệ MCU có source; tổng thể còn view thiếu, mock data và mismatch validation/navigation (E-ADM-02--E-ADM-07). \\
 Database dùng chung & Implemented & Migration chuẩn định nghĩa \texttt{telemetry.mcu\_id} dạng chuỗi, có index riêng và index kết hợp với timestamp (E-DB-01--E-DB-03). \\
-Firmware chính & Partially Implemented & Có sensor/task/MQTT/command, nhưng telemetry vẫn dùng \texttt{device\_id} và nhiều trường ngoài contract chuẩn (E-FW-03, E-FW-04). \\
+Firmware chính & Implemented & Có sensor/task/MQTT/command; telemetry dùng \texttt{mcu\_id} dạng chuỗi và object \texttt{telemetry} chứa TDS/cảnh báo trên topic canonical (E-FW-03, E-FW-04). \\
 .NET MQTT worker & Partially Implemented & Subscribe và lưu MySQL đã có, nhưng DTO/schema riêng dùng \texttt{device\_id}, \texttt{devices}, \texttt{device\_data} (E-MQ-01--E-MQ-05). \\
 \hline
 \end{tabular}

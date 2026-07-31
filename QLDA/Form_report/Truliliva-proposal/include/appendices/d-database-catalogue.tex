@@ -181,11 +181,12 @@ IDX \path|(related_type, related_id)|; timestamps. Không có cột nullable, en
 Có migration/model; không tìm thấy controller/service ghi tệp. \textit{Configured}. \\
 
 \texttt{mcus}\newline Định danh MCU &
-\texttt{id} PK; \path|product_id?| UQ; \path|mcu_code VARCHAR(50)| UQ;
+\texttt{id} PK; \path|mcu_id VARCHAR(50)| UQ;
 \path|serial_number VARCHAR(100)| UQ; \path|firmware_version VARCHAR(50)?|;
 \path|api_key VARCHAR(64)| UQ; \texttt{status ENUM(online,offline,error)} default \texttt{offline};
-\path|last_connected_at?|; timestamps. Không có IDX bổ sung. &
-\path|product_id| FK nullable $\rightarrow$ products; được telemetry tham chiếu. &
+\path|last_connected_at?|; \path|registration_status|; \path|connection_status|;
+\path|first_seen_at?|; \path|last_seen_at?|; timestamps. &
+\path|devices.mcu_id| FK nullable $\rightarrow$ \path|mcus.mcu_id|; telemetry liên kết logic theo cùng mã. &
 Admin MCU/Contract/Telemetry API. \textit{Implemented}. \\
 
 \texttt{telemetry}\newline Mẫu đo canonical theo MCU &
@@ -193,9 +194,8 @@ Admin MCU/Contract/Telemetry API. \textit{Implemented}. \\
 \path|devices/telemetry|; \path|mcu_id|; \texttt{tds DECIMAL(8,2)?};
 \texttt{alert VARCHAR(255)?}; timestamps; IDX \path|(mcu_id, timestamp)|.
 Không có enum hay UQ. &
-\path|mcu_id| FK bắt buộc $\rightarrow$ mcus; MCU 1--N Telemetry. &
-Device Monitor PDO, Admin API/model/Device dashboard. \textit{Partially Implemented}
-do DDL Device Monitor không hoàn toàn trùng migration. \\
+\path|mcu_id| không có FK trong migration; liên kết logic với \texttt{mcus.mcu\_id}, MCU 1--N Telemetry. &
+Device Monitor PDO, Admin API/model/Device dashboard; schema do migration dùng chung quản lý. \textit{Implemented}. \\
 \hline
 \end{longtable}
 \end{landscape}

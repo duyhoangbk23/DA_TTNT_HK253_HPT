@@ -17,7 +17,7 @@ overload publish/subscribe của PubSubClient hoặc mqtt.js không truyền tù
 \textbf{Client} & \textbf{Transport/cổng} & \textbf{TLS} & \textbf{Identity/xác thực} & \textbf{Topic/QoS} & \textbf{Reconnect} \\
 \hline
 \endhead
-Firmware chính & MQTT/TCP; \path|Config::Mqtt::PORT| & \texttt{WiFiClientSecure}, nhưng \texttt{setInsecure()} & Client ID từ \path|DEVICE_ID| và chip suffix; \texttt{USERNAME}/\texttt{PASSWORD} & Telemetry/status publish QoS 0; command subscribe QoS 0; LWT QoS 0 retained & Mỗi \path|RECONNECT_INTERVAL_MS| khi Wi-Fi có kết nối \\
+Firmware chính & MQTT/TCP; \path|Config::Mqtt::PORT| & \texttt{WiFiClientSecure}, nhưng \texttt{setInsecure()} & Client ID từ \path|MCU_ID| và chip suffix; \texttt{USERNAME}/\texttt{PASSWORD} & Telemetry/status publish QoS 0; command subscribe QoS 0; LWT QoS 0 retained & Mỗi \path|RECONNECT_INTERVAL_MS| khi Wi-Fi có kết nối \\
 Simulator & MQTT/TCP; \path|MQTT_PORT| & \texttt{WiFiClientSecure}, nhưng \texttt{setInsecure()}; \path|MQTT_ROOT_CA| không được dùng & Client ID từ \path|MCU_ID| và random suffix; \path|MQTT_USERNAME|/\path|MQTT_PASSWORD| & \path|TOPIC_PREFIX/telemetry|; publish QoS 0, không retained & Mỗi \path|MQTT_RECONNECT_INTERVAL_MS| \\
 Device Monitor JS & MQTT over WSS; \texttt{brokerUrl}, \texttt{port}, path \path|/mqtt| & TLS do trình duyệt xử lý & Không đặt client ID; \texttt{username}/\texttt{password} từ local storage & Danh sách \texttt{subscriptions}; subscribe QoS 0 & \texttt{reconnectPeriod=0}; người dùng kết nối lại \\
 Worker .NET & MQTT/TCP; \path|HiveMQ.Host|, \path|HiveMQ.Port| & Bật khi \path|HiveMQ.UseTls|; không có custom bypass trong source & \path|HiveMQ.ClientId|; \path|HiveMQ.Username|/\path|HiveMQ.Password| & Danh sách \path|HiveMQ.Topic|; subscribe QoS 1 & Loop 5 giây khi lỗi/ngắt bất thường \\
@@ -39,8 +39,8 @@ Worker .NET & MQTT/TCP; \path|HiveMQ.Host|, \path|HiveMQ.Port| & Bật khi \path
 \hline
 \endhead
 Simulator & \path|TOPIC_PREFIX + /telemetry|; hiện tạo \path|devices/telemetry| & \path|mcu_id| dạng chuỗi, \texttt{tds}, \texttt{alert}; \path|MCU_ID| được gửi trực tiếp. & Implemented \\
-Firmware chính & \path|Config::Topics::TELEMETRY| & \path|device_id|, \texttt{timestamp}, \texttt{tds}, \texttt{pressure}, \texttt{flow}, \path|wifi_rssi|. & Partially Implemented \\
-Firmware chính status & \path|Config::Topics::STATUS| & \path|device_id|, status, cờ Wi-Fi/MQTT, RSSI, IP, uptime; retained. & Implemented \\
+Firmware chính & \path|Config::Topics::TELEMETRY|; hiện là \path|devices/telemetry| & \path|mcu_id| dạng chuỗi; object \path|telemetry| chứa \texttt{tds}, \texttt{alert}. & Implemented \\
+Firmware chính status & \path|Config::Topics::STATUS| & \path|mcu_id|, status, cờ Wi-Fi/MQTT, RSSI, IP, uptime; retained. & Implemented \\
 Firmware command & \path|Config::Topics::COMMAND| & JSON command chuyển đến callback của \texttt{DeviceManager}. & Implemented \\
 Device Monitor & \texttt{subscriptions}; mặc định \path|devices/telemetry| & Parse JSON nếu có thể, rồi bọc thành \texttt{topic}, \texttt{payload}, \texttt{source} cho HTTP API. & Implemented \\
 Worker .NET & \path|HiveMQ.Topic| & DTO yêu cầu \path|device_id|; dùng timestamp, TDS và alert boolean; không khớp payload simulator canonical. & Partially Implemented \\
